@@ -5,4 +5,4 @@ notifications:
     email:
         - pierre.plazanet@knplabs.com
 script:
-    - phpspec
+    - phpspec --format=nyan
