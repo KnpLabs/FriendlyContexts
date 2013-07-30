@@ -17,5 +17,8 @@
             "email": "plazanet.pierre@gmail.com"
         }
     ],
+    "config": {
+        "bin-dir": "bin"
+    },
     "minimum-stability": "dev"
 }
