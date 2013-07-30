@@ -1,0 +1,4 @@
+FriendlyContexts
+================
+
+Some Behat contexts
