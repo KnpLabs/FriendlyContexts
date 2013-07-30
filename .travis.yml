@@ -1,0 +1,8 @@
+language: php
+php: [ 5.4 ]
+
+notifications:
+    email:
+        - pierre.plazanet@knplabs.com
+script:
+    - phpspec
