@@ -50,4 +50,13 @@ class Record
             return $this->values[$key];
         }
     }
+
+    public function equals($key, $value)
+    {
+        if ($this->has($key)) {
+            return $this->get($key) === $value;
+        }
+
+        return false;
+    }
 }

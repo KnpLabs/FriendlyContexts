@@ -85,4 +85,28 @@ class RecordSpec extends ObjectBehavior
         $this->get('name')->shouldReturn('MyName');
         $this->get('id')->shouldReturn('MyId');
     }
+
+    function it_should_return_true_if_given_raw_field_exists_and_value_is_equals($rightObject)
+    {
+        $values = [ 'name' => 'MyName', 'id' => 'MyId' ];
+
+        $this->attach($rightObject, $values)->shouldReturn(null);
+        $this->equals('name', 'MyName')->shouldReturn(true);
+    }
+
+    function it_should_return_false_if_given_raw_field_exists_and_value_not_is_equals($rightObject)
+    {
+        $values = [ 'name' => 'MyName', 'id' => 'MyId' ];
+
+        $this->attach($rightObject, $values)->shouldReturn(null);
+        $this->equals('name', 'MyFirstName')->shouldReturn(false);
+    }
+
+    function it_should_return_false_if_given_raw_field_dont_exists($rightObject)
+    {
+        $values = [ 'name' => 'MyName', 'id' => 'MyId' ];
+
+        $this->attach($rightObject, $values)->shouldReturn(null);
+        $this->equals('firstname', 'MyName')->shouldReturn(false);
+    }
 }
