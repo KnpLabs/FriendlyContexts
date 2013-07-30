@@ -8,4 +8,4 @@ notifications:
     email:
         - pierre.plazanet@knplabs.com
 script:
-    - bin/phpspec --format=nyan
+    - bin/phpspec -fpretty
