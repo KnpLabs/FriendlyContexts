@@ -54,11 +54,10 @@ class EntityResolver
                     }
                 }
             }
-            if (0 < count($results)) {
+            if (0 !== count($results)) {
                 return $results;
             }
         }
-        var_dump($results);
 
         return $results;
     }

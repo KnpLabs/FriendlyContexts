@@ -38,7 +38,7 @@ class ObjectReflector
     {
         return array_map(
             function ($e) {
-                return  $this->getReflectionClass($e->name);
+                return $this->getReflectionClass($e->name);
             },
             $metadata
         );
