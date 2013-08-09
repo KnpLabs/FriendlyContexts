@@ -33,4 +33,14 @@ class ObjectReflector
     {
         return $object instanceof $class;
     }
+
+    public function getReflectionsFromMetadata($metadata)
+    {
+        return array_map(
+            function ($e) {
+                return  $this->getReflectionClass($e->name);
+            },
+            $metadata
+        );
+    }
 }

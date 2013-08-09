@@ -4,7 +4,9 @@
         "psr-0": { "Knp\\FriendlyContext": "src/"} 
     },
     "require": {
-        "behat/behat": "2.4.*"
+        "behat/behat": "2.4.*",
+        "behat/gherkin": "2.2.*",
+        "behat/symfony2-extension": "*"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev"
