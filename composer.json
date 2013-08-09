@@ -1,10 +1,9 @@
 {
     "name": "knplabs/friendly-contexts",
     "autoload": {
-        "psr-0": { "": "src/"} 
+        "psr-0": { "Knp\\FriendlyContext": "src/"} 
     },
     "require": {
-        "sensiolabs/behat-page-object-extension": "1.0.*",
         "behat/behat": "2.4.*"
     },
     "require-dev": {
