@@ -26,7 +26,7 @@ class RecordCollection
 
             return $this->reflector->isInstanceOf($entity, $name);
         }
-        $this->referencial = is_object($entity) ? $this->reflector->getClassLongName($entity) : $entity;
+        $this->setReferencial($entity);
 
         return true;
     }
@@ -34,6 +34,13 @@ class RecordCollection
     public function getReferencial()
     {
         return $this->referencial;
+    }
+
+    public function setReferencial($entity)
+    {
+        $this->referencial = is_object($entity) ? $this->reflector->getClassLongName($entity) : $entity;
+
+        return $this;
     }
 
     public function attach($entity, $values)

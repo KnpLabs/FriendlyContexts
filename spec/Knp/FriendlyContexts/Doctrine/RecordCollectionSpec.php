@@ -35,7 +35,7 @@ class RecordCollectionSpec extends ObjectBehavior
     function it_should_support_entity_if_not_initialized($rightObject)
     {
         $this->support($rightObject)->shouldReturn(true);
-        $this->getReferencial()->shouldReturn($rightObject);
+        $this->getReferencial()->shouldReturn('The\Name\Space\TheClass');
     }
 
     function it_should_set_the_referencial_from_string()
@@ -49,7 +49,7 @@ class RecordCollectionSpec extends ObjectBehavior
     function it_should_set_the_referencial_from_entity($rightObject)
     {
         $this->setReferencial($rightObject)->shouldReturn($this);
-        $this->getReferencial()->shouldReturn($rightObject);
+        $this->getReferencial()->shouldReturn('The\Name\Space\TheClass');
     }
 
     function it_should_support_entity_when_corresponding_to_string($rightObject)
