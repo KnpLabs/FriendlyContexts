@@ -59,12 +59,29 @@ class EntityContext extends BehatContext
 
             foreach ($values as $property => $value) {
                 $mapping = $this->resolveProperty($record, $property, $value);
-                $this->accessor->setValue($entity, $mapping['fieldName']);
+                if (!array_key_exists('isOwningSide', $mapping)) {
+                    switch ($mapping['type']) {
+                        case 'array':
+                            $value = $this->listToArray($value);
+                        default:
+                            $this->accessor->setValue($entity, $mapping['fieldName'], $value);
+                            break;
+                    }
+                } else {
+                    $entity = $mapping['targetEntity'];
+                    if (null === $entityCollection = $this->collections->get($entity)) {
+                        throw new \Exception(sprintf("Can't find collection for %s", $entity));
+                    }
+                    if (null === $record = $entityCollection->search($value)) {
+                        throw new \Exception(sprintf("Can't find %s with %s", $entity, $value));
+                    }
+                    $this->accessor->setValue($entity, $mapping['fieldName'], $record->getEntity());
+                }
             }
+            $this->getEntityManager()->persist($entity);
         }
-        var_dump($collection);
 
-        die(var_dump('OKAY'));
+        $this->getEntityManager()->flush();
     }
 
     protected function resolveEntity($name)
@@ -102,10 +119,19 @@ class EntityContext extends BehatContext
 
     protected function resolveProperty(Record $record, $property, $value)
     {
-        $metadata = $this->resolver->getMetadataFromObject($record->getEntity());
-        $mapping  = $metadata->fieldMappings;
+        $metadata     = $this->resolver->getMetadataFromObject($record->getEntity());
+        $fields       = $metadata->fieldMappings;
+        $associations = $metadata->associationMappings;
 
-        foreach ($mapping as $id => $map) {
+        foreach ($fields as $id => $map) {
+            switch (strtolower($id)) {
+                case $this->toCamelCase(strtolower($property)):
+                case $this->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        foreach ($associations as $id => $map) {
             switch (strtolower($id)) {
                 case $this->toCamelCase(strtolower($property)):
                 case $this->toUnderscoreCase(strtolower($property)):

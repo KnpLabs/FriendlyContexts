@@ -31,7 +31,7 @@ class ObjectReflector
 
     public function isInstanceOf($object, $class)
     {
-        return $object instanceof $class;
+        return $object instanceof $class || $this->getClassLongName($object) === $class;
     }
 
     public function getReflectionsFromMetadata($metadata)

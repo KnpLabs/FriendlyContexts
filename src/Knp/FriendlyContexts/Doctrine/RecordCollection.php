@@ -9,22 +9,24 @@ class RecordCollection
 
     protected $reflector;
     protected $referencial;
+    protected $headers;
     protected $records;
 
     public function __construct(ObjectReflector $reflector)
     {
         $this->reflector = $reflector;
+        $this->headers   = [];
         $this->records   = [];
     }
 
     public function support($entity)
     {
         if (null !== $this->referencial) {
-            $name = $this->getReferencialClassName();
+            $name = $this->referencial;
 
             return $this->reflector->isInstanceOf($entity, $name);
         }
-        $this->referencial = $entity;
+        $this->referencial = is_object($entity) ? $this->reflector->getClassLongName($entity) : $entity;
 
         return true;
     }
@@ -34,15 +36,10 @@ class RecordCollection
         return $this->referencial;
     }
 
-    public function setReferencial($referencial)
-    {
-        $this->referencial = $referencial;
-
-        return $this;
-    }
-
     public function attach($entity, $values)
     {
+        $this->mergeHeaders(array_keys($values));
+
         $record = new Record($this->reflector, $this);
         $record->attach($entity, $values);
 
@@ -51,13 +48,23 @@ class RecordCollection
         return $record;
     }
 
-    protected function getReferencialClassName()
+    public function search($value)
     {
-        if (is_string($this->referencial)) {
-
-            return $this->referencial;
+        foreach ($this->headers as $header) {
+            foreach ($this->records as $record) {
+                if (null !== $record->get($header) && $value === $record->get($header)) {
+                    return $record;
+                }
+            }
         }
+    }
 
-        return $this->reflector->getClassLongName($this->referencial);
+    protected function mergeHeaders($headers)
+    {
+        foreach ($headers as $header) {
+            if (!in_array($header, $this->headers)) {
+                $this->headers[] = $header;
+            }
+        }
     }
 }
