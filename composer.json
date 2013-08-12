@@ -6,7 +6,8 @@
     "require": {
         "behat/behat": "2.4.*",
         "behat/gherkin": "2.2.*",
-        "behat/symfony2-extension": "*"
+        "behat/symfony2-extension": "*",
+        "symfony/property-access": "*@dev"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev"

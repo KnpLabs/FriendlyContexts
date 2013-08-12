@@ -9,6 +9,18 @@ trait Contextable
         return preg_replace('/ /', '', ucwords($str));
     }
 
+    private function toUnderscoreCase($str)
+    {
+        $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
+        return preg_replace("/([^a-zA-Z])/", '_', $str);
+    }
+
+    private function toSpaceCase($str)
+    {
+        $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
+        return preg_replace("/([^a-zA-Z])/", ' ', $str);
+    }
+
     private function assertArrayEquals($expected, $real)
     {
         $this->assertEquals(

@@ -11,6 +11,8 @@ use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Doctrine\RecordCollectionBag;
+use Knp\FriendlyContexts\Doctrine\Record;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityContext extends BehatContext
 {
@@ -20,6 +22,7 @@ class EntityContext extends BehatContext
 
     protected $resolver;
     protected $collections;
+    protected $accessor;
 
     public function __construct(array $options = [])
     {
@@ -31,6 +34,7 @@ class EntityContext extends BehatContext
         );
 
         $this->collections = new RecordCollectionBag(new ObjectReflector());
+        $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
     /**
@@ -51,7 +55,12 @@ class EntityContext extends BehatContext
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
-            $collection->attach($entity, $values);
+            $record = $collection->attach($entity, $values);
+
+            foreach ($values as $property => $value) {
+                $mapping = $this->resolveProperty($record, $property, $value);
+                $this->accessor->setValue($entity, $mapping['fieldName']);
+            }
         }
         var_dump($collection);
 
@@ -89,5 +98,28 @@ class EntityContext extends BehatContext
                 break;
         }
         return current($entities);
+    }
+
+    protected function resolveProperty(Record $record, $property, $value)
+    {
+        $metadata = $this->resolver->getMetadataFromObject($record->getEntity());
+        $mapping  = $metadata->fieldMappings;
+
+        foreach ($mapping as $id => $map) {
+            switch (strtolower($id)) {
+                case $this->toCamelCase(strtolower($property)):
+                case $this->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        throw new \RuntimeException(
+            sprintf(
+                'Can\'t find property %s or %s in class %s',
+                $this->toCamelCase(strtolower($property)),
+                $this->toUnderscoreCase(strtolower($property)),
+                get_class($record->getEntity())
+            )
+        );
     }
 }

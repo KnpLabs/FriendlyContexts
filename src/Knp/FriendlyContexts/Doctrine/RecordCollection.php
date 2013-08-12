@@ -47,6 +47,8 @@ class RecordCollection
         $record->attach($entity, $values);
 
         $this->records[] = $record;
+
+        return $record;
     }
 
     protected function getReferencialClassName()

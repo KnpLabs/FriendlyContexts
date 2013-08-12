@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "76e02fbac2f3ad698e9dd143b53f1e8e",
+    "hash": "9c1f850a45ffa04bacf51746d32efd4d",
     "packages": [
         {
             "name": "behat/behat",
@@ -1186,6 +1186,64 @@
             "time": "2013-08-08 21:41:21"
         },
         {
+            "name": "symfony/property-access",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/PropertyAccess",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/PropertyAccess.git",
+                "reference": "8ecdfa4f8bd51f168649f0d8b850e545308f450f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/PropertyAccess/zipball/8ecdfa4f8bd51f168649f0d8b850e545308f450f",
+                "reference": "8ecdfa4f8bd51f168649f0d8b850e545308f450f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\PropertyAccess\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PropertyAccess Component",
+            "homepage": "http://symfony.com",
+            "keywords": [
+                "access",
+                "array",
+                "extraction",
+                "index",
+                "injection",
+                "object",
+                "property",
+                "property path",
+                "reflection"
+            ],
+            "time": "2013-08-02 20:53:46"
+        },
+        {
             "name": "symfony/routing",
             "version": "dev-master",
             "target-dir": "Symfony/Component/Routing",
@@ -1603,6 +1661,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "symfony/property-access": 20,
         "phpspec/phpspec": 20
     },
     "platform": [

@@ -78,4 +78,13 @@ class EntityResolver
 
         return $results;
     }
+
+    public function getMetadataFromObject($object)
+    {
+        return $this
+            ->entityManager
+            ->getMetadataFactory()
+            ->getMetadataFor(get_class($object)
+        );
+    }
 }
