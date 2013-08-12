@@ -68,14 +68,14 @@ class EntityContext extends BehatContext
                             break;
                     }
                 } else {
-                    $entity = $mapping['targetEntity'];
-                    if (null === $entityCollection = $this->collections->get($entity)) {
-                        throw new \Exception(sprintf("Can't find collection for %s", $entity));
+                    $targetEntity = $mapping['targetEntity'];
+                    if (null === $entityCollection = $this->collections->get($targetEntity)) {
+                        throw new \Exception(sprintf("Can't find collection for %s", $targetEntity));
                     }
-                    if (null === $record = $entityCollection->search($value)) {
-                        throw new \Exception(sprintf("Can't find %s with %s", $entity, $value));
+                    if (null === $targetRecord = $entityCollection->search($value)) {
+                        throw new \Exception(sprintf("Can't find %s with %s", $targetEntity, $valueName));
                     }
-                    $this->accessor->setValue($entity, $mapping['fieldName'], $record->getEntity());
+                    $this->accessor->setValue($entity, $mapping['fieldName'], $targetRecord->getEntity());
                 }
             }
             $this->getEntityManager()->persist($entity);
@@ -125,6 +125,7 @@ class EntityContext extends BehatContext
 
         foreach ($fields as $id => $map) {
             switch (strtolower($id)) {
+                case strtolower($property):
                 case $this->toCamelCase(strtolower($property)):
                 case $this->toUnderscoreCase(strtolower($property)):
                     return $map;
@@ -133,6 +134,7 @@ class EntityContext extends BehatContext
 
         foreach ($associations as $id => $map) {
             switch (strtolower($id)) {
+                case strtolower($property):
                 case $this->toCamelCase(strtolower($property)):
                 case $this->toUnderscoreCase(strtolower($property)):
                     return $map;
