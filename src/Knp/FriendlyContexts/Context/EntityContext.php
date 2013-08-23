@@ -2,6 +2,8 @@
 
 namespace Knp\FriendlyContexts\Context;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 use Behat\Behat\Context\BehatContext;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
@@ -10,9 +12,7 @@ use Knp\FriendlyContexts\Dictionary\Contextable;
 use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Doctrine\RecordCollectionBag;
-use Knp\FriendlyContexts\Doctrine\Record;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use Knp\FriendlyContexts\Record\Collecion\Bag;
 
 class EntityContext extends BehatContext
 {
@@ -33,7 +33,7 @@ class EntityContext extends BehatContext
             $options
         );
 
-        $this->collections = new RecordCollectionBag(new ObjectReflector());
+        $this->collections = new Bag(new ObjectReflector());
         $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
@@ -93,15 +93,12 @@ class EntityContext extends BehatContext
                     sprintf(
                         'Fail to find a unique model from the name "%s", "%s" found',
                         $name,
-                        implode(
-                            '" and "',
-                            array_map(
-                                function ($rfl) {
-                                    return $rfl->getName();
-                                },
-                                $entities
-                            )
-                        )
+                        implode('" and "', array_map(
+                            function ($rfl) {
+                                return $rfl->getName();
+                            },
+                            $entities
+                        ))
                     )
                 );
                 break;

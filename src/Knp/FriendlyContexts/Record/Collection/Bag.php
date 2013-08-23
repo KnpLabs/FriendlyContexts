@@ -1,11 +1,11 @@
 <?php
 
-namespace Knp\FriendlyContexts\Doctrine;
+namespace Knp\FriendlyContexts\Record\Collection;
 
+use Knp\FriendlyContexts\Record\Collection;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Doctrine\RecordCollection;
 
-class RecordCollectionBag
+class Bag
 {
     protected $reflector;
     protected $collections = [];
@@ -23,7 +23,7 @@ class RecordCollectionBag
             }
         }
 
-        $new = new RecordCollection($this->reflector);
+        $new = new Collection($this->reflector);
         $new->support($entity);
 
         return $this->collections[] = $new;;

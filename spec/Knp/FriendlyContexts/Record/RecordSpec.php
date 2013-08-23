@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Knp\FriendlyContexts\Doctrine;
+namespace spec\Knp\FriendlyContexts\Record;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -11,7 +11,7 @@ class RecordSpec extends ObjectBehavior
      * @param StdClass $rightObject
      * @param StdClass $wrongObject
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
-     * @param Knp\FriendlyContexts\Doctrine\RecordCollection $collection
+     * @param Knp\FriendlyContexts\Record\Collection $collection
      **/
     function let($rightObject, $wrongObject, $reflector, $collection)
     {
@@ -29,7 +29,7 @@ class RecordSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Doctrine\Record');
+        $this->shouldHaveType('Knp\FriendlyContexts\Record\Record');
     }
 
     function it_should_attach_an_object_if_supported($rightObject)

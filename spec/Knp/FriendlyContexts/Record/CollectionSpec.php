@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Knp\FriendlyContexts\Doctrine;
+namespace spec\Knp\FriendlyContexts\Record;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class RecordCollectionSpec extends ObjectBehavior
+class CollectionSpec extends ObjectBehavior
 {
     /**
      * @param StdClass $rightObject
@@ -29,7 +29,7 @@ class RecordCollectionSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Doctrine\RecordCollection');
+        $this->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
     }
 
     function it_should_support_entity_if_not_initialized($rightObject)

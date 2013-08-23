@@ -1,10 +1,10 @@
 <?php
 
-namespace Knp\FriendlyContexts\Doctrine;
+namespace Knp\FriendlyContexts\Record;
 
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 
-class RecordCollection
+class Collection
 {
 
     protected $reflector;

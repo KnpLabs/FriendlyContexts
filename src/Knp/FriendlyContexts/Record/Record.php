@@ -1,8 +1,7 @@
 <?php
 
-namespace Knp\FriendlyContexts\Doctrine;
+namespace Knp\FriendlyContexts\Record;
 
-use Knp\FriendlyContexts\Doctrine\RecordCollection;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 
 class Record
@@ -13,7 +12,7 @@ class Record
     protected $entity;
     protected $values;
 
-    public function __construct(ObjectReflector $reflector, RecordCollection $collection)
+    public function __construct(ObjectReflector $reflector, Collection $collection)
     {
         $this->reflector = $reflector;
         $this->collection = $collection;
