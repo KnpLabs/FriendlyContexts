@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Doctrine\Common\Util\Inflector;
 
 class EntityResolver
 {
@@ -44,7 +45,7 @@ class EntityResolver
                         $nameValid = strtolower($e->getShortName()) === strtolower($name);
                         return '' === $namespace
                             ? $nameValid
-                            : 0 === strpos($e->getNamespaceName(), $namespace) && $nameValid
+                            : $namespace === substr($e->getNamespaceName(), 0, strlen($namespace)) && $nameValid
                         ;
                     }
                 );
@@ -54,7 +55,8 @@ class EntityResolver
                     }
                 }
             }
-            if (0 !== count($results)) {
+            if (0 < count($results)) {
+
                 return $results;
             }
         }
@@ -66,17 +68,9 @@ class EntityResolver
     {
         $name = strtolower(str_replace(" ", "", $name));
 
-        $results = [$name];
+        $results = [Inflector::singularize($name), Inflector::pluralize($name), $name];
 
-        if ('s' === substr($name, -1)) {
-            $results[] = substr($name, 0, -1);
-        }
-
-        if ('ies' === substr($name, -3)) {
-            $results[] = substr($name, 0, -3).'y';
-        }
-
-        return $results;
+        return array_unique($results);
     }
 
     public function getMetadataFromObject($object)

@@ -26,7 +26,7 @@ class EntityResolverSpec extends ObjectBehavior
         $class2->getNamespaceName()->willReturn('N2/Namespace');
         $class3->getShortName()->willReturn('Users');
         $class3->getNamespaceName()->willReturn('N1/Namespace');
-        $class4->getShortName()->willReturn('Companie');
+        $class4->getShortName()->willReturn('Company');
         $class4->getNamespaceName()->willReturn('N1/Namespace');
 
         $em->getMetadataFactory()->willReturn($factory);
@@ -41,28 +41,28 @@ class EntityResolverSpec extends ObjectBehavior
 
     function it_should_provide_one_value_for_a_singular_name()
     {
-        $this->entityNameProposal('the name')->shouldReturn(['thename']);
+        $this->entityNameProposal('the name')->shouldReturn(['thename', 'thenames']);
     }
 
     function it_should_provide_two_values_for_a_plural_name()
     {
-        $this->entityNameProposal('the names')->shouldReturn(['thenames', 'thename']);
+        $this->entityNameProposal('the names')->shouldReturn(['thename', 'thenames']);
     }
 
     function it_should_provide_three_values_for_a_ies_name()
     {
-        $this->entityNameProposal('the categories')->shouldReturn(['thecategories', 'thecategorie', 'thecategory']);
+        $this->entityNameProposal('the categories')->shouldReturn(['thecategory', 'thecategories']);
     }
 
-    function it_should_return_multiple_class($class1, $class2, $class4)
+    function it_should_return_multiple_class($class1, $class2, $class3, $class4)
     {
-        $this->resolve('user', '')->shouldReturn([$class1, $class2]);
+        $this->resolve('user', '')->shouldReturn([$class1, $class2, $class3]);
         $this->resolve('companies', '')->shouldReturn([$class4]);
     }
 
-    function it_should_return_class_when_namespace_is_specified($class1, $class2)
+    function it_should_return_class_when_namespace_is_specified($class1, $class2, $class3)
     {
-        $this->resolve('user', 'N1')->shouldreturn([$class1]);
+        $this->resolve('user', 'N1')->shouldreturn([$class1, $class3]);
         $this->resolve('user', 'N2')->shouldreturn([$class2]);
     }
 }
