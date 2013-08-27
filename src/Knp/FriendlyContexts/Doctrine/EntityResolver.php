@@ -5,7 +5,7 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 
 class EntityResolver
 {
