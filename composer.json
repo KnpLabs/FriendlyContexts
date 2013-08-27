@@ -8,7 +8,7 @@
         "behat/gherkin": "2.2.*",
         "behat/symfony2-extension": "*",
         "symfony/property-access": "*@dev",
-        "doctrine/common": "2.*",
+        "doctrine/inflector": "1.*",
         "doctrine/data-fixtures": "1.0.*"
     },
     "require-dev": {
