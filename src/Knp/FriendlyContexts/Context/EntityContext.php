@@ -34,7 +34,7 @@ class EntityContext extends BehatContext
         );
 
         $this->collections = new Bag(new ObjectReflector());
-        $this->accessor = PropertyAccess::createPropertyAccessor();
+        $this->accessor = PropertyAccess::getPropertyAccessor();
     }
 
     /**
