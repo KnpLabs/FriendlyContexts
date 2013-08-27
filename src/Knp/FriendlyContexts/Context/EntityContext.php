@@ -13,6 +13,7 @@ use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Record\Record;
 
 class EntityContext extends BehatContext
 {
