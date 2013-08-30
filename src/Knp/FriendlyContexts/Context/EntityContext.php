@@ -140,6 +140,26 @@ class EntityContext extends BehatContext
         );
     }
 
+    /**
+     * @BeforeScenario
+     */
+    public function buildSchema($event)
+    {
+        $this->storeTags($event);
+
+        if ($this->hasTags([ 'reset-schema', '~not-reset-schema' ])) {
+            foreach ($this->getEntityManagers() as $entityManager) {
+                $metadata = $this->getMetadata($entityManager);
+
+                if (!empty($metadata)) {
+                    $tool = new SchemaTool($entityManager);
+                    $tool->dropSchema($metadata);
+                    $tool->createSchema($metadata);
+                }
+            }
+        }
+    }
+
     protected function resolveEntity($name)
     {
         $entities = $this->resolver->resolve($name, $this->options['Entities']);

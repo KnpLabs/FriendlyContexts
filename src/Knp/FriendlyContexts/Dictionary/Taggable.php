@@ -7,24 +7,27 @@ use Behat\Behat\Event\OutlineExampleEvent;
 
 trait Taggable
 {
-    protected $tags;
+    protected $tags = [];
+    protected $tagLoaded = false;
 
     /**
      * @BeforeScenario
      */
     public function storeTags($event)
     {
-        if ($event instanceof ScenarioEvent) {
-            $this->tags = $event->getScenario()->getTags();
-        } elseif ($event instanceof OutlineExampleEvent) {
-            $this->tags = $event->getOutline()->getTags();
+        if (false === $this->tagLoaded) {
+            if ($event instanceof ScenarioEvent) {
+                $this->tags = $event->getScenario()->getTags();
+            } elseif ($event instanceof OutlineExampleEvent) {
+                $this->tags = $event->getOutline()->getTags();
+            }
+            $this->tagLoaded = true;
         }
-
-        var_dump($this->tags);
     }
 
     protected function hasTag($name)
     {
+        var_dump($name, $this->tags);
         return in_array($name, $this->tags);
     }
 
