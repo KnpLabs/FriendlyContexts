@@ -12,7 +12,8 @@
         "doctrine/data-fixtures": "1.0.*"
     },
     "require-dev": {
-        "phpspec/phpspec": "2.0.*@dev"
+        "phpspec/phpspec": "2.0.*@dev",
+        "doctrine/orm": "dev-master"
     },
     "license": "MIT",
     "authors": [

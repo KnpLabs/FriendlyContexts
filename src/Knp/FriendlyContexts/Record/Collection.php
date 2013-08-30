@@ -66,6 +66,11 @@ class Collection
         }
     }
 
+    public function count()
+    {
+        return count($this->records);
+    }
+
     protected function mergeHeaders($headers)
     {
         foreach ($headers as $header) {

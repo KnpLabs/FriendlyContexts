@@ -25,7 +25,7 @@ class EntityContext extends BehatContext
     protected $collections;
     protected $accessor;
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], $resolver = null)
     {
         $this->options = array_merge(
             [
@@ -35,7 +35,8 @@ class EntityContext extends BehatContext
         );
 
         $this->collections = new Bag(new ObjectReflector());
-        $this->accessor = PropertyAccess::getPropertyAccessor();
+        $this->accessor    = PropertyAccess::getPropertyAccessor();
+        $this->resolver    = $resolver;
     }
 
     /**
@@ -83,6 +84,58 @@ class EntityContext extends BehatContext
         }
 
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @Given /^(\w+) (.+) should be created$/
+     */
+    public function entitiesShouldBeCreated($expected, $entity)
+    {
+        $expected = (int) $expected;
+
+        if (null === $this->resolver) {
+            $this->resolver = new EntityResolver($this->getEntityManager());
+        }
+
+        $entityName = $this->resolveEntity($entity)->getName();
+        $collection = $this->collections->get($entityName);
+
+        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+
+        $real =(count($entities) - $collection->count());
+        $real = $real > 0 ? $real : 0;
+
+        $this->assertEquals(
+            $real,
+            $expected,
+            sprintf('%s %s should be created, %s in reality', $expected, $entity, $real)
+        );
+    }
+
+    /**
+     * @Given /^(\w+) (.+) should be deleted$/
+     */
+    public function entitiesShouldBeDeleted($expected, $entity)
+    {
+        $expected = (int) $expected;
+
+        if (null === $this->resolver) {
+            $this->resolver = new EntityResolver($this->getEntityManager());
+        }
+
+        $entityName = $this->resolveEntity($entity)->getName();
+        $collection = $this->collections->get($entityName);
+
+        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+
+        $real = ($collection->count() - count($entities));
+        $real = $real > 0 ? $real : 0;
+
+        $this->assertEquals(
+            $real,
+            $expected,
+            sprintf('%s %s should be deleted, %s in reality', $expected, $entity, $real)
+        );
     }
 
     protected function resolveEntity($name)
