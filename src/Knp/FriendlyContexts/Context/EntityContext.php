@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 
 use Knp\FriendlyContexts\Dictionary\Contextable;
+use Knp\FriendlyContexts\Dictionary\Taggable;
 use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
@@ -19,7 +20,8 @@ class EntityContext extends BehatContext
 {
     use Contextable,
         Symfony,
-        KernelDictionary;
+        KernelDictionary,
+        Taggable;
 
     protected $resolver;
     protected $collections;
