@@ -27,7 +27,7 @@ trait Taggable
 
     protected function hasTag($name)
     {
-        var_dump($name, $this->tags);
+
         return in_array($name, $this->tags);
     }
 
