@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Reflection;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ObjectReflectorSpec extends ObjectBehavior
 {

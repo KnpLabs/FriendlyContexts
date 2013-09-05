@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Record;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class RecordSpec extends ObjectBehavior
 {

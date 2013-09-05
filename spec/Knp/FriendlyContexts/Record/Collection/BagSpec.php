@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Record\Collection;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class BagSpec extends ObjectBehavior
 {
