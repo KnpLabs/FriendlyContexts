@@ -43,10 +43,15 @@ trait Contextable
     private function listToArray($list, $delimiters = [', ', ' and '], $parser = "#||#")
     {
         $list  = str_replace('"', '', $list);
+
         foreach ($delimiters as $delimiter) {
             $list  = str_replace($delimiter, $parser, $list);
         }
-        if (!is_string($list)) { die(var_dump($list)); }
+
+        if (!is_string($list)) {
+            throw new \Exception($this->var_dump($list));
+        }
+
         $parts = explode($parser, $list);
 
         $parts = array_map('trim', $parts);
@@ -59,7 +64,7 @@ trait Contextable
     {
         if (!is_array($value)) {
             ob_start();
-            var_dump($value);
+            printf(var_export($value));
 
             return ob_get_clean();
         } else {

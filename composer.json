@@ -1,13 +1,14 @@
 {
     "name": "knplabs/friendly-contexts",
+    "description": "Some BEHAT contexts",
     "autoload": {
         "psr-0": { "Knp\\FriendlyContexts": "src/"} 
     },
     "require": {
-        "behat/behat": "2.4.*",
+        "behat/behat": "2.*",
         "behat/gherkin": "2.2.*",
-        "behat/symfony2-extension": "*",
-        "symfony/property-access": "*@dev",
+        "behat/symfony2-extension": "1.*",
+        "symfony/property-access": "2.*@dev",
         "doctrine/inflector": "1.*",
         "doctrine/data-fixtures": "1.0.*"
     },
