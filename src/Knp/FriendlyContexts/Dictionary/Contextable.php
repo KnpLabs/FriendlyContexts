@@ -30,7 +30,6 @@ trait Contextable
         );
     }
 
-
     private function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
         if ($expected === $real) {
