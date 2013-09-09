@@ -25,9 +25,14 @@ class Requester
         $tokens = array_diff($tokens, $this->tokens);
 
         if (true === $reset) {
-            $this->tokens = array_merge($this->tokens, $tokens);
+            $this->enqueueTokens($tokens);
         }
 
         return array_values($tokens);
+    }
+
+    public function enqueueTokens($tokens = [])
+    {
+        $this->tokens = array_merge($this->tokens, $tokens);
     }
 }
