@@ -160,6 +160,14 @@ class EntityContext extends BehatContext
         }
     }
 
+    /**
+     * @BeforeScenario
+     */
+    public function clearManager($event)
+    {
+        $this->getEntityManager()->clear();
+    }
+
     protected function resolveEntity($name)
     {
         $entities = $this->resolver->resolve($name, $this->options['Entities']);
