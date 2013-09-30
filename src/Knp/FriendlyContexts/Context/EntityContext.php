@@ -4,7 +4,6 @@ namespace Knp\FriendlyContexts\Context;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-use Behat\Behat\Context\BehatContext;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 
@@ -161,7 +160,7 @@ class EntityContext extends BehatContext
     }
 
     /**
-     * @BeforeScenario
+     * @AfterBackground
      */
     public function clearManager($event)
     {
