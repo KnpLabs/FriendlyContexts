@@ -6,6 +6,5 @@ class SwiftMailer extends Requester
 {
     public function getMessages()
     {
-        $this->profiler->
     }
 }
