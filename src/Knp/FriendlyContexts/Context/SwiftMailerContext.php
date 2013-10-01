@@ -2,13 +2,9 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Behat\Behat\Context\BehatContext;
-use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Knp\FriendlyContexts\Symfony\Profiler\SwiftMailer;
 
-class SwiftMailerContext extends RawMinkContext implements KernelAwareInterface
+class SwiftMailerContext extends RawMinkContext
 {
     protected $profiler;
     protected $messages;
