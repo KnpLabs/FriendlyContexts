@@ -4,7 +4,7 @@ namespace Knp\FriendlyContexts\Symfony\Profiler;
 
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 
-class Requester
+class Collector
 {
     protected $profiler;
     protected $tokens = [];

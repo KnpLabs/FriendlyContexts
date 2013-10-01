@@ -5,7 +5,7 @@ namespace spec\Knp\FriendlyContexts\Symfony\Profiler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class RequesterSpec extends ObjectBehavior
+class CollectorSpec extends ObjectBehavior
 {
 
     /**
@@ -26,7 +26,7 @@ class RequesterSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Symfony\Profiler\Requester');
+        $this->shouldHaveType('Knp\FriendlyContexts\Symfony\Profiler\Collector');
     }
 
     function it_should_return_collection_of_watchable_tokens()

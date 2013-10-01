@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Symfony\Profiler;
 
-class SwiftMailer extends Requester
+class SwiftMailer extends Collector
 {
     public function getMessages()
     {
