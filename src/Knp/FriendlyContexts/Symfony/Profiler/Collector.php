@@ -35,4 +35,26 @@ class Collector
     {
         $this->tokens = array_merge($this->tokens, $tokens);
     }
+
+    public function flush()
+    {
+        $this->enqueueTokens($this->getWatchableTokens());
+    }
+
+    protected function getProfiler()
+    {
+        return $this->profiler;
+    }
+
+    protected function getCollectors($name, $tokens = array())
+    {
+        $tokens = is_string($tokens) ? [ $tokens ] : $tokens;
+
+        return array_map(
+            function ($e) use ($name) {
+                return $this->getProfiler()->loadProfile($e)->getCollector($name);
+            },
+            $tokens
+        );
+    }
 }

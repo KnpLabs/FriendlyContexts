@@ -38,14 +38,14 @@ class CollectorSpec extends ObjectBehavior
 
     function it_should_reset_watchable_tokens()
     {
-        $this->getWatchableTokens(true);
+        $this->flush();
 
         $this->getWatchableTokens()->shouldReturn([]);
     }
 
     function it_should_return_new_tokens_after_reset($profiler)
     {
-        $this->getWatchableTokens(true)->shouldNotReturn(null);
+        $this->flush();
 
         $tokens = [
             [ 'token' => 'AZERTY' ],
@@ -60,7 +60,7 @@ class CollectorSpec extends ObjectBehavior
 
     function it_should_return_new_tokens_after_rolling_list($profiler)
     {
-        $this->getWatchableTokens(true)->shouldNotReturn(null);
+        $this->flush();
 
         $tokens = [
             [ 'token' => 'QWERTY' ],

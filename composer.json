@@ -9,7 +9,8 @@
         "behat/symfony2-extension": "1.0.*",
         "symfony/property-access": "2.*@dev",
         "doctrine/inflector": "1.*",
-        "doctrine/data-fixtures": "1.0.*"
+        "doctrine/data-fixtures": "1.0.*",
+        "symfony/swiftmailer-bundle": "*"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",
