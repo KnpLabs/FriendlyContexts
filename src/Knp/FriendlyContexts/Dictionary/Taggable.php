@@ -34,7 +34,8 @@ trait Taggable
     protected function hasTags(array $names)
     {
         foreach ($names as $name) {
-            if (!(0 === strpos($name, '~')) === $this->hasTag(str_replace('~', '', $name))) {
+            if (!(0 === strpos($name, '~')) !== $this->hasTag(str_replace('~', '', $name))) {
+
                 return false;
             }
         }
