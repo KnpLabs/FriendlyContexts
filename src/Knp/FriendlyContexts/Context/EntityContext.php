@@ -68,7 +68,7 @@ class EntityContext extends BehatContext
                         throw new \Exception(sprintf("Can't find collection for %s", $targetEntity));
                     }
                     if (null === $targetRecord = $entityCollection->search($value)) {
-                        throw new \Exception(sprintf("Can't find %s with %s", $targetEntity, $valueName));
+                        throw new \Exception(sprintf("Can't find %s with %s", $targetEntity, $value));
                     }
                     $this->accessor->setValue($entity, $mapping['fieldName'], $targetRecord->getEntity());
                 }
