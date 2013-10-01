@@ -2,8 +2,12 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
+use Behat\Symfony2Extension\Context\KernelDictionary;
+
 trait Symfony
 {
+    use KernelDictionary;
+
     protected function generateUrl($route, array $parameters = array(), $absolute = false)
     {
         return $this->getContainer()->get('router')->generate($route, $parameters, $absolute);

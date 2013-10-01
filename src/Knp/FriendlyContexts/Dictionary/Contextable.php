@@ -4,24 +4,24 @@ namespace Knp\FriendlyContexts\Dictionary;
 
 trait Contextable
 {
-    private function toCamelCase($str)
+    protected function toCamelCase($str)
     {
         return preg_replace('/ /', '', ucwords($str));
     }
 
-    private function toUnderscoreCase($str)
+    protected function toUnderscoreCase($str)
     {
         $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
         return preg_replace("/([^a-zA-Z])/", '_', $str);
     }
 
-    private function toSpaceCase($str)
+    protected function toSpaceCase($str)
     {
         $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
         return preg_replace("/([^a-zA-Z])/", ' ', $str);
     }
 
-    private function assertArrayEquals($expected, $real)
+    protected function assertArrayEquals($expected, $real)
     {
         $this->assertEquals(
             $expected,
@@ -30,7 +30,7 @@ trait Contextable
         );
     }
 
-    private function assertEquals($expected, $real, $message = "Failing to assert equals.")
+    protected function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
         if ($expected === $real) {
             return;
@@ -39,7 +39,7 @@ trait Contextable
         throw new \Exception($message, 1);
     }
 
-    private function listToArray($list, $delimiters = [', ', ' and '], $parser = "#||#")
+    protected function listToArray($list, $delimiters = [', ', ' and '], $parser = "#||#")
     {
         $list  = str_replace('"', '', $list);
 
@@ -59,7 +59,7 @@ trait Contextable
         return $parts;
     }
 
-    private function var_dump($value)
+    protected function var_dump($value)
     {
         if (!is_array($value)) {
             ob_start();

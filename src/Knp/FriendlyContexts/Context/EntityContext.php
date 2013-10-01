@@ -7,9 +7,6 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 
-use Knp\FriendlyContexts\Dictionary\Contextable;
-use Knp\FriendlyContexts\Dictionary\Taggable;
-use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Record\Collection\Bag;
@@ -17,11 +14,6 @@ use Knp\FriendlyContexts\Record\Record;
 
 class EntityContext extends BehatContext
 {
-    use Contextable,
-        Symfony,
-        KernelDictionary,
-        Taggable;
-
     protected $resolver;
     protected $collections;
     protected $accessor;

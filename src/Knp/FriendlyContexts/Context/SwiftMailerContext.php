@@ -6,23 +6,22 @@ use Behat\Behat\Context\BehatContext;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Knp\FriendlyContexts\Symfony\Profiler\SwiftMailer;
 
 class SwiftMailerContext extends RawMinkContext implements KernelAwareInterface
 {
-    use \Behat\Symfony2Extension\Context\KernelDictionary;
-    use \Knp\FriendlyContexts\Dictionary\Symfony;
-    use \Knp\FriendlyContexts\Dictionary\Contextable;
-
-    protected $swiftmailer;
-    protected $tokens = [];
-    protected $messages = [];
+    protected $profiler;
+    protected $messages;
 
     /**
      * @BeforeScenario
      */
     public function initContext($event)
     {
-        $this->registerTokens();
+        $this->profiler = $this->profiler ?: new SwiftMailer($this->getProfiler());
+        $this->profiler->flush();
+
+        $this->messages = [];
     }
 
     /**
@@ -31,16 +30,16 @@ class SwiftMailerContext extends RawMinkContext implements KernelAwareInterface
      */
     public function mailShouldBeSent($expected)
     {
-        $this->registerMessages();
-
         $real = array_sum(
             array_map(
                 function ($e) {
                     return count($e->getTo()) + count($e->getCc()) + count($e->getBcc());
                 },
-                $this->messages
+                $this->messages = $this->profiler->getMessages()
             )
         );
+
+        $this->profiler->flush();
 
         $this->assertEquals(
             (int) $expected,
@@ -99,35 +98,6 @@ class SwiftMailerContext extends RawMinkContext implements KernelAwareInterface
                     )
                 )
             );
-        }
-    }
-
-    protected function getWatchableTokens()
-    {
-        $tokens = array_map(
-            function ($e) {
-                return $e['token'];
-            },
-            $this->getProfiler()->find('', '', 100, '')
-        );
-
-        return array_diff($tokens, $this->tokens);
-    }
-
-    protected function registerTokens()
-    {
-        $this->tokens = array_merge($this->tokens, $this->getWatchableTokens());
-    }
-
-    protected function registerMessages()
-    {
-        $tokens = $this->getWatchableTokens();
-        $this->messages = [];
-
-        foreach ($tokens as $token) {
-            $swiftmailer = $this->getProfiler()->loadProfile($token)->getCollector('swiftmailer');
-
-            $this->messages = array_merge($this->messages, $swiftmailer->getMessages());
         }
     }
 }
