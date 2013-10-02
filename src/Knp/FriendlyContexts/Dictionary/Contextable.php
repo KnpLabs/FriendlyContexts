@@ -62,10 +62,7 @@ trait Contextable
     protected function var_dump($value)
     {
         if (!is_array($value)) {
-            ob_start();
-            printf(var_export($value));
-
-            return ob_get_clean();
+            return (string) $value;;
         } else {
             $maxsize = 0;
             foreach ($value as $row) {
