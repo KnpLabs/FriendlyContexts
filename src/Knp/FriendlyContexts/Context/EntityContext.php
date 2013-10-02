@@ -2,19 +2,16 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Symfony\Component\PropertyAccess\PropertyAccess;
-
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelDictionary;
-
-use Knp\FriendlyContexts\Doctrine\EntityResolver;
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Record\Collection\Bag;
-use Knp\FriendlyContexts\Record\Record;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Knp\FriendlyContexts\Doctrine\EntityResolver;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Record\Record;
 
 class EntityContext extends BehatContext
 {

@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Symfony\Profiler;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CollectorSpec extends ObjectBehavior
 {
