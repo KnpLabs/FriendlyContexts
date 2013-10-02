@@ -4,6 +4,10 @@ namespace spec\Knp\FriendlyContexts\Symfony\Profiler;
 
 use PhpSpec\ObjectBehavior;
 
+use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\HttpKernel\Profiler\Profile;
+use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
+
 class SwiftMailerSpec extends ObjectBehavior
 {
 
@@ -22,7 +26,7 @@ class SwiftMailerSpec extends ObjectBehavior
      * @param Swift_Message $message3
      * @param Swift_Message $message4
      **/
-    function let($profiler, $profile1, $profile2, $profile3, $profile4, $swiftmailer1, $swiftmailer2, $swiftmailer3, $swiftmailer4, $message1, $message2, $message3, $message4)
+    function let(Profiler $profiler, Profile $profile1, Profile $profile2, Profile $profile3, Profile $profile4, MessageDataCollector $swiftmailer1, MessageDataCollector $swiftmailer2, MessageDataCollector $swiftmailer3, MessageDataCollector $swiftmailer4, \Swift_Message $message1, \Swift_Message $message2, \Swift_Message $message3, \Swift_Message $message4)
     {
         $this->beConstructedWith($profiler);
 
@@ -56,7 +60,7 @@ class SwiftMailerSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Symfony\Profiler\SwiftMailer');
     }
 
-    function it_should_return_messages($message1, $message2, $message3)
+    function it_should_return_messages(\Swift_Message $message1, \Swift_Message $message2, \Swift_Message $message3)
     {
         $this->getMessages()->shouldReturn([$message1, $message2, $message3]);
     }
@@ -68,7 +72,7 @@ class SwiftMailerSpec extends ObjectBehavior
         $this->getMessages()->shouldReturn([]);
     }
 
-    function it_should_return_new_messages($profiler, $message4)
+    function it_should_return_new_messages(Profiler $profiler, \Swift_Message $message4)
     {
         $this->flush();
 

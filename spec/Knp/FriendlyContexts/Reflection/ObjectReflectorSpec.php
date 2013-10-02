@@ -9,7 +9,7 @@ class ObjectReflectorSpec extends ObjectBehavior
     /**
      * @param StdClass $object
      **/
-    function let($object)
+    function let(\StdClass $object)
     {
     }
 
@@ -18,22 +18,22 @@ class ObjectReflectorSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Reflection\ObjectReflector');
     }
 
-    function it_should_return_the_object_reflection_class($object)
+    function it_should_return_the_object_reflection_class(\StdClass $object)
     {
         $this->getReflectionClass($object)->shouldHaveType('ReflectionClass');
     }
 
-    function it_should_return_object_class_name($object)
+    function it_should_return_object_class_name(\StdClass $object)
     {
         $this->getClassName($object)->shouldBeString();
     }
 
-    function it_should_return_object_class_namespace($object)
+    function it_should_return_object_class_namespace(\StdClass $object)
     {
         $this->getClassNamespace($object)->shouldBeString();
     }
 
-    function it_should_return_object_class_long_name($object)
+    function it_should_return_object_class_long_name(\StdClass $object)
     {
         $this->getClassLongName($object)->shouldBeString();
     }

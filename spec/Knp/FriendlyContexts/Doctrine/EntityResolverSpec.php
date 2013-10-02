@@ -5,6 +5,10 @@ namespace spec\Knp\FriendlyContexts\Doctrine;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+
 class EntityResolverSpec extends ObjectBehavior
 {
     /**
@@ -16,7 +20,7 @@ class EntityResolverSpec extends ObjectBehavior
      * @param ReflectionClass $class3
      * @param ReflectionClass $class4
      **/
-    function let($em, $factory, $reflector, $class1, $class2, $class3, $class4)
+    function let(ObjectManager $em, ClassMetadataFactory $factory, ObjectReflector $reflector, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
     {
         $this->beConstructedWith($em, $reflector);
 
@@ -54,13 +58,13 @@ class EntityResolverSpec extends ObjectBehavior
         $this->entityNameProposal('the categories')->shouldReturn(['thecategory', 'thecategories']);
     }
 
-    function it_should_return_multiple_class($class1, $class2, $class3, $class4)
+    function it_should_return_multiple_class(\ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
     {
         $this->resolve('user', '')->shouldReturn([$class1, $class2, $class3]);
         $this->resolve('companies', '')->shouldReturn([$class4]);
     }
 
-    function it_should_return_class_when_namespace_is_specified($class1, $class2, $class3)
+    function it_should_return_class_when_namespace_is_specified(\ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3)
     {
         $this->resolve('user', 'N1')->shouldreturn([$class1, $class3]);
         $this->resolve('user', 'N2')->shouldreturn([$class2]);

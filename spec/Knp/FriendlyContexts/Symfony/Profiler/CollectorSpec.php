@@ -4,13 +4,15 @@ namespace spec\Knp\FriendlyContexts\Symfony\Profiler;
 
 use PhpSpec\ObjectBehavior;
 
+use Symfony\Component\HttpKernel\Profiler\Profiler;
+
 class CollectorSpec extends ObjectBehavior
 {
 
     /**
      * @param Symfony\Component\HttpKernel\Profiler\Profiler $profiler
      **/
-    function let($profiler)
+    function let(Profiler $profiler)
     {
         $this->beConstructedWith($profiler);
 
@@ -42,7 +44,7 @@ class CollectorSpec extends ObjectBehavior
         $this->getWatchableTokens()->shouldReturn([]);
     }
 
-    function it_should_return_new_tokens_after_reset($profiler)
+    function it_should_return_new_tokens_after_reset(Profiler $profiler)
     {
         $this->flush();
 
@@ -57,7 +59,7 @@ class CollectorSpec extends ObjectBehavior
         $this->getWatchableTokens()->shouldReturn(['ZYXWVU']);
     }
 
-    function it_should_return_new_tokens_after_rolling_list($profiler)
+    function it_should_return_new_tokens_after_rolling_list(Profiler $profiler)
     {
         $this->flush();
 

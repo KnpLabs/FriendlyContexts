@@ -5,6 +5,13 @@ namespace spec\Knp\FriendlyContexts\Context;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityRepository;
+use Knp\FriendlyContexts\Doctrine\EntityResolver;
+
 class EntityContextSpec extends ObjectBehavior
 {
     /**
@@ -16,7 +23,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($kernel, $container, $doctrine, $manager, $repository, $resolver, $reflectionClass)
+    function let(KernelInterface $kernel, ContainerInterface $container, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, EntityResolver $resolver, \ReflectionClass $reflectionClass)
     {
         $this->beConstructedWith([], $resolver);
 
