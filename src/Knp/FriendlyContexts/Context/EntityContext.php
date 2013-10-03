@@ -12,38 +12,16 @@ use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Record\Record;
+use Knp\FriendlyContexts\FacadeProvider;
 
 class EntityContext extends BehatContext
 {
-    protected $resolver;
-    protected $collections;
-    protected $accessor;
-
-    public function __construct(array $options = [], $resolver = null)
-    {
-        $this->options = array_merge(
-            [
-                'Entities' => [''],
-            ],
-            $options
-        );
-
-        $this->collections = new Bag(new ObjectReflector());
-        $this->accessor    = PropertyAccess::getPropertyAccessor();
-        $this->resolver    = $resolver;
-    }
-
     /**
      * @Given /^the following (.*)$/
      */
     public function theFollowing($name, TableNode $table)
     {
-        if (null === $this->resolver) {
-            $this->resolver = new EntityResolver($this->getEntityManager());
-        }
-
         $entityName = $this->resolveEntity($name)->getName();
-        $collection = $this->collections->get($entityName);
 
         $rows = $table->getRows();
         $headers = array_shift($rows);
@@ -51,7 +29,7 @@ class EntityContext extends BehatContext
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
-            $record = $collection->attach($entity, $values);
+            $record = FacadeProvider::instance()->getRecordCollectionBag()->attach($entity, $values);
 
             foreach ($values as $property => $value) {
                 $mapping = $this->resolveProperty($record, $property, $value);
@@ -60,12 +38,12 @@ class EntityContext extends BehatContext
                         case 'array':
                             $value = $this->listToArray($value);
                         default:
-                            $this->accessor->setValue($entity, $mapping['fieldName'], $value);
+                            PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $value);
                             break;
                     }
                 } else {
                     $targetEntity = $mapping['targetEntity'];
-                    if (null === $entityCollection = $this->collections->get($targetEntity)) {
+                    if (null === $entityCollection = $this->getDeps('record.bag')->get($targetEntity)) {
                         throw new \Exception(sprintf("Can't find collection for %s", $targetEntity));
                     }
 
@@ -77,12 +55,12 @@ class EntityContext extends BehatContext
                             }
                             $records->add($targetRecord->getEntity());
                         }
-                        $this->accessor->setValue($entity, $mapping['fieldName'], $records);
+                        PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $records);
                     } else {
                         if (null === $targetRecord = $entityCollection->search($value)) {
                             throw new \Exception(sprintf("Can't find %s with value %s", $targetEntity, $value));
                         }
-                        $this->accessor->setValue($entity, $mapping['fieldName'], $targetRecord->getEntity());
+                        PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $targetRecord->getEntity());
                     }
                 }
             }
@@ -99,12 +77,8 @@ class EntityContext extends BehatContext
     {
         $expected = (int) $expected;
 
-        if (null === $this->resolver) {
-            $this->resolver = new EntityResolver($this->getEntityManager());
-        }
-
         $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this->collections->get($entityName);
+        $collection = $this->getDeps('record.bag')->get($entityName);
 
         $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
 
@@ -125,12 +99,8 @@ class EntityContext extends BehatContext
     {
         $expected = (int) $expected;
 
-        if (null === $this->resolver) {
-            $this->resolver = new EntityResolver($this->getEntityManager());
-        }
-
         $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this->collections->get($entityName);
+        $collection = $this->getDeps('record.bag')->get($entityName);
 
         $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
 
@@ -174,7 +144,8 @@ class EntityContext extends BehatContext
 
     protected function resolveEntity($name)
     {
-        $entities = $this->resolver->resolve($name, $this->options['Entities']);
+        $entities = $this->getDeps('entity.resolver')->resolve($this->getEntityManager(), $name, $this->options['Entities']);
+
         switch (true) {
             case 1 < count($entities):
                 throw new \Exception(
@@ -204,7 +175,7 @@ class EntityContext extends BehatContext
 
     protected function resolveProperty(Record $record, $property, $value)
     {
-        $metadata     = $this->resolver->getMetadataFromObject($record->getEntity());
+        $metadata     = FacadeProvider::instance()->getEntityResolver()->getMetadataFromObject($record->getEntity());
         $fields       = $metadata->fieldMappings;
         $associations = $metadata->associationMappings;
 
@@ -249,5 +220,12 @@ class EntityContext extends BehatContext
     protected function getConnections()
     {
         return $this->getContainer()->get('doctrine')->getConnections();
+    }
+
+    protected function getDefaultOptions()
+    {
+        return [
+            'Entities' => [''],
+        ];
     }
 }

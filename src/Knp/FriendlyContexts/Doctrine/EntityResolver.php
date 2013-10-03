@@ -3,32 +3,26 @@
 namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Doctrine\Common\Inflector\Inflector;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\FacadeProvider;
+use Knp\FriendlyContexts\Dictionary\FacadableInterface;
+use Knp\FriendlyContexts\Dictionary\Facadable;
 
-class EntityResolver
+class EntityResolver implements FacadableInterface
 {
-    protected $entityManager;
-    protected $reflector;
+    use Facadable;
 
-    public function __construct(ObjectManager $entityManager, ObjectReflector $reflector = null)
-    {
-        $this->entityManager = $entityManager;
-        $this->reflector     = null !== $reflector ? $reflector : new ObjectReflector();
-    }
-
-    public function resolve($name, $namespaces)
+    public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
         if (is_string($namespaces)) {
             $namespaces = [$namespaces];
         }
 
         $allClass = $this
-            ->reflector
+            ->getDeps('object.reflector')
             ->getReflectionsFromMetadata(
-                $this
-                    ->entityManager
+                $entityManager
                     ->getMetadataFactory()
                     ->getAllMetadata()
         );
@@ -73,10 +67,9 @@ class EntityResolver
         return array_unique($results);
     }
 
-    public function getMetadataFromObject($object)
+    public function getMetadataFromObject(ObjectManager $entityManager, $object)
     {
-        return $this
-            ->entityManager
+        return $entityManager
             ->getMetadataFactory()
             ->getMetadataFor(get_class($object)
         );

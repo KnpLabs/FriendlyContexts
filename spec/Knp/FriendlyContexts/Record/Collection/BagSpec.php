@@ -5,6 +5,7 @@ namespace spec\Knp\FriendlyContexts\Record\Collection;
 use PhpSpec\ObjectBehavior;
 
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\FacadeProvider;
 
 class BagSpec extends ObjectBehavior
 {
@@ -13,8 +14,9 @@ class BagSpec extends ObjectBehavior
      * @param StdClass $rightObject
      * @param StdClass $wrongObject
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
+     * @param Knp\FriendlyContexts\FacadeProvider $facade;
      **/
-    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector)
+    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector, FacadeProvider $facade)
     {
         $reflector->getClassName($rightObject)->willReturn('TheClass');
         $reflector->getClassNamespace($rightObject)->willReturn('The\\Name\\Space');
@@ -27,8 +29,9 @@ class BagSpec extends ObjectBehavior
         $reflector->getClassLongName($wrongObject)->willReturn('The\\Other\\Name\\Space\\TheOtherClass');
         $reflector->isInstanceOf($wrongObject, 'The\\Name\\Space\\TheClass')->willReturn(false);
         $reflector->isInstanceOf($wrongObject, 'The\\Other\\Name\\Space\\TheOtherClass')->willReturn(true);
+        $facade->getDeps('object.reflector')->willReturn($reflector);
 
-        $this->beConstructedWith($reflector);
+        $this->setFacadeProvider($facade);
     }
 
     function it_is_initializable()
