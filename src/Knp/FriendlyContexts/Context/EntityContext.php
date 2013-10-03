@@ -175,7 +175,7 @@ class EntityContext extends BehatContext
 
     protected function resolveProperty(Record $record, $property, $value)
     {
-        $metadata     = $this->getDeps('entity.resolver')->getMetadataFromObject($record->getEntity());
+        $metadata     = $this->getDeps('entity.resolver')->getMetadataFromObject($this->getEntityManager(), $record->getEntity());
         $fields       = $metadata->fieldMappings;
         $associations = $metadata->associationMappings;
 
