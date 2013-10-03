@@ -7,6 +7,8 @@ use Knp\FriendlyContexts\Doctrine\EntityHydrator;
 use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Dictionary\FacadableInterface;
+use Knp\FriendlyContexts\Guesser\GuesserManager;
+use Knp\FriendlyContexts\Tool\TextFormater;
 
 class FacadeProvider
 {
@@ -23,6 +25,8 @@ class FacadeProvider
             ->setDeps('entity.hydrator',  new EntityHydrator)
             ->setDeps('entity.resolver',  new EntityResolver)
             ->setDeps('record.bag',       new Bag)
+            ->setDeps('guesser.manager',  new GuesserManager)
+            ->setDeps('text.formater',    new TextFormater)
         ;
     }
 

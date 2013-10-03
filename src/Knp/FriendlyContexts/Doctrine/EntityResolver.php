@@ -58,13 +58,38 @@ class EntityResolver implements FacadableInterface
         return $results;
     }
 
-    public function entityNameProposal($name)
+    public function getMetadataFromProperty($entity, $property)
     {
-        $name = strtolower(str_replace(" ", "", $name));
+        $metadata     = $this->getMetadataFromObject($this->getEntityManager(), $entity());
+        $fields       = $metadata->fieldMappings;
+        $associations = $metadata->associationMappings;
 
-        $results = [Inflector::singularize($name), Inflector::pluralize($name), $name];
+        foreach ($fields as $id => $map) {
+            switch (strtolower($id)) {
+                case strtolower($property):
+                case $this->getDeps('text.formater')->toCamelCase(strtolower($property)):
+                case $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
 
-        return array_unique($results);
+        foreach ($associations as $id => $map) {
+            switch (strtolower($id)) {
+                case strtolower($property):
+                case $this->getDeps('text.formater')->toCamelCase(strtolower($property)):
+                case $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        throw new \RuntimeException(
+            sprintf(
+                'Can\'t find property %s or %s in class %s',
+                $this->getDeps('text.formater')->toCamelCase(strtolower($property)),
+                $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)),
+                get_class($entity())
+            )
+        );
     }
 
     public function getMetadataFromObject(ObjectManager $entityManager, $object)
@@ -73,5 +98,14 @@ class EntityResolver implements FacadableInterface
             ->getMetadataFactory()
             ->getMetadataFor(get_class($object)
         );
+    }
+
+    public function entityNameProposal($name)
+    {
+        $name = strtolower(str_replace(" ", "", $name));
+
+        $results = [Inflector::singularize($name), Inflector::pluralize($name), $name];
+
+        return array_unique($results);
     }
 }

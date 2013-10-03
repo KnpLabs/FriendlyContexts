@@ -30,40 +30,8 @@ class EntityContext extends BehatContext
             $values = array_combine($headers, $row);
             $entity = new $entityName;
             $record = $this->getDeps('record.bag')->get($entityName)->attach($entity, $values);
+            $this->getDeps('entity.hydrator')->hydrator($record, $values);
 
-            foreach ($values as $property => $value) {
-                $mapping = $this->resolveProperty($record, $property, $value);
-                if (!array_key_exists('isOwningSide', $mapping)) {
-                    switch ($mapping['type']) {
-                        case 'array':
-                            $value = $this->listToArray($value);
-                        default:
-                            PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $value);
-                            break;
-                    }
-                } else {
-                    $targetEntity = $mapping['targetEntity'];
-                    if (null === $entityCollection = $this->getDeps('record.bag')->get($targetEntity)) {
-                        throw new \Exception(sprintf("Can't find collection for %s", $targetEntity));
-                    }
-
-                    if (in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY])) {
-                        $records = new ArrayCollection;
-                        foreach ($this->listToArray($value) as $v) {
-                            if (null === $targetRecord = $entityCollection->search($v)) {
-                                throw new \Exception(sprintf("Can't find %s with value %s", $targetEntity, $v));
-                            }
-                            $records->add($targetRecord->getEntity());
-                        }
-                        PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $records);
-                    } else {
-                        if (null === $targetRecord = $entityCollection->search($value)) {
-                            throw new \Exception(sprintf("Can't find %s with value %s", $targetEntity, $value));
-                        }
-                        PropertyAccess::getPropertyAccessor()->setValue($entity, $mapping['fieldName'], $targetRecord->getEntity());
-                    }
-                }
-            }
             $this->getEntityManager()->persist($entity);
         }
 
@@ -175,8 +143,11 @@ class EntityContext extends BehatContext
 
     protected function resolveProperty(Record $record, $property, $value)
     {
-        $metadata     = $this->getDeps('entity.resolver')->getMetadataFromObject($this->getEntityManager(), $record->getEntity());
-        $fields       = $metadata->fieldMappings;
+        $metadata = $this
+            ->getDeps('entity.resolver')
+            ->getMetadataFromObject($this->getEntityManager(), $record->getEntity())
+        ;
+        $fields = $metadata->fieldMappings;
         $associations = $metadata->associationMappings;
 
         foreach ($fields as $id => $map) {
