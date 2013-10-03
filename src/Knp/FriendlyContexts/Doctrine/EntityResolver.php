@@ -60,7 +60,7 @@ class EntityResolver implements FacadableInterface
 
     public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
     {
-        $metadata     = $this->getMetadataFromObject($entityManager, $entity());
+        $metadata     = $this->getMetadataFromObject($entityManager, $entity);
         $fields       = $metadata->fieldMappings;
         $associations = $metadata->associationMappings;
 
