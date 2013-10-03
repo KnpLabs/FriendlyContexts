@@ -29,7 +29,7 @@ class EntityContext extends BehatContext
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
-            $record = $this->getDeps('record.bag')->attach($entity, $values);
+            $record = $this->getDeps('record.bag')->get($entityName)->attach($entity, $values);
 
             foreach ($values as $property => $value) {
                 $mapping = $this->resolveProperty($record, $property, $value);
