@@ -5,15 +5,16 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Knp\FriendlyContexts\Dictionary\FacadableInterface;
 use Knp\FriendlyContexts\Dictionary\Facadable;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class EntityHydrator implements FacadableInterface
 {
     use Facadable;
 
-    public function hydrate($entity, $values)
+    public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->getDeps('entity.resolver')->getMetadataFromProperty($entity, $property);
+            $mapping = $this->getDeps('entity.resolver')->getMetadataFromProperty($em, $entity, $property);
             $entityRelation = array_key_exists('isOwningSide', $mapping);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
