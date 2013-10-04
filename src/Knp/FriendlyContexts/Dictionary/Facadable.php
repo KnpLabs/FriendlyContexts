@@ -22,6 +22,13 @@ trait Facadable
 
     public function getDeps($name)
     {
-        return $this->getFacadeProvider()->getDeps($name);
+        return $this->facadeProvider->getDeps($name);
+    }
+
+    public function setDeps($name, $value)
+    {
+        $this->facadeProvider->setDeps($name, $value);
+
+        return $this;
     }
 }

@@ -22,26 +22,6 @@ trait Contextable
         throw new \Exception($message, 1);
     }
 
-    protected function listToArray($list, $delimiters = [', ', ' and '], $parser = "#||#")
-    {
-        $list  = str_replace('"', '', $list);
-
-        foreach ($delimiters as $delimiter) {
-            $list  = str_replace($delimiter, $parser, $list);
-        }
-
-        if (!is_string($list)) {
-            throw new \Exception($this->var_dump($list));
-        }
-
-        $parts = explode($parser, $list);
-
-        $parts = array_map('trim', $parts);
-        $parts = array_filter($parts, 'strlen');
-
-        return $parts;
-    }
-
     protected function var_dump($value)
     {
         if (!is_array($value)) {

@@ -30,7 +30,7 @@ class EntityContext extends BehatContext
             $values = array_combine($headers, $row);
             $entity = new $entityName;
             $record = $this->getDeps('record.bag')->get($entityName)->attach($entity, $values);
-            $this->getDeps('entity.hydrator')->hydrate($this->getEntityManager(), $record, $values);
+            $this->getDeps('entity.hydrator')->hydrate($this->getEntityManager(), $entity, $values);
 
             $this->getEntityManager()->persist($entity);
         }

@@ -14,6 +14,7 @@ class GuesserManagerSpec extends ObjectBehavior
     function let($guesser)
     {
         $guesser->supports(Argument::any())->willReturn(false);
+        $guesser->setManager($this)->willReturn(null);
     }
 
     function it_is_initializable()
@@ -68,7 +69,8 @@ class GuesserManagerSpec extends ObjectBehavior
 
         $guesser->supports($mapping)->willReturn(true);
 
-        $this->addGuesser($guesser)->shouldReturn(null);
+        $this->find($mapping)->shouldReturn(false);
+        $this->addGuesser($guesser);
         $this->find($mapping)->shouldReturn($guesser);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-class BooleanGuesser implements GuesserInterface
+class BooleanGuesser extends AbstractGuesser implements GuesserInterface
 {
     public function supports($mapping)
     {
@@ -11,7 +11,7 @@ class BooleanGuesser implements GuesserInterface
         return $mapping['type'] === 'boolean';
     }
 
-    public function transform($str)
+    public function transform($str, $mapping = null)
     {
         $str = strtolower($str);
 
@@ -38,5 +38,10 @@ class BooleanGuesser implements GuesserInterface
         }
 
         return $formats[$str];
+    }
+
+    public function getName()
+    {
+        return 'boolean';
     }
 }

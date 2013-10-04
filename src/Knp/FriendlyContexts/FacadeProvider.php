@@ -21,11 +21,11 @@ class FacadeProvider
         $this->setOptions($options);
 
         $this
+            ->setDeps('guesser.manager',  new GuesserManager)
             ->setDeps('object.reflector', new ObjectReflector)
             ->setDeps('entity.hydrator',  new EntityHydrator)
             ->setDeps('entity.resolver',  new EntityResolver)
             ->setDeps('record.bag',       new Bag)
-            ->setDeps('guesser.manager',  new GuesserManager)
             ->setDeps('text.formater',    new TextFormater)
         ;
     }
@@ -47,11 +47,11 @@ class FacadeProvider
 
     public function setDeps($name, $value)
     {
-        $this->deps[$name] = $value;
-
         if ($value instanceof FacadableInterface) {
             $value->setFacadeProvider($this);
         }
+
+        $this->deps[$name] = $value;
 
         return $this;
     }

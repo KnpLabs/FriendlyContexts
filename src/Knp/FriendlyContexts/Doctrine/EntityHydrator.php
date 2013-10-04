@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Knp\FriendlyContexts\Dictionary\FacadableInterface;
 use Knp\FriendlyContexts\Dictionary\Facadable;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class EntityHydrator implements FacadableInterface
 {
@@ -22,7 +24,7 @@ class EntityHydrator implements FacadableInterface
             $result = [];;
 
             if ($collectionRelation || $arrayRelation) {
-                $value = $this->listToArray($value);
+                $value = $this->getDeps('text.formater')->listToArray($value);
 
                 foreach ($value as $single) {
                     $result[] = $this->format($mapping, $single);
@@ -37,7 +39,7 @@ class EntityHydrator implements FacadableInterface
 
             PropertyAccess::getPropertyAccessor()
                 ->setValue(
-                    $entity(),
+                    $entity,
                     $mapping['fieldName'],
                     $result
                 )
@@ -51,6 +53,6 @@ class EntityHydrator implements FacadableInterface
             return $value;
         }
 
-        return $guesser->transform($value);
+        return $guesser->transform($value, $mapping);
     }
 }

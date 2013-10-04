@@ -3,21 +3,26 @@
 namespace Knp\FriendlyContexts\Guesser;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
+use Knp\FriendlyContexts\Dictionary\FacadableInterface;
+use Knp\FriendlyContexts\Dictionary\Facadable;
 
-class GuesserManager
+class GuesserManager implements FacadableInterface
 {
+    use Facadable;
+
+    protected $classes = [];
     protected $guessers = [];
+    protected $loaded = false;
 
     public function __construct()
     {
-        $classes = [
+        $this->classes = [
             'Knp\FriendlyContexts\Guesser\DatetimeGuesser',
             'Knp\FriendlyContexts\Guesser\BooleanGuesser',
+            'Knp\FriendlyContexts\Guesser\EntityGuesser',
         ];
 
-        foreach ($classes as $c){
-            $this->addGuesser($c);
-        }
+        $this->load();
     }
 
     public function addGuesser($guesser)
@@ -29,6 +34,8 @@ class GuesserManager
         if (false === $guesser instanceof GuesserInterface) {
             throw new \InvalidArgumentException('Your guesser should implements Knp\FriendlyContexts\Guesser\GuesserInterface');
         }
+
+        $guesser->setManager($this);
 
         array_unshift($this->guessers, $guesser);
     }
@@ -43,5 +50,15 @@ class GuesserManager
         }
 
         return false;
+    }
+
+    public function load()
+    {
+        $this->load = true;
+        $this->guessers = [];
+
+        foreach ($this->classes as $c){
+            $this->addGuesser($c);
+        }
     }
 }
