@@ -3,16 +3,15 @@
 namespace Knp\FriendlyContexts\Record\Collection;
 
 use Knp\FriendlyContexts\Record\Collection;
-use Knp\FriendlyContexts\Dictionary\FacadableInterface;
-use Knp\FriendlyContexts\Dictionary\Facadable;
+use Knp\FriendlyContexts\Dictionary\Containable;
 
-class Bag implements FacadableInterface
+class Bag
 {
-    use Facadable;
+    use Containable;
 
     protected $collections = [];
 
-    public function get($entity)
+    public function getCollection($entity)
     {
         foreach ($this->collections as $collection) {
             if ($collection->support($entity)) {
@@ -20,7 +19,7 @@ class Bag implements FacadableInterface
             }
         }
 
-        $new = new Collection($this->getDeps('object.reflector'));
+        $new = new Collection($this->get('friendly.context.object.reflector'));
         $new->support($entity);
 
         return $this->collections[] = $new;;

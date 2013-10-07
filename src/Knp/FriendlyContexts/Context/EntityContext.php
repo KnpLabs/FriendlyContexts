@@ -21,6 +21,8 @@ class EntityContext extends BehatContext
      */
     public function theFollowing($name, TableNode $table)
     {
+        $this->loadContainer();
+
         $entityName = $this->resolveEntity($name)->getName();
 
         $rows = $table->getRows();
@@ -29,8 +31,15 @@ class EntityContext extends BehatContext
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
-            $record = $this->getDeps('record.bag')->get($entityName)->attach($entity, $values);
-            $this->getDeps('entity.hydrator')->hydrate($this->getEntityManager(), $entity, $values);
+            $record = $this
+                ->get('friendly.context.record.bag')
+                ->getCollection($entityName)
+                ->attach($entity, $values)
+            ;
+            $this
+                ->get('friendly.context.entity.hydrator')
+                ->hydrate($this->getEntityManager(), $entity, $values)
+            ;
 
             $this->getEntityManager()->persist($entity);
         }
@@ -43,10 +52,11 @@ class EntityContext extends BehatContext
      */
     public function entitiesShouldBeCreated($expected, $entity)
     {
+        $this->loadContainer();
         $expected = (int) $expected;
 
         $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this->getDeps('record.bag')->get($entityName);
+        $collection = $this->get('friendly.context.record.bag')->getCollection($entityName);
 
         $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
 
@@ -65,10 +75,14 @@ class EntityContext extends BehatContext
      */
     public function entitiesShouldBeDeleted($expected, $entity)
     {
+        $this->loadContainer();
         $expected = (int) $expected;
 
         $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this->getDeps('record.bag')->get($entityName);
+        $collection = $this
+            ->get('friendly.context.record.bag')
+            ->getCollection($entityName)
+        ;
 
         $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
 
@@ -112,7 +126,10 @@ class EntityContext extends BehatContext
 
     protected function resolveEntity($name)
     {
-        $entities = $this->getDeps('entity.resolver')->resolve($this->getEntityManager(), $name, $this->options['Entities']);
+        $entities = $this
+            ->get('friendly.context.entity.resolver')
+            ->resolve($this->getEntityManager(), $name, $this->options['Entities'])
+        ;
 
         switch (true) {
             case 1 < count($entities):
@@ -144,7 +161,7 @@ class EntityContext extends BehatContext
     protected function resolveProperty(Record $record, $property, $value)
     {
         $metadata = $this
-            ->getDeps('entity.resolver')
+            ->get('friendly.context.entity.resolver')
             ->getMetadataFromObject($this->getEntityManager(), $record->getEntity())
         ;
         $fields = $metadata->fieldMappings;

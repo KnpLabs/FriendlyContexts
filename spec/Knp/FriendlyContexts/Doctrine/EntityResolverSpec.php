@@ -8,12 +8,12 @@ use Prophecy\Argument;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\FacadeProvider;
+use Knp\FriendlyContexts\Container;
 
 class EntityResolverSpec extends ObjectBehavior
 {
     /**
-     * @param Knp\FriendlyContexts\FacadeProvider $facade
+     * @param Knp\FriendlyContexts\Container $container
      * @param Doctrine\Common\Persistence\ObjectManager $em
      * @param Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $factory
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
@@ -22,7 +22,7 @@ class EntityResolverSpec extends ObjectBehavior
      * @param ReflectionClass $class3
      * @param ReflectionClass $class4
      **/
-    function let(FacadeProvider $facade, ObjectManager $em, ClassMetadataFactory $factory, ObjectReflector $reflector, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
+    function let(Container $container, ObjectManager $em, ClassMetadataFactory $factory, ObjectReflector $reflector, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
     {
 
         $class1->getShortName()->willReturn('User');
@@ -37,9 +37,10 @@ class EntityResolverSpec extends ObjectBehavior
         $em->getMetadataFactory()->willReturn($factory);
         $factory->getAllMetadata()->willReturn([]);
         $reflector->getReflectionsFromMetadata(Argument::any())->willReturn([$class1, $class2, $class3, $class4]);
-        $facade->getDeps('object.reflector')->willReturn($reflector);
+        $container->has('friendly.context.object.reflector')->willReturn(true);
+        $container->get('friendly.context.object.reflector')->willReturn($reflector);
 
-        $this->setFacadeProvider($facade);
+        $this->setContainer($container);
     }
 
     function it_is_initializable()

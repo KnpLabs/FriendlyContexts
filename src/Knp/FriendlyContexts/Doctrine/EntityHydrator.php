@@ -3,20 +3,19 @@
 namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Knp\FriendlyContexts\Dictionary\FacadableInterface;
-use Knp\FriendlyContexts\Dictionary\Facadable;
+use Knp\FriendlyContexts\Dictionary\Containable;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class EntityHydrator implements FacadableInterface
+class EntityHydrator
 {
-    use Facadable;
+    use Containable;
 
     public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->getDeps('entity.resolver')->getMetadataFromProperty($em, $entity, $property);
+            $mapping = $this->get('friendly.context.entity.resolver')->getMetadataFromProperty($em, $entity, $property);
             $entityRelation = array_key_exists('isOwningSide', $mapping);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
@@ -24,7 +23,7 @@ class EntityHydrator implements FacadableInterface
             $result = [];;
 
             if ($collectionRelation || $arrayRelation) {
-                $value = $this->getDeps('text.formater')->listToArray($value);
+                $value = $this->get('text.formater')->listToArray($value);
 
                 foreach ($value as $single) {
                     $result[] = $this->format($mapping, $single);
@@ -49,7 +48,7 @@ class EntityHydrator implements FacadableInterface
 
     protected function format($mapping, $value)
     {
-        if (false === $guesser = $this->getDeps('guesser.manager')->find($mapping)) {
+        if (false === $guesser = $this->get('friendly.context.guesser.manager')->find($mapping)) {
             return $value;
         }
 

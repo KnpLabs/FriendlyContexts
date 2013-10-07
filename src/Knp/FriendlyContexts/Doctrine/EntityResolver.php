@@ -5,13 +5,11 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\FacadeProvider;
-use Knp\FriendlyContexts\Dictionary\FacadableInterface;
-use Knp\FriendlyContexts\Dictionary\Facadable;
+use Knp\FriendlyContexts\Dictionary\Containable;
 
-class EntityResolver implements FacadableInterface
+class EntityResolver
 {
-    use Facadable;
+    use Containable;
 
     public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
@@ -20,7 +18,7 @@ class EntityResolver implements FacadableInterface
         }
 
         $allClass = $this
-            ->getDeps('object.reflector')
+            ->get('friendly.context.object.reflector')
             ->getReflectionsFromMetadata(
                 $entityManager
                     ->getMetadataFactory()
@@ -67,8 +65,8 @@ class EntityResolver implements FacadableInterface
         foreach ($fields as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->getDeps('text.formater')->toCamelCase(strtolower($property)):
-                case $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)):
+                case $this->getFormater()->toCamelCase(strtolower($property)):
+                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
                     return $map;
             }
         }
@@ -76,8 +74,8 @@ class EntityResolver implements FacadableInterface
         foreach ($associations as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->getDeps('text.formater')->toCamelCase(strtolower($property)):
-                case $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)):
+                case $this->getFormater()->toCamelCase(strtolower($property)):
+                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
                     return $map;
             }
         }
@@ -85,8 +83,8 @@ class EntityResolver implements FacadableInterface
         throw new \RuntimeException(
             sprintf(
                 'Can\'t find property %s or %s in class %s',
-                $this->getDeps('text.formater')->toCamelCase(strtolower($property)),
-                $this->getDeps('text.formater')->toUnderscoreCase(strtolower($property)),
+                $this->getFormater()->toCamelCase(strtolower($property)),
+                $this->getFormater()->toUnderscoreCase(strtolower($property)),
                 get_class($entity())
             )
         );
@@ -108,4 +106,10 @@ class EntityResolver implements FacadableInterface
 
         return array_unique($results);
     }
+
+    protected function getFormater()
+    {
+        return $this->get('friendly.context.text.formater');
+    }
+
 }

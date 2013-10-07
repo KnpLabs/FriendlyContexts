@@ -3,12 +3,11 @@
 namespace Knp\FriendlyContexts\Guesser;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use Knp\FriendlyContexts\Dictionary\FacadableInterface;
-use Knp\FriendlyContexts\Dictionary\Facadable;
+use Knp\FriendlyContexts\Dictionary\Containable;
 
-class GuesserManager implements FacadableInterface
+class GuesserManager
 {
-    use Facadable;
+    use Containable;
 
     protected $classes = [];
     protected $guessers = [];

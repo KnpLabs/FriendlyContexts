@@ -9,13 +9,12 @@ use Knp\FriendlyContexts\Dictionary\Contextable;
 use Knp\FriendlyContexts\Dictionary\Facadable;
 use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Dictionary\Taggable;
-use Knp\FriendlyContexts\FacadeProvider;
+use Knp\FriendlyContexts\Container;
 
 abstract class RawMinkContext extends BaseRawMinkContext implements KernelAwareInterface
 {
     use Backgroundable,
         Contextable,
-        Facadable,
         Symfony,
         Taggable;
 
@@ -27,8 +26,14 @@ abstract class RawMinkContext extends BaseRawMinkContext implements KernelAwareI
             $this->getDefaultOptions(),
             $options
         );
+    }
 
-        $this->setFacadeProvider(new FacadeProvider($options));
+    protected function loadContainer()
+    {
+        if (null !== $this->getContainer()->has('friendly.context.container')) {
+            $container = new Container($this->getContainer(), $this->options);
+            $this->getContainer()->set('friendly.context.container', $container);
+        }
     }
 
     protected function getDefaultOptions()

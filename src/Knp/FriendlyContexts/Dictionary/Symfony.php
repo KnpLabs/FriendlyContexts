@@ -8,6 +8,11 @@ trait Symfony
 {
     use KernelDictionary;
 
+    protected function get($name)
+    {
+        return $this->getContainer()->get($name);
+    }
+
     protected function generateUrl($route, array $parameters = array(), $absolute = false)
     {
         return $this->getContainer()->get('router')->generate($route, $parameters, $absolute);

@@ -11,7 +11,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
-use Knp\FriendlyContexts\FacadeProvider;
 use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Record\Collection;
 
@@ -19,30 +18,31 @@ class EntityContextSpec extends ObjectBehavior
 {
     /**
      * @param Symfony\Component\HttpKernel\KernelInterface $kernel
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $containerInterface
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
      * @param Doctrine\ORM\EntityRepository $repository
-     * @param Knp\FriendlyContexts\FacadeProvider $facade
      * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
      * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
      * @param Knp\FriendlyContexts\Record\Collection $collection
      * @param \ReflectionClass $reflectionClass
      **/
-    function let(KernelInterface $kernel, ContainerInterface $container, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, FacadeProvider $facade, EntityResolver $resolver, Bag $bag, Collection $collection, \ReflectionClass $reflectionClass)
+    function let(KernelInterface $kernel, ContainerInterface $containerInterface, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, EntityResolver $resolver, Bag $bag, Collection $collection, \ReflectionClass $reflectionClass)
     {
-        $kernel->getContainer()->willReturn($container);
-        $container->get('doctrine')->willReturn($doctrine);
+        $kernel->getContainer()->willReturn($containerInterface);
+        $containerInterface->set(Argument::any(), Argument::any())->willReturn(true);
+        $containerInterface->has('friendly.context.container')->willReturn(true);
+        $containerInterface->get('doctrine')->willReturn($doctrine);
+        $containerInterface->get('friendly.context.entity.resolver')->willReturn($resolver);
+        $containerInterface->get('friendly.context.entity.resolver')->willReturn($resolver);
+        $containerInterface->get('friendly.context.record.bag')->willReturn($bag);
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->findAll()->willReturn(['', '']);
         $resolver->resolve($manager, 'entities', [""])->willReturn([$reflectionClass]);
-        $bag->get(Argument::any())->willReturn($collection);
-        $facade->getDeps('entity.resolver')->willReturn($resolver);
-        $facade->getDeps('record.bag')->willReturn($bag);
+        $bag->getCollection(Argument::any())->willReturn($collection);
 
         $this->beConstructedWith([]);
-        $this->setFacadeProvider($facade);
         $this->setKernel($kernel);
     }
 
