@@ -3,19 +3,15 @@
 namespace Knp\FriendlyContexts\Record\Collection;
 
 use Knp\FriendlyContexts\Record\Collection;
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Dictionary\Containable;
 
 class Bag
 {
-    protected $reflector;
+    use Containable;
+
     protected $collections = [];
 
-    public function __construct(ObjectReflector $reflector)
-    {
-        $this->reflector = $reflector;
-    }
-
-    public function get($entity)
+    public function getCollection($entity)
     {
         foreach ($this->collections as $collection) {
             if ($collection->support($entity)) {
@@ -23,7 +19,7 @@ class Bag
             }
         }
 
-        $new = new Collection($this->reflector);
+        $new = new Collection($this->get('friendly.context.object.reflector'));
         $new->support($entity);
 
         return $this->collections[] = $new;;

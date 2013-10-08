@@ -2,23 +2,20 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
+use Knp\FriendlyContexts\Container;
+
 trait Contextable
 {
-    protected function toCamelCase($str)
-    {
-        return preg_replace('/ /', '', ucwords($str));
-    }
 
-    protected function toUnderscoreCase($str)
+    /**
+     * @BeforeScenario
+     */
+    public function loadContainer()
     {
-        $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
-        return preg_replace("/([^a-zA-Z])/", '_', $str);
-    }
-
-    protected function toSpaceCase($str)
-    {
-        $str = strtolower(preg_replace("[A-Z]", "_\$1", $str));
-        return preg_replace("/([^a-zA-Z])/", ' ', $str);
+        if (null !== $this->getContainer()->has('friendly.context.container')) {
+            $container = new Container($this->getContainer(), $this->options);
+            $this->getContainer()->set('friendly.context.container', $container);
+        }
     }
 
     protected function assertArrayEquals($expected, $real)
@@ -37,26 +34,6 @@ trait Contextable
         }
 
         throw new \Exception($message, 1);
-    }
-
-    protected function listToArray($list, $delimiters = [', ', ' and '], $parser = "#||#")
-    {
-        $list  = str_replace('"', '', $list);
-
-        foreach ($delimiters as $delimiter) {
-            $list  = str_replace($delimiter, $parser, $list);
-        }
-
-        if (!is_string($list)) {
-            throw new \Exception($this->var_dump($list));
-        }
-
-        $parts = explode($parser, $list);
-
-        $parts = array_map('trim', $parts);
-        $parts = array_filter($parts, 'strlen');
-
-        return $parts;
     }
 
     protected function var_dump($value)
