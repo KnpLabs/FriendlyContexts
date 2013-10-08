@@ -9,8 +9,9 @@ use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Knp\FriendlyContexts\Tool\TextFormater;
+use Symfony\Component\DependencyInjection\Container as BaseContainer;
 
-class Container
+class Container extends BaseContainer
 {
 
     protected $options = [];
@@ -21,14 +22,21 @@ class Container
         $this->container = $container;
         $this->setOptions($options);
 
-        $this
-            ->set('friendly.context.guesser.manager',  new GuesserManager)
-            ->set('friendly.context.object.reflector', new ObjectReflector)
-            ->set('friendly.context.entity.hydrator',  new EntityHydrator)
-            ->set('friendly.context.entity.resolver',  new EntityResolver)
-            ->set('friendly.context.record.bag',       new Bag)
-            ->set('friendly.context.text.formater',    new TextFormater)
-        ;
+        $services = [
+            'friendly.context.guesser.manager'  => new GuesserManager,
+            'friendly.context.object.reflector' => new ObjectReflector,
+            'friendly.context.entity.hydrator'  => new EntityHydrator,
+            'friendly.context.entity.resolver'  => new EntityResolver,
+            'friendly.context.record.bag'       => new Bag,
+            'friendly.context.text.formater'    => new TextFormater,
+        ];
+
+        foreach ($services as $name => $service) {
+            if ($this->isContainable($service)) {
+                $service->setContainer($this);
+            }
+            $this->set($name, $service);
+        }
     }
 
     public function setOptions($options = [])
@@ -37,27 +45,6 @@ class Container
             $this->options,
             $options
         );
-
-        return $this;
-    }
-
-    public function has($name)
-    {
-        return $this->container->has($name);
-    }
-
-    public function get($name)
-    {
-        return $this->container->get($name, null);
-    }
-
-    public function set($name, $service)
-    {
-        if ($this->isContainable($service)) {
-            $service->setContainer($this);
-        }
-
-        $this->container->set($name, $service);
 
         return $this;
     }
