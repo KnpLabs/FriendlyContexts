@@ -16,7 +16,6 @@ class EntityHydrator
     {
         foreach ($values as $property => $value) {
             $mapping = $this->get('friendly.context.entity.resolver')->getMetadataFromProperty($em, $entity, $property);
-            $entityRelation = array_key_exists('isOwningSide', $mapping);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
 

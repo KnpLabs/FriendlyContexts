@@ -7,7 +7,6 @@ use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Doctrine\EntityHydrator;
 use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
-use Knp\FriendlyContexts\Dictionary\FacadableInterface;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Knp\FriendlyContexts\Tool\TextFormater;
 
@@ -52,13 +51,13 @@ class Container
         return $this->container->get($name, null);
     }
 
-    public function set($name, $value)
+    public function set($name, $object)
     {
-        if ($this->isContainable($value)) {
-            $value->setContainer($this);
+        if ($this->isContainable($object)) {
+            $object->setContainer($this);
         }
 
-        $this->container->set($name, $value);
+        $this->container->set($name, $object);
 
         return $this;
     }

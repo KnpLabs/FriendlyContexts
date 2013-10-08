@@ -4,15 +4,8 @@ namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Knp\FriendlyContexts\Doctrine\EntityResolver;
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Record\Record;
-use Knp\FriendlyContexts\FacadeProvider;
 
 class EntityContext extends BehatContext
 {
@@ -29,7 +22,7 @@ class EntityContext extends BehatContext
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
-            $record = $this
+            $this
                 ->get('friendly.context.record.bag')
                 ->getCollection($entityName)
                 ->attach($entity, $values)

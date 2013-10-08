@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Guesser\DatetimeGuesser;
 

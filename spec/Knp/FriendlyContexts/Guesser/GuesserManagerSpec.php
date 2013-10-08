@@ -4,6 +4,7 @@ namespace spec\Knp\FriendlyContexts\Guesser;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Knp\FriendlyContexts\Guesser\GuesserInterface;
 
 class GuesserManagerSpec extends ObjectBehavior
 {
@@ -11,7 +12,7 @@ class GuesserManagerSpec extends ObjectBehavior
     /**
      * @param Knp\FriendlyContexts\Guesser\GuesserInterface $guesser
      **/
-    function let($guesser)
+    function let(GuesserInterface $guesser)
     {
         $guesser->supports(Argument::any())->willReturn(false);
         $guesser->setManager($this)->willReturn(null);
@@ -54,7 +55,7 @@ class GuesserManagerSpec extends ObjectBehavior
         $this->find($mapping)->shouldReturn(false);
     }
 
-    function it_should_add_and_return_a_new_guesser($guesser)
+    function it_should_add_and_return_a_new_guesser(GuesserInterface $guesser)
     {
         $mapping = [
             'fieldName'  => "active",

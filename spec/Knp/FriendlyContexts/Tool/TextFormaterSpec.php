@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Tool;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class TextFormaterSpec extends ObjectBehavior
 {

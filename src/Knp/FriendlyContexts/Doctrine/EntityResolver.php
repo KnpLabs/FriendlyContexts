@@ -4,7 +4,6 @@ namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Dictionary\Containable;
 
 class EntityResolver

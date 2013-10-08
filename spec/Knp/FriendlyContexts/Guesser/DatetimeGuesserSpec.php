@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Guesser;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class DatetimeGuesserSpec extends ObjectBehavior
 {
