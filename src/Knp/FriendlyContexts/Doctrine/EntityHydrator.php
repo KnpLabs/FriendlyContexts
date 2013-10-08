@@ -23,7 +23,7 @@ class EntityHydrator
             $result = [];;
 
             if ($collectionRelation || $arrayRelation) {
-                $value = $this->get('text.formater')->listToArray($value);
+                $value = $this->get('friendly.context.text.formater')->listToArray($value);
 
                 foreach ($value as $single) {
                     $result[] = $this->format($mapping, $single);

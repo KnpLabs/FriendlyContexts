@@ -2,13 +2,15 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
+use Knp\FriendlyContexts\Container;
+
 trait Contextable
 {
 
     /**
-     * @BeforeSuite
-     **/
-    protected function loadContainer()
+     * @BeforeScenario
+     */
+    public function loadContainer()
     {
         if (null !== $this->getContainer()->has('friendly.context.container')) {
             $container = new Container($this->getContainer(), $this->options);

@@ -8,7 +8,7 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
     {
         if (array_key_exists('targetEntity', $mapping)) {
 
-            return $this->getBag()->get($mapping['targetEntity'])->count() > 0;
+            return $this->getBag()->getCollection($mapping['targetEntity'])->count() > 0;
         }
 
         return false;
@@ -16,7 +16,7 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
 
     public function transform($str, $mapping)
     {
-        if (null !== $record = $this->getBag()->get($mapping['targetEntity'])->search($str)) {
+        if (null !== $record = $this->getBag()->getCollection($mapping['targetEntity'])->search($str)) {
 
             return $record->getEntity();
         }
@@ -31,6 +31,6 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
 
     protected function getBag()
     {
-        return $this->getManager()->getDeps('record.bag');
+        return $this->getManager()->getContainer()->get('friendly.context.record.bag');
     }
 }

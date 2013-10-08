@@ -69,6 +69,6 @@ class Container
 
         $traits = $rfl->getTraitNames();
 
-        return in_array('Knp\\FriendlyContext\\Dictionary\\Containable', $traits);
+        return in_array('Knp\FriendlyContexts\Dictionary\Containable', $traits);
     }
 }

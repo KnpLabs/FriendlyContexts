@@ -8,7 +8,7 @@ trait Containable
 {
     protected $container;
 
-    protected function getContainer()
+    public function getContainer()
     {
         return $this->container;
     }
@@ -27,7 +27,7 @@ trait Containable
 
     protected function get($name)
     {
-        if ($this->container->has($name)) {
+        if ($this->has($name)) {
             return $this->container->get($name);
         } else {
             throw new \Exception(sprintf('Service witn name "%s" un found', $name));
