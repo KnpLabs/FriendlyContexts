@@ -51,20 +51,20 @@ class Container
         return $this->container->get($name, null);
     }
 
-    public function set($name, $object)
+    public function set($name, $service)
     {
-        if ($this->isContainable($object)) {
-            $object->setContainer($this);
+        if ($this->isContainable($service)) {
+            $service->setContainer($this);
         }
 
-        $this->container->set($name, $object);
+        $this->container->set($name, $service);
 
         return $this;
     }
 
-    public static function isContainable($object)
+    public static function isContainable($service)
     {
-        $rfl = new \ReflectionClass($object);
+        $rfl = new \ReflectionClass($service);
 
         $traits = $rfl->getTraitNames();
 
