@@ -49,6 +49,21 @@ class Container extends BaseContainer
         return $this;
     }
 
+    public function get($name, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
+    {
+        if ($this->has($name)) {
+
+            return $this->get($name);
+        }
+
+        if ($this->container->has($name)) {
+
+            return $this->container->get($name);
+        }
+
+        throw new ServiceNotFoundException($name);
+    }
+
     public static function isContainable($service)
     {
         $rfl = new \ReflectionClass($service);
