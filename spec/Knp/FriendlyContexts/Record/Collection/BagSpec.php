@@ -5,6 +5,7 @@ namespace spec\Knp\FriendlyContexts\Record\Collection;
 use PhpSpec\ObjectBehavior;
 
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Container;
 
 class BagSpec extends ObjectBehavior
 {
@@ -13,8 +14,9 @@ class BagSpec extends ObjectBehavior
      * @param StdClass $rightObject
      * @param StdClass $wrongObject
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
+     * @param Knp\FriendlyContexts\Container $container;
      **/
-    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector)
+    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector, Container $container)
     {
         $reflector->getClassName($rightObject)->willReturn('TheClass');
         $reflector->getClassNamespace($rightObject)->willReturn('The\\Name\\Space');
@@ -27,8 +29,10 @@ class BagSpec extends ObjectBehavior
         $reflector->getClassLongName($wrongObject)->willReturn('The\\Other\\Name\\Space\\TheOtherClass');
         $reflector->isInstanceOf($wrongObject, 'The\\Name\\Space\\TheClass')->willReturn(false);
         $reflector->isInstanceOf($wrongObject, 'The\\Other\\Name\\Space\\TheOtherClass')->willReturn(true);
+        $container->has('friendly.context.object.reflector')->willReturn(true);
+        $container->get('friendly.context.object.reflector')->willReturn($reflector);
 
-        $this->beConstructedWith($reflector);
+        $this->setContainer($container);
     }
 
     function it_is_initializable()
@@ -38,21 +42,21 @@ class BagSpec extends ObjectBehavior
 
     function it_should_create_empty_collection(\StdClass $rightObject)
     {
-        $this->get($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
+        $this->getCollection($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
         $this->count()->shouldReturn(1);
     }
 
     function it_should_return_the_same_collection_for_the_same_object_type(\StdClass $rightObject)
     {
-        $this->get($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
-        $this->get($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
+        $this->getCollection($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
+        $this->getCollection($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
         $this->count()->shouldReturn(1);
     }
 
     function it_should_create_two_collections_for_tow_differents_object_types(\StdClass $rightObject, \StdClass $wrongObject)
     {
-        $this->get($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
-        $this->get($wrongObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
+        $this->getCollection($rightObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
+        $this->getCollection($wrongObject)->shouldHaveType('Knp\FriendlyContexts\Record\Collection');
         $this->count()->shouldReturn(2);
     }
 }

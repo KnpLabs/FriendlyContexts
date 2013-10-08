@@ -3,32 +3,24 @@
 namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Doctrine\Common\Inflector\Inflector;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Dictionary\Containable;
 
 class EntityResolver
 {
-    protected $entityManager;
-    protected $reflector;
+    use Containable;
 
-    public function __construct(ObjectManager $entityManager, ObjectReflector $reflector = null)
-    {
-        $this->entityManager = $entityManager;
-        $this->reflector     = null !== $reflector ? $reflector : new ObjectReflector();
-    }
-
-    public function resolve($name, $namespaces)
+    public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
         if (is_string($namespaces)) {
             $namespaces = [$namespaces];
         }
 
         $allClass = $this
-            ->reflector
+            ->get('friendly.context.object.reflector')
             ->getReflectionsFromMetadata(
-                $this
-                    ->entityManager
+                $entityManager
                     ->getMetadataFactory()
                     ->getAllMetadata()
         );
@@ -64,6 +56,48 @@ class EntityResolver
         return $results;
     }
 
+    public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
+    {
+        $metadata     = $this->getMetadataFromObject($entityManager, $entity);
+        $fields       = $metadata->fieldMappings;
+        $associations = $metadata->associationMappings;
+
+        foreach ($fields as $id => $map) {
+            switch (strtolower($id)) {
+                case strtolower($property):
+                case $this->getFormater()->toCamelCase(strtolower($property)):
+                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        foreach ($associations as $id => $map) {
+            switch (strtolower($id)) {
+                case strtolower($property):
+                case $this->getFormater()->toCamelCase(strtolower($property)):
+                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        throw new \RuntimeException(
+            sprintf(
+                'Can\'t find property %s or %s in class %s',
+                $this->getFormater()->toCamelCase(strtolower($property)),
+                $this->getFormater()->toUnderscoreCase(strtolower($property)),
+                get_class($entity())
+            )
+        );
+    }
+
+    public function getMetadataFromObject(ObjectManager $entityManager, $object)
+    {
+        return $entityManager
+            ->getMetadataFactory()
+            ->getMetadataFor(get_class($object)
+        );
+    }
+
     public function entityNameProposal($name)
     {
         $name = strtolower(str_replace(" ", "", $name));
@@ -73,12 +107,9 @@ class EntityResolver
         return array_unique($results);
     }
 
-    public function getMetadataFromObject($object)
+    protected function getFormater()
     {
-        return $this
-            ->entityManager
-            ->getMetadataFactory()
-            ->getMetadataFor(get_class($object)
-        );
+        return $this->get('friendly.context.text.formater');
     }
+
 }
