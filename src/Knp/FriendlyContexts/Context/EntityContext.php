@@ -21,8 +21,6 @@ class EntityContext extends BehatContext
      */
     public function theFollowing($name, TableNode $table)
     {
-        $this->loadContainer();
-
         $entityName = $this->resolveEntity($name)->getName();
 
         $rows = $table->getRows();
@@ -52,7 +50,6 @@ class EntityContext extends BehatContext
      */
     public function entitiesShouldBeCreated($expected, $entity)
     {
-        $this->loadContainer();
         $expected = (int) $expected;
 
         $entityName = $this->resolveEntity($entity)->getName();
@@ -75,7 +72,6 @@ class EntityContext extends BehatContext
      */
     public function entitiesShouldBeDeleted($expected, $entity)
     {
-        $this->loadContainer();
         $expected = (int) $expected;
 
         $entityName = $this->resolveEntity($entity)->getName();

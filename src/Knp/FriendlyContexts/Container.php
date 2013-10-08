@@ -15,7 +15,6 @@ class Container
 {
 
     protected $options = [];
-    protected $deps = [];
     protected $container;
 
     public function __construct(ContainerInterface $container, $options)

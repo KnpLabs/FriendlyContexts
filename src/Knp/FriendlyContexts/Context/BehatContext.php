@@ -28,14 +28,6 @@ abstract class BehatContext extends BaseBehatContext implements KernelAwareInter
         );
     }
 
-    protected function loadContainer()
-    {
-        if (null !== $this->getContainer()->has('friendly.context.container')) {
-            $container = new Container($this->getContainer(), $this->options);
-            $this->getContainer()->set('friendly.context.container', $container);
-        }
-    }
-
     protected function getDefaultOptions()
     {
         return [ ];
