@@ -9,7 +9,7 @@ class Asserter
         $this->assertEquals(
             $expected,
             $real,
-            "The given array\r\n\r\n" . $this->dump($real) . "\r\nis not equals to expected\r\n\r\n" . $this->dump($expected)
+            "The given array\r\n\r\n" . $this->explode($real) . "\r\nis not equals to expected\r\n\r\n" . $this->explode($expected)
         );
     }
 
@@ -22,7 +22,7 @@ class Asserter
         throw new \Exception($message, 1);
     }
 
-    protected function dump($value)
+    protected function explode($value)
     {
         if (!is_array($value)) {
             return (string) $value;;
