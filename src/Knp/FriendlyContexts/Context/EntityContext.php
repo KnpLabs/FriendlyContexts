@@ -56,11 +56,14 @@ class EntityContext extends BehatContext
         $real =(count($entities) - $collection->count());
         $real = $real > 0 ? $real : 0;
 
-        $this->assertEquals(
-            $real,
-            $expected,
-            sprintf('%s %s should be created, %s in reality', $expected, $entity, $real)
-        );
+        $this
+            ->getAsserter()
+            ->assertEquals(
+                $real,
+                $expected,
+                sprintf('%s %s should be created, %s in reality', $expected, $entity, $real)
+            )
+        ;
     }
 
     /**
@@ -81,11 +84,14 @@ class EntityContext extends BehatContext
         $real = ($collection->count() - count($entities));
         $real = $real > 0 ? $real : 0;
 
-        $this->assertEquals(
-            $real,
-            $expected,
-            sprintf('%s %s should be deleted, %s in reality', $expected, $entity, $real)
-        );
+        $this
+            ->getAsserter()
+            ->assertEquals(
+                $real,
+                $expected,
+                sprintf('%s %s should be deleted, %s in reality', $expected, $entity, $real)
+            )
+        ;
     }
 
     /**

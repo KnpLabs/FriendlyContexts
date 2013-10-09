@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Dictionary;
 use Knp\FriendlyContexts\Doctrine\EntityHydrator;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Tool\Asserter;
 use Knp\FriendlyContexts\Tool\TextFormater;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
@@ -31,6 +32,11 @@ trait Containable
     protected function getTextFormater()
     {
         return $this->getOrRegister('friendly.context.text.formater', function() { return new TextFormater; });
+    }
+
+    protected function getAsserter()
+    {
+        return $this->getOrRegister('friendly.context.asserter', function() { return new Asserter; });
     }
 
     protected function getGuesserManager()
