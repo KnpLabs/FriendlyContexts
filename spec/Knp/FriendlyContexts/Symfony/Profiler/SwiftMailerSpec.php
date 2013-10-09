@@ -36,7 +36,7 @@ class SwiftMailerSpec extends ObjectBehavior
             [ 'token' => 'ABCDEF' ],
         ];
 
-        $profiler->find('', '', 100, '')->willReturn($tokens);
+        $profiler->find('', '', 100, '', null, null)->willReturn($tokens);
 
         $profiler->loadProfile('AZERTY')->willReturn($profile1);
         $profile1->getCollector('swiftmailer')->willReturn($swiftmailer1);
@@ -83,7 +83,7 @@ class SwiftMailerSpec extends ObjectBehavior
             [ 'token' => 'ZYXWVU' ],
         ];
 
-        $profiler->find('', '', 100, '')->willReturn($tokens);
+        $profiler->find('', '', 100, '', null, null)->willReturn($tokens);
 
         $this->getMessages()->shouldReturn([$message4]);
     }
