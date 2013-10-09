@@ -19,7 +19,7 @@ class Collector
     {
         $tokens = array_map(
             function ($e) { return $e['token']; },
-            $this->profiler->find('', '', 100, '')
+            $this->profiler->find('', '', 100, '', null, null)
         );
 
         $tokens = array_diff($tokens, $this->tokens);
