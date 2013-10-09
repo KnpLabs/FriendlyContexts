@@ -22,7 +22,7 @@ class CollectorSpec extends ObjectBehavior
             [ 'token' => 'ABCDEF' ],
         ];
 
-        $profiler->find('', '', 100, '')->willReturn($tokens);
+        $profiler->find('', '', 100, '', null, null)->willReturn($tokens);
     }
 
     function it_is_initializable()
@@ -54,7 +54,7 @@ class CollectorSpec extends ObjectBehavior
             [ 'token' => 'ABCDEF' ],
             [ 'token' => 'ZYXWVU' ],
         ];
-        $profiler->find('', '', 100, '')->willReturn($tokens);
+        $profiler->find('', '', 100, '', null, null)->willReturn($tokens);
 
         $this->getWatchableTokens()->shouldReturn(['ZYXWVU']);
     }
@@ -68,7 +68,7 @@ class CollectorSpec extends ObjectBehavior
             [ 'token' => 'ABCDEF' ],
             [ 'token' => 'ZYXWVU' ],
         ];
-        $profiler->find('', '', 100, '')->willReturn($tokens);
+        $profiler->find('', '', 100, '', null, null)->willReturn($tokens);
 
         $this->getWatchableTokens()->shouldReturn(['ZYXWVU']);
     }
