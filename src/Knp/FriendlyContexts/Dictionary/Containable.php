@@ -2,42 +2,69 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Knp\FriendlyContexts\Container;
+use Knp\FriendlyContexts\Doctrine\EntityHydrator;
+use Knp\FriendlyContexts\Doctrine\EntityResolver;
+use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Tool\TextFormater;
+use Knp\FriendlyContexts\Guesser\GuesserManager;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
 
 trait Containable
 {
-    protected $container;
+    use Symfony;
 
-    public function getContainer()
+    protected function getRecordBag()
     {
-        return $this->container;
+        return $this->getOrRegister('friendly.context.record.bag', function() { return new Bag; });
     }
 
-    public function setContainer(Container $container)
+    protected function getEntityHydrator()
     {
-        $this->container = $container;
-
-        return $this;
+        return $this->getOrRegister('friendly.context.entity.hydrator', function() { return new EntityHydrator; });
     }
 
-    protected function has($name)
+    protected function getEntityResolver()
     {
-        return $this->container->has($name);
+        return $this->getOrRegister('friendly.context.entity.resolver', function() { return new EntityResolver; });
     }
 
-    protected function get($name)
+    protected function getTextFormater()
     {
-        if ($this->has($name)) {
-            return $this->container->get($name);
-        } else {
-            throw new \Exception(sprintf('Service witn name "%s" un found', $name));
+        return $this->getOrRegister('friendly.context.text.formater', function() { return new TextFormater; });
+    }
+
+    protected function getGuesserManager()
+    {
+        return $this->getOrRegister('friendly.context.guesser.manager', function() { return new GuesserManager; });
+    }
+
+    protected function getObjectReflector()
+    {
+        return $this->getOrRegister('friendly.context.object.reflector', function() { return new ObjectReflector; });
+    }
+
+    protected function getOrRegister($name, $callback = null)
+    {
+        if ($this->getContainer()->has($name)) {
+            return $this->getContainer()->get($name);
+        }
+
+        if (null !== $callback) {
+            $service = $callback();
+            $this->getContainer()->set($name, $service);
+            if ($this->isContainable($service)) {
+                $service->setKernel($this->getKernel());
+            }
+            return $service;
         }
     }
 
-    protected function set($name, $value)
+    protected function isContainable($service)
     {
-        $this->container->set($name, $value);
+        $rfl = new \ReflectionClass($service);
 
-        return $this;
+        $traits = $rfl->getTraitNames();
+
+        return in_array('Knp\FriendlyContexts\Dictionary\Containable', $traits);
     }
 }

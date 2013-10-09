@@ -8,12 +8,11 @@ use Prophecy\Argument;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Container;
 
 class EntityResolverSpec extends ObjectBehavior
 {
     /**
-     * @param Knp\FriendlyContexts\Container $container
+     * @param ContainerInterface $container
      * @param Doctrine\Common\Persistence\ObjectManager $em
      * @param Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $factory
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector

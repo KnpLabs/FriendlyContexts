@@ -5,10 +5,10 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Knp\FriendlyContexts\Record\Record;
 
 class EntityContext extends BehatContext
 {
+
     /**
      * @Given /^the following (.*)$/
      */
@@ -23,12 +23,12 @@ class EntityContext extends BehatContext
             $values = array_combine($headers, $row);
             $entity = new $entityName;
             $this
-                ->get('friendly.context.record.bag')
+                ->getRecordBag()
                 ->getCollection($entityName)
                 ->attach($entity, $values)
             ;
             $this
-                ->get('friendly.context.entity.hydrator')
+                ->getEntityHydrator()
                 ->hydrate($this->getEntityManager(), $entity, $values)
             ;
 
@@ -46,7 +46,10 @@ class EntityContext extends BehatContext
         $expected = (int) $expected;
 
         $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this->get('friendly.context.record.bag')->getCollection($entityName);
+        $collection = $this
+            ->getRecordBag()
+            ->getCollection($entityName)
+        ;
 
         $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
 
@@ -69,7 +72,7 @@ class EntityContext extends BehatContext
 
         $entityName = $this->resolveEntity($entity)->getName();
         $collection = $this
-            ->get('friendly.context.record.bag')
+            ->getRecordBag()
             ->getCollection($entityName)
         ;
 
@@ -116,7 +119,7 @@ class EntityContext extends BehatContext
     protected function resolveEntity($name)
     {
         $entities = $this
-            ->get('friendly.context.entity.resolver')
+            ->getEntityResolver()
             ->resolve($this->getEntityManager(), $name, $this->options['Entities'])
         ;
 
@@ -145,43 +148,6 @@ class EntityContext extends BehatContext
                 break;
         }
         return current($entities);
-    }
-
-    protected function resolveProperty(Record $record, $property, $value)
-    {
-        $metadata = $this
-            ->get('friendly.context.entity.resolver')
-            ->getMetadataFromObject($this->getEntityManager(), $record->getEntity())
-        ;
-        $fields = $metadata->fieldMappings;
-        $associations = $metadata->associationMappings;
-
-        foreach ($fields as $id => $map) {
-            switch (strtolower($id)) {
-                case strtolower($property):
-                case $this->toCamelCase(strtolower($property)):
-                case $this->toUnderscoreCase(strtolower($property)):
-                    return $map;
-            }
-        }
-
-        foreach ($associations as $id => $map) {
-            switch (strtolower($id)) {
-                case strtolower($property):
-                case $this->toCamelCase(strtolower($property)):
-                case $this->toUnderscoreCase(strtolower($property)):
-                    return $map;
-            }
-        }
-
-        throw new \RuntimeException(
-            sprintf(
-                'Can\'t find property %s or %s in class %s',
-                $this->toCamelCase(strtolower($property)),
-                $this->toUnderscoreCase(strtolower($property)),
-                get_class($record->getEntity())
-            )
-        );
     }
 
     protected function getMetadata(EntityManager $entityManager)
