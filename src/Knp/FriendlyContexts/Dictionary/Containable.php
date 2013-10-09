@@ -45,9 +45,6 @@ trait Containable
 
     protected function getOrRegister($name, $callback = null)
     {
-        if (null === $this->getKernel()) {
-            die(var_dump(get_class($this)));
-        }
         if ($this->getContainer()->has($name)) {
             return $this->getContainer()->get($name);
         }

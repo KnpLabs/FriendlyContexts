@@ -4,18 +4,26 @@ namespace spec\Knp\FriendlyContexts\Guesser;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Guesser\GuesserInterface;
 
 class GuesserManagerSpec extends ObjectBehavior
 {
 
     /**
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Knp\FriendlyContexts\Guesser\GuesserInterface $guesser
      **/
-    function let(GuesserInterface $guesser)
+    function let(KernelInterface $kernel, ContainerInterface $container, GuesserInterface $guesser)
     {
+
         $guesser->supports(Argument::any())->willReturn(false);
         $guesser->setManager($this)->willReturn(null);
+
+        $kernel->getContainer()->willReturn($container);
+        $this->setKernel($kernel);
     }
 
     function it_is_initializable()
@@ -40,6 +48,7 @@ class GuesserManagerSpec extends ObjectBehavior
     }
 
     function it_should_return_false_when_no_guesser_supports_the_mapping()
+
     {
         $mapping = [
             'fieldName'  => "active",
