@@ -3,7 +3,6 @@
 namespace spec\Knp\FriendlyContexts\Context;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class SwiftMailerContextSpec extends ObjectBehavior
 {

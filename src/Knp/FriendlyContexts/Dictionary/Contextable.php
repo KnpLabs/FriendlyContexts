@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Knp\FriendlyContexts\Container;
-
 trait Contextable
 {
     use Containable;
