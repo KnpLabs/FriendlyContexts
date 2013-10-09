@@ -27,15 +27,14 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Record\Collection $collection
      * @param \ReflectionClass $reflectionClass
      **/
-    function let(KernelInterface $kernel, ContainerInterface $containerInterface, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, EntityResolver $resolver, Bag $bag, Collection $collection, \ReflectionClass $reflectionClass)
+    function let(KernelInterface $kernel, ContainerInterface $container, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, EntityResolver $resolver, Bag $bag, Collection $collection, \ReflectionClass $reflectionClass)
     {
-        $kernel->getContainer()->willReturn($containerInterface);
-        $containerInterface->set(Argument::any(), Argument::any())->willReturn(true);
-        $containerInterface->has('friendly.context.container')->willReturn(true);
-        $containerInterface->get('doctrine')->willReturn($doctrine);
-        $containerInterface->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $containerInterface->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $containerInterface->get('friendly.context.record.bag')->willReturn($bag);
+        $container->set(Argument::any(), Argument::any())->willReturn(true);
+        $container->has(Argument::any())->willReturn(true);
+        $container->get('doctrine')->willReturn($doctrine);
+        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
+        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
+        $container->get('friendly.context.record.bag')->willReturn($bag);
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->findAll()->willReturn(['', '']);
@@ -43,6 +42,8 @@ class EntityContextSpec extends ObjectBehavior
         $bag->getCollection(Argument::any())->willReturn($collection);
 
         $this->beConstructedWith([]);
+
+        $kernel->getContainer()->willReturn($container);
         $this->setKernel($kernel);
     }
 

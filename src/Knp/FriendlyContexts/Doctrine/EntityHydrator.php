@@ -15,14 +15,14 @@ class EntityHydrator
     public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->get('friendly.context.entity.resolver')->getMetadataFromProperty($em, $entity, $property);
+            $mapping = $this->getEntityResolver()->getMetadataFromProperty($em, $entity, $property);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
 
             $result = [];;
 
             if ($collectionRelation || $arrayRelation) {
-                $value = $this->get('friendly.context.text.formater')->listToArray($value);
+                $value = $this->getTextFormater()->listToArray($value);
 
                 foreach ($value as $single) {
                     $result[] = $this->format($mapping, $single);
@@ -47,7 +47,7 @@ class EntityHydrator
 
     protected function format($mapping, $value)
     {
-        if (false === $guesser = $this->get('friendly.context.guesser.manager')->find($mapping)) {
+        if (false === $guesser = $this->getGuesserManager()->find($mapping)) {
             return $value;
         }
 

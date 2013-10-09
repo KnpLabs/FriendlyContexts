@@ -7,13 +7,15 @@ use Prophecy\Argument;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Container;
 
 class EntityResolverSpec extends ObjectBehavior
 {
     /**
-     * @param Knp\FriendlyContexts\Container $container
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Doctrine\Common\Persistence\ObjectManager $em
      * @param Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $factory
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
@@ -22,9 +24,8 @@ class EntityResolverSpec extends ObjectBehavior
      * @param ReflectionClass $class3
      * @param ReflectionClass $class4
      **/
-    function let(Container $container, ObjectManager $em, ClassMetadataFactory $factory, ObjectReflector $reflector, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
+    function let(KernelInterface $kernel, ContainerInterface $container, ObjectManager $em, ClassMetadataFactory $factory, ObjectReflector $reflector, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
     {
-
         $class1->getShortName()->willReturn('User');
         $class1->getNamespaceName()->willReturn('N1/Namespace');
         $class2->getShortName()->willReturn('User');
@@ -40,7 +41,8 @@ class EntityResolverSpec extends ObjectBehavior
         $container->has('friendly.context.object.reflector')->willReturn(true);
         $container->get('friendly.context.object.reflector')->willReturn($reflector);
 
-        $this->setContainer($container);
+        $kernel->getContainer()->willReturn($container);
+        $this->setKernel($kernel);
     }
 
     function it_is_initializable()

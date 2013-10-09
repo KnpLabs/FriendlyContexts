@@ -3,20 +3,21 @@
 namespace spec\Knp\FriendlyContexts\Record\Collection;
 
 use PhpSpec\ObjectBehavior;
-
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
-use Knp\FriendlyContexts\Container;
 
 class BagSpec extends ObjectBehavior
 {
 
     /**
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param StdClass $rightObject
      * @param StdClass $wrongObject
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
-     * @param Knp\FriendlyContexts\Container $container;
      **/
-    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector, Container $container)
+    function let(KernelInterface $kernel, ContainerInterface $container, \StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector)
     {
         $reflector->getClassName($rightObject)->willReturn('TheClass');
         $reflector->getClassNamespace($rightObject)->willReturn('The\\Name\\Space');
@@ -32,7 +33,8 @@ class BagSpec extends ObjectBehavior
         $container->has('friendly.context.object.reflector')->willReturn(true);
         $container->get('friendly.context.object.reflector')->willReturn($reflector);
 
-        $this->setContainer($container);
+        $kernel->getContainer()->willReturn($container);
+        $this->setKernel($kernel);
     }
 
     function it_is_initializable()

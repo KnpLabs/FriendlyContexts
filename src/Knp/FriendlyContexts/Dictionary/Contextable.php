@@ -6,17 +6,7 @@ use Knp\FriendlyContexts\Container;
 
 trait Contextable
 {
-
-    /**
-     * @BeforeScenario
-     */
-    public function loadContainer()
-    {
-        if (null !== $this->getContainer()->has('friendly.context.container')) {
-            $container = new Container($this->getContainer(), $this->options);
-            $this->getContainer()->set('friendly.context.container', $container);
-        }
-    }
+    use Containable;
 
     protected function assertArrayEquals($expected, $real)
     {
