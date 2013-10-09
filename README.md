@@ -2,6 +2,7 @@ KnpLabs - FriendlyContexts
 ================
 
 [![Build Status](https://travis-ci.org/PedroTroller/FriendlyContexts.png)](https://travis-ci.org/PedroTroller/FriendlyContexts)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/PedroTroller/FriendlyContexts/badges/quality-score.png?s=4e404433129a95d3f7b8ce5ada1ecc2faa4c1d2f)](https://scrutinizer-ci.com/g/PedroTroller/FriendlyContexts/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/030bad5b-c724-457c-9fd3-da63c8416364/mini.png)](https://insight.sensiolabs.com/projects/030bad5b-c724-457c-9fd3-da63c8416364)
 
 **Doctrine entities generation context**
