@@ -17,7 +17,7 @@ class EntityResolver
         }
 
         $allClass = $this
-            ->get('friendly.context.object.reflector')
+            ->getObjectReflector()
             ->getReflectionsFromMetadata(
                 $entityManager
                     ->getMetadataFactory()
@@ -64,8 +64,8 @@ class EntityResolver
         foreach ($fields as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->getFormater()->toCamelCase(strtolower($property)):
-                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
+                case $this->getTextFormater()->toCamelCase(strtolower($property)):
+                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
                     return $map;
             }
         }
@@ -73,8 +73,8 @@ class EntityResolver
         foreach ($associations as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->getFormater()->toCamelCase(strtolower($property)):
-                case $this->getFormater()->toUnderscoreCase(strtolower($property)):
+                case $this->getTextFormater()->toCamelCase(strtolower($property)):
+                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
                     return $map;
             }
         }
@@ -82,8 +82,8 @@ class EntityResolver
         throw new \RuntimeException(
             sprintf(
                 'Can\'t find property %s or %s in class %s',
-                $this->getFormater()->toCamelCase(strtolower($property)),
-                $this->getFormater()->toUnderscoreCase(strtolower($property)),
+                $this->getTextFormater()->toCamelCase(strtolower($property)),
+                $this->getTextFormater()->toUnderscoreCase(strtolower($property)),
                 get_class($entity())
             )
         );
@@ -105,10 +105,4 @@ class EntityResolver
 
         return array_unique($results);
     }
-
-    protected function getFormater()
-    {
-        return $this->get('friendly.context.text.formater');
-    }
-
 }

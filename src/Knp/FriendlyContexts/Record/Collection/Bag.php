@@ -19,7 +19,7 @@ class Bag
             }
         }
 
-        $new = new Collection($this->get('friendly.context.object.reflector'));
+        $new = new Collection($this->getObjectReflector());
         $new->support($entity);
 
         return $this->collections[] = $new;;
