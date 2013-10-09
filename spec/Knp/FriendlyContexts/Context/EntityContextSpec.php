@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityRepository;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Record\Collection\Bag;
 use Knp\FriendlyContexts\Record\Collection;
+use Knp\FriendlyContexts\Tool\Asserter;
 
 class EntityContextSpec extends ObjectBehavior
 {
@@ -35,6 +36,7 @@ class EntityContextSpec extends ObjectBehavior
         $container->get('friendly.context.entity.resolver')->willReturn($resolver);
         $container->get('friendly.context.entity.resolver')->willReturn($resolver);
         $container->get('friendly.context.record.bag')->willReturn($bag);
+        $container->get('friendly.context.asserter')->willReturn(new Asserter);
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->findAll()->willReturn(['', '']);

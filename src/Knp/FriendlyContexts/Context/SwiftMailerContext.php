@@ -37,11 +37,14 @@ class SwiftMailerContext extends RawMinkContext
 
         $this->profiler->flush();
 
-        $this->assertEquals(
-            (int) $expected,
-            (int) $real,
-            sprintf('fail to assert %s mail(s) sent, %s sent in reality.', $expected, $real)
-        );
+        $this
+            ->getAsserter()
+            ->assertEquals(
+                (int) $expected,
+                (int) $real,
+                sprintf('fail to assert %s mail(s) sent, %s sent in reality.', $expected, $real)
+            )
+        ;
     }
 
     /**
