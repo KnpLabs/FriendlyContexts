@@ -13,7 +13,6 @@ abstract class RawMinkContext extends BaseRawMinkContext implements KernelAwareI
 {
     use Backgroundable,
         Contextable,
-        Symfony,
         Taggable;
 
     protected $options = [];

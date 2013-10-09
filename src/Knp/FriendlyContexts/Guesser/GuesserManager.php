@@ -11,7 +11,6 @@ class GuesserManager
 
     protected $classes = [];
     protected $guessers = [];
-    protected $loaded = false;
 
     public function __construct()
     {
@@ -42,8 +41,10 @@ class GuesserManager
     public function find($mapping)
     {
         foreach ($this->guessers as $g) {
+            if ($this->isContainable($g)) {
+                $this->getOrRegister('friendly.context.guesser.' . $g->getName(), function () use ($g) { return $g; });
+            }
             if ($g->supports($mapping)) {
-
                 return $g;
             }
         }
@@ -53,7 +54,6 @@ class GuesserManager
 
     public function load()
     {
-        $this->load = true;
         $this->guessers = [];
 
         foreach ($this->classes as $c){
