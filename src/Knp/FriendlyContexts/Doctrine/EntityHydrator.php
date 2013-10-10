@@ -22,15 +22,14 @@ class EntityHydrator
             $result = [];;
 
             if ($collectionRelation || $arrayRelation) {
-                $value = $this->getTextFormater()->listToArray($value);
+                $result = array_map(
+                    function($e) {
+                        return $this->format($mapping, $e);
+                    },
+                    $this->getTextFormater()->listToArray($value)
+                );
 
-                foreach ($value as $single) {
-                    $result[] = $this->format($mapping, $single);
-                }
-
-                if ($collectionRelation) {
-                    $result = new ArrayCollection($result);
-                }
+                $result = $collectionRelation ? new ArrayCollection($result) : $result;
             } else {
                 $result = $this->format($mapping, $value);
             }
