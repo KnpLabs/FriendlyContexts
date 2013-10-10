@@ -19,7 +19,7 @@ class EntityHydrator
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
 
-            $result = [];;
+            $result = null;
 
             if ($collectionRelation || $arrayRelation) {
                 $result = array_map(
