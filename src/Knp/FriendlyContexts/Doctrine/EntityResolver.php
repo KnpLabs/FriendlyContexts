@@ -58,25 +58,15 @@ class EntityResolver
     public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
     {
         $metadata     = $this->getMetadataFromObject($entityManager, $entity);
-        $fields       = $metadata->fieldMappings;
-        $associations = $metadata->associationMappings;
 
-        foreach ($fields as $id => $map) {
-            switch (strtolower($id)) {
-                case strtolower($property):
-                case $this->getTextFormater()->toCamelCase(strtolower($property)):
-                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
-                    return $map;
-            }
+        if (null !== $map = $this->getMappingFromMetadata($metadata->fieldMappings, $property)) {
+
+            return $map;
         }
 
-        foreach ($associations as $id => $map) {
-            switch (strtolower($id)) {
-                case strtolower($property):
-                case $this->getTextFormater()->toCamelCase(strtolower($property)):
-                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
-                    return $map;
-            }
+        if (null !== $map = $this->getMappingFromMetadata($metadata->associationMappings, $property)) {
+
+            return $map;
         }
 
         throw new \RuntimeException(
@@ -105,4 +95,19 @@ class EntityResolver
 
         return array_unique($results);
     }
+
+    protected function getMappingFromMetadata($metadata, $property)
+    {
+        foreach ($metadata as $id => $map) {
+            switch (strtolower($id)) {
+                case strtolower($property):
+                case $this->getTextFormater()->toCamelCase(strtolower($property)):
+                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
+                    return $map;
+            }
+        }
+
+        return null;
+    }
+
 }
