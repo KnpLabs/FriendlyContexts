@@ -41,4 +41,12 @@ class TextFormater
         return $parts;
     }
 
+    public function addSpaceAfter($str, $limit = 0)
+    {
+        while (strlen($str) < $limit) {
+            $str = $str." ";
+        }
+
+        return $str;
+    }
 }
