@@ -13,31 +13,35 @@ class EntityResolver
     public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
         $results = [];
-        if (is_array($namespaces)) {
-            foreach ($namespaces as $namespace) {
-                $results = array_merge($results, $this->resolve($entityManager, $name, $namespace) ?: []);
-            }
-        } else {
-            $namespace = $namespaces;
-            $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
-            $allClass = $this->getObjectReflector()->getReflectionsFromMetadata($allMetadata);
 
-            foreach ($this->entityNameProposal($name) as $name) {
-                $class = array_filter(
-                    $allClass,
-                    function ($e) use ($namespace, $name) {
-                        $nameValid = strtolower($e->getShortName()) === strtolower($name);
-                        return '' === $namespace
-                            ? $nameValid
-                            : $namespace === substr($e->getNamespaceName(), 0, strlen($namespace)) && $nameValid
-                        ;
-                    }
-                );
-                $results = array_merge($results, $class);
-            }
+        $namespaces = is_array($namespaces) ? $namespaces : [ $namespaces ];
+
+        foreach ($namespaces as $namespace) {
+            $results = $this->getClassesFromName($entityManager, $name, $namespace, $results);
         }
 
         return (0 < count($results)) ? $results : null;
+    }
+
+    protected function getClassesFromName(ObjectManager $entityManager, $name, $namespace, array $results = [])
+    {
+        $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
+        $allClass = $this->getObjectReflector()->getReflectionsFromMetadata($allMetadata);
+        foreach ($this->entityNameProposal($name) as $name) {
+            $class = array_filter(
+                $allClass,
+                function ($e) use ($namespace, $name) {
+                    $nameValid = strtolower($e->getShortName()) === strtolower($name);
+                    return '' === $namespace
+                        ? $nameValid
+                        : $namespace === substr($e->getNamespaceName(), 0, strlen($namespace)) && $nameValid
+                    ;
+                }
+            );
+            $results = array_merge($results, $class);
+        }
+
+        return $results;
     }
 
     public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
