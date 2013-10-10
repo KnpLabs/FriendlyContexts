@@ -6,17 +6,19 @@ class Asserter
 {
     public function assertArrayEquals($expected, $real)
     {
+        $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
+
         $this->assertEquals(
             $expected,
             $real,
-            "The given array\r\n\r\n" . $this->explode($real) . "\r\nis not equals to expected\r\n\r\n" . $this->explode($expected)
+            $message
         );
     }
 
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
         if ($expected === $real) {
-            return;
+            return true;
         }
 
         throw new \Exception($message, 1);
@@ -27,34 +29,46 @@ class Asserter
         if (!is_array($value)) {
             return (string) $value;;
         } else {
-            $maxsize = 0;
-            foreach ($value as $row) {
-                if (is_array($row)) {
-                    foreach ($row as $cell) {
-                        $maxsize = strlen((string)$cell) > $maxsize ? strlen((string)$cell) : $maxsize;
-                    }
-                } else {
-                    $maxsize = strlen((string)$row) > $maxsize ? strlen((string)$row) : $maxsize;
-                }
-            }
-            $result = "";
-            foreach ($value as $row) {
-                $result = $result."|";
-                if (is_array($row)) {
-                    foreach ($row as $cell) {
-                        $cell = (string)$cell;
-                        while(strlen($cell) < $maxsize) { $cell = $cell." "; }
-                        $result = $result." ".$cell." |";
-                    }
-                } else {
-                    $cell = (string)$row;
-                    while(strlen($cell) < $maxsize) { $cell = $cell." "; }
-                    $result = $result." ".$cell." |";
-                }
-                $result = $result."\r\n";
-            }
-
-            return $result;
+            return $this->buildStringFromArray($value);
         }
+    }
+
+    protected function getMaxElementSize(array $array = [])
+    {
+        $maxsize = 0;
+        foreach ($array as $row) {
+            if (is_array($row)) {
+                foreach ($row as $cell) {
+                    $maxsize = strlen((string)$cell) > $maxsize ? strlen((string)$cell) : $maxsize;
+                }
+            } else {
+                $maxsize = strlen((string)$row) > $maxsize ? strlen((string)$row) : $maxsize;
+            }
+        }
+
+        return $maxsize;
+    }
+
+    protected function buildStringFromArray(array $array = [])
+    {
+        $maxsize = $this->getMaxElementSize($array);
+        $result = "";
+        foreach ($array as $row) {
+            $result = $result."|";
+            if (is_array($row)) {
+                foreach ($row as $cell) {
+                    $cell = (string)$cell;
+                    while(strlen($cell) < $maxsize) { $cell = $cell." "; }
+                    $result = sprintf('%s %s |', $result, $this->explode($cell));
+                }
+            } else {
+                $cell = (string)$row;
+                while(strlen($cell) < $maxsize) { $cell = $cell." "; }
+                $result = sprintf('%s %s |', $result, $this->explode($cell));
+            }
+            $result = $result."\r\n";
+        }
+
+        return $result;
     }
 }
