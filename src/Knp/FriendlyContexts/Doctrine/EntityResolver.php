@@ -12,17 +12,10 @@ class EntityResolver
 
     public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
-        if (is_string($namespaces)) {
-            $namespaces = [$namespaces];
-        }
+        $namespaces = is_array($namespaces) ? $namespaces : [ $namespaces ];
 
-        $allClass = $this
-            ->getObjectReflector()
-            ->getReflectionsFromMetadata(
-                $entityManager
-                    ->getMetadataFactory()
-                    ->getAllMetadata()
-        );
+        $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
+        $allClass = $this->getObjectReflector()->getReflectionsFromMetadata($allMetadata);
 
         $names = $this->entityNameProposal($name);
 
@@ -40,11 +33,8 @@ class EntityResolver
                         ;
                     }
                 );
-                foreach ($class as $c) {
-                    if (!in_array($c, $results)) {
-                        $results[] = $c;
-                    }
-                }
+
+                $results = array_merge($results, $class);
             }
             if (0 < count($results)) {
 
