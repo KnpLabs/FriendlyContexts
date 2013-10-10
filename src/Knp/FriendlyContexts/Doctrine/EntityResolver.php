@@ -17,13 +17,13 @@ class EntityResolver
         $namespaces = is_array($namespaces) ? $namespaces : [ $namespaces ];
 
         foreach ($namespaces as $namespace) {
-            $this->getClassesFromName($entityManager, $name, $namespace, $results);
+            $results = $this->getClassesFromName($entityManager, $name, $namespace, $results);
         }
 
         return (0 < count($results)) ? $results : null;
     }
 
-    protected function getClassesFromName(ObjectManager $entityManager, $name, $namespace, array &$results = [])
+    protected function getClassesFromName(ObjectManager $entityManager, $name, $namespace, array $results = [])
     {
         $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
         $allClass = $this->getObjectReflector()->getReflectionsFromMetadata($allMetadata);
