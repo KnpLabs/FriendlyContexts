@@ -3,10 +3,21 @@
 namespace spec\Knp\FriendlyContexts\Tool;
 
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Tool\TextFormater;
 
 class AsserterSpec extends ObjectBehavior
 {
+    /**
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $containerInterface
+     **/
+    function let(KernelInterface $kernel, ContainerInterface $container)
+    {
+        $kernel->getContainer()->willReturn($container);
+        $this->setKernel($kernel);
+    }
     function it_is_initializable()
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Tool\Asserter');

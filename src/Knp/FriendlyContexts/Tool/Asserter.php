@@ -2,8 +2,12 @@
 
 namespace Knp\FriendlyContexts\Tool;
 
+use Knp\FriendlyContexts\Dictionary\Containable;
+
 class Asserter
 {
+    use Containable;
+
     public function assertArrayEquals($expected, $real)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
@@ -54,14 +58,18 @@ class Asserter
             $result = $result."|";
             if (is_array($row)) {
                 foreach ($row as $cell) {
-                    $cell = (string)$cell;
-                    while(strlen($cell) < $maxsize) { $cell = $cell." "; }
-                    $result = sprintf('%s %s |', $result, $this->explode($cell));
+                    $result = sprintf(
+                        '%s %s |',
+                        $result,
+                        $this->explode($this->getTextFormater()->addSpaceAfter((string) $cell, $maxsize))
+                    );
                 }
             } else {
-                $cell = (string)$row;
-                while(strlen($cell) < $maxsize) { $cell = $cell." "; }
-                $result = sprintf('%s %s |', $result, $this->explode($cell));
+                $result = sprintf(
+                    '%s %s |',
+                    $result,
+                    $this->explode($this->getTextFormater()->addSpaceAfter((string) $row, $maxsize))
+                );
             }
             $result = $result."\r\n";
         }
