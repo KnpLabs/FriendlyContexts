@@ -30,7 +30,7 @@ class EntityResolver
                         return '' === $namespace
                             ? $nameValid
                             : $namespace === substr($e->getNamespaceName(), 0, strlen($namespace)) && $nameValid
-                            ;
+                        ;
                     }
                 );
                 $results = array_merge($results, $class);
