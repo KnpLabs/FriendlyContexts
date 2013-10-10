@@ -25,7 +25,7 @@ class TextFormaterSpec extends ObjectBehavior
 
     function it_should_add_spaces_after_word()
     {
-        $this->addSpaceAfter('test', 5)->shouldReturn('test  ');
+        $this->addSpaceAfter('test', 6)->shouldReturn('test  ');
         $this->addSpaceAfter('test', 2)->shouldReturn('test');
         $this->addSpaceAfter('test', 4)->shouldReturn('test');
     }
