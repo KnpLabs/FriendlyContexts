@@ -4,7 +4,7 @@ namespace Knp\FriendlyContexts\Context;
 
 use Knp\FriendlyContexts\Symfony\Profiler\SwiftMailer;
 
-class SwiftMailerContext extends RawMinkContext
+class SwiftMailerContext extends Context
 {
     protected $profiler;
     protected $messages;

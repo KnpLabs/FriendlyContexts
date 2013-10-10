@@ -6,7 +6,7 @@ use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 
-class EntityContext extends BehatContext
+class EntityContext extends Context
 {
 
     /**

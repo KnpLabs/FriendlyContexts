@@ -33,14 +33,11 @@ class Asserter
         }
     }
 
-    protected function getMaxElementSize(array $array = [])
+    protected function getMaxElementSize(array $array = [], $maxsize = 0)
     {
-        $maxsize = 0;
         foreach ($array as $row) {
             if (is_array($row)) {
-                foreach ($row as $cell) {
-                    $maxsize = strlen((string)$cell) > $maxsize ? strlen((string)$cell) : $maxsize;
-                }
+                $maxsize = $this->getMaxElementSize($row, $maxsize);
             } else {
                 $maxsize = strlen((string)$row) > $maxsize ? strlen((string)$row) : $maxsize;
             }
