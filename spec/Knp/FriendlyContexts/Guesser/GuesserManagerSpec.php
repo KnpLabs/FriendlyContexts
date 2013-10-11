@@ -21,6 +21,7 @@ class GuesserManagerSpec extends ObjectBehavior
 
         $guesser->supports(Argument::any())->willReturn(false);
         $guesser->setManager($this)->willReturn(null);
+        $guesser->setFakers(Argument::any())->willReturn($guesser);
 
         $kernel->getContainer()->willReturn($container);
         $this->setKernel($kernel);
