@@ -61,6 +61,7 @@ trait Containable
             if ($this->isContainable($service)) {
                 $service->setKernel($this->getKernel());
             }
+
             return $service;
         }
     }

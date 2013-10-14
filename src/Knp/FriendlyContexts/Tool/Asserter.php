@@ -43,7 +43,7 @@ class Asserter
             if (is_array($row)) {
                 $maxsize = $this->getMaxElementSize($row, $maxsize);
             } else {
-                $maxsize = strlen((string)$row) > $maxsize ? strlen((string)$row) : $maxsize;
+                $maxsize = strlen((string) $row) > $maxsize ? strlen((string) $row) : $maxsize;
             }
         }
 

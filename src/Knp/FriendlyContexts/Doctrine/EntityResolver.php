@@ -32,6 +32,7 @@ class EntityResolver
                 $allClass,
                 function ($e) use ($namespace, $name) {
                     $nameValid = strtolower($e->getShortName()) === strtolower($name);
+
                     return '' === $namespace
                         ? $nameValid
                         : $namespace === substr($e->getNamespaceName(), 0, strlen($namespace)) && $nameValid
@@ -49,12 +50,10 @@ class EntityResolver
         $metadata     = $this->getMetadataFromObject($entityManager, $entity);
 
         if (null !== $map = $this->getMappingFromMetadata($metadata->fieldMappings, $property)) {
-
             return $map;
         }
 
         if (null !== $map = $this->getMappingFromMetadata($metadata->associationMappings, $property)) {
-
             return $map;
         }
 

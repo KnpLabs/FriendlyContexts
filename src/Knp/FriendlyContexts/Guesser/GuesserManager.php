@@ -56,7 +56,7 @@ class GuesserManager
     {
         $this->guessers = [];
 
-        foreach ($this->classes as $c){
+        foreach ($this->classes as $c) {
             $this->addGuesser($c);
         }
     }

@@ -153,6 +153,7 @@ class EntityContext extends Context
                 );
                 break;
         }
+
         return current($entities);
     }
 

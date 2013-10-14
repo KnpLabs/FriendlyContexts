@@ -51,8 +51,7 @@ trait Backgroundable
             $comments = explode("\n", $method->getDocComment());
 
             $tags = [];
-            foreach ($comments as $comment)
-            {
+            foreach ($comments as $comment) {
                 if (preg_match('/@(\w*)/', $comment, $tags)) {
                     if (in_array($name, $tags)) {
                         $methods[] = $method->name;
