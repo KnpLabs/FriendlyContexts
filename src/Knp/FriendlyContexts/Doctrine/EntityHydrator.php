@@ -12,10 +12,17 @@ class EntityHydrator
 {
     use Containable;
 
+    public function __construct(ObjectManager $em, TextFormater $formater, GuesserManager $guesserManager)
+    {
+        $this->em             = $em;
+        $this->formater       = $formater;
+        $this->guesserManager = $guesserManager;
+    }
+
     public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->getEntityResolver()->getMetadataFromProperty($em, $entity, $property);
+            $mapping = $this->em->getMetadataFromProperty($em, $entity, $property);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
 
@@ -26,7 +33,7 @@ class EntityHydrator
                     function($e) use ($mapping) {
                         return $this->format($mapping, $e);
                     },
-                    $this->getTextFormater()->listToArray($value)
+                    $this->formater->listToArray($value)
                 );
 
                 $result = $collectionRelation ? new ArrayCollection($result) : $result;
@@ -46,7 +53,7 @@ class EntityHydrator
 
     protected function format($mapping, $value)
     {
-        if (false === $guesser = $this->getGuesserManager()->find($mapping)) {
+        if (false === $guesser = $this->guesserManager->find($mapping)) {
             return $value;
         }
 

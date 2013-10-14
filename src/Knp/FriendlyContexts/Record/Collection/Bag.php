@@ -9,7 +9,13 @@ class Bag
 {
     use Containable;
 
+    protected $reflector;
     protected $collections = [];
+
+    public function __construct(ObjectReflector $reflector)
+    {
+        $this->reflector = $reflector;
+    }
 
     public function getCollection($entity)
     {
@@ -19,7 +25,7 @@ class Bag
             }
         }
 
-        $new = new Collection($this->getObjectReflector());
+        $new = new Collection($this->reflector);
         $new->support($entity);
 
         return $this->collections[] = $new;;

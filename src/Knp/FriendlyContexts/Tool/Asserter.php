@@ -6,11 +6,19 @@ use Knp\FriendlyContexts\Dictionary\Containable;
 
 class Asserter
 {
-    use Containable;
+    protected $formater;
+
+    public function __construct(TextFormater $formater)
+    {
+        $this->formater = $formater;
+    }
 
     public function assertArrayEquals($expected, $real)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
+        var_dump($message);
+
+        var_dump($expected, $real);
 
         $this->assertEquals(
             $expected,
@@ -61,14 +69,14 @@ class Asserter
                     $result = sprintf(
                         '%s %s |',
                         $result,
-                        $this->explode($this->getTextFormater()->addSpaceAfter((string) $cell, $maxsize))
+                        $this->explode($this->formater->addSpaceAfter((string) $cell, $maxsize))
                     );
                 }
             } else {
                 $result = sprintf(
                     '%s %s |',
                     $result,
-                    $this->explode($this->getTextFormater()->addSpaceAfter((string) $row, $maxsize))
+                    $this->explode($this->formater->addSpaceAfter((string) $row, $maxsize))
                 );
             }
             $result = $result."\r\n";
