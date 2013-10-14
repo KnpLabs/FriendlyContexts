@@ -1,9 +1,9 @@
 KnpLabs - FriendlyContexts
 ================
 
-[![Build Status](https://travis-ci.org/PedroTroller/FriendlyContexts.png)](https://travis-ci.org/PedroTroller/FriendlyContexts)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/PedroTroller/FriendlyContexts/badges/quality-score.png?s=4e404433129a95d3f7b8ce5ada1ecc2faa4c1d2f)](https://scrutinizer-ci.com/g/PedroTroller/FriendlyContexts/)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/030bad5b-c724-457c-9fd3-da63c8416364/mini.png)](https://insight.sensiolabs.com/projects/030bad5b-c724-457c-9fd3-da63c8416364)
+[![Build Status](https://travis-ci.org/KnpLabs/FriendlyContexts.png?branch=master)](https://travis-ci.org/KnpLabs/FriendlyContexts)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/badges/quality-score.png?s=5292581c45ba61ea028dfb54c21c2ba50df604a2)](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7/mini.png)](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7)
 
 **Doctrine entities generation context**
 
