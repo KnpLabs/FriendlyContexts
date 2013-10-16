@@ -44,8 +44,6 @@ class AsserterSpec extends ObjectBehavior
     {
         $expected = "The given array\r\n\r\n| 10   |\r\n| test |\r\n| 1    |\r\n\r\nis not equals to expected\r\n\r\n| 10   |\r\n| text |\r\n|      |\r\n";
 
-        var_dump($expected);
-        var_dump($expected);
         $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayEquals([ 10, 'text', false ], [ 10, 'test', true ]);
     }
 }

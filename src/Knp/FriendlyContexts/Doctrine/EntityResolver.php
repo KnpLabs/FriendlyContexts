@@ -5,6 +5,8 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
 use Knp\FriendlyContexts\Dictionary\Containable;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Tool\TextFormater;
 
 class EntityResolver
 {

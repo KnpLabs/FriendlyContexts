@@ -18,8 +18,6 @@ use Knp\FriendlyContexts\Tool\Asserter;
 class EntityContextSpec extends ObjectBehavior
 {
     /**
-     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $containerInterface
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
      * @param Doctrine\ORM\EntityRepository $repository
@@ -28,15 +26,8 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Record\Collection $collection
      * @param \ReflectionClass $reflectionClass
      **/
-    function let(KernelInterface $kernel, ContainerInterface $container, ManagerRegistry $doctrine, ObjectManager $manager, EntityRepository $repository, EntityResolver $resolver, Bag $bag, Collection $collection, \ReflectionClass $reflectionClass)
+    function let($doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass)
     {
-        $container->set(Argument::any(), Argument::any())->willReturn(true);
-        $container->has(Argument::any())->willReturn(true);
-        $container->get('doctrine')->willReturn($doctrine);
-        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $container->get('friendly.context.record.bag')->willReturn($bag);
-        $container->get('friendly.context.asserter')->willReturn(new Asserter);
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->findAll()->willReturn(['', '']);
@@ -44,9 +35,6 @@ class EntityContextSpec extends ObjectBehavior
         $bag->getCollection(Argument::any())->willReturn($collection);
 
         $this->beConstructedWith([]);
-
-        $kernel->getContainer()->willReturn($container);
-        $this->setKernel($kernel);
     }
 
     function it_is_initializable()
