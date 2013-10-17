@@ -62,7 +62,6 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
     protected function get($service)
     {
         if ($this->container->has($service)) {
-
             return $this->container->get($service);
         }
 
