@@ -4,10 +4,13 @@ namespace spec\Knp\FriendlyContexts\Context;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Knp\FriendlyContexts\Tool\Asserter;
+use Knp\FriendlyContexts\Tool\TextFormater;
 
 class EntityContextSpec extends ObjectBehavior
 {
     /**
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
@@ -18,7 +21,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Tool\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
+    function let($kernel, $container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
     {
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
@@ -31,8 +34,10 @@ class EntityContextSpec extends ObjectBehavior
         $container->get('friendly.context.entity.resolver')->willReturn($resolver);
         $container->get('friendly.context.entity.resolver')->willReturn($resolver);
         $container->get('friendly.context.record.bag')->willReturn($bag);
-        $container->get('friendly.context.asserter')->willReturn($asserter);
+        $container->get('friendly.context.asserter')->willReturn(new Asserter(new TextFormater));
+        $kernel->getContainer()->willReturn($container);
 
+        $this->setKernel($kernel);
         $this->initialize($container);
     }
 

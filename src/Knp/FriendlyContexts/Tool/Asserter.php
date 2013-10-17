@@ -14,9 +14,6 @@ class Asserter
     public function assertArrayEquals($expected, $real)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
-        var_dump($message);
-
-        var_dump($expected, $real);
 
         $this->assertEquals(
             $expected,

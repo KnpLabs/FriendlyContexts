@@ -3,15 +3,13 @@
 namespace spec\Knp\FriendlyContexts\Tool;
 
 use PhpSpec\ObjectBehavior;
+use Knp\FriendlyContexts\Tool\TextFormater;
 
 class AsserterSpec extends ObjectBehavior
 {
-    /**
-     * @param Knp\FriendlyContexts\Tool\TextFormater $formatter
-     **/
-    function let($formatter)
+    function let()
     {
-        $this->beConstructedWith($formatter);
+        $this->beConstructedWith(new TextFormater);
     }
     function it_is_initializable()
     {
