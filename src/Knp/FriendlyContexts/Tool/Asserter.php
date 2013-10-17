@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Tool;
 
-use Knp\FriendlyContexts\Dictionary\Containable;
-
 class Asserter
 {
     protected $formater;
