@@ -3,15 +3,12 @@
 namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Knp\FriendlyContexts\Dictionary\Containable;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class EntityHydrator
 {
-    use Containable;
-
     public function __construct(ObjectManager $em, TextFormater $formater, GuesserManager $guesserManager)
     {
         $this->em             = $em;

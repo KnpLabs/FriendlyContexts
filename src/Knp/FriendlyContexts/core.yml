@@ -1,4 +1,9 @@
 services:
+    friendly.context.initializer:
+        class: FriendlyContexts\Context\Initializer
+        arguments:
+            - @container
+        tag: behat.context.initializer
     friendly.context.record.bag:
         class: FriendlyContexts\Record\Collection\Bag
         arguments:

@@ -10,8 +10,6 @@ use Knp\FriendlyContexts\Tool\TextFormater;
 
 class EntityResolver
 {
-    use Containable;
-
     protected $reflector;
     protected $formater;
 

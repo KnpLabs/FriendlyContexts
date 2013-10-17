@@ -8,7 +8,6 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 class EntityContext extends Context
 {
-
     /**
      * @Given /^the following (.*)$/
      */

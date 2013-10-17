@@ -3,12 +3,9 @@
 namespace Knp\FriendlyContexts\Guesser;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use Knp\FriendlyContexts\Dictionary\Containable;
 
 class GuesserManager
 {
-    use Containable;
-
     protected $classes = [];
     protected $guessers = [];
 
@@ -41,9 +38,6 @@ class GuesserManager
     public function find($mapping)
     {
         foreach ($this->guessers as $g) {
-            if ($this->isContainable($g)) {
-                $this->getOrRegister('friendly.context.guesser.' . $g->getName(), function () use ($g) { return $g; });
-            }
             if ($g->supports($mapping)) {
                 return $g;
             }

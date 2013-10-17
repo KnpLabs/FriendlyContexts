@@ -3,13 +3,10 @@
 namespace Knp\FriendlyContexts\Record\Collection;
 
 use Knp\FriendlyContexts\Record\Collection;
-use Knp\FriendlyContexts\Dictionary\Containable;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 
 class Bag
 {
-    use Containable;
-
     protected $reflector;
     protected $collections = [];
 

@@ -7,11 +7,11 @@ use PhpSpec\ObjectBehavior;
 class AsserterSpec extends ObjectBehavior
 {
     /**
-     * @param Knp\FriendlyContexts\Tool\TextFormater $formater
+     * @param Knp\FriendlyContexts\Tool\TextFormater $formatter
      **/
-    function let($formater)
+    function let($formatter)
     {
-        $this->beConstructedWith($formater);
+        $this->beConstructedWith($formatter);
     }
     function it_is_initializable()
     {

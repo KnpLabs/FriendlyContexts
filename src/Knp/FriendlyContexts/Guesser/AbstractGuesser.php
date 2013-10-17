@@ -2,12 +2,8 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Knp\FriendlyContexts\Dictionary\Containable;
-
 abstract class AbstractGuesser
 {
-    use Containable;
-
     protected $manager;
 
     public function getManager()
