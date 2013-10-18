@@ -13,6 +13,8 @@ class Extension implements ExtensionInterface
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
         $loader->load('core.yml');
+
+        $container->setParameter('friendly.context.parameters', $config);
     }
 
     public function getConfig(ArrayNodeDefinition $builder)

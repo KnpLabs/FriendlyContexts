@@ -2,9 +2,9 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Dictionary\Taggable;
@@ -15,13 +15,13 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
         Symfony,
         Taggable;
 
-    protected $options = [];
+    protected $config = [];
     protected $container;
 
-    public function initialize(ContainerInterface $container, array $options = [])
+    public function initialize(array $config, ContainerInterface $container)
     {
+        $this->config    = array_merge($this->getDefaultOptions(), $config);
         $this->container = $container;
-        $this->options = array_merge($this->getDefaultOptions(), $options);
     }
 
     protected function getRecordBag()

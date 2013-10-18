@@ -1,3 +1,6 @@
+parameters:
+    friendly.context.parameters: []
+
 services:
     friendly.context.initializer:
         class: FriendlyContexts\Context\Initializer

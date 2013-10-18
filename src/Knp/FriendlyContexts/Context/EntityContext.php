@@ -125,7 +125,7 @@ class EntityContext extends Context
     {
         $entities = $this
             ->getEntityResolver()
-            ->resolve($this->getEntityManager(), $name, $this->options['Entities'])
+            ->resolve($this->getEntityManager(), $name, $this->config['Entities'])
         ;
 
         switch (true) {

@@ -5,24 +5,25 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Behat\Context\Initializer\InitializerInterface;
 use Behat\Behat\Context\ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Knp\FriendlyContexts\Context\Context;
 
 class Initializer implements InitializerInterface
 {
+    protected $config;
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(array $config, ContainerInterface $container)
     {
+        $this->config    = $config;
         $this->container = $container;
     }
 
     public function supports(ContextInterface $context)
     {
-        return $context instanceof Context;
+        return $context instanceof FriendlyContext;
     }
 
     public function initialize(ContextInterface $context)
     {
-        $context->initialize($this->container);
+        $context->initialize($this->config, $this->container);
     }
 }

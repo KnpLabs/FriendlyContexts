@@ -38,7 +38,7 @@ class EntityContextSpec extends ObjectBehavior
         $kernel->getContainer()->willReturn($container);
 
         $this->setKernel($kernel);
-        $this->initialize($container);
+        $this->initialize([], $container);
     }
 
     function it_is_initializable()

@@ -9,13 +9,13 @@ class InitializerSpec extends ObjectBehavior
 {
     /**
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param Knp\FriendlyContexts\Context\EntityContext $context1
+     * @param Knp\FriendlyContexts\Context\FriendlyContext $context1
      * @param Knp\FriendlyContexts\Context\SwiftMailerContext $context2
      * @param Behat\Behat\Context\ContextInterface $context3
      **/
     function let($container)
     {
-        $this->beConstructedWith($container);
+        $this->beConstructedWith([], $container);
     }
 
     function it_is_initializable()
@@ -23,14 +23,13 @@ class InitializerSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Context\Initializer');
     }
 
-    function it_should_supports_contexts($context1, $context2)
+    function it_should_supports_contexts($context1)
     {
         $this->supports($context1)->shouldReturn(true);
-        $this->supports($context2)->shouldReturn(true);
     }
 
-    function it_should_not_supports_non_contexts($context3)
+    function it_should_not_supports_non_contexts($context2)
     {
-        $this->supports($context3)->shouldReturn(false);
+        $this->supports($context2)->shouldReturn(false);
     }
 }
