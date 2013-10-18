@@ -27,7 +27,7 @@ class EntityHydrator
 
             if ($collectionRelation || $arrayRelation) {
                 $result = array_map(
-                    function($e) use ($mapping) {
+                    function ($e) use ($mapping) {
                         return $this->format($mapping, $e);
                     },
                     $this->formater->listToArray($value)
