@@ -5,7 +5,7 @@ services:
     friendly.context.initializer:
         class: FriendlyContexts\Context\Initializer
         arguments:
-            - @container
+            - @service_container
         tag: behat.context.initializer
     friendly.context.record.bag:
         class: FriendlyContexts\Record\Collection\Bag
