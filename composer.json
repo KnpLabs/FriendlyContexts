@@ -10,7 +10,6 @@
         "symfony/property-access": "2.*@dev",
         "doctrine/inflector": "1.*",
         "doctrine/data-fixtures": "1.0.*",
-        "symfony/swiftmailer-bundle": "~2.3",
         "behat/mink-extension": "1.*"
     },
     "require-dev": {
