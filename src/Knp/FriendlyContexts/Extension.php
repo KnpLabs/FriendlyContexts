@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Knp\FriendlyContexts\DependencyInjection\Compiler;
+
 
 class Extension implements ExtensionInterface
 {
@@ -15,7 +17,7 @@ class Extension implements ExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
         $loader->load('core.yml');
 
-        $container->setParameter('friendly.context.parameters', $config);
+        $container->setParameter('friendly.parameters', $config);
     }
 
     public function getConfig(ArrayNodeDefinition $builder)
@@ -31,11 +33,6 @@ class Extension implements ExtensionInterface
                                     ->arrayNode('namespaces')->end()
                                 ->end()
                             ->end()
-                            ->arrayNode('SwiftMailer')
-                                ->children()
-                                    ->scalarNode('enable')->defaultFalse()->end()
-                                ->end()
-                            ->end()
                         ->end()
                     ->end()
                 ->variableNode('Tags')
@@ -45,6 +42,8 @@ class Extension implements ExtensionInterface
 
     public function getCompilerPasses()
     {
-        return [];
+        return [
+           new Compiler\FormatGuesserPass,
+        ];
     }
 }

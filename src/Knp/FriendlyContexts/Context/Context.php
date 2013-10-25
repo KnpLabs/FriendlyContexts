@@ -26,37 +26,37 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
 
     protected function getRecordBag()
     {
-        return $this->get('friendly.context.record.bag');
+        return $this->get('friendly.record.bag');
     }
 
     protected function getEntityHydrator()
     {
-        return $this->get('friendly.context.entity.hydrator');
+        return $this->get('friendly.entity.hydrator');
     }
 
     protected function getEntityResolver()
     {
-        return $this->get('friendly.context.entity.resolver');
+        return $this->get('friendly.entity.resolver');
     }
 
     protected function getTextFormater()
     {
-        return $this->get('friendly.context.text.formater');
+        return $this->get('friendly.text.formater');
     }
 
     protected function getAsserter()
     {
-        return $this->get('friendly.context.asserter');
+        return $this->get('friendly.asserter');
     }
 
     protected function getGuesserManager()
     {
-        return $this->get('friendly.context.guesser.manager');
+        return $this->get('friendly.guesser.manager');
     }
 
     protected function getObjectReflector()
     {
-        return $this->get('friendly.context.object.reflector');
+        return $this->get('friendly.object.reflector');
     }
 
     protected function get($service)

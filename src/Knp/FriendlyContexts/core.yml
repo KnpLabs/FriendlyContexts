@@ -1,36 +1,62 @@
 parameters:
-    friendly.context.parameters: []
+
+    friendly.parameters: []
 
 services:
-    friendly.context.initializer:
+
+    friendly.initializer:
         class: Knp\FriendlyContexts\Context\Initializer
         arguments:
-            - %friendly.context.parameters%
+            - %friendly.parameters%
             - @service_container
         tags:
-            - { name : behat.context.initializer }
-    friendly.context.record.bag:
+            - { name: behat.context.initializer }
+
+    friendly.record.bag:
         class: Knp\FriendlyContexts\Record\Collection\Bag
         arguments:
-            - @friendly.context.object.reflector
-    friendly.context.entity.hydrator:
+            - @friendly.object.reflector
+
+    friendly.entity.hydrator:
         class: Knp\FriendlyContexts\Doctrine\EntityHydrator
         arguments:
-            - @friendly.context.text.formater
-            - @friendly.context.guesser.manager
-            - @friendly.context.entity.resolver
-    friendly.context.entity.resolver:
+            - @friendly.text.formater
+            - @friendly.guesser.manager
+            - @friendly.entity.resolver
+
+    friendly.entity.resolver:
         class: Knp\FriendlyContexts\Doctrine\EntityResolver
         arguments:
-            - @friendly.context.object.reflector
-            - @friendly.context.text.formater
-    friendly.context.text.formater:
+            - @friendly.object.reflector
+            - @friendly.text.formater
+
+    friendly.text.formater:
         class: Knp\FriendlyContexts\Tool\TextFormater
-    friendly.context.asserter:
+
+    friendly.asserter:
         class: Knp\FriendlyContexts\Tool\Asserter
         arguments:
-            - @friendly.context.text.formater
-    friendly.context.guesser.manager:
+            - @friendly.text.formater
+
+    friendly.guesser.manager:
         class: Knp\FriendlyContexts\Guesser\GuesserManager
-    friendly.context.object.reflector:
+
+    friendly.object.reflector:
         class: Knp\FriendlyContexts\Reflection\ObjectReflector
+
+    friendly.guesser.boolean:
+        class: Knp\FriendlyContexts\Guesser\BooleanGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.datetime:
+        class: Knp\FriendlyContexts\Guesser\DatetimeGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.entity:
+        class: Knp\FriendlyContexts\Guesser\EntityGuesser
+        arguments:
+            - @friendly.record.bag
+        tags:
+            - { name: friendly.format.guesser }

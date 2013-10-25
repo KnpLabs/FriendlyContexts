@@ -3,33 +3,15 @@
 namespace Knp\FriendlyContexts\Guesser;
 
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
+use Knp\FriendlyContexts\Guesser\GuesserInterface;
 
 class GuesserManager
 {
     protected $classes = [];
     protected $guessers = [];
 
-    public function __construct()
+    public function addGuesser(GuesserInterface $guesser)
     {
-        $this->classes = [
-            'Knp\FriendlyContexts\Guesser\DatetimeGuesser',
-            'Knp\FriendlyContexts\Guesser\BooleanGuesser',
-            'Knp\FriendlyContexts\Guesser\EntityGuesser',
-        ];
-
-        $this->load();
-    }
-
-    public function addGuesser($guesser)
-    {
-        if (is_string($guesser)) {
-            $guesser = new $guesser;
-        }
-
-        if (false === $guesser instanceof GuesserInterface) {
-            throw new \InvalidArgumentException('Your guesser should implements Knp\FriendlyContexts\Guesser\GuesserInterface');
-        }
-
         $guesser->setManager($this);
 
         array_unshift($this->guessers, $guesser);
@@ -44,14 +26,5 @@ class GuesserManager
         }
 
         return false;
-    }
-
-    public function load()
-    {
-        $this->guessers = [];
-
-        foreach ($this->classes as $c) {
-            $this->addGuesser($c);
-        }
     }
 }
