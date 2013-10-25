@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class EntityHydrator
 {
-    public function __construct(ObjectManager $em, TextFormater $formater, GuesserManager $guesserManager)
+    public function __construct($em, TextFormater $formater, GuesserManager $guesserManager)
     {
         $this->em             = $em;
         $this->formater       = $formater;

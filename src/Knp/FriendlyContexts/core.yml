@@ -14,7 +14,7 @@ services:
     friendly.context.entity.hydrator:
         class: FriendlyContexts\Doctrine\EntityHydrator
         arguments:
-            - @doctrine.orm.entity_manager
+            - @service_container
             - @friendly.context.text.formater
             - @friendly.context.guesser.manager
     friendly.context.entity.resolver:
