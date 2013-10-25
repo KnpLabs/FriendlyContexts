@@ -9,6 +9,7 @@ use Knp\FriendlyContexts\Tool\Asserter;
 use Knp\FriendlyContexts\Tool\TextFormater;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Faker\Guesser;
 
 trait Containable
 {
@@ -47,6 +48,11 @@ trait Containable
     protected function getObjectReflector()
     {
         return $this->getOrRegister('friendly.context.object.reflector', function() { return new ObjectReflector; });
+    }
+
+    protected function getFakerGuesser()
+    {
+        return $this->getOrRegister('friendly.context.faker.guesser', function() { return new Guesser; });
     }
 
     protected function getOrRegister($name, $callback = null)

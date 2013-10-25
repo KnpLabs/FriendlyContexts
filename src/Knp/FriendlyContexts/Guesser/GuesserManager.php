@@ -15,15 +15,15 @@ class GuesserManager
     public function __construct()
     {
         $this->classes = [
-            'Knp\FriendlyContexts\Guesser\DatetimeGuesser',
-            'Knp\FriendlyContexts\Guesser\BooleanGuesser',
-            'Knp\FriendlyContexts\Guesser\EntityGuesser',
+            'Knp\FriendlyContexts\Guesser\DatetimeGuesser' => 'DateTime',
+            'Knp\FriendlyContexts\Guesser\BooleanGuesser' => null,
+            'Knp\FriendlyContexts\Guesser\EntityGuesser' => null,
         ];
 
         $this->load();
     }
 
-    public function addGuesser($guesser)
+    public function addGuesser($guesser, $fakers = null)
     {
         if (is_string($guesser)) {
             $guesser = new $guesser;
@@ -34,6 +34,7 @@ class GuesserManager
         }
 
         $guesser->setManager($this);
+        $guesser->setFakers(is_string($fakers) ? [ $fakers ] : $fakers);
 
         array_unshift($this->guessers, $guesser);
     }
@@ -56,8 +57,8 @@ class GuesserManager
     {
         $this->guessers = [];
 
-        foreach ($this->classes as $c) {
-            $this->addGuesser($c);
+        foreach ($this->classes as $class => $fakers){
+            $this->addGuesser($class, $fakers);
         }
     }
 }

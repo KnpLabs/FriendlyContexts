@@ -9,6 +9,7 @@ abstract class AbstractGuesser
     use Containable;
 
     protected $manager;
+    protected $fakers = [];
 
     public function getManager()
     {
@@ -18,6 +19,13 @@ abstract class AbstractGuesser
     public function setManager(GuesserManager $manager)
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function setFakers(array $fakers = null)
+    {
+        $this->fakers = $fakers ?: [];
 
         return $this;
     }
