@@ -3,7 +3,6 @@
 namespace Knp\FriendlyContexts\Dictionary;
 
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait Symfony
 {
