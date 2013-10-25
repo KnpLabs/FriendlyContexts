@@ -5,40 +5,33 @@ KnpLabs - FriendlyContexts
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/badges/quality-score.png?s=5292581c45ba61ea028dfb54c21c2ba50df604a2)](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7/mini.png)](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7)
 
-**Doctrine entities generation context**
+**How to install it**
+```
+execute : composer require knplabs/friendly-contexts dev-master
+```
+```bash
+#behat.yml
+
+default:
+# ...
+    extensions:
+        Knp\FriendlyContexts\Extension: 
+            Entity:
+                enable: true
+```
 
 ```php
 // FeatureContext.php
 // ...
-use Knp/FriendlyContexts/Context/EntityContext;
+use Knp/FriendlyContexts/Context/FriendlyContext;
 
-class FeatureContext extends MinkContext
+class FeatureContext extends RawMinkContext
 {
     public function __construct($options)
     {
         // ...
-        $this->useContext('entity', new EntityContext($options));
+        $this->useContext('friendly', new FriendlyContext($options));
         // ...
     }
 }
-```
-```gherkin
-Feature: Comment sending
-    In order to send comments
-    As a user
-    I should be able to send comments by email
-
-    Background:
-        Given the following users
-            | username  | firstname | lastname | email                                    |
-            | j.doe     | John      | DOE      | j.doe@the.unknow.com                     |
-            | g.abitbol | George    | ABITBOL  | g.abitbol@classiest.man.in.the.world.com |
-        And the following news
-            | title          | content     | writer |
-            | The first news | The content | j.do   |
-        And I am logged as "g.abitbol"
-        And I am on the homepage
-
-    Scenario: Successfully list all news
-        Given I should see "The first news"
 ```
