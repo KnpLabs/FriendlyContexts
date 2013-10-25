@@ -55,7 +55,7 @@ class EntityResolver
 
     public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
     {
-        $metadata     = $this->getMetadataFromObject($entityManager, $entity);
+        $metadata = $this->getMetadataFromObject($entityManager, $entity);
 
         if (null !== $map = $this->getMappingFromMetadata($metadata->fieldMappings, $property)) {
             return $map;

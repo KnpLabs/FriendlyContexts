@@ -10,7 +10,7 @@ class FriendlyContext extends Context
     {
         parent::initialize($config, $container);
 
-        foreach ($config['Contexts'] as $name => $config) {
+        foreach ($config['Contexts'] as $name => $subconfig) {
             $this->loadContext($name, $config);
         }
     }

@@ -18,6 +18,7 @@ services:
         arguments:
             - @friendly.context.text.formater
             - @friendly.context.guesser.manager
+            - @friendly.context.entity.resolver
     friendly.context.entity.resolver:
         class: Knp\FriendlyContexts\Doctrine\EntityResolver
         arguments:
@@ -30,6 +31,6 @@ services:
         arguments:
             - @friendly.context.text.formater
     friendly.context.guesser.manager:
-        class: Knp\FriendlyContexts\Guesser\Manager
+        class: Knp\FriendlyContexts\Guesser\GuesserManager
     friendly.context.object.reflector:
         class: Knp\FriendlyContexts\Reflection\ObjectReflector

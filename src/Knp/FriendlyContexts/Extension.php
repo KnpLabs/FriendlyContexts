@@ -38,7 +38,7 @@ class Extension implements ExtensionInterface
                             ->end()
                         ->end()
                     ->end()
-                ->end()
+                ->variableNode('Tags')
             ->end()
         ;
     }

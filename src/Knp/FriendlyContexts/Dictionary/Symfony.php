@@ -9,18 +9,6 @@ trait Symfony
 {
     use KernelDictionary;
 
-    protected $container;
-
-    protected function getContainer()
-    {
-        return $this->container ?: $this->getKernel()->getContainer();
-    }
-
-    protected function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
     protected function get($name)
     {
         return $this->getContainer()->get($name);
