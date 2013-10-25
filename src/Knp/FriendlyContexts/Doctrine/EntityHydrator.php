@@ -3,15 +3,13 @@
 namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class EntityHydrator
 {
-    public function __construct($em, TextFormater $formater, GuesserManager $guesserManager)
+    public function __construct(TextFormater $formater, GuesserManager $guesserManager)
     {
-        $this->em             = $em;
         $this->formater       = $formater;
         $this->guesserManager = $guesserManager;
     }
@@ -19,7 +17,7 @@ class EntityHydrator
     public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->em->getMetadataFromProperty($em, $entity, $property);
+            $mapping = $em->getMetadataFromProperty($em, $entity, $property);
             $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
             $arrayRelation = $mapping['type'] === 'array';
 

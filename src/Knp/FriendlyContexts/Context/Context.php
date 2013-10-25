@@ -24,6 +24,11 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
         $this->container = $container;
     }
 
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     protected function getRecordBag()
     {
         return $this->get('friendly.context.record.bag');

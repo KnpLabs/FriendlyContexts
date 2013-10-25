@@ -3,32 +3,33 @@ parameters:
 
 services:
     friendly.context.initializer:
-        class: FriendlyContexts\Context\Initializer
+        class: Knp\FriendlyContexts\Context\Initializer
         arguments:
+            - %friendly.context.parameters%
             - @service_container
-        tag: behat.context.initializer
+        tags:
+            - { name : behat.context.initializer }
     friendly.context.record.bag:
-        class: FriendlyContexts\Record\Collection\Bag
+        class: Knp\FriendlyContexts\Record\Collection\Bag
         arguments:
             - @friendly.context.object.reflector
     friendly.context.entity.hydrator:
-        class: FriendlyContexts\Doctrine\EntityHydrator
+        class: Knp\FriendlyContexts\Doctrine\EntityHydrator
         arguments:
-            - @service_container
             - @friendly.context.text.formater
             - @friendly.context.guesser.manager
     friendly.context.entity.resolver:
-        class: FriendlyContexts\Doctrine\EntityResolver
+        class: Knp\FriendlyContexts\Doctrine\EntityResolver
         arguments:
             - @friendly.context.object.reflector
             - @friendly.context.text.formater
     friendly.context.text.formater:
-        class: FriendlyContexts\Tool\TextFormater
+        class: Knp\FriendlyContexts\Tool\TextFormater
     friendly.context.asserter:
-        class: FriendlyContexts\Tool\Asserter
+        class: Knp\FriendlyContexts\Tool\Asserter
         arguments:
             - @friendly.context.text.formater
     friendly.context.guesser.manager:
-        class: FriendlyContexts\Guesser\Manager
+        class: Knp\FriendlyContexts\Guesser\Manager
     friendly.context.object.reflector:
-        class: FriendlyContexts\Reflection\ObjectReflector
+        class: Knp\FriendlyContexts\Reflection\ObjectReflector

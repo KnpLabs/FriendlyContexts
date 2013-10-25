@@ -8,9 +8,9 @@ class FriendlyContext extends Context
 {
     public function initialize(array $config, ContainerInterface $container)
     {
-        parent::__construct($config, $container);
+        parent::initialize($config, $container);
 
-        foreach ($config['Context'] as $name => $config) {
+        foreach ($config['Contexts'] as $name => $config) {
             $this->loadContext($name, $config);
         }
     }
@@ -32,5 +32,12 @@ class FriendlyContext extends Context
         $context->initialize($config, $this->container);
 
         $this->useContext($name, $context);
+    }
+
+    protected function getDefaultOptions()
+    {
+        return [
+            'Contexts' => []
+        ];
     }
 }

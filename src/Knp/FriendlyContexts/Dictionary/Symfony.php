@@ -3,10 +3,23 @@
 namespace Knp\FriendlyContexts\Dictionary;
 
 use Behat\Symfony2Extension\Context\KernelDictionary;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait Symfony
 {
     use KernelDictionary;
+
+    protected $container;
+
+    protected function getContainer()
+    {
+        return $this->container ?: $this->getKernel()->getContainer();
+    }
+
+    protected function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     protected function get($name)
     {
