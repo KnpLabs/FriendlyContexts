@@ -48,6 +48,41 @@ class EntityHydrator
                 )
             ;
         }
+
+        return $this;
+    }
+
+    public function completeRequired(ObjectManager $em, $entity)
+    {
+        $this->completeFields($em, $entity);
+    }
+
+    public function completeFields(ObjectManager $em, $entity)
+    {
+        $accessor = PropertyAccess::getPropertyAccessor();
+
+        $metadata = $this->resolver->getMetadataFromObject($em, $entity);
+
+        foreach ($metadata->getColumnNames() as $property) {
+            if (false === $metadata->isNullable($property) && null === $accessor->getValue($entity, $property)) {
+                $accessor->setValue(
+                    $entity,
+                    $property,
+                    $this->complete($metadata->getFieldMapping($property))
+                );
+            }
+        }
+
+        return $this;
+    }
+
+    protected function complete($mapping)
+    {
+        if (false === $guesser = $this->guesserManager->find($mapping)) {
+            throw new \Exception(sprintf('There is no fake solution for "%s" typed fields', $mapping['type']));
+        }
+
+        return $guesser->fake($mapping);
     }
 
     protected function format($mapping, $value)

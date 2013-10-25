@@ -29,6 +29,7 @@ class EntityContext extends Context
             $this
                 ->getEntityHydrator()
                 ->hydrate($this->getEntityManager(), $entity, $values)
+                ->completeRequired($this->getEntityManager(), $entity)
             ;
 
             $this->getEntityManager()->persist($entity);
