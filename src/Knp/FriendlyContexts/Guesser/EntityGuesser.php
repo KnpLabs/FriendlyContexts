@@ -11,7 +11,7 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
         $this->bag = $bag;
     }
 
-    public function supports($mapping)
+    public function supports(array $mapping)
     {
         if (array_key_exists('targetEntity', $mapping)) {
             return $this->bag->getCollection($mapping['targetEntity'])->count() > 0;
@@ -20,13 +20,26 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
         return false;
     }
 
-    public function transform($str, $mapping)
+    public function transform($str, array $mapping)
     {
         if (null !== $record = $this->bag->getCollection($mapping['targetEntity'])->search($str)) {
             return $record->getEntity();
         }
 
         return null;
+    }
+
+    public function fake(array $mapping)
+    {
+        $collection = $this->bag->getCollection($mapping['targetEntity']);
+
+        if (0 === $collection->count()) {
+            throw new \Exception(sprintf('There is no record for "%s"', $mapping['targetEntity']));
+        }
+
+        $records = array_values($collection->all());
+
+        return $record[array_rand($record)]->getEntity();
     }
 
     public function getName()
