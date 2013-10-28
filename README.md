@@ -9,7 +9,7 @@ KnpLabs - FriendlyContexts
 ```
 execute : composer require knplabs/friendly-contexts dev-master
 ```
-```bash
+```yaml
 #behat.yml
 
 default:
