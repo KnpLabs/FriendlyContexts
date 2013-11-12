@@ -31,10 +31,10 @@ class EntityContextSpec extends ObjectBehavior
 
         $container->has(Argument::any())->willReturn(true);
         $container->get('doctrine')->willReturn($doctrine);
-        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $container->get('friendly.context.entity.resolver')->willReturn($resolver);
-        $container->get('friendly.context.record.bag')->willReturn($bag);
-        $container->get('friendly.context.asserter')->willReturn(new Asserter(new TextFormater));
+        $container->get('friendly.entity.resolver')->willReturn($resolver);
+        $container->get('friendly.entity.resolver')->willReturn($resolver);
+        $container->get('friendly.record.bag')->willReturn($bag);
+        $container->get('friendly.asserter')->willReturn(new Asserter(new TextFormater));
         $kernel->getContainer()->willReturn($container);
 
         $this->setKernel($kernel);

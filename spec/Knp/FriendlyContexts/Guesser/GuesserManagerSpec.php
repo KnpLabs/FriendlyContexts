@@ -22,22 +22,6 @@ class GuesserManagerSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Guesser\GuesserManager');
     }
 
-    function it_should_return_a_guesser_from_a_mapping()
-    {
-        $mapping = [
-            'fieldName'  => "active",
-            'type'       => "boolean",
-            'scale'      => 0,
-            'length'     => null,
-            'unique'     => false,
-            'nullable'   => false,
-            'precision'  => 0,
-            'columnName' => "active",
-        ];
-
-        $this->find($mapping)->shouldHaveType('Knp\FriendlyContexts\Guesser\BooleanGuesser');
-    }
-
     function it_should_return_false_when_no_guesser_supports_the_mapping()
 
     {
