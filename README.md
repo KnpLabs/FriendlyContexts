@@ -7,40 +7,33 @@ KnpLabs - FriendlyContexts
 [![Latest Stable Version](https://poser.pugx.org/knplabs/friendly-contexts/v/stable.png)](https://packagist.org/packages/knplabs/friendly-contexts)
 [![Latest Unstable Version](https://poser.pugx.org/knplabs/friendly-contexts/v/unstable.png)](https://packagist.org/packages/knplabs/friendly-contexts)
 
-**Doctrine entities generation context**
+**How to install it**
+```
+execute : composer require knplabs/friendly-contexts dev-master
+```
+```yaml
+#behat.yml
+
+default:
+# ...
+    extensions:
+        Knp\FriendlyContexts\Extension: 
+            Entity:
+                enable: true
+```
 
 ```php
 // FeatureContext.php
 // ...
-use Knp/FriendlyContexts/Context/EntityContext;
+use Knp/FriendlyContexts/Context/FriendlyContext;
 
-class FeatureContext extends MinkContext
+class FeatureContext extends RawMinkContext
 {
     public function __construct($options)
     {
         // ...
-        $this->useContext('entity', new EntityContext($options));
+        $this->useContext('friendly', new FriendlyContext($options));
         // ...
     }
 }
-```
-```gherkin
-Feature: Comment sending
-    In order to send comments
-    As a user
-    I should be able to send comments by email
-
-    Background:
-        Given the following users
-            | username  | firstname | lastname | email                                    |
-            | j.doe     | John      | DOE      | j.doe@the.unknow.com                     |
-            | g.abitbol | George    | ABITBOL  | g.abitbol@classiest.man.in.the.world.com |
-        And the following news
-            | title          | content     | writer |
-            | The first news | The content | j.do   |
-        And I am logged as "g.abitbol"
-        And I am on the homepage
-
-    Scenario: Successfully list all news
-        Given I should see "The first news"
 ```

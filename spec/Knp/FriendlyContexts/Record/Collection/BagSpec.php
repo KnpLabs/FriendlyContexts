@@ -11,13 +11,11 @@ class BagSpec extends ObjectBehavior
 {
 
     /**
-     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param StdClass $rightObject
      * @param StdClass $wrongObject
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
      **/
-    function let(KernelInterface $kernel, ContainerInterface $container, \StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector)
+    function let(\StdClass $rightObject, \StdClass $wrongObject, ObjectReflector $reflector)
     {
         $reflector->getClassName($rightObject)->willReturn('TheClass');
         $reflector->getClassNamespace($rightObject)->willReturn('The\\Name\\Space');
@@ -30,11 +28,8 @@ class BagSpec extends ObjectBehavior
         $reflector->getClassLongName($wrongObject)->willReturn('The\\Other\\Name\\Space\\TheOtherClass');
         $reflector->isInstanceOf($wrongObject, 'The\\Name\\Space\\TheClass')->willReturn(false);
         $reflector->isInstanceOf($wrongObject, 'The\\Other\\Name\\Space\\TheOtherClass')->willReturn(true);
-        $container->has('friendly.context.object.reflector')->willReturn(true);
-        $container->get('friendly.context.object.reflector')->willReturn($reflector);
 
-        $kernel->getContainer()->willReturn($container);
-        $this->setKernel($kernel);
+        $this->beConstructedWith($reflector);
     }
 
     function it_is_initializable()

@@ -2,11 +2,14 @@
 
 namespace Knp\FriendlyContexts\Tool;
 
-use Knp\FriendlyContexts\Dictionary\Containable;
-
 class Asserter
 {
-    use Containable;
+    protected $formater;
+
+    public function __construct(TextFormater $formater)
+    {
+        $this->formater = $formater;
+    }
 
     public function assertArrayEquals($expected, $real)
     {
@@ -61,14 +64,14 @@ class Asserter
                     $result = sprintf(
                         '%s %s |',
                         $result,
-                        $this->explode($this->getTextFormater()->addSpaceAfter((string) $cell, $maxsize))
+                        $this->explode($this->formater->addSpaceAfter((string) $cell, $maxsize))
                     );
                 }
             } else {
                 $result = sprintf(
                     '%s %s |',
                     $result,
-                    $this->explode($this->getTextFormater()->addSpaceAfter((string) $row, $maxsize))
+                    $this->explode($this->formater->addSpaceAfter((string) $row, $maxsize))
                 );
             }
             $result = $result."\r\n";

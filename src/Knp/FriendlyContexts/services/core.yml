@@ -1,0 +1,44 @@
+parameters:
+    friendly.parameters: []
+
+services:
+
+    friendly.initializer:
+        class: Knp\FriendlyContexts\Context\Initializer
+        arguments:
+            - %friendly.parameters%
+            - @service_container
+        tags:
+            - { name: behat.context.initializer }
+
+    friendly.record.bag:
+        class: Knp\FriendlyContexts\Record\Collection\Bag
+        arguments:
+            - @friendly.object.reflector
+
+    friendly.entity.hydrator:
+        class: Knp\FriendlyContexts\Doctrine\EntityHydrator
+        arguments:
+            - @friendly.text.formater
+            - @friendly.guesser.manager
+            - @friendly.entity.resolver
+
+    friendly.entity.resolver:
+        class: Knp\FriendlyContexts\Doctrine\EntityResolver
+        arguments:
+            - @friendly.object.reflector
+            - @friendly.text.formater
+
+    friendly.text.formater:
+        class: Knp\FriendlyContexts\Tool\TextFormater
+
+    friendly.asserter:
+        class: Knp\FriendlyContexts\Tool\Asserter
+        arguments:
+            - @friendly.text.formater
+
+    friendly.guesser.manager:
+        class: Knp\FriendlyContexts\Guesser\GuesserManager
+
+    friendly.object.reflector:
+        class: Knp\FriendlyContexts\Reflection\ObjectReflector

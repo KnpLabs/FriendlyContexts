@@ -4,11 +4,19 @@ namespace Knp\FriendlyContexts\Doctrine;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
-use Knp\FriendlyContexts\Dictionary\Containable;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Tool\TextFormater;
 
 class EntityResolver
 {
-    use Containable;
+    protected $reflector;
+    protected $formater;
+
+    public function __construct(ObjectReflector $reflector, TextFormater $formater)
+    {
+        $this->reflector = $reflector;
+        $this->formater  = $formater;
+    }
 
     public function resolve(ObjectManager $entityManager, $name, $namespaces)
     {
@@ -26,7 +34,7 @@ class EntityResolver
     protected function getClassesFromName(ObjectManager $entityManager, $name, $namespace, array $results = [])
     {
         $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
-        $allClass = $this->getObjectReflector()->getReflectionsFromMetadata($allMetadata);
+        $allClass = $this->reflector->getReflectionsFromMetadata($allMetadata);
         foreach ($this->entityNameProposal($name) as $name) {
             $class = array_filter(
                 $allClass,
@@ -47,7 +55,7 @@ class EntityResolver
 
     public function getMetadataFromProperty(ObjectManager $entityManager, $entity, $property)
     {
-        $metadata     = $this->getMetadataFromObject($entityManager, $entity);
+        $metadata = $this->getMetadataFromObject($entityManager, $entity);
 
         if (null !== $map = $this->getMappingFromMetadata($metadata->fieldMappings, $property)) {
             return $map;
@@ -60,8 +68,8 @@ class EntityResolver
         throw new \RuntimeException(
             sprintf(
                 'Can\'t find property %s or %s in class %s',
-                $this->getTextFormater()->toCamelCase(strtolower($property)),
-                $this->getTextFormater()->toUnderscoreCase(strtolower($property)),
+                $this->formater->toCamelCase(strtolower($property)),
+                $this->formater->toUnderscoreCase(strtolower($property)),
                 get_class($entity())
             )
         );
@@ -89,8 +97,8 @@ class EntityResolver
         foreach ($metadata as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->getTextFormater()->toCamelCase(strtolower($property)):
-                case $this->getTextFormater()->toUnderscoreCase(strtolower($property)):
+                case $this->formater->toCamelCase(strtolower($property)):
+                case $this->formater->toUnderscoreCase(strtolower($property)):
                     return $map;
             }
         }

@@ -4,14 +4,14 @@ namespace Knp\FriendlyContexts\Guesser;
 
 class DatetimeGuesser extends AbstractGuesser implements GuesserInterface
 {
-    public function supports($mapping)
+    public function supports(array $mapping)
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
 
         return in_array($mapping['type'], ['datetime', 'date', 'time']);
     }
 
-    public function transform($str, $mapping = null)
+    public function transform($str, array $mapping = null)
     {
         $time = strtotime($str);
 
@@ -20,6 +20,11 @@ class DatetimeGuesser extends AbstractGuesser implements GuesserInterface
         }
 
         return \DateTime::createFromFormat('U', $time);
+    }
+
+    public function fake(array $mapping)
+    {
+        return new \DateTime();
     }
 
     public function getName()

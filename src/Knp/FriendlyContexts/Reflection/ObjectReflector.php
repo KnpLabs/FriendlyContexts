@@ -4,7 +4,6 @@ namespace Knp\FriendlyContexts\Reflection;
 
 class ObjectReflector
 {
-
     public function getReflectionClass($object)
     {
         return new \ReflectionClass($object);

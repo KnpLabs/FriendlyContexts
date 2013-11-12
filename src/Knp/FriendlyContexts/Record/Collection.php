@@ -66,6 +66,11 @@ class Collection
         }
     }
 
+    public function all()
+    {
+        return array_values($this->records);
+    }
+
     public function count()
     {
         return count($this->records);

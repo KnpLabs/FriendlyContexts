@@ -8,7 +8,6 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 class EntityContext extends Context
 {
-
     /**
      * @Given /^the following (.*)$/
      */
@@ -30,6 +29,7 @@ class EntityContext extends Context
             $this
                 ->getEntityHydrator()
                 ->hydrate($this->getEntityManager(), $entity, $values)
+                ->completeRequired($this->getEntityManager(), $entity)
             ;
 
             $this->getEntityManager()->persist($entity);
@@ -126,7 +126,7 @@ class EntityContext extends Context
     {
         $entities = $this
             ->getEntityResolver()
-            ->resolve($this->getEntityManager(), $name, $this->options['Entities'])
+            ->resolve($this->getEntityManager(), $name, $this->config['Entities'])
         ;
 
         switch (true) {
