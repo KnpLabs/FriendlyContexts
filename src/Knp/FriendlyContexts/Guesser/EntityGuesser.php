@@ -39,7 +39,7 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
 
         $records = array_values($collection->all());
 
-        return $record[array_rand($records)]->getEntity();
+        return $records[array_rand($records)]->getEntity();
     }
 
     public function getName()
