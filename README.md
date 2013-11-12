@@ -6,6 +6,7 @@ KnpLabs - FriendlyContexts
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7/mini.png)](https://insight.sensiolabs.com/projects/5620dc28-b1bb-43b0-be73-5c032d363fd7)
 [![Latest Stable Version](https://poser.pugx.org/knplabs/friendly-contexts/v/stable.png)](https://packagist.org/packages/knplabs/friendly-contexts)
 [![Latest Unstable Version](https://poser.pugx.org/knplabs/friendly-contexts/v/unstable.png)](https://packagist.org/packages/knplabs/friendly-contexts)
+
 **Doctrine entities generation context**
 
 ```php
