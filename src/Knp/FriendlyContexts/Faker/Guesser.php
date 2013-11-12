@@ -45,7 +45,6 @@ class Guesser
     public function getProvider($name)
     {
         if (false !== array_key_exists($name, $this->providers)) {
-
             return $this->providers[$name];
         }
 

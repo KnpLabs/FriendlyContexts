@@ -12,7 +12,7 @@ class FormatGuesserPass implements CompilerPassInterface
     {
         $managerDefinition = $container->getDefinition('friendly.guesser.manager');
 
-        foreach ($container->findTaggedServiceIds('friendly.format.guesser') as $id => $attributes) {
+        foreach (array_keys($container->findTaggedServiceIds('friendly.format.guesser')) as $id) {
             $managerDefinition->addMethodCall('addGuesser', [ new Reference($id) ]);
         }
     }

@@ -27,7 +27,6 @@ trait Providable
         while (null !== $rfl && $rfl->getName() !== "Faker\Provider\Base") {
             $name = $rfl->getName();
             if ($this instanceof $name) {
-
                 return true;
             }
             $rfl = $rfl->getParentClass();
@@ -40,7 +39,6 @@ trait Providable
     {
         if (null !== $this->parentProvider) {
             if ($this->hasFakerMethod($this->parentProvider, $property)) {
-
                 return true;
             }
         }
@@ -78,7 +76,7 @@ trait Providable
         return $object->$property();
     }
 
-    public abstract function getName();
+    abstract public function getName();
 
     protected function hasFakerMethod(Base $object, $method)
     {

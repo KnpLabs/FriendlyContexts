@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Knp\FriendlyContexts\Guesser\GuesserInterface;
 
 class GuesserManager

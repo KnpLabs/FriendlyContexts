@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Knp\FriendlyContexts\DependencyInjection\Compiler;
 
-
 class Extension implements ExtensionInterface
 {
     public function load(array $config, ContainerBuilder $container)
