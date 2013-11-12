@@ -13,8 +13,9 @@ class Extension implements ExtensionInterface
 {
     public function load(array $config, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . 'services/'));
         $loader->load('core.yml');
+        $loader->load('guessers.yml');
 
         $container->setParameter('friendly.parameters', $config);
     }

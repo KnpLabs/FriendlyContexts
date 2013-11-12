@@ -1,0 +1,18 @@
+services:
+
+    friendly.guesser.boolean:
+        class: Knp\FriendlyContexts\Guesser\BooleanGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.datetime:
+        class: Knp\FriendlyContexts\Guesser\DatetimeGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.entity:
+        class: Knp\FriendlyContexts\Guesser\EntityGuesser
+        arguments:
+            - @friendly.record.bag
+        tags:
+            - { name: friendly.format.guesser }
