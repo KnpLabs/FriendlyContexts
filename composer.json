@@ -11,7 +11,7 @@
         "doctrine/inflector": "1.*",
         "doctrine/data-fixtures": "1.0.*",
         "behat/mink-extension": "1.*",
-        "fzaninotto/faker": "~1.0@dev"
+        "fzaninotto/faker": "~1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",
