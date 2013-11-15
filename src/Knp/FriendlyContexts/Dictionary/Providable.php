@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Faker\Generator;
 use Faker\Provider\Base;
 
 trait Providable
