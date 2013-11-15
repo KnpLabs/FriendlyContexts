@@ -13,6 +13,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.company:
         class: Knp\FriendlyContexts\Faker\Provider\Company
@@ -20,6 +21,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.datetime:
         class: Knp\FriendlyContexts\Faker\Provider\DateTime
@@ -34,6 +36,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.internet:
         class: Knp\FriendlyContexts\Faker\Provider\Internet
@@ -41,6 +44,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.lorem:
         class: Knp\FriendlyContexts\Faker\Provider\Lorem
@@ -48,6 +52,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.miscellaneous:
         class: Knp\FriendlyContexts\Faker\Provider\Miscellaneous
@@ -55,6 +60,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.payment:
         class: Knp\FriendlyContexts\Faker\Provider\Payment
@@ -62,6 +68,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.person:
         class: Knp\FriendlyContexts\Faker\Provider\Person
@@ -69,6 +76,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.phonenumber:
         class: Knp\FriendlyContexts\Faker\Provider\PhoneNumber
@@ -76,6 +84,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.useragent:
         class: Knp\FriendlyContexts\Faker\Provider\UserAgent
@@ -83,6 +92,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.uuid:
         class: Knp\FriendlyContexts\Faker\Provider\Uuid
@@ -90,3 +100,4 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
