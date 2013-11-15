@@ -42,3 +42,13 @@ services:
 
     friendly.object.reflector:
         class: Knp\FriendlyContexts\Reflection\ObjectReflector
+
+    friendly.faker:
+        class: Faker\Generator
+        factory_class: Faker\Factory
+        factory_method: create
+
+    friendly.faker.guesser:
+        class: Knp\FriendlyContexts\Faker\Guesser
+        arguments:
+            - @friendly.faker

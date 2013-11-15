@@ -5,6 +5,20 @@ services:
         tags:
             - { name: friendly.format.guesser }
 
+    friendly.guesser.bigint:
+        class: Knp\FriendlyContexts\Guesser\BigintGuesser
+        arguments:
+            - @friendly.faker.miscellaneous
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.int:
+        class: Knp\FriendlyContexts\Guesser\IntGuesser
+        arguments:
+            - @friendly.faker.miscellaneous
+        tags:
+            - { name: friendly.format.guesser }
+
     friendly.guesser.datetime:
         class: Knp\FriendlyContexts\Guesser\DatetimeGuesser
         tags:

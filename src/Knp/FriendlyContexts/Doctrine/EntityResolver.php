@@ -70,7 +70,7 @@ class EntityResolver
                 'Can\'t find property %s or %s in class %s',
                 $this->formater->toCamelCase(strtolower($property)),
                 $this->formater->toUnderscoreCase(strtolower($property)),
-                get_class($entity())
+                get_class($entity)
             )
         );
     }

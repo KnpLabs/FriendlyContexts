@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Faker;
 
-use Faker\Factory;
 use Knp\FriendlyContexts\Dictionary\Containable;
 use Faker\Provider\Base;
 
@@ -10,35 +9,16 @@ class Guesser
 {
     use Containable;
 
-    protected $faker;
+    protected $generator;
+    protected $bases = [];
     protected $providers = [];
 
-    public function __construct()
+    public function __construct(Generator $generator)
     {
-        $this->faker = Factory::create();
+        $this->generator = $generator;
 
-        $providers = [
-            new Provider\Address($this->faker),
-            new Provider\Color($this->faker),
-            new Provider\Company($this->faker),
-            new Provider\DateTime($this->faker),
-            new Provider\File($this->faker),
-            new Provider\Internet($this->faker),
-            new Provider\Lorem($this->faker),
-            new Provider\Miscellaneous($this->faker),
-            new Provider\Payment($this->faker),
-            new Provider\Person($this->faker),
-            new Provider\PhoneNumber($this->faker),
-            new Provider\UserAgent($this->faker),
-            new Provider\Uuid($this->faker),
-        ];
-
-        foreach ($providers as $provider) {
-            $this->providers[$provider->getName()] = $provider;
-        }
-
-        foreach ($this->faker->getProviders() as $provider) {
-            $this->registerFakerProvider($provider);
+        foreach ($this->generator->getProviders() as $provider) {
+            $this->bases[] = $provider;
         }
     }
 
@@ -57,11 +37,13 @@ class Guesser
         );
     }
 
-    protected function registerFakerProvider(Base $fakerProvider)
+    public function addProvider(Base $provider)
     {
-        foreach ($this->providers as $provider) {
-            if ($provider->supportsParentProvider($fakerProvider)) {
-                $provider->setParentProvider($fakerProvider);
+        $this->provider[$provider->getName()] = $provider;
+
+        foreach ($this->bases as $base) {
+            if ($provider->supportsParentProvider($base)) {
+                $provider->setParentProvider($base);
             }
         }
     }
