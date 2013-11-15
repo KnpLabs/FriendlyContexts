@@ -9,6 +9,11 @@ class Internet extends Base
 {
     use Providable;
 
+    public function login()
+    {
+        return $this->parent->userName();
+    }
+
     public function getName()
     {
         return 'Internet';
