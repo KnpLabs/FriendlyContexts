@@ -46,7 +46,7 @@ trait Providable
         return $this->hasFakerMethod($this, $property);
     }
 
-    public function fake($property)
+    public function fake($property, array $args = [])
     {
         if (false === $this->isFakable($property)) {
             throw new \Exception(
@@ -70,10 +70,10 @@ trait Providable
 
         if ($method->isStatic()) {
 
-            $method->invoke(null);
+            $method->invokeArgs(null, $args);
         }
 
-        return $object->$property();
+        return $method->invokeArgs($object, $args);
     }
 
     abstract public function getName();

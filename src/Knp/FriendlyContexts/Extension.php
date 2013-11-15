@@ -15,6 +15,7 @@ class Extension implements ExtensionInterface
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('core.yml');
+        $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
         $container->setParameter('friendly.parameters', $config);
@@ -44,6 +45,7 @@ class Extension implements ExtensionInterface
     {
         return [
            new Compiler\FormatGuesserPass,
+           new Compiler\FakerProviderPass,
         ];
     }
 }

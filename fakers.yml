@@ -1,0 +1,97 @@
+services:
+
+    faker:
+        class: Faker\Generator
+        factory_class: Faker\Factory
+        factory_method: create
+
+    friendly.faker.address:
+        class: Knp\FriendlyContexts\Faker\Provider\Address
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.color:
+        class: Knp\FriendlyContexts\Faker\Provider\Color
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.company:
+        class: Knp\FriendlyContexts\Faker\Provider\Company
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.datetime:
+        class: Knp\FriendlyContexts\Faker\Provider\DateTime
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.file:
+        class: Knp\FriendlyContexts\Faker\Provider\File
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.internet:
+        class: Knp\FriendlyContexts\Faker\Provider\Internet
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.lorem:
+        class: Knp\FriendlyContexts\Faker\Provider\Lorem
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.miscellaneous:
+        class: Knp\FriendlyContexts\Faker\Provider\Miscellaneous
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.payment:
+        class: Knp\FriendlyContexts\Faker\Provider\Payment
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.person:
+        class: Knp\FriendlyContexts\Faker\Provider\Person
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.phonenumber:
+        class: Knp\FriendlyContexts\Faker\Provider\PhoneNumber
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.useragent:
+        class: Knp\FriendlyContexts\Faker\Provider\UserAgent
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.uuid:
+        class: Knp\FriendlyContexts\Faker\Provider\Uuid
+        arguments:
+            - @faker
+        tags:
+            - { name: friendly.faker.provider }
