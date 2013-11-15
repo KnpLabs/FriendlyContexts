@@ -39,6 +39,33 @@ class EntityContext extends Context
     }
 
     /**
+     * @Given /^there is (\d+) (.*)$/
+     */
+    public function thereIs($nbr, $name)
+    {
+        $entityName = $this->resolveEntity($name)->getName();
+
+        for ($i = 0; $i < $nbr; $i++) {
+            $entity = new $entityName;
+            $this
+                ->getRecordBag()
+                ->getCollection($entityName)
+                ->attach($entity)
+            ;
+            $this
+                ->getEntityHydrator()
+                ->completeRequired($this->getEntityManager(), $entity)
+            ;
+
+            $this->getEntityManager()->persist($entity);
+
+            usleep(10);
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    /**
      * @Given /^(\w+) (.+) should be created$/
      */
     public function entitiesShouldBeCreated($expected, $entity)

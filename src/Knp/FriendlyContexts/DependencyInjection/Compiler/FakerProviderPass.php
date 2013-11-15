@@ -10,10 +10,9 @@ class FakerProviderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $managerDefinition = $container->getDefinition('friendly.faker.guesser');
-
         foreach (array_keys($container->findTaggedServiceIds('friendly.faker.provider')) as $id) {
-            $managerDefinition->addMethodCall('addProvider', [ new Reference($id) ]);
+            $fakerDefinition = $container->getDefinition($id);
+            $fakerDefinition->addMethodCall('initialise');
         }
     }
 }
