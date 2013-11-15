@@ -11,7 +11,7 @@ trait Providable
 
     public function initialise()
     {
-        foreach($this->generator->getProviders() as $provider) {
+        foreach ($this->generator->getProviders() as $provider) {
             if ($this->supportsParent($provider)) {
                 $this->setParent($provider);
             }
