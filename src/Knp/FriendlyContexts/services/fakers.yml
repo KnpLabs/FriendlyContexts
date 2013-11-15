@@ -6,6 +6,7 @@ services:
             - @friendly.faker
         tags:
             - { name: friendly.faker.provider }
+            - { name: friendly.guesser.string.faker }
 
     friendly.faker.color:
         class: Knp\FriendlyContexts\Faker\Provider\Color
