@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Faker;
 
-use Faker\Factory;
 use Knp\FriendlyContexts\Dictionary\Containable;
 use Faker\Provider\Base;
 
