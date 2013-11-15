@@ -43,7 +43,7 @@ class Collection
         return $this;
     }
 
-    public function attach($entity, $values)
+    public function attach($entity, array $values = [])
     {
         $this->mergeHeaders(array_keys($values));
 
