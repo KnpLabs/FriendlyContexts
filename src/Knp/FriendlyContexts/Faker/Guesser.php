@@ -8,8 +8,6 @@ use Faker\Generator;
 
 class Guesser
 {
-    use Containable;
-
     protected $generator;
     protected $bases = [];
     protected $providers = [];
@@ -43,8 +41,8 @@ class Guesser
         $this->provider[$provider->getName()] = $provider;
 
         foreach ($this->bases as $base) {
-            if ($provider->supportsParentProvider($base)) {
-                $provider->setParentProvider($base);
+            if ($provider->supportsParent($base)) {
+                $provider->setParent($base);
             }
         }
     }

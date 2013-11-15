@@ -11,7 +11,7 @@ class Person extends Base
 
     public function fullname()
     {
-        return $this->parentProvider->name();
+        return $this->parent->name();
     }
 
     public function getName()

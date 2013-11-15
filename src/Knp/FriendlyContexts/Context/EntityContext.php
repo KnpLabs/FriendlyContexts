@@ -58,6 +58,8 @@ class EntityContext extends Context
             ;
 
             $this->getEntityManager()->persist($entity);
+
+            usleep(10);
         }
 
         $this->getEntityManager()->flush();
