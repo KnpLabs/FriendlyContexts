@@ -27,7 +27,6 @@ class StringGuesser extends AbstractGuesser implements GuesserInterface
 
         foreach ($this->fakers as $faker) {
             if ($faker->isFakable($name)) {
-
                 return $faker->fake($name);
             }
         }
