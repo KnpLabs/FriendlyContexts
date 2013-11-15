@@ -4,6 +4,7 @@ namespace Knp\FriendlyContexts\Faker;
 
 use Knp\FriendlyContexts\Dictionary\Containable;
 use Faker\Provider\Base;
+use Faker\Generator;
 
 class Guesser
 {
