@@ -24,6 +24,11 @@ services:
         tags:
             - { name: friendly.format.guesser }
 
+    friendly.guesser.string:
+        class: Knp\FriendlyContexts\Guesser\StringGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
     friendly.guesser.entity:
         class: Knp\FriendlyContexts\Guesser\EntityGuesser
         arguments:
