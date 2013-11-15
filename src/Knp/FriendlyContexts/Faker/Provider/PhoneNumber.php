@@ -9,6 +9,21 @@ class PhoneNumber extends Base
 {
     use Providable;
 
+    public function phone()
+    {
+        return $this->parent->phoneNumber();
+    }
+
+    public function fax()
+    {
+        return $this->parent->phoneNumber();
+    }
+
+    public function mobile()
+    {
+        return $this->parent->phoneNumber();
+    }
+
     public function getName()
     {
         return 'PhoneNumber';

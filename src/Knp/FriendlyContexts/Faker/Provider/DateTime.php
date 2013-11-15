@@ -11,7 +11,7 @@ class DateTime extends Base
 
     public function timestamp()
     {
-        return Base::unixTime();
+        return $this->parent->unixTime();
     }
 
     public function getName()
