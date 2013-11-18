@@ -5,8 +5,8 @@ services:
         tags:
             - { name: friendly.format.guesser }
 
-    friendly.guesser.bigint:
-        class: Knp\FriendlyContexts\Guesser\BigintGuesser
+    friendly.guesser.smallint:
+        class: Knp\FriendlyContexts\Guesser\SmallintGuesser
         arguments:
             - @friendly.faker.miscellaneous
         tags:
@@ -14,6 +14,13 @@ services:
 
     friendly.guesser.int:
         class: Knp\FriendlyContexts\Guesser\IntGuesser
+        arguments:
+            - @friendly.faker.miscellaneous
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.bigint:
+        class: Knp\FriendlyContexts\Guesser\BigintGuesser
         arguments:
             - @friendly.faker.miscellaneous
         tags:
