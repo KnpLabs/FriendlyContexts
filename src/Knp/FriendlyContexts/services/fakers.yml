@@ -62,6 +62,10 @@ services:
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
+            - { name: friendly.guesser.smallint.faker }
+            - { name: friendly.guesser.int.faker }
+            - { name: friendly.guesser.bigint.faker }
+            - { name: friendly.guesser.float.faker }
 
     friendly.faker.payment:
         class: Knp\FriendlyContexts\Faker\Provider\Payment

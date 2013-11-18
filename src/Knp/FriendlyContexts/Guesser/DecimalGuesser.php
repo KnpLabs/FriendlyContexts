@@ -2,29 +2,27 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Knp\FriendlyContexts\Faker\Provider\Miscellaneous;
-
-class IntGuesser extends AbstractGuesser implements GuesserInterface
+class DecimalGuesser extends AbstractGuesser implements GuesserInterface
 {
     public function supports(array $mapping)
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
 
-        return $mapping['type'] === 'int';
+        return in_array($mapping['type'], [ 'decimal', 'float' ]);
     }
 
     public function transform($str, array $mapping = null)
     {
-        return (int) $str;
+        return (float) $str;
     }
 
     public function fake(array $mapping)
     {
-        return current($this->fakers)->fake('numberBetween', [0, 2000000000]);
+        return current($this->fakers)->fake('randomFloat');
     }
 
     public function getName()
     {
-        return 'int';
+        return 'decimal';
     }
 }
