@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Knp\FriendlyContexts\Faker\Provider\Miscellaneous;
-
 class BigintGuesser extends AbstractGuesser implements GuesserInterface
 {
     public function supports(array $mapping)
