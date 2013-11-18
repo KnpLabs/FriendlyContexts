@@ -7,22 +7,21 @@ services:
 
     friendly.guesser.smallint:
         class: Knp\FriendlyContexts\Guesser\SmallintGuesser
-        arguments:
-            - @friendly.faker.miscellaneous
-        tags:
-            - { name: friendly.format.guesser }
-
-    friendly.guesser.int:
-        class: Knp\FriendlyContexts\Guesser\IntGuesser
-        arguments:
-            - @friendly.faker.miscellaneous
         tags:
             - { name: friendly.format.guesser }
 
     friendly.guesser.bigint:
         class: Knp\FriendlyContexts\Guesser\BigintGuesser
-        arguments:
-            - @friendly.faker.miscellaneous
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.int:
+        class: Knp\FriendlyContexts\Guesser\IntGuesser
+        tags:
+            - { name: friendly.format.guesser }
+
+    friendly.guesser.decimal:
+        class: Knp\FriendlyContexts\Guesser\DecimalGuesser
         tags:
             - { name: friendly.format.guesser }
 

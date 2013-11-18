@@ -6,11 +6,6 @@ use Knp\FriendlyContexts\Faker\Provider\Miscellaneous;
 
 class BigintGuesser extends AbstractGuesser implements GuesserInterface
 {
-    public function __construct(Miscellaneous $faker)
-    {
-        $this->faker = $faker;
-    }
-
     public function supports(array $mapping)
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
@@ -25,7 +20,7 @@ class BigintGuesser extends AbstractGuesser implements GuesserInterface
 
     public function fake(array $mapping)
     {
-        return $this->faker->fake('randomNumber');
+        return current($this->fakers)->fake('randomNumber');
     }
 
     public function getName()
