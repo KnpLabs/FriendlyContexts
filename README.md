@@ -18,8 +18,9 @@ default:
 # ...
     extensions:
         Knp\FriendlyContexts\Extension: 
-            Entity:
-                enable: true
+            Contexts:
+                Entity:
+                    enable: true
 ```
 
 ```php
