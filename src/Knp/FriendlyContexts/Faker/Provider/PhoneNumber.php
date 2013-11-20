@@ -2,13 +2,8 @@
 
 namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\PhoneNumber as Base;
-use Knp\FriendlyContexts\Dictionary\Providable;
-
 class PhoneNumber extends Base
 {
-    use Providable;
-
     public function phone()
     {
         return $this->parent->phoneNumber();
@@ -24,8 +19,8 @@ class PhoneNumber extends Base
         return $this->parent->phoneNumber();
     }
 
-    public function getName()
+    public function supportsParent($parent)
     {
-        return 'PhoneNumber';
+        return $parent instanceOf \Faker\Provider\PhoneNumber;
     }
 }
