@@ -28,7 +28,7 @@ class EntityHydrator
             PropertyAccess::getPropertyAccessor()
                 ->setValue(
                     $entity,
-                    $property,
+                    $this->formater->toCamelCase($property),
                     $value
                 )
             ;
