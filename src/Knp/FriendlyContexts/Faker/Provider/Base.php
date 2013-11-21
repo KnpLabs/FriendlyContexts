@@ -49,27 +49,20 @@ class Base extends FakerProvider
     {
         if (false === $this->isFakable($property)) {
             throw new \Exception(
-                sprintf(
-                    'The property "%s" is not fakable by the provider "%s"',
-                    $property,
-                    get_class($this)
-                )
+                sprintf('The property "%s" is not fakable by the provider "%s"', $property, get_class($this))
             );
         }
 
         $object = method_exists($this, $property) ? $this : null;
 
-        if (null !== $this->parent) {
-            if ($this->hasFakerMethod($this->parent, $property)) {
-                $object = $this->parent;
-            }
+        if ((null !== $this->parent) && ($this->hasFakerMethod($this->parent, $property))) {
+            $object = $this->parent;
         }
 
         $method = $this->getFakerMethod($object, $property);
 
         if ($method->isStatic()) {
-
-            $method->invokeArgs(null, $args);
+            return $method->invokeArgs(null, $args);
         }
 
         return $method->invokeArgs($object, $args);
