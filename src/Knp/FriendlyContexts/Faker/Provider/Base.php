@@ -47,12 +47,6 @@ class Base extends FakerProvider
 
     public function fake($property, array $args = [])
     {
-        if (false === $this->isFakable($property)) {
-            throw new \Exception(
-                sprintf('The property "%s" is not fakable by the provider "%s"', $property, get_class($this))
-            );
-        }
-
         $object = method_exists($this, $property) ? $this : null;
 
         if ((null !== $this->parent) && ($this->hasFakerMethod($this->parent, $property))) {
@@ -61,11 +55,7 @@ class Base extends FakerProvider
 
         $method = $this->getFakerMethod($object, $property);
 
-        if ($method->isStatic()) {
-            return $method->invokeArgs(null, $args);
-        }
-
-        return $method->invokeArgs($object, $args);
+        return $method->invokeArgs($method->isStatic() ? null : $object, $args);
     }
 
     protected function hasFakerMethod($object, $method)
