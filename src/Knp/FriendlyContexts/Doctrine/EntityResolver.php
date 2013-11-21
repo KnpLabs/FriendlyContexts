@@ -97,10 +97,12 @@ class EntityResolver
 
     public function asAccessForCase($entity, $property, $case)
     {
-        return property_exists($entity, $this->formater->to{$case}($property)) || method_exists($entity, $this->formater->to{$case}($property));
+        $method = sprintf('to%s', $case);
+
+        return property_exists($entity, $this->formater->{$method}($property)) || method_exists($entity, $this->formater->{$method}($property));
     }
 
-    protected function getMappingFromMetadata($metadata, $protected)
+    protected function getMappingFromMetadata($metadata, $property)
     {
         if (null !== $map = $this->getMappingFromMetadataPart($metadata->fieldMappings, $property)) {
             return $map;
