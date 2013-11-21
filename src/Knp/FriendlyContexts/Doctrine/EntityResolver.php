@@ -9,6 +9,9 @@ use Knp\FriendlyContexts\Tool\TextFormater;
 
 class EntityResolver
 {
+    const CASE_CAMEL      = 'CamelCase';
+    const CASE_UNDERSCORE = 'UnderscoreCase';
+
     protected $reflector;
     protected $formater;
 
@@ -57,19 +60,11 @@ class EntityResolver
     {
         $metadata = $this->getMetadataFromObject($entityManager, $entity);
 
-        if (null !== $map = $this->getMappingFromMetadata($metadata->fieldMappings, $property)) {
+        if (null !== $map = $this->getMappingFromMetadata($metadata, $property)) {
             return $map;
         }
 
-        if (null !== $map = $this->getMappingFromMetadata($metadata->associationMappings, $property)) {
-            return $map;
-        }
-
-        if (property_exists($entity, $this->formater->toCamelCase($property)) || method_exists($entity, $this->formater->toCamelCase($property))) {
-            return false;
-        }
-
-        if (property_exists($entity, $this->formater->toUnderscoreCase($property)) || method_exists($entity, $this->formater->toUnderscoreCase($property))) {
+        if ($this->asAccessForCase($entity, $property, self::CASE_CAMEL) || $this->asAccessForCase($entity, $property, self::CASE_UNDERSCORE)) {
             return false;
         }
 
@@ -100,7 +95,23 @@ class EntityResolver
         return array_unique($results);
     }
 
-    protected function getMappingFromMetadata($metadata, $property)
+    public function asAccessForCase($entity, $property, $case)
+    {
+        return property_exists($entity, $this->formater->to{$case}($property)) || method_exists($entity, $this->formater->to{$case}($property));
+    }
+
+    protected function getMappingFromMetadata($metadata, $protected)
+    {
+        if (null !== $map = $this->getMappingFromMetadataPart($metadata->fieldMappings, $property)) {
+            return $map;
+        }
+
+        if (null !== $map = $this->getMappingFromMetadataPart($metadata->associationMappings, $property)) {
+            return $map;
+        }
+    }
+
+    protected function getMappingFromMetadataPart($metadata, $property)
     {
         foreach ($metadata as $id => $map) {
             switch (strtolower($id)) {
