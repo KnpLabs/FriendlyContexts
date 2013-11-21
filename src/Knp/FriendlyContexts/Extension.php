@@ -30,7 +30,6 @@ class Extension implements ExtensionInterface
                         ->children()
                             ->arrayNode('Entity')
                                 ->children()
-                                    ->scalarNode('enable')->defaultFalse()->end()
                                     ->arrayNode('namespaces')->end()
                                 ->end()
                             ->end()
