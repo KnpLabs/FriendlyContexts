@@ -99,7 +99,7 @@ class EntityResolver
     {
         $method = sprintf('to%s', $case);
 
-        return property_exists($entity, $this->formater->{$method}($property)) || method_exists($entity, $this->formater->{$method}($property));
+        return property_exists($entity, $this->formater->{$method}($property)) || method_exists($entity, 'set' . $this->formater->{$method}($property));
     }
 
     protected function getMappingFromMetadata($metadata, $property)
