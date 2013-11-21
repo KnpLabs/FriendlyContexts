@@ -2,15 +2,10 @@
 
 namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\Uuid as Base;
-use Knp\FriendlyContexts\Dictionary\Providable;
-
 class Uuid extends Base
 {
-    use Providable;
-
-    public function getName()
+    public function supportsParent($parent)
     {
-        return 'Uuid';
+        return $parent instanceOf \Faker\Provider\Uuid;
     }
 }

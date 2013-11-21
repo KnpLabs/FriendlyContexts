@@ -1,10 +1,10 @@
 <?php
 
-namespace Knp\FriendlyContexts\Dictionary;
+namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\Base;
+use Faker\Provider\Base as FakerProvider;
 
-trait Providable
+class Base extends FakerProvider
 {
     protected $parent;
 
@@ -22,25 +22,15 @@ trait Providable
         return $this->parent;
     }
 
-    public function setParent(Base $parent)
+    public function setParent(FakerProvider $parent)
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    public function supportsParent(Base $parent)
+    public function supportsParent($parent)
     {
-        $rfl = new \ReflectionClass($parent);
-
-        while (null !== $rfl && $rfl->getName() !== "Faker\Provider\Base") {
-            $name = $rfl->getName();
-            if ($this instanceof $name) {
-                return true;
-            }
-            $rfl = $rfl->getParentClass();
-        }
-
         return false;
     }
 
@@ -60,9 +50,9 @@ trait Providable
         if (false === $this->isFakable($property)) {
             throw new \Exception(
                 sprintf(
-                    'The property "%s" is not fakable by the provider named "%s"',
+                    'The property "%s" is not fakable by the provider "%s"',
                     $property,
-                    $this->getName()
+                    get_class($this)
                 )
             );
         }
@@ -85,16 +75,14 @@ trait Providable
         return $method->invokeArgs($object, $args);
     }
 
-    abstract public function getName();
-
-    protected function hasFakerMethod(Base $object, $method)
+    protected function hasFakerMethod($object, $method)
     {
         $rfl = new \ReflectionClass($object);
 
         return $rfl->hasMethod($method);
     }
 
-    protected function getFakerMethod(Base $object, $method)
+    protected function getFakerMethod($object, $method)
     {
         $rfl = new \ReflectionClass($object);
 

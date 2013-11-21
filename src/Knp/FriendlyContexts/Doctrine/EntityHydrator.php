@@ -21,30 +21,32 @@ class EntityHydrator
     public function hydrate(ObjectManager $em, $entity, $values)
     {
         foreach ($values as $property => $value) {
-            $mapping = $this->resolver->getMetadataFromProperty($em, $entity, $property);
-            $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
-            $arrayRelation = $mapping['type'] === 'array';
+            if (false !== $mapping = $this->resolver->getMetadataFromProperty($em, $entity, $property)) {
+                $property = $mapping['fieldName'];
+                $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
+                $arrayRelation = $mapping['type'] === 'array';
 
-            $result = null;
+                $result = null;
 
-            if ($collectionRelation || $arrayRelation) {
-                $result = array_map(
-                    function ($e) use ($mapping) {
-                        return $this->format($mapping, $e);
-                    },
-                    $this->formater->listToArray($value)
-                );
+                if ($collectionRelation || $arrayRelation) {
+                    $result = array_map(
+                        function ($e) use ($mapping) {
+                            return $this->format($mapping, $e);
+                        },
+                        $this->formater->listToArray($value)
+                    );
 
-                $result = $collectionRelation ? new ArrayCollection($result) : $result;
-            } else {
-                $result = $this->format($mapping, $value);
+                    $value = $collectionRelation ? new ArrayCollection($result) : $result;
+                } else {
+                    $value = $this->format($mapping, $value);
+                }
             }
 
             PropertyAccess::getPropertyAccessor()
                 ->setValue(
                     $entity,
-                    $mapping['fieldName'],
-                    $result
+                    $property,
+                    $value
                 )
             ;
         }

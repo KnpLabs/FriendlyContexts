@@ -65,6 +65,14 @@ class EntityResolver
             return $map;
         }
 
+        if (property_exists($entity, $this->formater->toCamelCase($property)) || method_exists($entity, $this->formater->toCamelCase($property))) {
+            return false;
+        }
+
+        if (property_exists($entity, $this->formater->toUnderscoreCase($property)) || method_exists($entity, $this->formater->toUnderscoreCase($property))) {
+            return false;
+        }
+
         throw new \RuntimeException(
             sprintf(
                 'Can\'t find property %s or %s in class %s',

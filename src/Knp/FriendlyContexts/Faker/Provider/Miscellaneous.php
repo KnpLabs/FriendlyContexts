@@ -2,15 +2,10 @@
 
 namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\Miscellaneous as Base;
-use Knp\FriendlyContexts\Dictionary\Providable;
-
 class Miscellaneous extends Base
 {
-    use Providable;
-
-    public function getName()
+    public function supportsParent($parent)
     {
-        return 'Miscellaneous';
+        return $parent instanceOf \Faker\Provider\Miscellaneous;
     }
 }

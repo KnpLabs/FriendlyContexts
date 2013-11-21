@@ -2,13 +2,8 @@
 
 namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\Address as Base;
-use Knp\FriendlyContexts\Dictionary\Providable;
-
 class Address extends Base
 {
-    use Providable;
-
     public function address1()
     {
         return $this->parent->streetAddress();
@@ -24,8 +19,8 @@ class Address extends Base
         return $this->parent->postcode();
     }
 
-    public function getName()
+    public function supportsParent($parent)
     {
-        return 'Address';
+        return $parent instanceOf \Faker\Provider\Address;
     }
 }

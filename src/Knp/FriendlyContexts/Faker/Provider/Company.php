@@ -2,15 +2,10 @@
 
 namespace Knp\FriendlyContexts\Faker\Provider;
 
-use Faker\Provider\Company as Base;
-use Knp\FriendlyContexts\Dictionary\Providable;
-
 class Company extends Base
 {
-    use Providable;
-
-    public function getName()
+    public function supportsParent($parent)
     {
-        return 'Company';
+        return $parent instanceOf \Faker\Provider\Company;
     }
 }

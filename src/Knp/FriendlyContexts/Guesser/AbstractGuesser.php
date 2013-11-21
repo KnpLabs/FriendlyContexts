@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Faker\Provider\Base;
+use Knp\FriendlyContexts\Faker\Provider\Base;
 
 abstract class AbstractGuesser
 {
@@ -23,7 +23,9 @@ abstract class AbstractGuesser
 
     public function addFaker(Base $faker)
     {
-        $this->fakers[] = $faker;
+        if (null !== $faker->getParent()) {
+            $this->fakers[] = $faker;
+        }
     }
 
     protected function get($name)
