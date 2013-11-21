@@ -22,24 +22,7 @@ class EntityHydrator
     {
         foreach ($values as $property => $value) {
             if (false !== $mapping = $this->resolver->getMetadataFromProperty($em, $entity, $property)) {
-                $property = $mapping['fieldName'];
-                $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
-                $arrayRelation = $mapping['type'] === 'array';
-
-                $result = null;
-
-                if ($collectionRelation || $arrayRelation) {
-                    $result = array_map(
-                        function ($e) use ($mapping) {
-                            return $this->format($mapping, $e);
-                        },
-                        $this->formater->listToArray($value)
-                    );
-
-                    $value = $collectionRelation ? new ArrayCollection($result) : $result;
-                } else {
-                    $value = $this->format($mapping, $value);
-                }
+                $this->formatFromMapping($mapping, $property, $value);
             }
 
             PropertyAccess::getPropertyAccessor()
@@ -98,5 +81,25 @@ class EntityHydrator
         }
 
         return $guesser->transform($value, $mapping);
+    }
+
+    protected function formatFromMapping($mapping, &$property, &$value)
+    {
+        $property = $mapping['fieldName'];
+        $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
+        $arrayRelation = $mapping['type'] === 'array';
+
+        if ($collectionRelation || $arrayRelation) {
+            $result = array_map(
+                function ($e) use ($mapping) {
+                    return $this->format($mapping, $e);
+                },
+                    $this->formater->listToArray($value)
+                );
+
+            $value = $collectionRelation ? new ArrayCollection($result) : $result;
+        } else {
+            $value = $this->format($mapping, $value);
+        }
     }
 }
