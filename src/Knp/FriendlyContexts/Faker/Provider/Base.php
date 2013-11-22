@@ -4,7 +4,7 @@ namespace Knp\FriendlyContexts\Faker\Provider;
 
 use Faker\Provider\Base as FakerProvider;
 
-class Base extends FakerProvider
+abstract class Base extends FakerProvider
 {
     protected $parent;
 
