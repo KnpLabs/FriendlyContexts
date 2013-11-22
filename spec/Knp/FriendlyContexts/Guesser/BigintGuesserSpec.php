@@ -5,18 +5,18 @@ namespace spec\Knp\FriendlyContexts\Guesser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class SmallintGuesserSpec extends ObjectBehavior
+class BigintGuesserSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Guesser\SmallintGuesser');
+        $this->shouldHaveType('Knp\FriendlyContexts\Guesser\BigintGuesser');
     }
 
     function it_should_support_smallint_mapping()
     {
         $mapping = [
             'fieldName'  => "number",
-            'type'       => "smallint",
+            'type'       => "bigint",
             'scale'      => 0,
             'length'     => null,
             'unique'     => false,

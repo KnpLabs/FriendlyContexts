@@ -13,7 +13,7 @@ class IntGuesser extends AbstractGuesser implements GuesserInterface
 
     public function transform($str, array $mapping = null)
     {
-        return (int) $str;
+        return (int) round($str);
     }
 
     public function fake(array $mapping)
