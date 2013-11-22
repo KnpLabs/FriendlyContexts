@@ -31,7 +31,7 @@ class FriendlyContext extends Context
 
         $context->initialize($config, $this->container);
 
-        $this->useContext($name, $context);
+        $this->useContext(strtolower($name), $context);
     }
 
     protected function getDefaultOptions()
