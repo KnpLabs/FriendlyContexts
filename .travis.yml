@@ -6,8 +6,6 @@ php:
 before_script:
     - composer update --prefer-source --dev
 
-notifications:
-    email:
-        - plazanet.pierre@gmail.com
 script:
+    - bin/phpspec status
     - bin/phpspec -fpretty
