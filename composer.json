@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",
-        "doctrine/orm": "dev-master"
+        "doctrine/orm": "dev-master",
+        "knplabs/phpspec-welldone-extension": "dev-master"
     },
     "license": "MIT",
     "authors": [
