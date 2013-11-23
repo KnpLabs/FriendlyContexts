@@ -48,7 +48,8 @@ class EntityHydrator
 
         $metadata = $this->resolver->getMetadataFromObject($em, $entity);
 
-        foreach ($metadata->getColumnNames() as $property) {
+        foreach ($metadata->getColumnNames() as $columnName) {
+            $property = $metadata->getFieldName($columnName);
             if (false === $metadata->isNullable($property) && null === $accessor->getValue($entity, $property)) {
                 try {
                     $accessor->setValue(
