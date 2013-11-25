@@ -27,7 +27,7 @@ class ScenarioLoader implements LoaderInterface
 
         foreach ($scenarios as $scenario) {
             $definition = new Given(
-                function() use ($context, $scenario) {
+                function () use ($context, $scenario) {
                     return $context->executeScenario($scenario);
                 },
                 $scenario->getTitle()

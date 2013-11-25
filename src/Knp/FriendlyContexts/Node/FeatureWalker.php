@@ -3,7 +3,6 @@
 namespace Knp\FriendlyContexts\Node;
 
 use Behat\Gherkin\Gherkin;
-use Behat\Gherkin\Node\FeatureNode;
 
 class FeatureWalker
 {
@@ -23,7 +22,6 @@ class FeatureWalker
     {
         foreach ($this->getScenarios() as $scenario) {
             if ($name === $scenario->getTitle()) {
-
                 return $scenario;
             }
         }
@@ -32,7 +30,7 @@ class FeatureWalker
     public function getScenarios()
     {
         $scenarios = [];
-        foreach($this->getFeatures() as $feature) {
+        foreach ($this->getFeatures() as $feature) {
             $scenarios = array_merge($scenarios, $feature->getScenarios());
         }
 

@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Behat\Behat\Event\StepEvent;
 use Behat\Gherkin\Node\ScenarioNode;
 
 class SmartContext extends Context
