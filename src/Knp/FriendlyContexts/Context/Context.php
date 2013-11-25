@@ -59,6 +59,11 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
         return $this->get('friendly.object.reflector');
     }
 
+    protected function getFeatureWalker()
+    {
+        return $this->get('friendly.feature.walker');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {
