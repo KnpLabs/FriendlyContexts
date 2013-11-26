@@ -122,7 +122,7 @@ class EntityContext extends Context
     /**
      * @BeforeScenario
      */
-    public function buildSchema($event)
+    public function beforeScenario($event)
     {
         $this->storeTags($event);
 
@@ -137,12 +137,21 @@ class EntityContext extends Context
                 }
             }
         }
+
+    }
+
+    /**
+     * @BeforeBackground
+     */
+    public function beforeBackground($event)
+    {
+        $this->getRecordBag()->clear();
     }
 
     /**
      * @AfterBackground
      */
-    public function clearManager($event)
+    public function afterBackground($event)
     {
         $this->getEntityManager()->clear();
     }

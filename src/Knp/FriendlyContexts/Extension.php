@@ -28,6 +28,8 @@ class Extension implements ExtensionInterface
                 ->arrayNode('Contexts')
                     ->isRequired()
                         ->children()
+                            ->arrayNode('Smart')
+                            ->end()
                             ->arrayNode('Entity')
                                 ->children()
                                     ->arrayNode('namespaces')->end()

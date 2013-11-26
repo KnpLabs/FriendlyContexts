@@ -47,3 +47,17 @@ services:
         class: Faker\Generator
         factory_class: Faker\Factory
         factory_method: create
+
+    friendly.feature.walker:
+        class: Knp\FriendlyContexts\Node\FeatureWalker
+        arguments:
+            - @gherkin
+            - %behat.paths.features%
+
+    friendly.loader.scenario:
+        class: Knp\FriendlyContexts\Loader\ScenarioLoader
+        arguments:
+            - @behat.definition.dispatcher
+            - @friendly.feature.walker
+        tags:
+            - { name: behat.context.loader }

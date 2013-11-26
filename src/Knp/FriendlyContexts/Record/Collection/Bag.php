@@ -15,6 +15,11 @@ class Bag
         $this->reflector = $reflector;
     }
 
+    public function clear()
+    {
+        $this->collections = [];
+    }
+
     public function getCollection($entity)
     {
         foreach ($this->collections as $collection) {
