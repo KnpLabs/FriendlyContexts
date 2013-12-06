@@ -61,3 +61,8 @@ services:
             - @friendly.feature.walker
         tags:
             - { name: behat.context.loader }
+
+    friendly.tester.scenario:
+        class: Knp\FriendlyContexts\Tester\ScenarioTester
+        arguments:
+            - @service_container
