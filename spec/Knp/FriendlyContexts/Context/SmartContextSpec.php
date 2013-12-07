@@ -8,18 +8,19 @@ use Prophecy\Argument;
 class SmartContextSpec extends ObjectBehavior
 {
     /**
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Behat\Gherkin\Node\ScenarioNode $scenario
-     * @param Behat\Gherkin\Node\StepNode $step1
-     * @param Behat\Gherkin\Node\StepNode $step2
-     * @param Behat\Gherkin\Node\StepNode $step3
+     * @param Knp\FriendlyContexts\Tester\ScenarioTester $tester
      **/
-    function let($scenario, $step1, $step2, $step3)
+    function let($kernel, $container, $scenario, $tester)
     {
-        $scenario->getSteps()->willReturn([$step1, $step2, $step3]);
+        $container->has(Argument::any())->willReturn(true);
+        $container->get('friendly.tester.scenario')->willReturn($tester);
+        $kernel->getContainer()->willReturn($container);
 
-        $step1->getText()->willReturn('Step1');
-        $step2->getText()->willReturn('Step2');
-        $step3->getText()->willReturn('Step3');
+        $this->setKernel($kernel);
+        $this->initialize([], $container);
     }
 
     function it_is_initializable()
@@ -27,14 +28,10 @@ class SmartContextSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Context\SmartContext');
     }
 
-    function it_should_return_scenario_steps($scenario)
+    function it_should_return_scenario_steps($scenario, $tester)
     {
-        $steps = [
-            'Step1',
-            'Step2',
-            'Step3',
-        ];
+        $tester->visit($scenario)->shouldBeCalled();
 
-        $this->executeScenario($scenario)->shouldReturn($steps);
+        $this->executeScenario($scenario)->shouldReturn(null);
     }
 }

@@ -8,12 +8,8 @@ class SmartContext extends Context
 {
     public function executeScenario(ScenarioNode $scenario)
     {
-        $steps = [];
+        $tester = $this->get('friendly.tester.scenario');
 
-        foreach ($scenario->getSteps() as $step) {
-            $steps[] = $step->getText();
-        }
-
-        return $steps;
+        $tester->visit($scenario);
     }
 }
