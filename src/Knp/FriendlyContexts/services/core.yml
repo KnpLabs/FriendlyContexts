@@ -66,3 +66,10 @@ services:
         class: Knp\FriendlyContexts\Tester\ScenarioTester
         arguments:
             - @service_container
+            - @behat.context.dispatcher
+            - @friendly.tester.step
+
+    friendly.tester.step:
+        class: Knp\FriendlyContexts\Tester\StepTester
+        arguments:
+            - @service_container
