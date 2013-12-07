@@ -20,6 +20,7 @@ default:
         Knp\FriendlyContexts\Extension: 
             Contexts:
                 Entity: ~
+                Smart: ~
 ```
 
 ```php
