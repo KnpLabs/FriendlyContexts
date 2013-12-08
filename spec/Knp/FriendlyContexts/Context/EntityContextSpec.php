@@ -4,8 +4,8 @@ namespace spec\Knp\FriendlyContexts\Context;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Knp\FriendlyContexts\Tool\Asserter;
-use Knp\FriendlyContexts\Tool\TextFormater;
+use Knp\FriendlyContexts\Utils\Asserter;
+use Knp\FriendlyContexts\Utils\TextFormater;
 
 class EntityContextSpec extends ObjectBehavior
 {
@@ -18,7 +18,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
      * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
      * @param Knp\FriendlyContexts\Record\Collection $collection
-     * @param Knp\FriendlyContexts\Tool\Asserter $asserter
+     * @param Knp\FriendlyContexts\Utils\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
     function let($kernel, $container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)

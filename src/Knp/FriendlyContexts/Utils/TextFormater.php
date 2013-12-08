@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Tool;
+namespace Knp\FriendlyContexts\Utils;
 
 class TextFormater
 {

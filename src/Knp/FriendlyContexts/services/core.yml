@@ -30,10 +30,10 @@ services:
             - @friendly.text.formater
 
     friendly.text.formater:
-        class: Knp\FriendlyContexts\Tool\TextFormater
+        class: Knp\FriendlyContexts\Utils\TextFormater
 
     friendly.asserter:
-        class: Knp\FriendlyContexts\Tool\Asserter
+        class: Knp\FriendlyContexts\Utils\Asserter
         arguments:
             - @friendly.text.formater
 

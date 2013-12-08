@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Knp\FriendlyContexts\Tool;
+namespace spec\Knp\FriendlyContexts\Utils;
 
 use PhpSpec\ObjectBehavior;
 
@@ -8,7 +8,7 @@ class TextFormaterSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Tool\TextFormater');
+        $this->shouldHaveType('Knp\FriendlyContexts\Utils\TextFormater');
     }
 
     function it_should_camel_case_string()

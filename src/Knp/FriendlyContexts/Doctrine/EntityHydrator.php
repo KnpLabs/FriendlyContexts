@@ -5,7 +5,7 @@ namespace Knp\FriendlyContexts\Doctrine;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\FriendlyContexts\Tool\TextFormater;
+use Knp\FriendlyContexts\Utils\TextFormater;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Doctrine\Common\Persistence\ObjectManager;
 
