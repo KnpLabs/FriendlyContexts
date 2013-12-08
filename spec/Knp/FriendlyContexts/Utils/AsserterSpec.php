@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Knp\FriendlyContexts\Tool;
+namespace spec\Knp\FriendlyContexts\Utils;
 
 use PhpSpec\ObjectBehavior;
-use Knp\FriendlyContexts\Tool\TextFormater;
+use Knp\FriendlyContexts\Utils\TextFormater;
 
 class AsserterSpec extends ObjectBehavior
 {
@@ -13,7 +13,7 @@ class AsserterSpec extends ObjectBehavior
     }
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Tool\Asserter');
+        $this->shouldHaveType('Knp\FriendlyContexts\Utils\Asserter');
     }
 
     function it_should_assert_if_equals()

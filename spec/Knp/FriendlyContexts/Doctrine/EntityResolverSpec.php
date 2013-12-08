@@ -11,7 +11,7 @@ class EntityResolverSpec extends ObjectBehavior
      * @param Doctrine\Common\Persistence\ObjectManager $em
      * @param Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $factory
      * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
-     * @param Knp\FriendlyContexts\Tool\TextFormater $formater
+     * @param Knp\FriendlyContexts\Utils\TextFormater $formater
      * @param ReflectionClass $class1
      * @param ReflectionClass $class2
      * @param ReflectionClass $class3
