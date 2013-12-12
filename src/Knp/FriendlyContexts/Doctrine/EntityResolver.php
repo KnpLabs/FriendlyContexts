@@ -118,8 +118,8 @@ class EntityResolver
         foreach ($metadata as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
-                case $this->formater->toCamelCase(strtolower($property)):
-                case $this->formater->toUnderscoreCase(strtolower($property)):
+                case strtolower($this->formater->toCamelCase($property)):
+                case strtolower($this->formater->toUnderscoreCase($property)):
                     return $map;
             }
         }
