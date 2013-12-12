@@ -10,7 +10,7 @@ class MinkContext extends BaseMinkContext
     public function clickLink($link)
     {
         $page  = $this->getSession()->getPage();
-        $links = $page->findAll('named', ['link', $link]);
+        $links = $page->findAll('css', 'a');
 
         foreach ($links as $element) {
             if ($link=== $element->getText()) {
