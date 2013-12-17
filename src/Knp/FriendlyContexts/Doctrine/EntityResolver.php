@@ -115,6 +115,8 @@ class EntityResolver
 
     protected function getMappingFromMetadataPart($metadata, $property)
     {
+        $property = trim($property);
+
         foreach ($metadata as $id => $map) {
             switch (strtolower($id)) {
                 case strtolower($property):
