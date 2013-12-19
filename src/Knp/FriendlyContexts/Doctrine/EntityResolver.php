@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Utils\TextFormater;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 class EntityResolver
 {
@@ -102,7 +103,7 @@ class EntityResolver
         return property_exists($entity, $this->formater->{$method}($property)) || method_exists($entity, 'set' . $this->formater->{$method}($property));
     }
 
-    protected function getMappingFromMetadata($metadata, $property)
+    protected function getMappingFromMetadata(ClassMetadata $metadata, $property)
     {
         if (null !== $map = $this->getMappingFromMetadataPart($metadata->fieldMappings, $property)) {
             return $map;
