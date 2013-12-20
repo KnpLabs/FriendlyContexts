@@ -6,7 +6,6 @@
     },
     "require": {
         "behat/behat": ">=2.4.0",
-        "behat/symfony2-extension": "1.0.*",
         "symfony/property-access": "2.*@dev",
         "doctrine/inflector": "1.*",
         "doctrine/data-fixtures": "1.0.*",

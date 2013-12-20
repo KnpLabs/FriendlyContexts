@@ -3,16 +3,13 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
-use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 
-abstract class Context extends RawMinkContext implements KernelAwareInterface
+abstract class Context extends RawMinkContext
 {
     use Backgroundable,
-        Symfony,
         Taggable;
 
     protected $config = [];
@@ -62,6 +59,11 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
     protected function getFeatureWalker()
     {
         return $this->get('friendly.feature.walker');
+    }
+
+    protected function getEntityManager()
+    {
+        return $this->get('doctrine')->getManager();
     }
 
     protected function get($service)
