@@ -72,6 +72,10 @@ abstract class Context extends RawMinkContext
             return $this->container->get($service);
         }
 
+        if ($this->container->get('friendly.symfony.kernel')->getContainer()->has($service)) {
+            return $this->container->get('friendly.symfony.kernel')->getContainer()->get($service);
+        }
+
         throw new \Exception(sprintf('Service named "%s" unknow.', $service));
     }
 

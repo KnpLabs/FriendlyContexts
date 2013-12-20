@@ -1,15 +1,26 @@
 parameters:
+    friendly.symfony.kernel.bootstrap: ~
+    friendly.symfony.kernel.path: ~
+    friendly.symfony.kernel.class: ~
+    friendly.symfony.kernel.env: ~
+    friendly.symfony.kernel.debug: ~
     friendly.parameters: []
 
 services:
 
     friendly.initializer:
-        class: Knp\FriendlyContexts\Context\Initializer
+        class: Knp\FriendlyContexts\Context\Initializer\FriendlyInitializer
         arguments:
             - %friendly.parameters%
             - @service_container
         tags:
             - { name: behat.context.initializer }
+
+    friendly.symfony.kernel:
+        class: %friendly.symfony.kernel.class%
+        arguments:
+            - %friendly.symfony.kernel.env%
+            - %friendly.symfony.kernel.debug%
 
     friendly.record.bag:
         class: Knp\FriendlyContexts\Record\Collection\Bag
