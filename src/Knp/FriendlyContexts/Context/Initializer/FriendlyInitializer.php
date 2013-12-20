@@ -1,12 +1,13 @@
 <?php
 
-namespace Knp\FriendlyContexts\Context;
+namespace Knp\FriendlyContexts\Context\Initializer;
 
 use Behat\Behat\Context\Initializer\InitializerInterface;
 use Behat\Behat\Context\ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Knp\FriendlyContexts\Context\FriendlyContext;
 
-class Initializer implements InitializerInterface
+class FriendlyInitializer implements InitializerInterface
 {
     protected $config;
     protected $container;

@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Knp\FriendlyContexts\Context;
+namespace spec\Knp\FriendlyContexts\Context\Initializer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class InitializerSpec extends ObjectBehavior
+class FriendlyInitializerSpec extends ObjectBehavior
 {
     /**
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -20,7 +20,7 @@ class InitializerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Context\Initializer');
+        $this->shouldHaveType('Knp\FriendlyContexts\Context\Initializer\FriendlyInitializer');
     }
 
     function it_should_supports_contexts($context1)
