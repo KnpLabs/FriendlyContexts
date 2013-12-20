@@ -3,11 +3,12 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Behat\Context\ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 
-abstract class Context extends RawMinkContext
+abstract class Context implements ContextInterface
 {
     use Backgroundable,
         Taggable;
