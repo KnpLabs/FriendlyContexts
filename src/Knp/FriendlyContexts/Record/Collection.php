@@ -57,6 +57,12 @@ class Collection
 
     public function search($value)
     {
+        foreach ($this->records as $record) {
+            if ((string) $record === $value) {
+                return $record;
+            }
+        }
+
         foreach ($this->headers as $header) {
             foreach ($this->records as $record) {
                 if (null !== $record->get($header) && $value === $record->get($header)) {
