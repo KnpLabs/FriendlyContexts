@@ -198,12 +198,12 @@ class EntityContext extends Context
 
     protected function getEntityManagers()
     {
-        return $this->getContainer()->get('doctrine')->getManagers();
+        return $this->get('doctrine')->getManagers();
     }
 
     protected function getConnections()
     {
-        return $this->getContainer()->get('doctrine')->getConnections();
+        return $this->get('doctrine')->getConnections();
     }
 
     protected function getDefaultOptions()
