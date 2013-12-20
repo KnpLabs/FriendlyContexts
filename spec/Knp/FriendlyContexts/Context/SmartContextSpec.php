@@ -8,18 +8,15 @@ use Prophecy\Argument;
 class SmartContextSpec extends ObjectBehavior
 {
     /**
-     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Behat\Gherkin\Node\ScenarioNode $scenario
      * @param Knp\FriendlyContexts\Tester\ScenarioTester $tester
      **/
-    function let($kernel, $container, $scenario, $tester)
+    function let($container, $scenario, $tester)
     {
         $container->has(Argument::any())->willReturn(true);
         $container->get('friendly.tester.scenario')->willReturn($tester);
-        $kernel->getContainer()->willReturn($container);
 
-        $this->setKernel($kernel);
         $this->initialize([], $container);
     }
 
