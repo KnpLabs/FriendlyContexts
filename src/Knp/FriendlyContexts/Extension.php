@@ -70,4 +70,9 @@ class Extension implements ExtensionInterface
            new Compiler\KernelPass,
         ];
     }
+
+    public function getName()
+    {
+        return 'FriendlyContexts';
+    }
 }

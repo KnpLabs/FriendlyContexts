@@ -5,7 +5,7 @@ namespace Knp\FriendlyContexts\Context\Initializer;
 use Behat\Behat\Context\Initializer\InitializerInterface;
 use Behat\Behat\Context\ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Knp\FriendlyContexts\Context\FriendlyContext;
+use Knp\FriendlyContexts\Context\Context;
 
 class FriendlyInitializer implements InitializerInterface
 {
@@ -20,7 +20,7 @@ class FriendlyInitializer implements InitializerInterface
 
     public function supports(ContextInterface $context)
     {
-        return $context instanceof FriendlyContext;
+        return $context instanceof Context;
     }
 
     public function initialize(ContextInterface $context)
