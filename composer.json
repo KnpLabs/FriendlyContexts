@@ -5,7 +5,7 @@
         "psr-0": { "Knp\\FriendlyContexts": "src/"}
     },
     "require": {
-        "behat/behat": "~3.0@dev",
+        "behat/behat": "~3@dev",
         "symfony/property-access": "2.*@dev",
         "doctrine/inflector": "~1.0",
         "doctrine/data-fixtures": "~1.0",
