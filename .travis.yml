@@ -8,4 +8,4 @@ before_script:
 
 script:
     - bin/phpspec status
-    - bin/phpspec -fpretty
+    - bin/phpspec run -fpretty
