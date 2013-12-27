@@ -25,6 +25,26 @@ class Extension implements ExtensionInterface
     {
         $builder
             ->children()
+                ->arrayNode('symfony_kernel')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('bootstrap')
+                            ->defaultValue('app/autoload.php')
+                        ->end()
+                        ->scalarNode('path')
+                            ->defaultValue('app/AppKernel.php')
+                        ->end()
+                        ->scalarNode('class')
+                            ->defaultValue('AppKernel')
+                        ->end()
+                        ->scalarNode('env')
+                            ->defaultValue('test')
+                        ->end()
+                        ->booleanNode('debug')
+                            ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('Contexts')
                     ->isRequired()
                         ->children()
@@ -47,6 +67,7 @@ class Extension implements ExtensionInterface
         return [
            new Compiler\FormatGuesserPass,
            new Compiler\FakerProviderPass,
+           new Compiler\KernelPass,
         ];
     }
 }

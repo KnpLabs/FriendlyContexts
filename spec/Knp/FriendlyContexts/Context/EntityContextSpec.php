@@ -10,7 +10,6 @@ use Knp\FriendlyContexts\Utils\TextFormater;
 class EntityContextSpec extends ObjectBehavior
 {
     /**
-     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
@@ -21,7 +20,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Utils\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($kernel, $container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
+    function let($container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
     {
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
@@ -35,9 +34,7 @@ class EntityContextSpec extends ObjectBehavior
         $container->get('friendly.entity.resolver')->willReturn($resolver);
         $container->get('friendly.record.bag')->willReturn($bag);
         $container->get('friendly.asserter')->willReturn(new Asserter(new TextFormater));
-        $kernel->getContainer()->willReturn($container);
 
-        $this->setKernel($kernel);
         $this->initialize([], $container);
     }
 

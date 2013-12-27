@@ -3,16 +3,13 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
-use Knp\FriendlyContexts\Dictionary\Symfony;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 
-abstract class Context extends RawMinkContext implements KernelAwareInterface
+abstract class Context extends RawMinkContext
 {
     use Backgroundable,
-        Symfony,
         Taggable;
 
     protected $config = [];
@@ -64,10 +61,19 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
         return $this->get('friendly.feature.walker');
     }
 
+    protected function getEntityManager()
+    {
+        return $this->get('doctrine')->getManager();
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {
             return $this->container->get($service);
+        }
+
+        if ($this->container->get('friendly.symfony.kernel')->getContainer()->has($service)) {
+            return $this->container->get('friendly.symfony.kernel')->getContainer()->get($service);
         }
 
         throw new \Exception(sprintf('Service named "%s" unknow.', $service));
