@@ -11,7 +11,7 @@ class FriendlyInitializerSpec extends ObjectBehavior
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Knp\FriendlyContexts\Context\SmartContext $context1
      * @param Knp\FriendlyContexts\Context\EntityContext $context2
-     * @param Behat\Behat\Context\ContextInterface $context3
+     * @param StdClass $context3
      **/
     function let($container)
     {

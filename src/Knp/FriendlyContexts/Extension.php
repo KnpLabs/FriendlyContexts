@@ -2,16 +2,22 @@
 
 namespace Knp\FriendlyContexts;
 
-use Behat\Behat\Extension\ExtensionInterface;
+use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Knp\FriendlyContexts\DependencyInjection\Compiler;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
 
 class Extension implements ExtensionInterface
 {
-    public function load(array $config, ContainerBuilder $container)
+    public function initialize(ExtensionManager $extensionManager)
+    {
+
+    }
+
+    public function load(ContainerBuilder $container, array $config)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('core.yml');
@@ -21,7 +27,7 @@ class Extension implements ExtensionInterface
         $container->setParameter('friendly.parameters', $config);
     }
 
-    public function getConfig(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder)
     {
         $builder
             ->children()
@@ -62,7 +68,7 @@ class Extension implements ExtensionInterface
         ;
     }
 
-    public function getCompilerPasses()
+    public function process(ContainerBuilder $container)
     {
         return [
            new Compiler\FormatGuesserPass,
@@ -71,8 +77,8 @@ class Extension implements ExtensionInterface
         ];
     }
 
-    public function getName()
+    public function getConfigKey()
     {
-        return 'FriendlyContexts';
+        return 'friendly';
     }
 }

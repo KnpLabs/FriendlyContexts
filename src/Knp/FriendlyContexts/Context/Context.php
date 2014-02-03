@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 
-abstract class Context implements ContextInterface
+abstract class Context
 {
     use Backgroundable,
         Taggable;
