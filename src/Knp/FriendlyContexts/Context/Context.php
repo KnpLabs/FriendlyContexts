@@ -3,12 +3,12 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Behat\Context\ContextInterface;
+use Behat\Behat\Context\Context as ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 
-abstract class Context
+abstract class Context implements ContextInterface
 {
     use Backgroundable,
         Taggable;
@@ -60,11 +60,6 @@ abstract class Context
     protected function getFeatureWalker()
     {
         return $this->get('friendly.feature.walker');
-    }
-
-    protected function getUniqueCache()
-    {
-        return $this->get('friendly.unique_cache');
     }
 
     protected function getEntityManager()

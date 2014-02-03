@@ -14,17 +14,28 @@ class Extension implements ExtensionInterface
 {
     public function initialize(ExtensionManager $extensionManager)
     {
-
     }
 
     public function load(ContainerBuilder $container, array $config)
     {
+        foreach ($config['symfony_kernel'] as $key => $value) {
+            $container->setParameter(sprintf('friendly.symfony_kernel.%s', $key), $value);
+        }
+
+        if (null !== $autoloadPath = $container->getParameter('friendly.symfony_kernel.bootstrap')) {
+            require_once($autoloadPath);
+        }
+
+        if (null !== $kernelPath = $container->getParameter('friendly.symfony_kernel.path')) {
+            require_once($kernelPath);
+        }
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('core.yml');
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
-        $container->setParameter('friendly.parameters', $config);
+        $container->get('friendly.symfony.kernel')->boot();
     }
 
     public function configure(ArrayNodeDefinition $builder)
@@ -51,19 +62,6 @@ class Extension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('Contexts')
-                    ->isRequired()
-                        ->children()
-                            ->arrayNode('Smart')
-                            ->end()
-                            ->arrayNode('Entity')
-                                ->children()
-                                    ->arrayNode('namespaces')->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->variableNode('Tags')
             ->end()
         ;
     }
