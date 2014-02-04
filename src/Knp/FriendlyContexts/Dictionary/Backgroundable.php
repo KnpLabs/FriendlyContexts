@@ -18,7 +18,7 @@ trait Backgroundable
     {
         $feature = $event->getFeature();
         $background = $feature->getBackground();
-        $underBackground = in_array($event->getStep(), $background->getSTeps());
+        $underBackground = in_array($event->getStep(), $background->getSteps());
 
         if ($underBackground !== $this->inBackground) {
             if (true === $underBackground) {
