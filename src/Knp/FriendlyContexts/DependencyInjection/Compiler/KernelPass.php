@@ -7,17 +7,24 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class KernelPass implements CompilerPassInterface
 {
+    protected $config;
+
+    public function __construct(array $config = array())
+    {
+        $this->config = $config;
+    }
+
     public function process(ContainerBuilder $container)
     {
-        $config = $container->getParameter('friendly.parameters');
+        $config = $this->config;
 
         foreach ($config['symfony_kernel'] as $key => $value) {
-            $container->setParameter(sprintf('friendly.symfony.kernel.%s', strtolower($key)), $value);
+            $container->setParameter(sprintf('friendly.symfony_kernel.%s', strtolower($key)), $value);
         }
 
-        $basePath = $container->getParameter('behat.paths.base');
+        $basePath = $container->getParameter('paths.base');
 
-        $bootstrapPath = $container->getParameter('friendly.symfony.kernel.bootstrap');
+        $bootstrapPath = $container->getParameter('friendly.symfony_kernel.bootstrap');
 
         if (file_exists($bootstrap = $basePath.DIRECTORY_SEPARATOR.$bootstrapPath)) {
             require_once($bootstrap);
@@ -25,7 +32,7 @@ class KernelPass implements CompilerPassInterface
             require_once($bootstrapPath);
         }
 
-        $kernelPath = $container->getParameter('friendly.symfony.kernel.path');
+        $kernelPath = $container->getParameter('friendly.symfony_kernel.path');
         if (file_exists($kernel = $basePath.DIRECTORY_SEPARATOR.$kernelPath)) {
             require_once($kernel);
         } elseif (file_exists($kernelPath)) {

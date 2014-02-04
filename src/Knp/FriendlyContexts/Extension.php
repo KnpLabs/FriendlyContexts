@@ -18,24 +18,14 @@ class Extension implements ExtensionInterface
 
     public function load(ContainerBuilder $container, array $config)
     {
-        foreach ($config['symfony_kernel'] as $key => $value) {
-            $container->setParameter(sprintf('friendly.symfony_kernel.%s', $key), $value);
-        }
-
-        if (null !== $autoloadPath = $container->getParameter('friendly.symfony_kernel.bootstrap')) {
-            require_once($autoloadPath);
-        }
-
-        if (null !== $kernelPath = $container->getParameter('friendly.symfony_kernel.path')) {
-            require_once($kernelPath);
-        }
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('core.yml');
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
-        $container->get('friendly.symfony.kernel')->boot();
+        $container->addCompilerPass(new Compiler\FormatGuesserPass);
+        $container->addCompilerPass(new Compiler\FakerProviderPass);
+        $container->addCompilerPass(new Compiler\KernelPass($config));
     }
 
     public function configure(ArrayNodeDefinition $builder)
@@ -68,11 +58,6 @@ class Extension implements ExtensionInterface
 
     public function process(ContainerBuilder $container)
     {
-        return [
-           new Compiler\FormatGuesserPass,
-           new Compiler\FakerProviderPass,
-           new Compiler\KernelPass,
-        ];
     }
 
     public function getConfigKey()
