@@ -17,8 +17,8 @@ trait Backgroundable
     public function BackgroundDispatcher(StepTested $event)
     {
         $feature = $event->getFeature();
-        $background = $feature->getBackground();
-        $underBackground = in_array($event->getStep(), $background->getSteps());
+        $background = $feature->getBackground() ?: array();
+        $underBackground = in_array($event->getStep(), $background->getSTeps());
 
         if ($underBackground !== $this->inBackground) {
             if (true === $underBackground) {
