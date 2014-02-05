@@ -36,8 +36,6 @@ class EntityHydrator
             ;
         }
 
-        $this->cache->clear();
-
         return $this;
     }
 
@@ -82,7 +80,7 @@ class EntityHydrator
             });
         }
 
-        return $guesser->fake($mapping,);
+        return $guesser->fake($mapping);
     }
 
     protected function format($mapping, $value)
