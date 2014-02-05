@@ -22,6 +22,7 @@ services:
             - @friendly.text.formater
             - @friendly.guesser.manager
             - @friendly.entity.resolver
+            - @friendly.unique_cache
 
     friendly.entity.resolver:
         class: Knp\FriendlyContexts\Doctrine\EntityResolver
@@ -36,6 +37,9 @@ services:
         class: Knp\FriendlyContexts\Utils\Asserter
         arguments:
             - @friendly.text.formater
+
+    friendly.unique_cache:
+        class: Knp\FriendlyContext\Utils\UniqueCache
 
     friendly.guesser.manager:
         class: Knp\FriendlyContexts\Guesser\GuesserManager
