@@ -5,6 +5,8 @@ php:
 
 before_script:
     - composer update --prefer-source --dev
+    - sed -i "/\*/d" vendor/fzaninotto/faker/src/Faker/Generator.php
+    - echo "Oh My God !!!!!!"
 
 script:
     - bin/phpspec status
