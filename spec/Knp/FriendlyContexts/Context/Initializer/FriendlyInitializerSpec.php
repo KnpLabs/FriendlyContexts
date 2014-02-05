@@ -9,9 +9,8 @@ class FriendlyInitializerSpec extends ObjectBehavior
 {
     /**
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param Knp\FriendlyContexts\Context\SmartContext $context1
-     * @param Knp\FriendlyContexts\Context\EntityContext $context2
-     * @param StdClass $context3
+     * @param Knp\FriendlyContexts\Context\EntityContext $context1
+     * @param StdClass $constext2
      **/
     function let($container)
     {
@@ -23,14 +22,13 @@ class FriendlyInitializerSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Context\Initializer\FriendlyInitializer');
     }
 
-    function it_should_supports_contexts($context1, $context2)
+    function it_should_supports_contexts($context1)
     {
         $this->supports($context1)->shouldReturn(true);
-        $this->supports($context2)->shouldReturn(true);
     }
 
-    function it_should_not_supports_non_contexts($context3)
+    function it_should_not_supports_non_contexts($constext2)
     {
-        $this->supports($context3)->shouldReturn(false);
+        $this->supports($constext2)->shouldReturn(false);
     }
 }
