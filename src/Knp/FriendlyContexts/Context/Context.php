@@ -67,6 +67,11 @@ abstract class Context implements ContextInterface
         return $this->get('doctrine')->getManager();
     }
 
+    protected function getUniqueCache()
+    {
+        return $this->get('friendly.unique_cache');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {
