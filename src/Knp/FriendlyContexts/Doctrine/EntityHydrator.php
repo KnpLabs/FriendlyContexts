@@ -8,14 +8,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Knp\FriendlyContexts\Utils\TextFormater;
 use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\FriendlyContexts\Utils\UniqueCache;
 
 class EntityHydrator
 {
-    public function __construct(TextFormater $formater, GuesserManager $guesserManager, EntityResolver $resolver)
+    public function __construct(TextFormater $formater, GuesserManager $guesserManager, EntityResolver $resolver, UniqueCache $cache)
     {
         $this->formater       = $formater;
         $this->guesserManager = $guesserManager;
         $this->resolver       = $resolver;
+        $this->cache          = $cache;
     }
 
     public function hydrate(ObjectManager $em, $entity, $values)
@@ -55,7 +57,7 @@ class EntityHydrator
                     $accessor->setValue(
                         $entity,
                         $property,
-                        $this->complete($metadata->getFieldMapping($property))
+                        $this->complete($metadata->getFieldMapping($property), $metadata->getName())
                     );
                 } catch (\Exception $e) {
                     continue;
@@ -66,10 +68,16 @@ class EntityHydrator
         return $this;
     }
 
-    protected function complete($mapping)
+    protected function complete($mapping, $className)
     {
         if (false === $guesser = $this->guesserManager->find($mapping)) {
             throw new \Exception(sprintf('There is no fake solution for "%s" typed fields', $mapping['type']));
+        }
+
+        if (true === $mapping['unique']) {
+            return $this->cache->generate($className, $mapping['fieldName'], function () use ($guesser) {
+                return $guesser->fake($mapping);
+            });
         }
 
         return $guesser->fake($mapping);

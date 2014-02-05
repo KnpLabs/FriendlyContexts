@@ -64,6 +64,11 @@ abstract class Context extends RawMinkContext implements KernelAwareInterface
         return $this->get('friendly.feature.walker');
     }
 
+    protected function getUniqueCache()
+    {
+        return $this->get('friendly.unique_cache');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {

@@ -146,6 +146,7 @@ class EntityContext extends Context
     public function beforeBackground($event)
     {
         $this->getRecordBag()->clear();
+        $this->getUniqueCache()->clear();
     }
 
     /**
