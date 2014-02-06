@@ -59,6 +59,8 @@ class TableContext extends RawMinkContext
      */
     public function iShouldSeeATableWithRows($nbr)
     {
+        $nbr = (int) $nbr;
+
         $this->iShouldSeeATable();
         $exceptions = array();
         $tables = $this->getSession()->getPage()->findAll('css', 'table');
@@ -69,7 +71,6 @@ class TableContext extends RawMinkContext
                     $table = $body;
                 }
                 $rows = $table->findAll('css', 'tr');
-
                 $this->getAsserter()->assertEquals($nbr, count($rows), sprintf('Table with %s rows expected, table with %s rows found.', $nbr, count($rows)));
                 return;
             } catch (\Exception $e) {
