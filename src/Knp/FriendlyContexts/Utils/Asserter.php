@@ -32,11 +32,14 @@ class Asserter
 
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
-        if ($expected === $real) {
-            return true;
-        }
+        $this->assert($expected === $real, $message);
+    }
 
-        throw new \Exception($message, 1);
+    public function assert($result, $message = "Assert failure")
+    {
+        if (false === $result) {
+            throw new \Exception($message, 1);
+        }
     }
 
     protected function explode($value)

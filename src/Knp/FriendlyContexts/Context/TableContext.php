@@ -10,12 +10,27 @@ use Behat\Gherkin\Node\TableNode;
 class TableContext extends RawMinkContext
 {
     /**
+     * @Then /^I should see a table with "([^"]*)" in the column named "([^"]*)"$/
+     */
+    public function iShouldSeeATableWithInTheColumnNamed($list, $column)
+    {
+        $expected = array_merge(array($column), $this->getFormater()->listToArray($list));
+
+        $this->iShouldSeeTheFollowingTable(array($expected));
+    }
+
+    /**
      * @Given /^I should see the following table$/
      */
-    public function iShouldSeeTheFollowingTable(TableNode $tableNode)
+    public function iShouldSeeTheFollowingTable($expected)
     {
+        if ($expected instanceof TableNode) {
+            $expected = $expected->getTable();
+        }
+
+        $this->iShouldSeeATable();
+
         $tables = $this->findTables();
-        $expected = $tableNode->getTable();
         $exceptions = array();
 
         foreach ($tables as $table) {
@@ -36,6 +51,45 @@ class TableContext extends RawMinkContext
         $message = implode("\n", array_map(function ($e) { return $e->getMessage(); }, $exceptions));
 
         throw new \Exception($message);
+    }
+
+    /**
+     * @Then /^I should see a table with ([^"]*) rows$/
+     * @Then /^I should see a table with ([^"]*) row$/
+     */
+    public function iShouldSeeATableWithRows($nbr)
+    {
+        $this->iShouldSeeATable();
+        $exceptions = array();
+        $tables = $this->getSession()->getPage()->findAll('css', 'table');
+
+        foreach ($tables as $table) {
+            try {
+                if (null !== $body = $table->find('css', 'tbody')) {
+                    $table = $body;
+                }
+                $rows = $table->findAll('css', 'tr');
+
+                $this->getAsserter()->assertEquals($nbr, count($rows), sprintf('Table with %s rows expected, table with %s rows found.', $nbr, count($rows)));
+                return;
+            } catch (\Exception $e) {
+                $exceptions[] = $e;
+            }
+        }
+
+        $message = implode("\n", array_map(function ($e) { return $e->getMessage(); }, $exceptions));
+
+        throw new \Exception($message);
+    }
+
+    /**
+     * @Then /^I should see a table$/
+     */
+    public function iShouldSeeATable()
+    {
+        $tables = $this->getSession()->getPage()->findAll('css', 'table');
+
+        $this->getAsserter()->assert(0 < count($tables), 'No table found');
     }
 
     protected function extractColumns(array $headers, array $table)
@@ -104,8 +158,11 @@ class TableContext extends RawMinkContext
 
     protected function getAsserter()
     {
-        $formater = new TextFormater;
+        return new Asserter($this->getFormater());
+    }
 
-        return new Asserter($formater);
+    protected function getFormater()
+    {
+        return new TextFormater;
     }
 }
