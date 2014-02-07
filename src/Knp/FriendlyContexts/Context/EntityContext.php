@@ -76,7 +76,13 @@ class EntityContext extends Context
             ->getCollection($entityName)
         ;
 
-        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+        $entities = $this
+            ->getEntityManager()
+            ->getRepository($entityName)
+            ->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult()
+        ;
 
         $real =(count($entities) - $collection->count());
         $real = $real > 0 ? $real : 0;
@@ -104,7 +110,13 @@ class EntityContext extends Context
             ->getCollection($entityName)
         ;
 
-        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+        $entities = $this
+            ->getEntityManager()
+            ->getRepository($entityName)
+            ->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult()
+        ;
 
         $real = ($collection->count() - count($entities));
         $real = $real > 0 ? $real : 0;
