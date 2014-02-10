@@ -7,15 +7,20 @@ use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
 class MinkContext extends BaseMinkContext
 {
     /**
-     * @When /^(?:|I )follow the first "(?P<name>[^"]*)" (?P<element>[^"]*)$/
+     * @When /^(?:|I )(follow|press) the first "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      * @When /^(?:|I )(follow|press) the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      **/
-    public function clickElement($name, $element, $nbr = 1)
+    public function clickElement($name, $element, $nbr = 1, $filterCallback = null)
     {
         $page  = $this->getSession()->getPage();
         $elements = $page->findAll('named', array(
             $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($name)
         ));
+
+        if (null !== $filterCallback) {
+            $elements = array_filter($elements, $filterCallback);
+            $elements = array_values($elements);
+        }
 
         $nbr = -1 === $nbr ? count($elements) : $nbr;
 
@@ -30,11 +35,11 @@ class MinkContext extends BaseMinkContext
     }
 
     /**
-     * @When /^(?:|I )follow the last "(?P<name>[^"]*)" (?P<element>[^"]*)$/
+     * @When /^(?:|I )(follow|press) the last "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      **/
-    public function clicklastLink($name, $element)
+    public function clicklastElement($name, $element)
     {
-        $this->clickLink($link, $element, -1);
+        $this->clickElement($link, $element, -1);
     }
 
     /**
@@ -43,5 +48,10 @@ class MinkContext extends BaseMinkContext
     public function clickLinkContaining($link)
     {
         parent::clickLink($link);
+    }
+
+    public function clickLink($link)
+    {
+        $this->clickElement($link, 'link', 1, function ($e) use ($link) { return $link === $e->getText(); });
     }
 }

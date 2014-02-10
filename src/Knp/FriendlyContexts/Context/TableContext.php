@@ -88,8 +88,8 @@ class TableContext extends RawMinkContext
      */
     public function iShouldSeeATable()
     {
+        $this->getSession()->wait(2000, '0 < document.getElementsByTagName("TABLE").length');
         $tables = $this->getSession()->getPage()->findAll('css', 'table');
-
         $this->getAsserter()->assert(0 < count($tables), 'No table found');
     }
 
@@ -138,23 +138,33 @@ class TableContext extends RawMinkContext
             if (0 !== count($table->findAll('css', 'thead')) + count($table->findAll('css', 'tbody'))) {
                 if (null !== $head = $table->find('css', 'thead')) {
                     foreach ($head->findAll('css', 'tr') as $row) {
-                        $node[] = array_map(function ($e) { return trim($e->getText()); }, array_merge($row->findAll('css', 'th'), $row->findAll('css', 'td')));
+                        $node[] = $this->extractDataFromRow($row);
                     }
                 }
                 if (null !== $body = $table->find('css', 'tbody')) {
                     foreach ($body->findAll('css', 'tr') as $row) {
-                        $node[] = array_map(function ($e) { return trim($e->getText()); }, array_merge($row->findAll('css', 'th'), $row->findAll('css', 'td')));
+                        $node[] = $this->extractDataFromRow($row);
                     }
                 }
             } else {
                 foreach ($table->findAll('css', 'tr') as $row) {
-                    $node[] = array_map(function ($e) { return trim($e->getText()); }, array_merge($row->findAll('css', 'th'), $row->findAll('css', 'td')));
+                    $node[] = $this->extractDataFromRow($row);
                 }
             }
             $result[] = $node;
         }
 
         return $result;
+    }
+
+    protected function extractDataFromRow($row)
+    {
+        $result = array();
+        $elements = array_merge($row->findAll('css', 'th'), $row->findAll('css', 'td'));
+
+        foreach ($elements as $element) {
+            $result[] = $element->getText();
+        }
     }
 
     protected function getAsserter()

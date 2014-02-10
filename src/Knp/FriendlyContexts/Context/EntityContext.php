@@ -39,7 +39,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*)$/
+     * @Given /^there is (\d+) (.*[^like following])$/
      */
     public function thereIs($nbr, $name)
     {
@@ -54,6 +54,37 @@ class EntityContext extends Context
             ;
             $this
                 ->getEntityHydrator()
+                ->completeRequired($this->getEntityManager(), $entity)
+            ;
+
+            $this->getEntityManager()->persist($entity);
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @Given /^there is (\d+) (.*) like following$/
+     */
+    public function thereIsLikeFollowing($nbr, $name, TableNode $table)
+    {
+        $entityName = $this->resolveEntity($name)->getName();
+
+        $rows = $table->getRows();
+        $headers = array_shift($rows);
+
+        for ($i = 0; $i < $nbr; $i++) {
+            $row = $rows[$i % count($rows)];
+            $values = array_combine($headers, $row);
+            $entity = new $entityName;
+            $this
+                ->getRecordBag()
+                ->getCollection($entityName)
+                ->attach($entity, $values)
+            ;
+            $this
+                ->getEntityHydrator()
+                ->hydrate($this->getEntityManager(), $entity, $values)
                 ->completeRequired($this->getEntityManager(), $entity)
             ;
 
