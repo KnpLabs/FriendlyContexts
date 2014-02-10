@@ -22,6 +22,8 @@ class EntityGuesser extends AbstractGuesser implements GuesserInterface
 
     public function transform($str, array $mapping)
     {
+        $str = strlen((string)$str) ? $str : null;
+
         if (null !== $record = $this->bag->getCollection($mapping['targetEntity'])->search($str)) {
             return $record->getEntity();
         }
