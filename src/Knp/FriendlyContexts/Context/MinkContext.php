@@ -17,7 +17,7 @@ class MinkContext extends BaseMinkContext
             $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($name)
         ));
 
-        if (null !== $filterCallback) {
+        if (null !== $filterCallback && is_callable($filterCallback)) {
             $elements = array_filter($elements, $filterCallback);
             $elements = array_values($elements);
         }

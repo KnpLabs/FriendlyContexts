@@ -165,6 +165,8 @@ class TableContext extends RawMinkContext
         foreach ($elements as $element) {
             $result[] = $element->getText();
         }
+
+        return $result;
     }
 
     protected function getAsserter()
