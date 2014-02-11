@@ -163,7 +163,7 @@ class TableContext extends RawMinkContext
         $elements = array_merge($row->findAll('css', 'th'), $row->findAll('css', 'td'));
 
         foreach ($elements as $element) {
-            $result[] = $element->getText();
+            $result[] = preg_replace('!\s+!', ' ', $element->getText());
         }
 
         return $result;
