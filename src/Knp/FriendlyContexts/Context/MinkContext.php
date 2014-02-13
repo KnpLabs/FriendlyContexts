@@ -7,6 +7,7 @@ use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
 class MinkContext extends BaseMinkContext
 {
     /**
+     * @When /^(?:|I )(follow|press) the "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      * @When /^(?:|I )(follow|press) the first "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      * @When /^(?:|I )(follow|press) the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" (?P<element>[^"]*)$/
      **/
@@ -55,6 +56,8 @@ class MinkContext extends BaseMinkContext
     protected function elementAction($locator, $element, $nbr = 1, $actionCallback, $filterCallback = null)
     {
         $page  = $this->getSession()->getPage();
+        $locator = $this->fixStepArgument($locator);
+
         $elements = $page->findAll('named', array(
             $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
