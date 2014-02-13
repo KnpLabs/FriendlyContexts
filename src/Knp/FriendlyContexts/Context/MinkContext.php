@@ -121,6 +121,7 @@ class MinkContext extends BaseMinkContext
     {
         $elements = $this->searchElement($locator, $element, $filterCallback);
 
+        $nbr = is_numeric($nbr) ? intval($nbr) : $nbr;
         $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
 
         $this
