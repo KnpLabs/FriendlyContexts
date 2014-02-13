@@ -3,6 +3,8 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
+use Knp\FriendlyContexts\Utils\Asserter;
+use Knp\FriendlyContexts\Utils\TextFormater;
 
 class MinkContext extends BaseMinkContext
 {
@@ -13,7 +15,6 @@ class MinkContext extends BaseMinkContext
      **/
     public function clickElement($name, $element, $nbr = 1, $filterCallback = null)
     {
-        $nbr = is_string($nbr) ? 1 : $nbr;
         $this->elementAction($name, $element, $nbr, function ($e) { $e->click(); }, $filterCallback);
     }
 
@@ -24,7 +25,6 @@ class MinkContext extends BaseMinkContext
      **/
     public function checkElement($state, $name, $element, $nbr = 1)
     {
-        $nbr = is_string($nbr) ? 1 : $nbr;
         $this->elementAction(
             $name,
             'field',
@@ -32,6 +32,52 @@ class MinkContext extends BaseMinkContext
             function ($e) use ($state)   { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
             function ($e) use ($element) { return $element === $e->getAttribute('type'); }
         );
+    }
+
+    /**
+     * @Then /^(?:|I )should(?P<should>| not) see (?P<nbr>\d*) "(?P<name>[^"]*)" (?P<element>link|button|radio|checkbox)$/
+     **/
+    public function nbrElement($should, $nbr, $name, $element)
+    {
+        $type = in_array($element, [ 'checkbox', 'radio' ]) ? 'field' : $element;
+        $filterCallback = null;
+
+        if ('field' === $type) {
+            $filterCallback = function ($e) use ($element) { return $element === $e->getAttribute('type'); };
+        }
+
+        $elements = $this->searchElement($name, $type, $filterCallback);
+
+        $message = sprintf('%s %s found', $nbr, $element);
+
+        if (' not' === $should) {
+            $this->getAsserter()->assertEquals($nbr, count($elements), $message);
+        } else {
+            $this->getAsserter()->assertNotEquals($nbr, count($elements), $message);
+        }
+    }
+
+    /**
+     * @Then /^(?:|I )should(?P<should>| not) see a "(?P<name>[^"]*)" (?P<element>link|button|radio|checkbox)$/
+     **/
+    public function seeElement($should, $name, $element)
+    {
+        $type = in_array($element, [ 'checkbox', 'radio' ]) ? 'field' : $element;
+        $filterCallback = null;
+
+        if ('field' === $type) {
+            $filterCallback = function ($e) use ($element) { return $element === $e->getAttribute('type'); };
+        }
+
+        $elements = $this->searchElement($name, $type, $filterCallback);
+
+        $message = sprintf('%s %s%s found', $name, $element, ' not' === $should ? '' : ' not');
+
+        if (' not' === $should) {
+            $this->getAsserter()->assert(0 == count($elements), $message);
+        } else {
+            $this->getAsserter()->assert(0 < count($elements), $message);
+        }
     }
 
     /**
@@ -55,7 +101,7 @@ class MinkContext extends BaseMinkContext
         $this->clickElement($link, 'link', 1, function ($e) use ($link) { return $link === $e->getText(); });
     }
 
-    protected function elementAction($locator, $element, $nbr = 1, $actionCallback, $filterCallback = null)
+    protected function searchElement($locator, $element, $filterCallback = null)
     {
         $page  = $this->getSession()->getPage();
         $locator = $this->fixStepArgument($locator);
@@ -65,20 +111,33 @@ class MinkContext extends BaseMinkContext
         ));
 
         if (null !== $filterCallback && is_callable($filterCallback)) {
-            $elements = array_filter($elements, $filterCallback);
-            $elements = array_values($elements);
+            $elements = array_values(array_filter($elements, $filterCallback));
         }
 
-        $nbr = -1 === $nbr ? count($elements) : $nbr;
+        return $elements;
+    }
 
-        if ($nbr > count($elements)) {
-            throw new \Exception(sprintf(
-                'Expected to find almost %s "%s" %s, %s found', $nbr, $locator, $element, count($elements)
-            ));
-        }
+    protected function elementAction($locator, $element, $nbr = 1, $actionCallback, $filterCallback = null)
+    {
+        $elements = $this->searchElement($locator, $element, $filterCallback);
+
+        $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
+
+        $this
+            ->getAsserter()
+            ->assert(
+                $nbr <= count($elements),
+                sprintf('Expected to find almost %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
+            )
+        ;
 
         $e = $elements[$nbr - 1];
 
         $actionCallback($e);
+    }
+
+    protected function getAsserter()
+    {
+        return new Asserter(new TextFormater);
     }
 }

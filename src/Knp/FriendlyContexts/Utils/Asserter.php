@@ -35,6 +35,11 @@ class Asserter
         $this->assert($expected === $real, $message);
     }
 
+    public function assertNotEquals($expected, $real, $message = "Failing to assert not equals.")
+    {
+        $this->assert($expected !== $real, $message);
+    }
+
     public function assert($result, $message = "Assert failure")
     {
         if (false === $result) {
