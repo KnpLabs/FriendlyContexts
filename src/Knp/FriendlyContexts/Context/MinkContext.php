@@ -13,6 +13,7 @@ class MinkContext extends BaseMinkContext
      **/
     public function clickElement($name, $element, $nbr = 1, $filterCallback = null)
     {
+        $nbr = is_string($nbr) ? 1 : $nbr;
         $this->elementAction($name, $element, $nbr, function ($e) { $e->click(); }, $filterCallback);
     }
 
@@ -23,6 +24,7 @@ class MinkContext extends BaseMinkContext
      **/
     public function checkElement($state, $name, $element, $nbr = 1)
     {
+        $nbr = is_string($nbr) ? 1 : $nbr;
         $this->elementAction(
             $name,
             'field',
