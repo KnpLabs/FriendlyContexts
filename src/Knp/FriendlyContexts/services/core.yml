@@ -39,7 +39,7 @@ services:
             - @friendly.text.formater
 
     friendly.unique_cache:
-        class: Knp\FriendlyContext\Utils\UniqueCache
+        class: Knp\FriendlyContexts\Utils\UniqueCache
 
     friendly.guesser.manager:
         class: Knp\FriendlyContexts\Guesser\GuesserManager
