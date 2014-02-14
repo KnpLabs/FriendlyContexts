@@ -11,18 +11,18 @@ class Asserter
         $this->formater = $formater;
     }
 
-    public function assertArrayEquals($expected, $real, $fullText = false)
+    public function assertArrayEquals(array $expected, array $real, $fullText = false)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
 
         if (false === $fullText) {
-            $this->assertEquals(
+            return $this->assertEquals(
                 $expected,
                 $real,
                 $message
             );
         } else {
-            $this->assertEquals(
+            return $this->assertEquals(
                 $this->explode($expected),
                 $this->explode($real),
                 $message
@@ -32,12 +32,12 @@ class Asserter
 
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
-        $this->assert($expected === $real, $message);
+        return $this->assert($expected === $real, $message);
     }
 
     public function assertNotEquals($expected, $real, $message = "Failing to assert not equals.")
     {
-        $this->assert($expected !== $real, $message);
+        return $this->assert($expected !== $real, $message);
     }
 
     public function assert($result, $message = "Assert failure")
@@ -45,6 +45,8 @@ class Asserter
         if (false === $result) {
             throw new \Exception($message, 1);
         }
+
+        return true;
     }
 
     protected function explode($value)

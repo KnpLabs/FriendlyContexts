@@ -25,6 +25,11 @@ class TextFormater
 
     public function tableToString(array $array)
     {
+        if (1 === $this->getDimentions($array)) {
+
+            return sprintf('|%s|', implode('|', array_map(function ($e) { return sprintf(' %s ', trim($e)); }, $array)));
+        }
+
         $sizes = array();
         foreach ($array as $row) {
             foreach ($row as $index => $cell) {
@@ -67,12 +72,20 @@ class TextFormater
         return $parts;
     }
 
-    public function addSpaceAfter($str, $limit = 0)
+    protected function getDimentions(array $array)
     {
-        while (strlen($str) < $limit) {
-            $str = $str." ";
+        return $this->goDeeper($array, 0);
+    }
+
+    protected function goDeeper(array $array, $deep)
+    {
+        $deep++;
+        foreach ($array as $elem) {
+            if (is_array($elem)) {
+                $deep = max([ $this->goDeeper($elem, $deep), $deep ]);
+            }
         }
 
-        return $str;
+        return $deep;
     }
 }

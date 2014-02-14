@@ -14,17 +14,21 @@ class EntityContextSpec extends ObjectBehavior
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
      * @param Doctrine\ORM\EntityRepository $repository
+     * @param Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param Doctrine\ORM\AbstractQuery $query
      * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
      * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
      * @param Knp\FriendlyContexts\Record\Collection $collection
      * @param Knp\FriendlyContexts\Utils\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($container, $doctrine, $manager, $repository, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
+    function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter)
     {
         $doctrine->getManager()->willReturn($manager);
         $manager->getRepository(Argument::any())->willReturn($repository);
-        $repository->findAll()->willReturn(['', '']);
+        $repository->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
+        $queryBuilder->getQuery()->willReturn($query);
+        $query->getResult()->willReturn(['', '']);
         $resolver->resolve($manager, 'entities', [""])->willReturn([$reflectionClass]);
         $bag->getCollection(Argument::any())->willReturn($collection);
 

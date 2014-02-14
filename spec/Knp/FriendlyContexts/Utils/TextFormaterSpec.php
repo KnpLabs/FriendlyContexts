@@ -23,10 +23,21 @@ class TextFormaterSpec extends ObjectBehavior
         $this->toUnderscoreCase('string')->shouldReturn('string');
     }
 
-    function it_should_add_spaces_after_word()
+    function it_should_build_array()
     {
-        $this->addSpaceAfter('test', 6)->shouldReturn('test  ');
-        $this->addSpaceAfter('test', 2)->shouldReturn('test');
-        $this->addSpaceAfter('test', 4)->shouldReturn('test');
+        $this->tableToString([ 'test', 'tata', 'toto' ])->shouldReturn('| test | tata | toto |');
+    }
+
+    function it_should_build_table()
+    {
+        $table = [
+            [ 'test', 'tata', 'toto' ],
+            [ '0', '123456789', 'azertyuiop' ],
+            [ '987654321', '0', '12345' ],
+        ];
+
+        $return = "| test      | tata      | toto       |\n| 0         | 123456789 | azertyuiop |\n| 987654321 | 0         | 12345      |\n";
+
+        $this->tableToString($table)->shouldReturn($return);
     }
 }
