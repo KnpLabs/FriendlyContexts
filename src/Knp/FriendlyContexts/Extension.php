@@ -2,51 +2,66 @@
 
 namespace Knp\FriendlyContexts;
 
-use Behat\Behat\Extension\ExtensionInterface;
+use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Knp\FriendlyContexts\DependencyInjection\Compiler;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
 
 class Extension implements ExtensionInterface
 {
-    public function load(array $config, ContainerBuilder $container)
+    public function initialize(ExtensionManager $extensionManager)
+    {
+    }
+
+    public function load(ContainerBuilder $container, array $config)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('core.yml');
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
-        $container->setParameter('friendly.parameters', $config);
+        $container->addCompilerPass(new Compiler\FormatGuesserPass);
+        $container->addCompilerPass(new Compiler\FakerProviderPass);
+        $container->addCompilerPass(new Compiler\KernelPass($config));
     }
 
-    public function getConfig(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder)
     {
         $builder
             ->children()
-                ->arrayNode('Contexts')
-                    ->isRequired()
-                        ->children()
-                            ->arrayNode('Smart')
-                            ->end()
-                            ->arrayNode('Entity')
-                                ->children()
-                                    ->arrayNode('namespaces')->end()
-                                ->end()
-                            ->end()
+                ->arrayNode('symfony_kernel')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('bootstrap')
+                            ->defaultValue('app/autoload.php')
+                        ->end()
+                        ->scalarNode('path')
+                            ->defaultValue('app/AppKernel.php')
+                        ->end()
+                        ->scalarNode('class')
+                            ->defaultValue('AppKernel')
+                        ->end()
+                        ->scalarNode('env')
+                            ->defaultValue('test')
+                        ->end()
+                        ->booleanNode('debug')
+                            ->defaultTrue()
                         ->end()
                     ->end()
-                ->variableNode('Tags')
+                ->end()
             ->end()
         ;
     }
 
-    public function getCompilerPasses()
+    public function process(ContainerBuilder $container)
     {
-        return [
-           new Compiler\FormatGuesserPass,
-           new Compiler\FakerProviderPass,
-        ];
+    }
+
+    public function getConfigKey()
+    {
+        return 'friendly';
     }
 }

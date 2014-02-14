@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Behat\Behat\Event\StepEvent;
+use Behat\Behat\Tester\Event\StepTested;
 
 trait Backgroundable
 {
@@ -14,13 +14,11 @@ trait Backgroundable
     /**
      * @BeforeStep
      **/
-    public function BackgroundDispatcher(StepEvent $event)
+    public function BackgroundDispatcher(StepTested $event)
     {
-        $parent = $event->getStep()->getparent();
-
-        if (null !== $parent) {
-            $underBackground = $parent->getKeyword() === "Background";
-        }
+        $feature = $event->getFeature();
+        $background = $feature->getBackground() ?: array();
+        $underBackground = in_array($event->getStep(), $background->getSTeps());
 
         if ($underBackground !== $this->inBackground) {
             if (true === $underBackground) {

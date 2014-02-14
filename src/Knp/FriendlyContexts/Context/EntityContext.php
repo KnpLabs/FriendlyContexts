@@ -39,7 +39,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*)$/
+     * @Given /^there is (\d+) (.*[^like following])$/
      */
     public function thereIs($nbr, $name)
     {
@@ -64,6 +64,37 @@ class EntityContext extends Context
     }
 
     /**
+     * @Given /^there is (\d+) (.*) like following$/
+     */
+    public function thereIsLikeFollowing($nbr, $name, TableNode $table)
+    {
+        $entityName = $this->resolveEntity($name)->getName();
+
+        $rows = $table->getRows();
+        $headers = array_shift($rows);
+
+        for ($i = 0; $i < $nbr; $i++) {
+            $row = $rows[$i % count($rows)];
+            $values = array_combine($headers, $row);
+            $entity = new $entityName;
+            $this
+                ->getRecordBag()
+                ->getCollection($entityName)
+                ->attach($entity, $values)
+            ;
+            $this
+                ->getEntityHydrator()
+                ->hydrate($this->getEntityManager(), $entity, $values)
+                ->completeRequired($this->getEntityManager(), $entity)
+            ;
+
+            $this->getEntityManager()->persist($entity);
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    /**
      * @Given /^(\w+) (.+) should be created$/
      */
     public function entitiesShouldBeCreated($expected, $entity)
@@ -76,7 +107,13 @@ class EntityContext extends Context
             ->getCollection($entityName)
         ;
 
-        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+        $entities = $this
+            ->getEntityManager()
+            ->getRepository($entityName)
+            ->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult()
+        ;
 
         $real =(count($entities) - $collection->count());
         $real = $real > 0 ? $real : 0;
@@ -104,7 +141,13 @@ class EntityContext extends Context
             ->getCollection($entityName)
         ;
 
-        $entities = $this->getEntityManager()->getRepository($entityName)->findAll();
+        $entities = $this
+            ->getEntityManager()
+            ->getRepository($entityName)
+            ->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult()
+        ;
 
         $real = ($collection->count() - count($entities));
         $real = $real > 0 ? $real : 0;
@@ -199,12 +242,12 @@ class EntityContext extends Context
 
     protected function getEntityManagers()
     {
-        return $this->getContainer()->get('doctrine')->getManagers();
+        return $this->get('doctrine')->getManagers();
     }
 
     protected function getConnections()
     {
-        return $this->getContainer()->get('doctrine')->getConnections();
+        return $this->get('doctrine')->getConnections();
     }
 
     protected function getDefaultOptions()

@@ -11,9 +11,4 @@ class ExtensionSpec extends ObjectBehavior
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Extension');
     }
-
-    function it_should_provider_an_array_of_compilers()
-    {
-        $this->getCompilerPasses()->shouldBeArray();
-    }
 }

@@ -27,13 +27,27 @@ class EntityHydrator
                 $this->formatFromMapping($mapping, $property, $value);
             }
 
-            PropertyAccess::getPropertyAccessor()
-                ->setValue(
-                    $entity,
-                    $this->formater->toCamelCase($property),
-                    $value
-                )
-            ;
+            try {
+                PropertyAccess::getPropertyAccessor()
+                    ->setValue(
+                        $entity,
+                        $this->formater->toCamelCase($property),
+                        $value
+                    )
+                ;
+            } catch (\Exception $e) {
+                if (!($value instanceof ArrayCollection)) {
+                    throw $e;
+                }
+
+                PropertyAccess::getPropertyAccessor()
+                    ->setValue(
+                        $entity,
+                        $this->formater->toCamelCase($property),
+                        $value->toArray()
+                    )
+                ;
+            }
         }
 
         return $this;
@@ -75,7 +89,7 @@ class EntityHydrator
         }
 
         if (true === $mapping['unique']) {
-            return $this->cache->generate($className, $mapping['fieldName'], function () use ($guesser) {
+            return $this->cache->generate($className, $mapping['fieldName'], function () use ($guesser, $mapping) {
                 return $guesser->fake($mapping);
             });
         }

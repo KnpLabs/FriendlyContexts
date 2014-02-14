@@ -5,12 +5,11 @@
         "psr-0": { "Knp\\FriendlyContexts": "src/"}
     },
     "require": {
-        "behat/behat": ">=2.4.0",
-        "behat/symfony2-extension": "1.0.*",
+        "behat/behat": "~3@dev",
         "symfony/property-access": "2.*@dev",
-        "doctrine/inflector": "1.*",
-        "doctrine/data-fixtures": "1.0.*",
-        "behat/mink-extension": "1.*",
+        "doctrine/inflector": "~1.0",
+        "doctrine/data-fixtures": "~1.0",
+        "behat/mink-extension": "~2@dev",
         "fzaninotto/faker": "~1.0"
     },
     "require-dev": {

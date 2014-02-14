@@ -11,24 +11,42 @@ class Asserter
         $this->formater = $formater;
     }
 
-    public function assertArrayEquals($expected, $real)
+    public function assertArrayEquals(array $expected, array $real, $fullText = false)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));
 
-        $this->assertEquals(
-            $expected,
-            $real,
-            $message
-        );
+        if (false === $fullText) {
+            return $this->assertEquals(
+                $expected,
+                $real,
+                $message
+            );
+        } else {
+            return $this->assertEquals(
+                $this->explode($expected),
+                $this->explode($real),
+                $message
+            );
+        }
     }
 
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
-        if ($expected === $real) {
-            return true;
+        return $this->assert($expected === $real, $message);
+    }
+
+    public function assertNotEquals($expected, $real, $message = "Failing to assert not equals.")
+    {
+        return $this->assert($expected !== $real, $message);
+    }
+
+    public function assert($result, $message = "Assert failure")
+    {
+        if (false === $result) {
+            throw new \Exception($message, 1);
         }
 
-        throw new \Exception($message, 1);
+        return true;
     }
 
     protected function explode($value)
@@ -36,47 +54,7 @@ class Asserter
         if (!is_array($value)) {
             return (string) $value;;
         } else {
-            return $this->buildStringFromArray($value);
+            return $this->formater->tableToString($value);
         }
-    }
-
-    protected function getMaxElementSize(array $array = [], $maxsize = 0)
-    {
-        foreach ($array as $row) {
-            if (is_array($row)) {
-                $maxsize = $this->getMaxElementSize($row, $maxsize);
-            } else {
-                $maxsize = strlen((string) $row) > $maxsize ? strlen((string) $row) : $maxsize;
-            }
-        }
-
-        return $maxsize;
-    }
-
-    protected function buildStringFromArray(array $array = [])
-    {
-        $maxsize = $this->getMaxElementSize($array);
-        $result = "";
-        foreach ($array as $row) {
-            $result = $result."|";
-            if (is_array($row)) {
-                foreach ($row as $cell) {
-                    $result = sprintf(
-                        '%s %s |',
-                        $result,
-                        $this->explode($this->formater->addSpaceAfter((string) $cell, $maxsize))
-                    );
-                }
-            } else {
-                $result = sprintf(
-                    '%s %s |',
-                    $result,
-                    $this->explode($this->formater->addSpaceAfter((string) $row, $maxsize))
-                );
-            }
-            $result = $result."\r\n";
-        }
-
-        return $result;
     }
 }

@@ -4,12 +4,18 @@ parameters:
 services:
 
     friendly.initializer:
-        class: Knp\FriendlyContexts\Context\Initializer
+        class: Knp\FriendlyContexts\Context\Initializer\FriendlyInitializer
         arguments:
             - %friendly.parameters%
             - @service_container
         tags:
-            - { name: behat.context.initializer }
+            - { name: context.initializer }
+
+    friendly.symfony.kernel:
+        class: %friendly.symfony_kernel.class%
+        arguments:
+            - %friendly.symfony_kernel.env%
+            - %friendly.symfony_kernel.debug%
 
     friendly.record.bag:
         class: Knp\FriendlyContexts\Record\Collection\Bag
@@ -51,29 +57,3 @@ services:
         class: Faker\Generator
         factory_class: Faker\Factory
         factory_method: create
-
-    friendly.feature.walker:
-        class: Knp\FriendlyContexts\Node\FeatureWalker
-        arguments:
-            - @gherkin
-            - %behat.paths.features%
-
-    friendly.loader.scenario:
-        class: Knp\FriendlyContexts\Loader\ScenarioLoader
-        arguments:
-            - @behat.definition.dispatcher
-            - @friendly.feature.walker
-        tags:
-            - { name: behat.context.loader }
-
-    friendly.tester.scenario:
-        class: Knp\FriendlyContexts\Tester\ScenarioTester
-        arguments:
-            - @service_container
-            - @behat.context.dispatcher
-            - @friendly.tester.step
-
-    friendly.tester.step:
-        class: Knp\FriendlyContexts\Tester\StepTester
-        arguments:
-            - @service_container
