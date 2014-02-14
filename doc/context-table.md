@@ -46,7 +46,7 @@ I can use the following steps
     | Bob       | BS    |
   And I should see a table
   And I should see a table with 3 rows
-  And I should see a table with "John, George and Bob" in the column named "Firstname"
+  And I should see a table with "John, George and Bob" in the "Firstname" column
   ```
   
 Information

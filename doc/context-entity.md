@@ -3,7 +3,8 @@ Entity Context
 
 Configuration
 -------------
-Edit behat.yml
+Edit behat.yml:
+
 ```yaml
 default:
     # ...
@@ -17,9 +18,11 @@ default:
         # ...
         Knp\FriendlyContexts\Extension: ~
 ```
+
 Examples
 --------
 You have the following models (with getters and setters):
+
 ```php
 <?php
 
@@ -67,6 +70,7 @@ class User
     private $articles;
 }
 ```
+
 ```php
 <?php
 
@@ -106,15 +110,18 @@ class Article
 ```
 
 **Simply create 2 users instances**
+
 ```gherkin
   Given the following users
     | login | firstname | lastname |
     | admin | John      | Doe      |
     | user  | George    | Abitbol  |
 ```
+
 Here the context will automaticly resolve **user** to **App\Entity\User**, will create 2 instances of this entity following given data and will fake the required **email**.
 
 **Simply create 3 products attached to users**
+
 ```gherkin
   And the following products
     | name    | user  |
@@ -122,6 +129,7 @@ Here the context will automaticly resolve **user** to **App\Entity\User**, will 
     | T-Shirt | user  |
     | Truck   | admin |
 ```
+
 Here the context will automaticly resolve **products** to **App\Entity\Product**, will create 3 instances of this entity following given data and will fake the required **price**.
 
 For attaching user to product, you can call a user by any information given in the previous step (login, firstname or lastname) or by the result of the *_toString* method of the user entity.
@@ -129,16 +137,19 @@ For attaching user to product, you can call a user by any information given in t
 **I don't care about data, I just want 100 users**
 
 No problem
+
 ```gherkin
   And there is 100 users
 ```
+
 And now you've got 100 totaly faked users. You can't call there users like in the previous example.
 
 **Okay, I care about data, I want to create 200 products for John Doe**
 
 Here we go !!!
+
 ```gherkin
-  And there is 200 products like following
+  And there is 200 products like
     | user |
     | John |
 ```
@@ -151,14 +162,14 @@ Just ask
   And I fill in the form
   And I press "Submit"
   Then I should see "Your user is created"
-  And 1 user should be created # <= this is the step
+  And 1 user should have been created # <= this is the step
 ```
 
 Same thing for deletion
 ```gherkin
   When press "Delete"
   Then I should see "Your user is deleted"
-  And 1 user should be deleted # <= this is the step
+  And 1 user should have been deleted # <= this is the step
 ```
 
 Information
