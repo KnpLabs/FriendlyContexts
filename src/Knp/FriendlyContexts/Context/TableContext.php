@@ -137,14 +137,10 @@ class TableContext extends RawMinkContext
             $node = array();
             if (0 !== count($table->findAll('css', 'thead')) + count($table->findAll('css', 'tbody'))) {
                 if (null !== $head = $table->find('css', 'thead')) {
-                    foreach ($head->findAll('css', 'tr') as $row) {
-                        $node[] = $this->extractDataFromRow($row);
-                    }
+                    $this->extractDataFromPart($head, $node);
                 }
                 if (null !== $body = $table->find('css', 'tbody')) {
-                    foreach ($body->findAll('css', 'tr') as $row) {
-                        $node[] = $this->extractDataFromRow($row);
-                    }
+                    $this->extractDataFromPart($body, $node);
                 }
             } else {
                 foreach ($table->findAll('css', 'tr') as $row) {
@@ -155,6 +151,13 @@ class TableContext extends RawMinkContext
         }
 
         return $result;
+    }
+
+    protected function extractDataFromPart($part, &$array)
+    {
+        foreach ($part->findAll('css', 'tr') as $row) {
+            $array[] = $this->extractDataFromRow($row);
+        }
     }
 
     protected function extractDataFromRow($row)
