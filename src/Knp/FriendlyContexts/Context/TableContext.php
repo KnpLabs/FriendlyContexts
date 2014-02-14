@@ -10,9 +10,9 @@ use Behat\Gherkin\Node\TableNode;
 class TableContext extends RawMinkContext
 {
     /**
-     * @Then /^I should see a table with "([^"]*)" in the column named "([^"]*)"$/
+     * @Then /^I should see a table with "([^"]*)" in the "([^"]*)" column$/
      */
-    public function iShouldSeeATableWithInTheColumnNamed($list, $column)
+    public function iShouldSeeATableWithInTheNamedColumn($list, $column)
     {
         $expected = array_merge(array($column), $this->getFormater()->listToArray($list));
 

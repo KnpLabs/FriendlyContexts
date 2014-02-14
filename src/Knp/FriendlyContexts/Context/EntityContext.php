@@ -39,7 +39,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*[^like following])$/
+     * @Given /^there is (\d+) (.*[^like])$/
      */
     public function thereIs($nbr, $name)
     {
@@ -64,7 +64,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*) like following$/
+     * @Given /^there is (\d+) (.*) like$/
      */
     public function thereIsLikeFollowing($nbr, $name, TableNode $table)
     {
@@ -95,9 +95,9 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^(\w+) (.+) should be created$/
+     * @Given /^(\w+) (.+) should have been created$/
      */
-    public function entitiesShouldBeCreated($expected, $entity)
+    public function entitiesShouldHaveBeenCreated($expected, $entity)
     {
         $expected = (int) $expected;
 
@@ -123,15 +123,15 @@ class EntityContext extends Context
             ->assertEquals(
                 $real,
                 $expected,
-                sprintf('%s %s should be created, %s in reality', $expected, $entity, $real)
+                sprintf('%s %s should have been created, %s actually', $expected, $entity, $real)
             )
         ;
     }
 
     /**
-     * @Given /^(\w+) (.+) should be deleted$/
+     * @Given /^(\w+) (.+) should have been deleted$/
      */
-    public function entitiesShouldBeDeleted($expected, $entity)
+    public function entitiesShouldHaveBeenDeleted($expected, $entity)
     {
         $expected = (int) $expected;
 
@@ -157,7 +157,7 @@ class EntityContext extends Context
             ->assertEquals(
                 $real,
                 $expected,
-                sprintf('%s %s should be deleted, %s in reality', $expected, $entity, $real)
+                sprintf('%s %s should have been deleted, %s actually', $expected, $entity, $real)
             )
         ;
     }
@@ -211,7 +211,7 @@ class EntityContext extends Context
             case 1 < count($entities):
                 throw new \Exception(
                     sprintf(
-                        'Fail to find a unique model from the name "%s", "%s" found',
+                        'Failed to find a unique model from the name "%s", "%s" found',
                         $name,
                         implode('" and "', array_map(
                             function ($rfl) {
@@ -225,7 +225,7 @@ class EntityContext extends Context
             case 0 === count($entities):
                 throw new \Exception(
                     sprintf(
-                        'Fail to find a model from the name "%s"',
+                        'Failed to find a model from the name "%s"',
                         $name
                     )
                 );
