@@ -35,7 +35,8 @@ class AliceContext extends Context
                     $this->getEntityManager()->persist($entity);
                 }
                 $this->getEntityManager()->flush();
-                foreach ($loader->getCache() as list($data, $entity)) {
+                foreach ($loader->getCache() as $cache) {
+                    list($data, $entity) = $cache;
                     $this
                         ->getRecordBag()
                         ->getCollection(get_class($entity))
