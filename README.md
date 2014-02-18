@@ -10,6 +10,8 @@ KnpLabs - FriendlyContexts
     
 ####[The Entity Context](doc/context-entity.md)
 
+####[The Alice Context](doc/context-alice.md)
+
 ####[The Table Context](doc/context-table.md)
 
 ####[The Mink Context](doc/context-mink.md)
