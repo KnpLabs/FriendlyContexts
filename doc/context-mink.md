@@ -2,6 +2,23 @@ Mink Context
 ============
 This context is just an extension of the original mink context from the [Behat Mink Extension](http://extensions.behat.org/mink/)
 
+Configuration
+-------------
+Edit behat.yml
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+            - Knp\FriendlyContexts\Context\MinkContext
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension: ~
+```
+
 Examples
 --------
 
