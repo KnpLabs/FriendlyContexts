@@ -100,6 +100,7 @@ class EntityHydrator
     protected function format($mapping, $value)
     {
         if (false === $guesser = $this->guesserManager->find($mapping)) {
+
             return $value;
         }
 

@@ -23,6 +23,8 @@ class Extension implements ExtensionInterface
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
+        $container->setParameter('friendly.parameters', $config);
+
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
         $container->addCompilerPass(new Compiler\KernelPass($config));
@@ -49,6 +51,14 @@ class Extension implements ExtensionInterface
                         ->end()
                         ->booleanNode('debug')
                             ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('alice')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('fixtures')
+                            ->prototype('scalar')->end()
                         ->end()
                     ->end()
                 ->end()

@@ -62,6 +62,11 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.feature.walker');
     }
 
+    protected function getAliceLoader()
+    {
+        return $this->get('friendly.alice.loader.yaml');
+    }
+
     protected function getEntityManager()
     {
         return $this->get('doctrine')->getManager();
