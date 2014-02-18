@@ -49,7 +49,7 @@ Feature: My feature
 Entity Context
 --------------
 
-All imported fixtures can be re-used in the [Entity Context](context-entity.md) for object reference.
+All imported fixtures can be re-used in the [Entity Context](context-entity.md) as object reference.
 ```yaml
 # user.yml
 App\Entity\User:
