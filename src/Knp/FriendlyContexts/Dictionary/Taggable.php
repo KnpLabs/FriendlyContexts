@@ -42,4 +42,23 @@ trait Taggable
 
         return true;
     }
+
+    protected function getTagContent($name)
+    {
+        $content = [];
+
+        foreach ($this->tags as $tag) {
+            $matches = [];
+            if (preg_match(sprintf('/^%s\((.*)\)$/', $name), $tag, $matches)) {
+                $content[] = end($matches);
+            }
+        }
+
+        return $content;
+    }
+
+    protected function getTags()
+    {
+        return $this->tags;
+    }
 }

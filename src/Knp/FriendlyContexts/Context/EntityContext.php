@@ -39,7 +39,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*[^like])$/
+     * @Given /^there is (\d+) ((?!.* like).*)$/
      */
     public function thereIs($nbr, $name)
     {
@@ -184,7 +184,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @BeforeBackground
+     * @BeforeScenario
      */
     public function beforeBackground($event)
     {

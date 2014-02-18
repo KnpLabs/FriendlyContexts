@@ -11,6 +11,10 @@ services:
         tags:
             - { name: context.initializer }
 
+    friendly.alice.loader.yaml:
+        class: Knp\FriendlyContexts\Alice\Loader\Yaml
+        scope: prototype
+
     friendly.symfony.kernel:
         class: %friendly.symfony_kernel.class%
         arguments:
