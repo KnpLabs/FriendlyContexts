@@ -10,6 +10,7 @@ trait Backgroundable
     private $HOOK_AFTER_BACKGROUND  = 'AfterBackground';
 
     private $inBackground = false;
+    private $afterBackground = false;
 
     /**
      * @BeforeStep
@@ -17,10 +18,15 @@ trait Backgroundable
     public function BackgroundDispatcher(StepTested $event)
     {
         $feature = $event->getFeature();
-        $background = $feature->getBackground() ?: array();
-        $underBackground = in_array($event->getStep(), $background->getSTeps());
+        $background = $feature->getBackground() ?: null;
+        $steps = null === $background ? [] : $background->getSteps();
+        $underBackground = in_array($event->getStep(), $steps);
 
-        if ($underBackground !== $this->inBackground) {
+        if (null === $background && false === $this->afterBackground) {
+            $this->displachEvent($this->HOOK_BEFORE_BACKGROUND, $event);
+            $this->displachEvent($this->HOOK_AFTER_BACKGROUND, $event);
+            $this->afterBackground = true;
+        } else if ($underBackground !== $this->inBackground) {
             if (true === $underBackground) {
                 $this->displachEvent($this->HOOK_BEFORE_BACKGROUND, $event);
             } else {
