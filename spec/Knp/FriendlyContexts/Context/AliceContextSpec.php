@@ -32,7 +32,7 @@ class AliceContextSpec extends ObjectBehavior
         $loader->getCache()->willReturn([]);
         $loader->clearCache()->willReturn(null);
         $fixtures = [ 'User' => 'user.yml', 'Product' => 'product.yml', 'Place' => 'place.yml' ];
-        $config = [ 'alice' => [ 'fixtures' => $fixtures ]];
+        $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => [] ]];
 
         $this->initialize($config, $container);
     }
@@ -58,6 +58,23 @@ class AliceContextSpec extends ObjectBehavior
         $loader->load('user.yml')->shouldBeCalled();
         $loader->load('place.yml')->shouldBeCalled();
         $loader->load('product.yml')->shouldBeCalled();
+
+        $this->loadAlice($event);
+    }
+
+    function it_should_resolve_deps($container, $loader, $event, $scenario)
+    {
+        $scenario->getTags()->willReturn([]);
+
+        $loader->load('user.yml')->shouldBeCalled();
+        $loader->load('place.yml')->shouldBeCalled();
+        $loader->load('product.yml')->shouldNotBeCalled();
+
+        $fixtures = [ 'User' => 'user.yml', 'Product' => 'product.yml', 'Place' => 'place.yml' ];
+        $deps = [ 'Place' => [ 'User' ] ];
+        $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => $deps ]];
+
+        $this->initialize($config, $container);
 
         $this->loadAlice($event);
     }
