@@ -72,7 +72,7 @@ class AliceContext extends Context
 
     protected function resolveDeps($fixture)
     {
-        $result = [ $fixture ];
+        $result = [$fixture];
         $tree = $this->config['alice']['dependencies'];
 
         if (!empty($tree[$fixture])) {
