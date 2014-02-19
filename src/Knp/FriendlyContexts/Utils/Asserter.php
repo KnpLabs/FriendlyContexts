@@ -30,7 +30,7 @@ class Asserter
         }
     }
 
-    public function assertArrayContains($expected, $real, $message = null)
+    public function assertArrayContains(array $expected, array $real, $message = null)
     {
         $message = $message ?: sprintf("The given array\r\n\r\n%s\r\ndoes not contains the following rows\r\n\r\n%s", $this->explode($real), $this->explode($expected));
 
