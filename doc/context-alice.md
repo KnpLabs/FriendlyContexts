@@ -24,6 +24,7 @@ default:
                 fixtures:
                     User: path/to/my/user/fixtures.yml
                     Product: path/to/my/product/fixtures.yml
+                dependencies: ~
 ```
 
 Usage
@@ -45,6 +46,39 @@ Feature: My feature
     The feature description
     ...
 ```
+
+Manage dependencies between alice files
+---------------------------------------
+
+If, for example, you have to load a "User" alice file before a "Product" alice file, you can do it directly from the feature : 
+
+```gherkin
+@alice(User) @alice(Product)
+Feature: My feature
+...
+```
+
+Or you can manage de dependence via your behat.yml
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension:
+            alice:
+                fixtures:
+                    User: path/to/my/user/fixtures.yml
+                    Product: path/to/my/product/fixtures.yml
+                dependencies: 
+                        Product: [ User ]
+                        # ...
+```
+
 
 Entity Context
 --------------
