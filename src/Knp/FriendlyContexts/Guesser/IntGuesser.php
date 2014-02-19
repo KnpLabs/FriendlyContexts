@@ -8,7 +8,7 @@ class IntGuesser extends AbstractGuesser implements GuesserInterface
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
 
-        return $mapping['type'] === 'int';
+        return $mapping['type'] === 'integer';
     }
 
     public function transform($str, array $mapping = null)
