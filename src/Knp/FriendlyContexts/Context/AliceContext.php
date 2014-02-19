@@ -54,7 +54,7 @@ class AliceContext extends Context
                 ->getRecordBag()
                 ->getCollection(get_class($entity))
                 ->attach($entity, $data)
-                ;
+            ;
         }
         $loader->clearCache();
     }
