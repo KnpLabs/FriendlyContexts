@@ -44,4 +44,11 @@ class AsserterSpec extends ObjectBehavior
 
         $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayEquals([ 10, 'text', false ], [ 10, 'test', true ]);
     }
+
+    function it_assert_that_an_array_contains_an_other()
+    {
+        $expected = "The given array\r\n\r\n| 10 | test | 1 |\r\ndoes not contains the following rows\r\n\r\n| 10 | text |  |";
+
+        $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayContains([ 10, 'text', false ], [ 10, 'test', true ]);
+    }
 }

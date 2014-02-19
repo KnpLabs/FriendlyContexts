@@ -54,6 +54,40 @@ class TableContext extends RawMinkContext
     }
 
     /**
+     * @Then /^I should see the following table portion:?$/
+     */
+    public function iShouldSeeTheFollowingTablePortion($expected)
+    {
+        if ($expected instanceof TableNode) {
+            $expected = $this->reorderArrayKeys($expected->getTable());
+        }
+
+        $this->iShouldSeeATable();
+
+        $tables = $this->findTables();
+        $exceptions = array();
+
+        foreach ($tables as $table) {
+            try {
+                if (false === $extraction = $this->extractColumns(current($expected), $table)) {
+                    $this->getAsserter()->assertArrayContains($expected, $table);
+
+                    return;
+                }
+                $this->getAsserter()->assertArrayContains($expected, $extraction);
+
+                return;
+            } catch (\Exception $e) {
+                $exceptions[] = $e;
+            }
+        }
+
+        $message = implode("\n", array_map(function ($e) { return $e->getMessage(); }, $exceptions));
+
+        throw new \Exception($message);
+    }
+
+    /**
      * @Then /^I should see a table with ([^"]*) rows$/
      * @Then /^I should see a table with ([^"]*) row$/
      */
@@ -170,6 +204,21 @@ class TableContext extends RawMinkContext
         }
 
         return $result;
+    }
+
+    protected function reorderArrayKeys(array $subject)
+    {
+        $orderedArray = array();
+
+        foreach ($subject as $key => $value) {
+            if (is_int($key)) {
+                $orderedArray[] = $value;
+            } else {
+                $orderedArray[$key] = $value;
+            }
+        }
+
+        return $orderedArray;
     }
 
     protected function getAsserter()

@@ -30,6 +30,22 @@ class Asserter
         }
     }
 
+    public function assertArrayContains(array $expected, array $real, $message = null)
+    {
+        $message = $message ?: sprintf("The given array\r\n\r\n%s\r\ndoes not contains the following rows\r\n\r\n%s", $this->explode($real), $this->explode($expected));
+
+        foreach ($expected as $key => $value) {
+            $this->assert(isset($real[$key]), $message);
+
+            if (is_array($value)) {
+                $this->assert(is_array($real[$key]), $message);
+                $this->assertArrayContains($value, $real[$key], $message);
+            }
+
+            $this->assert($value === $real[$key], $message);
+        }
+    }
+
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
     {
         return $this->assert($expected === $real, $message);
