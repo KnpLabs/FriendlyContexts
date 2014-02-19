@@ -40,8 +40,15 @@ class AsserterSpec extends ObjectBehavior
 
     function it_should_display_the_array_when_display_the_error()
     {
-        $expected = "The given array\r\n\r\n| 10 | test | 1 |\r\nis not equals to expected\r\n\r\n| 10 | text |  |";
+        $expected  = "The given array\r\n\r\n| 10 | test | 1 |\r\nis not equals to expected\r\n\r\n| 10 | text |  |";
 
         $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayEquals([ 10, 'text', false ], [ 10, 'test', true ]);
+    }
+
+    function it_assert_that_an_array_contains_an_other()
+    {
+        $expected = "The given array\r\n\r\n| 10 | test | 1 |\r\ndoes not contains the following rows\r\n\r\n| 10 | text |  |";
+
+        $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayContains([ 10, 'text', false ], [ 10, 'test', true ]);
     }
 }
