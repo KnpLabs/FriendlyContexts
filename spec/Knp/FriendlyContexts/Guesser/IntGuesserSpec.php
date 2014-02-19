@@ -16,7 +16,7 @@ class IntGuesserSpec extends ObjectBehavior
     {
         $mapping = [
             'fieldName'  => "number",
-            'type'       => "int",
+            'type'       => "integer",
             'scale'      => 0,
             'length'     => null,
             'unique'     => false,
