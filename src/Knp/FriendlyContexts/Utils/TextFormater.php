@@ -44,7 +44,7 @@ class TextFormater
         foreach ($array as $row) {
             $cells = array();
             foreach ($row as $index => $cell) {
-                $cells[] = sprintf(' %s ', str_pad(trim($cell), $sizes[$index]));
+                $cells[] = sprintf(' %s ', $this->mbStrPad(trim($cell), $sizes[$index]));
             }
             $lines[] = sprintf('|%s|', implode('|', $cells));
         }
@@ -87,5 +87,12 @@ class TextFormater
         }
 
         return $deep;
+    }
+
+    protected function mbStrPad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT)
+    {
+        $diff = strlen($input) - mb_strlen($input, 'UTF8');
+
+        return str_pad($input, $pad_length + $diff, $pad_string, $pad_type);
     }
 }
