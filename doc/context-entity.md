@@ -171,6 +171,14 @@ Same thing for deletion
   Then I should see "Your user is deleted"
   And 1 user should have been deleted # <= this is the step
 ```
+Reset Schema
+------------
+You just have to use the tag **@reset-schema**
+```gherkin
+@reset-schema
+Feature: My feature
+...
+```
 
 Information
 -----------------
