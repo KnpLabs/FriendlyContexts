@@ -26,7 +26,7 @@ trait Backgroundable
             $this->displachEvent($this->HOOK_BEFORE_BACKGROUND, $event);
             $this->displachEvent($this->HOOK_AFTER_BACKGROUND, $event);
             $this->afterBackground = true;
-        } else if ($underBackground !== $this->inBackground) {
+        } elseif ($underBackground !== $this->inBackground) {
             if (true === $underBackground) {
                 $this->displachEvent($this->HOOK_BEFORE_BACKGROUND, $event);
             } else {
