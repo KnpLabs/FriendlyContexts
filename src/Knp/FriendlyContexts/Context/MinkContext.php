@@ -29,7 +29,7 @@ class MinkContext extends BaseMinkContext
             $name,
             'field',
             $nbr,
-            function ($e) use ($state)   { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
+            function ($e) use ($state) { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
             function ($e) use ($element) { return $element === $e->getAttribute('type'); }
         );
     }
