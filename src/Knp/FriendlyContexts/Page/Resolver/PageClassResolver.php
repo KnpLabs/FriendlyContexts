@@ -4,12 +4,31 @@ namespace Knp\FriendlyContexts\Page\Resolver;
 
 use Behat\Mink\Session;
 use Behat\Mink\Element\DocumentElement;
+use Doctrine\Common\Inflector\Inflector;
 
 class PageClassResolver
 {
+    private $namespace;
+
+    public function __construct($namespace = '')
+    {
+        $this->namespace = $namespace;
+    }
+
     public function exists($class)
     {
         return class_exists($class);
+    }
+
+    public function resolveName($name)
+    {
+        $class = sprintf(
+            '%s\\%sPage',
+            $this->namespace,
+            ucfirst(Inflector::camelize(str_replace(' ', '_', $name)))
+        );
+
+        return $class;
     }
 
     public function create(Session $session, $class)

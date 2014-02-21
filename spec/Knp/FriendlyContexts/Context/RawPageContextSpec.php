@@ -50,6 +50,11 @@ class RawPageContextSpec extends ObjectBehavior
             ->shouldBeCalled(1)
             ->willReturn($page)
         ;
+        $pageResolver
+            ->resolveName('some')
+            ->shouldBeCalled(1)
+            ->willReturn('Page\Namespace\SomePage')
+        ;
 
         $this->getPage('some')->shouldReturn($page);
     }

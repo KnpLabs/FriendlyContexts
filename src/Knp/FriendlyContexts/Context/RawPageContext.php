@@ -3,7 +3,6 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Doctrine\Common\Inflector\Inflector;
 use Behat\Mink\Element\DocumentElement;
 use Knp\FriendlyContexts\Page\Page;
 
@@ -17,13 +16,9 @@ class RawPageContext extends RawMinkContext
             return $this->pages[$page];
         }
 
-        $class = sprintf(
-            '%s\\%sPage',
-            $this->config['page']['namespace'],
-            ucfirst(Inflector::camelize(str_replace(' ', '_', $page)))
-        );
+        $class = $this->getPageClassResolver()->resolveName($page);
 
-        $this->pages[$page] = $this->get('friendly.page.resolver')->create(
+        $this->pages[$page] = $this->getPageClassResolver()->create(
             $this->getSession(),
             $class
         );

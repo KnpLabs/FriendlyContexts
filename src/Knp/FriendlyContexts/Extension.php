@@ -25,6 +25,11 @@ class Extension implements ExtensionInterface
 
         $container->setParameter('friendly.parameters', $config);
 
+        $container->setParameter(
+            'friendly.parameters.page.namespace',
+            $config['page']['namespace']
+        );
+
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
         $container->addCompilerPass(new Compiler\KernelPass($config));

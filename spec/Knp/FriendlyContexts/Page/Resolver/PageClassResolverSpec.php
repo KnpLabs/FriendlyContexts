@@ -7,6 +7,11 @@ use Prophecy\Argument;
 
 class PageClassResolverSpec extends ObjectBehavior
 {
+    function let()
+    {
+        $this->beConstructedWith('Page\Namespace');
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Page\Resolver\PageClassResolver');
@@ -43,5 +48,10 @@ class PageClassResolverSpec extends ObjectBehavior
             ->create($session, 'Knp\FriendlyContexts\Page\Page')
             ->shouldHaveType('Knp\FriendlyContexts\Page\Page')
         ;
+    }
+
+    function it_resolve_a_page_class_name()
+    {
+        $this->resolveName('some name')->shouldReturn('Page\Namespace\SomeNamePage');
     }
 }
