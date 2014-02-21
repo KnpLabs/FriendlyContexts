@@ -24,11 +24,13 @@ class Extension implements ExtensionInterface
         $loader->load('guessers.yml');
 
         $container->setParameter('friendly.parameters', $config);
+        $parameters = [];
+        $this->parametersBuild('friendly', $parameters, $config);
 
-        $container->setParameter(
-            'friendly.parameters.page.namespace',
-            $config['page']['namespace']
-        );
+        foreach ($parameters as $key => $value)
+        {
+            $container->setParameter($key, $value);
+        }
 
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
@@ -92,5 +94,28 @@ class Extension implements ExtensionInterface
     public function getConfigKey()
     {
         return 'friendly';
+    }
+
+    protected function parametersBuild($name, &$parameters, $config)
+    {
+        foreach ($config as $key => $element)
+        {
+            if (is_array($element) && $this->arrayHasStringKeys($element)) {
+                $this->parametersBuild(sprintf('%s.%s', $name, $key), $parameters, $element);
+            }
+            $parameters[sprintf('%s.%s', $name, $key)] = $element;
+        }
+    }
+
+    protected function arrayHasStringKeys(array $array)
+    {
+        foreach ($array as $key => $value) {
+            if (is_string($key)) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

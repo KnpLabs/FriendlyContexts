@@ -18,14 +18,9 @@ class KernelPass implements CompilerPassInterface
     {
         $config = $this->config;
 
-        foreach ($config['symfony_kernel'] as $key => $value) {
-            $container->setParameter(sprintf('friendly.symfony_kernel.%s', strtolower($key)), $value);
-        }
-
         $basePath = $container->getParameter('paths.base');
 
         $bootstrapPath = $container->getParameter('friendly.symfony_kernel.bootstrap');
-
         if (file_exists($bootstrap = $basePath.DIRECTORY_SEPARATOR.$bootstrapPath)) {
             require_once($bootstrap);
         } elseif (file_exists($bootstrapPath)) {

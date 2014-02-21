@@ -12,7 +12,7 @@ class AliceContext extends Context
     public function loadAlice($event)
     {
         $this->storeTags($event);
-        $fixtures = $this->config['alice']['fixtures'];
+        $fixtures = $this->getParameter('friendly.alice.fixtures');
         $loader = $this->getAliceLoader();
 
         $files = $this->getTagContent('alice');
@@ -73,7 +73,7 @@ class AliceContext extends Context
     protected function resolveDeps($fixture)
     {
         $result = [$fixture];
-        $tree = $this->config['alice']['dependencies'];
+        $tree = $this->getParameter('friendly.alice.dependencies');
 
         if (!empty($tree[$fixture])) {
             foreach ($tree[$fixture] as $dep) {
