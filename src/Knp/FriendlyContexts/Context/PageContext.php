@@ -41,8 +41,6 @@ class PageContext extends RawPageContext
         $page = $this->getPage($page);
         $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
 
-        die(var_dump($path));
-
         $this->getSession()->visit($page);
     }
 
