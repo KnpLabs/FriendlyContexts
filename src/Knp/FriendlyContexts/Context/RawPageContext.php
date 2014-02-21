@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Context;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Behat\Mink\Element\DocumentElement;
 use Knp\FriendlyContexts\Page\Page;
+use Behat\Gherkin\Node\TableNode;
 
 class RawPageContext extends RawMinkContext
 {
@@ -112,6 +113,7 @@ class RawPageContext extends RawMinkContext
         }
 
         if (!is_array($parameters)) {
+            die(var_dump($parameters));
             throw new \InvalidArgumentException(
                 'You must precised a valid array or Behat\Gherkin\Node\TableNode to extract'
             );
