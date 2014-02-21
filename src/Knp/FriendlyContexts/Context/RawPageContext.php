@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Context;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Inflector\Inflector;
 use Behat\Mink\Element\DocumentElement;
+use Knp\FriendlyContexts\Page\Page;
 
 class RawPageContext extends RawMinkContext
 {
