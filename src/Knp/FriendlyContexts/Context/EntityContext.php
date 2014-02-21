@@ -119,8 +119,8 @@ class EntityContext extends Context
         $diff = [];
         if ($state === 'created') {
             $diff = array_diff($entities, $records);
-            foreach ($diff as $entity) {
-                $collection->attach($entity);
+            foreach ($diff as $e) {
+                $collection->attach($e);
             }
         } else {
             $diff = array_diff($records, $entities);
