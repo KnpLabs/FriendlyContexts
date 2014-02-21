@@ -10,6 +10,23 @@ class RawPageContext extends RawMinkContext
 {
     private $pages = [];
 
+    public function visitPage(Page $page, $arguments = null)
+    {
+        list($parameters, $entities) = $this->extractTable($arguments);
+
+        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
+
+        $this->getSession()->visit($path);
+    }
+
+    public function assertPage(Page $page, $arguments = null)
+    {
+        list($parameters, $entities) = $this->extractTable($arguments);
+
+        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
+        $this->assertSession()->addressEquals($path);
+    }
+
     public function getPage($page)
     {
         if (isset($this->pages[$page])) {
@@ -82,5 +99,36 @@ class RawPageContext extends RawMinkContext
         }
 
         return $path;
+    }
+
+    protected function extractTable($parameters = null)
+    {
+        if (null === $parameters) {
+            return [[], []];
+        }
+
+        if ($parameters instanceof TableNode) {
+            $parameters = $parameters->getRowsHash();
+        }
+
+        if (!is_array($parameters)) {
+            throw new \InvalidArgumentException(
+                'You must precised a valid array or Behat\Gherkin\Node\TableNode to extract'
+            );
+        }
+
+        $entities = [];
+
+        foreach ($parameters as $name => $value) {
+            $matches = array();
+            if (preg_match('/^the (.+) "([^"]+)"$/', $value, $matches)) {
+                $entity = $this->getEntityFromRecordBag($matches[1], $matches[2]);
+
+                $entities[$name] = $entity;
+                unset($parameters[$name]);
+            }
+        }
+
+        return array($parameters, $entities);
     }
 }
