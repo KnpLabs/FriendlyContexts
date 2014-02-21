@@ -27,8 +27,7 @@ class Extension implements ExtensionInterface
         $parameters = [];
         $this->buildParameters('friendly', $parameters, $config);
 
-        foreach ($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $container->setParameter($key, $value);
         }
 
@@ -98,8 +97,7 @@ class Extension implements ExtensionInterface
 
     protected function buildParameters($name, &$parameters, $config)
     {
-        foreach ($config as $key => $element)
-        {
+        foreach ($config as $key => $element) {
             if (is_array($element) && $this->arrayHasStringKeys($element)) {
                 $this->buildParameters(sprintf('%s.%s', $name, $key), $parameters, $element);
             }
