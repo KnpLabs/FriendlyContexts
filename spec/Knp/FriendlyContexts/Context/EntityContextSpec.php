@@ -29,7 +29,7 @@ class EntityContextSpec extends ObjectBehavior
         $repository->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
         $query->getResult()->willReturn(['', '']);
-        $resolver->resolve($manager, 'entities', [""])->willReturn([$reflectionClass]);
+        $resolver->resolve($manager, 'entities', Argument::cetera())->willReturn([$reflectionClass]);
         $bag->getCollection(Argument::any())->willReturn($collection);
 
         $container->has(Argument::any())->willReturn(true);

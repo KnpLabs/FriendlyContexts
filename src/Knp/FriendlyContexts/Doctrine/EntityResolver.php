@@ -22,7 +22,7 @@ class EntityResolver
         $this->formater  = $formater;
     }
 
-    public function resolve(ObjectManager $entityManager, $name, $namespaces)
+    public function resolve(ObjectManager $entityManager, $name, $namespaces = '')
     {
         $results = [];
 

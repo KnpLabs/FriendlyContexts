@@ -61,3 +61,7 @@ services:
         class: Faker\Generator
         factory_class: Faker\Factory
         factory_method: create
+
+    friendly.page.resolver:
+        class: Knp\FriendlyContexts\Page\Resolver\PageClassResolver
+        arguments: [%friendly.parameters.page.namespace%]

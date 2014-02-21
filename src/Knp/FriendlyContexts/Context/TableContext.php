@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Behat\MinkExtension\Context\RawMinkContext;
 use Knp\FriendlyContexts\Utils\TextFormater;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Behat\Gherkin\Node\TableNode;

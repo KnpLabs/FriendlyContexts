@@ -15,3 +15,5 @@ KnpLabs - FriendlyContexts
 ####[The Table Context](doc/context-table.md)
 
 ####[The Mink Context](doc/context-mink.md)
+
+####[The Page context](doc/context-page.md)

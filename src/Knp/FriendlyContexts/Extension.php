@@ -25,6 +25,11 @@ class Extension implements ExtensionInterface
 
         $container->setParameter('friendly.parameters', $config);
 
+        $container->setParameter(
+            'friendly.parameters.page.namespace',
+            $config['page']['namespace']
+        );
+
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
         $container->addCompilerPass(new Compiler\KernelPass($config));
@@ -65,6 +70,14 @@ class Extension implements ExtensionInterface
                             ->prototype('array')
                                 ->prototype('scalar')->end()
                             ->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('page')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('namespace')
+                            ->defaultValue('Page')
                         ->end()
                     ->end()
                 ->end()

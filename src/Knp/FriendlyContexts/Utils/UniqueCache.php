@@ -12,7 +12,7 @@ class UniqueCache
             return false;
         }
 
-        if (!is_array($this->cache[$className]) or !isset($this->cache[$className][$field])) {
+        if (!is_array($this->cache[$className]) || !isset($this->cache[$className][$field])) {
             return false;
         }
 

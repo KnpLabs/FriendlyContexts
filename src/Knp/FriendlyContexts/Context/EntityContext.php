@@ -200,40 +200,6 @@ class EntityContext extends Context
         $this->getEntityManager()->clear();
     }
 
-    protected function resolveEntity($name)
-    {
-        $entities = $this
-            ->getEntityResolver()
-            ->resolve($this->getEntityManager(), $name, $this->config['Entities'])
-        ;
-
-        switch (true) {
-            case 1 < count($entities):
-                throw new \Exception(
-                    sprintf(
-                        'Failed to find a unique model from the name "%s", "%s" found',
-                        $name,
-                        implode('" and "', array_map(
-                            function ($rfl) {
-                                return $rfl->getName();
-                            },
-                            $entities
-                        ))
-                    )
-                );
-                break;
-            case 0 === count($entities):
-                throw new \Exception(
-                    sprintf(
-                        'Failed to find a model from the name "%s"',
-                        $name
-                    )
-                );
-        }
-
-        return current($entities);
-    }
-
     protected function getMetadata(EntityManager $entityManager)
     {
         return $entityManager->getMetadataFactory()->getAllMetadata();
