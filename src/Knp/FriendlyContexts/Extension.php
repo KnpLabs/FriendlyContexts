@@ -68,6 +68,14 @@ class Extension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('page')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('namespace')
+                            ->defaultValue('Page')
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
     }

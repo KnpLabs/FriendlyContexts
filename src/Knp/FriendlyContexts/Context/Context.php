@@ -77,6 +77,11 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.unique_cache');
     }
 
+    protected function getPageClassResolver()
+    {
+        return $this->get('friendly.page.resolver');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {
@@ -90,8 +95,42 @@ abstract class Context implements ContextInterface
         throw new \Exception(sprintf('Service named "%s" unknow.', $service));
     }
 
+    protected function resolveEntity($name)
+    {
+        $entities = $this
+            ->getEntityResolver()
+            ->resolve($this->getEntityManager(), $name)
+        ;
+
+        switch (true) {
+            case 1 < count($entities):
+                throw new \Exception(
+                    sprintf(
+                        'Failed to find a unique model from the name "%s", "%s" found',
+                        $name,
+                        implode('" and "', array_map(
+                            function ($rfl) {
+                                return $rfl->getName();
+                            },
+                            $entities
+                        ))
+                    )
+                );
+                break;
+            case 0 === count($entities):
+                throw new \Exception(
+                    sprintf(
+                        'Failed to find a model from the name "%s"',
+                        $name
+                    )
+                );
+        }
+
+        return current($entities);
+    }
+
     protected function getDefaultOptions()
     {
-        return [ ];
+        return [];
     }
 }
