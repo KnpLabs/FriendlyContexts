@@ -9,3 +9,11 @@ before_script:
 script:
     - bin/phpspec status
     - bin/phpspec run -fpretty
+
+notifications:
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/dd240af232144434bff2
+        on_success: always  # options: [always|never|change] default: always
+        on_failure: always  # options: [always|never|change] default: always
+        on_start: false     # default: false
