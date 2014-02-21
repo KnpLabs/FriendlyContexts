@@ -49,13 +49,13 @@ class EntityContextSpec extends ObjectBehavior
 
     function it_should_assert_a_deletion()
     {
-        $this->entitiesShouldHaveBeenDeleted('no', 'entities')->shouldReturn(null);
-        $this->shouldThrow(new \Exception('2 entities should have been deleted, 0 actually', 1))->duringEntitiesShouldHaveBeenDeleted('2', 'entities');
+        $this->entitiesShouldHaveBeen('no', 'entities', 'deleted')->shouldReturn(null);
+        $this->shouldThrow(new \Exception('2 entities should have been deleted, 0 actually', 1))->duringEntitiesShouldHaveBeen('2', 'entities', 'deleted');
     }
 
     function it_should_assert_a_creation()
     {
-        $this->entitiesShouldHaveBeenCreated('2', 'entities')->shouldReturn(null);
-        $this->shouldThrow(new \Exception('0 entities should have been created, 2 actually', 1))->duringEntitiesShouldHaveBeenCreated('no', 'entities');
+        $this->entitiesShouldHaveBeen('2', 'entities', 'created')->shouldReturn(null);
+        $this->shouldThrow(new \Exception('0 entities should have been created, 2 actually', 1))->duringEntitiesShouldHaveBeen('no', 'entities', 'created');
     }
 }
