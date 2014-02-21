@@ -17,6 +17,7 @@ class ExtensionSpec extends ObjectBehavior
         $container->addCompilerPass(Argument::cetera())->willReturn(null);
         $container->setParameter(Argument::cetera())->willReturn(null);
     }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Extension');
