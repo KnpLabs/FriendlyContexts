@@ -9,70 +9,21 @@ class PageContext extends RawPageContext
 {
     /**
      * @Given /^I am on the (.*) page$/
+     * @Given /^I am on the (.*) page with:?$/
      * @When /^I go to the (.*) page$/
+     * @When /^I go to the (.*) page with:?$/
      */
-    public function iAmOnThePage($page)
+    public function iAmOnThePageWith($page, TableNode $table = null)
     {
-        $page = $this->getPage($page);
-        $path = $this->locatePath($page->getPath());
-
-        $this->getSession()->visit($path);
+        $this->visitPage($this->getPage($page), $table);
     }
 
     /**
      * @Then /^I should be on the (.*) page$/
-     */
-    public function iShouldBeOnThePage($page)
-    {
-        $page = $this->getPage($page);
-        $path = $this->locatePath($page->getPath());
-
-        $this->assertSession()->addressEquals($page);
-    }
-
-    /**
-     * @Given /^I am on the (.*) page with:?$/
-     * @When /^I go to the (.*) page with:?$/
-     */
-    public function iAmOnThePageWith($page, TableNode $table)
-    {
-        list($parameters, $entities) = $this->extractTable($table);
-
-        $page = $this->getPage($page);
-        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
-
-        $this->getSession()->visit($page);
-    }
-
-    /**
      * @Then /^I should be on the (.*) page with:?$/
      */
-    public function iShouldBeOnThePageWith($page, TableNode $table)
+    public function iShouldBeOnThePageWith($page, TableNode $table = null)
     {
-        list($parameters, $entities) = $this->extractTable($table);
-
-        $page = $this->getPage($page);
-        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
-
-        $this->assertSession()->addressEquals($page);
-    }
-
-    protected function extractTable(TableNode $table)
-    {
-        $parameters = $table->getRowsHash();
-
-        $entities = [];
-
-        foreach ($parameters as $name => $value) {
-            $matches = array();
-            if (preg_match('/^the (.+) "([^"]+)"$/', $value, $matches)) {
-                $entity = $this->getEntityFromRecordBag($matches[1], $matches[2]);
-
-                $entities[$name] = $entity;
-                unset($parameters[$name]);
-            }
-        }
-
-        return array($parameters, $entities);
+        $this->assertPage($this->getPage($page), $table);
     }
 }
