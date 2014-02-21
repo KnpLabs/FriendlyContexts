@@ -113,7 +113,6 @@ class RawPageContext extends RawMinkContext
         }
 
         if (!is_array($parameters)) {
-            die(var_dump($parameters));
             throw new \InvalidArgumentException(
                 'You must precised a valid array or Behat\Gherkin\Node\TableNode to extract'
             );
