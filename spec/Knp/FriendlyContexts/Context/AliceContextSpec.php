@@ -18,9 +18,6 @@ class AliceContextSpec extends ObjectBehavior
      **/
     function let($container, $doctrine, $manager, $event, $loader, $feature, $scenario)
     {
-        $container->has(Argument::any())->willReturn(true);
-        $container->get('friendly.alice.loader.yaml')->willReturn($loader);
-        $container->get('doctrine')->willReturn($doctrine);
         $doctrine->getManager()->willReturn($manager);
         $feature->getTags()->willReturn([ 'alice(Place)', 'admin' ]);
         $scenario->getTags()->willReturn([ 'alice(User)' ]);
@@ -33,6 +30,12 @@ class AliceContextSpec extends ObjectBehavior
         $loader->clearCache()->willReturn(null);
         $fixtures = [ 'User' => 'user.yml', 'Product' => 'product.yml', 'Place' => 'place.yml' ];
         $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => [] ]];
+        $container->has(Argument::any())->willReturn(true);
+        $container->hasParameter(Argument::any())->willReturn(true);
+        $container->get('friendly.alice.loader.yaml')->willReturn($loader);
+        $container->get('doctrine')->willReturn($doctrine);
+        $container->getParameter('friendly.alice.fixtures')->willReturn($fixtures);
+        $container->getParameter('friendly.alice.dependencies')->willReturn([]);
 
         $this->initialize($config, $container);
     }
@@ -70,11 +73,8 @@ class AliceContextSpec extends ObjectBehavior
         $loader->load('place.yml')->shouldBeCalled();
         $loader->load('product.yml')->shouldNotBeCalled();
 
-        $fixtures = [ 'User' => 'user.yml', 'Product' => 'product.yml', 'Place' => 'place.yml' ];
         $deps = [ 'Place' => [ 'User' ] ];
-        $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => $deps ]];
-
-        $this->initialize($config, $container);
+        $container->getParameter('friendly.alice.dependencies')->willReturn($deps);
 
         $this->loadAlice($event);
     }

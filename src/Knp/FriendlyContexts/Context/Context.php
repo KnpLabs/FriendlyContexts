@@ -95,6 +95,19 @@ abstract class Context implements ContextInterface
         throw new \Exception(sprintf('Service named "%s" unknow.', $service));
     }
 
+    protected function getParameter($name)
+    {
+        if ($this->container->hasParameter($name)) {
+            return $this->container->getParameter($name);
+        }
+
+        if ($this->container->get('friendly.symfony.kernel')->getContainer()->hasParameter($name)) {
+            return $this->container->get('friendly.symfony.kernel')->getContainer()->getParameter($name);
+        }
+
+        throw new \Exception(sprintf('Parameter named "%s" unknow.', $service));
+    }
+
     protected function resolveEntity($name)
     {
         $entities = $this

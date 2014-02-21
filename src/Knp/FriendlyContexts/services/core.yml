@@ -64,4 +64,5 @@ services:
 
     friendly.page.resolver:
         class: Knp\FriendlyContexts\Page\Resolver\PageClassResolver
-        arguments: [%friendly.parameters.page.namespace%]
+        arguments:
+            - %friendly.page.namespace%
