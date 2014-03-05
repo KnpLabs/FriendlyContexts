@@ -94,7 +94,8 @@ class SmartReader implements EnvironmentReader
         return $this->definitionFinder->findDefinition($environment, $feature, $step);
     }
 
-    private function testDefinition(Environment $environment, FeatureNode $feature, StepNode $step, SearchResult $search, $skip = false) {
+    private function testDefinition(Environment $environment, FeatureNode $feature, StepNode $step, SearchResult $search, $skip = false)
+    {
         if ($skip || !$search->hasMatch()) {
             return new StepTestResult($search, null, null);
         }
@@ -105,7 +106,8 @@ class SmartReader implements EnvironmentReader
         return new StepTestResult($search, null, $result);
     }
 
-    private function createDefinitionCall(Environment $environment, FeatureNode $feature, SearchResult $search, StepNode $step) {
+    private function createDefinitionCall(Environment $environment, FeatureNode $feature, SearchResult $search, StepNode $step)
+    {
         $definition = $search->getMatchedDefinition();
         $arguments = $search->getMatchedArguments();
 
