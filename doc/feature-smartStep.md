@@ -54,7 +54,7 @@ Feature: Login
 Feature: Fill in the multistep form
     
     Background:
-        Given I am logged in as "admin"
+        Given I am logged in as "admin" # <= reused scenario
         
     @smartStep
     Scenario: I fill in the first step
@@ -65,13 +65,13 @@ Feature: Fill in the multistep form
         
     @smartStep
     Scenario: I fill in the second step
-        Given I fill in the first step
+        Given I fill in the first step # <= reused scenario
         When I fill in "field2" with "value2"
         And I press "Submit"
         Then I should be on the step 3 page
         
     Scenario: I fill in the third step
-        Given I fill in the second step
+        Given I fill in the second step # <= reused scenario
         When I fill in "field3" with "value3"
         And I press "Submit"
         Then I should be on the product page
