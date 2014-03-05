@@ -95,9 +95,9 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^(\w+) (.+) should have been created$/
+     * @Given /^(\w+) (.+) should have been (created|deleted)$/
      */
-    public function entitiesShouldHaveBeenCreated($expected, $entity)
+    public function entitiesShouldHaveBeen($expected, $entity, $state)
     {
         $expected = (int) $expected;
 
@@ -107,6 +107,7 @@ class EntityContext extends Context
             ->getCollection($entityName)
         ;
 
+        $records = array_map(function ($e) { return $e->getEntity(); }, $collection->all());
         $entities = $this
             ->getEntityManager()
             ->getRepository($entityName)
@@ -115,49 +116,23 @@ class EntityContext extends Context
             ->getResult()
         ;
 
-        $real =(count($entities) - $collection->count());
-        $real = $real > 0 ? $real : 0;
+        $diff = [];
+        if ($state === 'created') {
+            $diff = array_diff($entities, $records);
+            foreach ($diff as $e) {
+                $collection->attach($e);
+            }
+        } else {
+            $diff = array_diff($records, $entities);
+        }
+        $real = count($diff);
 
         $this
             ->getAsserter()
             ->assertEquals(
                 $real,
                 $expected,
-                sprintf('%s %s should have been created, %s actually', $expected, $entity, $real)
-            )
-        ;
-    }
-
-    /**
-     * @Given /^(\w+) (.+) should have been deleted$/
-     */
-    public function entitiesShouldHaveBeenDeleted($expected, $entity)
-    {
-        $expected = (int) $expected;
-
-        $entityName = $this->resolveEntity($entity)->getName();
-        $collection = $this
-            ->getRecordBag()
-            ->getCollection($entityName)
-        ;
-
-        $entities = $this
-            ->getEntityManager()
-            ->getRepository($entityName)
-            ->createQueryBuilder('o')
-            ->getQuery()
-            ->getResult()
-        ;
-
-        $real = ($collection->count() - count($entities));
-        $real = $real > 0 ? $real : 0;
-
-        $this
-            ->getAsserter()
-            ->assertEquals(
-                $real,
-                $expected,
-                sprintf('%s %s should have been deleted, %s actually', $expected, $entity, $real)
+                sprintf('%s %s should have been %s, %s actually', $expected, $entity, $state, $real)
             )
         ;
     }

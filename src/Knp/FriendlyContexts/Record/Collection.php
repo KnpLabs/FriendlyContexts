@@ -2,6 +2,7 @@
 
 namespace Knp\FriendlyContexts\Record;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 
 class Collection
@@ -43,8 +44,9 @@ class Collection
         return $this;
     }
 
-    public function attach($entity, array $values = [])
+    public function attach($entity, array $values = null)
     {
+        $values = $values ?: $this->buildValues($entity);
         $this->mergeHeaders(array_keys($values));
 
         $record = new Record($this->reflector, $this);
@@ -89,5 +91,21 @@ class Collection
                 $this->headers[] = $header;
             }
         }
+    }
+
+    protected function buildValues($entity)
+    {
+        $result = [];
+
+        foreach ($this->headers as $header) {
+            try {
+                $value = PropertyAccess::getPropertyAccessor()->setValue($entity, $header);
+                if (is_scalar($value)) {
+                    $result[$header] = $value;
+                }
+            } catch (\Exception $e) {}
+        }
+
+        return $result;
     }
 }
