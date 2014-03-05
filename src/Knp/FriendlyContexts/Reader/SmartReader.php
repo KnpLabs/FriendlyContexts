@@ -47,7 +47,7 @@ class SmartReader implements EnvironmentReader
                     }
                 };
 
-                $callees = array_merge($callees, $this->buildCallee($scenario, $callable));
+                $callees = array_merge($callees, $this->buildCallee($feature, $scenario, $callable));
             }
         }
 
@@ -68,10 +68,12 @@ class SmartReader implements EnvironmentReader
         return $scenarios;
     }
 
-    protected function buildCallee($scenario, $callable)
+    protected function buildCallee($feature, $scenario, $callable)
     {
+        $description = sprintf('%s:%s', $feature->getFile(), $scenario->getLine());
+
         return [
-            new Call\Given(sprintf('/^%s$/', $scenario->getTitle()), $callable),
+            new Call\Given(sprintf('/^%s$/', $scenario->getTitle()), $callable, $description),
         ];
     }
 
