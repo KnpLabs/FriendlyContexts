@@ -73,7 +73,8 @@ services:
             - @gherkin
             - @suite.registry
             - @specifications.locator.filesystem_feature
-            - @tester.step
-            - 'smartStep'
+            - @definition.finder
+            - @call.center
+            - %friendly.smartTag%
         tags:
             - { name: environment.reader }
