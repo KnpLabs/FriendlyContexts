@@ -124,7 +124,7 @@ class TableContext extends RawMinkContext
         try {
             $this->getSession()->wait(2000, '0 < document.getElementsByTagName("TABLE").length');
         } catch (\Exception $ex) {
-            unset($e);
+            unset($ex);
         }
         $tables = $this->getSession()->getPage()->findAll('css', 'table');
         $this->getAsserter()->assert(0 < count($tables), 'No table found');
