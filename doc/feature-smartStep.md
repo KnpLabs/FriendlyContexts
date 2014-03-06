@@ -1,4 +1,4 @@
-Alice Context
+Smart Step Feature
 =============
 
 Configuration
