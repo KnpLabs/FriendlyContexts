@@ -66,3 +66,15 @@ services:
         class: Knp\FriendlyContexts\Page\Resolver\PageClassResolver
         arguments:
             - %friendly.page.namespace%
+
+    friendly.reader.smart_reader:
+        class: Knp\FriendlyContexts\Reader\SmartReader
+        arguments:
+            - @gherkin
+            - @suite.registry
+            - @specifications.locator.filesystem_feature
+            - @definition.finder
+            - @call.center
+            - %friendly.smartTag%
+        tags:
+            - { name: environment.reader }

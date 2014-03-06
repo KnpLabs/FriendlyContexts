@@ -82,6 +82,9 @@ class Extension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('smartTag')
+                    ->defaultValue('smartStep')
+                ->end()
             ->end()
         ;
     }

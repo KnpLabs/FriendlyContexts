@@ -3,6 +3,10 @@ php:
     - 5.4
     - 5.5
 
+branches:
+    only:
+        - master
+
 before_script:
     - composer update --prefer-source --dev
 
