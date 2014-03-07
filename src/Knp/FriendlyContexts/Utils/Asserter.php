@@ -40,6 +40,8 @@ class Asserter
             if (is_array($value)) {
                 $this->assert(is_array($real[$key]), $message);
                 $this->assertArrayContains($value, $real[$key], $message);
+
+                continue;
             }
 
             if (is_string($value)) {
