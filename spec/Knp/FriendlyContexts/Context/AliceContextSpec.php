@@ -78,4 +78,19 @@ class AliceContextSpec extends ObjectBehavior
 
         $this->loadAlice($event);
     }
+
+    function it_should_not_loop_infinitly($container, $loader, $event, $scenario)
+    {
+
+        $scenario->getTags()->willReturn([]);
+
+        $loader->load('user.yml')->shouldBeCalled();
+        $loader->load('place.yml')->shouldBeCalled();
+        $loader->load('product.yml')->shouldNotBeCalled();
+
+        $deps = [ 'Place' => [ 'User' ], 'User' => [ 'Place' ] ];
+        $container->getParameter('friendly.alice.dependencies')->willReturn($deps);
+
+        $this->loadAlice($event);
+    }
 }

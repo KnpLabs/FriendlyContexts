@@ -64,20 +64,22 @@ class AliceContext extends Context
         $result = [];
 
         foreach ($fixtures as $fixture) {
-            $result = array_merge($result, $this->resolveDeps($fixture));
+            $this->resolveDeps($fixture, $result);
         }
 
         return $result;
     }
 
-    protected function resolveDeps($fixture)
+    protected function resolveDeps($fixture, array &$result = [])
     {
-        $result = [$fixture];
+        $result[] = $fixture;
         $tree = $this->getParameter('friendly.alice.dependencies');
 
         if (!empty($tree[$fixture])) {
             foreach ($tree[$fixture] as $dep) {
-                $result = array_merge($result, $this->resolveDeps($dep));
+                if (!in_array($dep, $result)) {
+                    $this->resolveDeps($dep, $result);
+                }
             }
         }
 
