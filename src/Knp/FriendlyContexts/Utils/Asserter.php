@@ -42,6 +42,14 @@ class Asserter
                 $this->assertArrayContains($value, $real[$key], $message);
             }
 
+            if (is_string($value)) {
+                $value = trim($value);
+            }
+
+            if (is_string($real[$key])) {
+                $real[$key] = trim($real[$key]);
+            }
+
             $this->assert($value === $real[$key], $message);
         }
     }
