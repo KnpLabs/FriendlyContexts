@@ -4,6 +4,7 @@ KnpLabs - FriendlyContexts
 [![Build Status](https://travis-ci.org/KnpLabs/FriendlyContexts.png?branch=master)](https://travis-ci.org/KnpLabs/FriendlyContexts)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/badges/quality-score.png?s=5292581c45ba61ea028dfb54c21c2ba50df604a2)](https://scrutinizer-ci.com/g/KnpLabs/FriendlyContexts/)
 [![Latest Stable Version](https://poser.pugx.org/knplabs/friendly-contexts/v/stable.png)](https://packagist.org/packages/knplabs/friendly-contexts)
+[![Gitter chat](https://badges.gitter.im/KnpLabs/FriendlyContexts.png)](https://gitter.im/KnpLabs/FriendlyContexts)
 
 
 ####[Install and configure](doc/configuration.md)
