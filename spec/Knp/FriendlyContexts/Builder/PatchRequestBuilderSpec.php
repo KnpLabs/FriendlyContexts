@@ -7,11 +7,11 @@ use Prophecy\Argument;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
 
-class PutRequestBuilderSpec extends ObjectBehavior
+class PatchRequestBuilderSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Builder\PutRequestBuilder');
+        $this->shouldHaveType('Knp\FriendlyContexts\Builder\PatchRequestBuilder');
     }
 
     function it_is_a_request_builder()
@@ -19,9 +19,9 @@ class PutRequestBuilderSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Builder\RequestBuilderInterface');
     }
 
-    function it_build_a_put_request(ClientInterface $client, RequestInterface $request)
+    function it_build_a_patch_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->put(
+        $client->patch(
             '/resource?foo=bar',
             ['some headers'],
             'body datas',
@@ -42,7 +42,7 @@ class PutRequestBuilderSpec extends ObjectBehavior
 
     function it_format_the_request_to_a_valid_form_urlencode(ClientInterface $client, RequestInterface $request)
     {
-        $client->put(
+        $client->patch(
             '/resource',
             ['Content-Type' => 'application/x-www-form-urlencoded'],
             'foo=bar&baz=plop',

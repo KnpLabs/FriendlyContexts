@@ -8,7 +8,7 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     protected $client;
 
-    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = null)
+    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
         if (null === $this->client) {
             throw new \RuntimeException('You must precised a valid client before build a request');
@@ -26,10 +26,6 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
             return;
         }
 
-        array_walk($queries, function (&$item, $key) {
-            $item = sprintf('%s=%s', $key, $item);
-        });
-
-        return implode('&', $queries);
+        return http_build_query($queries);
     }
 }

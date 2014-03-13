@@ -31,9 +31,7 @@ class RequestBuilder implements RequestBuilderInterface
             RequestInterface::POST,
             RequestInterface::DELETE,
             RequestInterface::HEAD,
-            RequestInterface::CONNECT,
             RequestInterface::OPTIONS,
-            RequestInterface::TRACE,
             RequestInterface::PATCH
         ];
     }
@@ -41,9 +39,10 @@ class RequestBuilder implements RequestBuilderInterface
     public function __construct()
     {
         $this->requestBuilders = [];
+        $this->options         = [];
     }
 
-    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = null)
+    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
         $this->setUri($uri ?: $this->uri);
         $this->setQueries($queries ?: $this->queries);
@@ -181,7 +180,7 @@ class RequestBuilder implements RequestBuilderInterface
 
     public function setUri($uri = null)
     {
-        $this->uri = substr($uri, 0, 1) === '/' ?: sprintf('/%s', $uri);
+        $this->uri = substr($uri, 0, 1) === '/' ? substr($uri, 1) : $uri;
 
         return $this;
     }

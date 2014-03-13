@@ -6,7 +6,7 @@ use Guzzle\Http\ClientInterface;
 
 class GetRequestBuilder extends AbstractRequestBuilder
 {
-    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = null)
+    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
         parent::build($uri, $queries, $headers, $postBody, $body, $options);
 

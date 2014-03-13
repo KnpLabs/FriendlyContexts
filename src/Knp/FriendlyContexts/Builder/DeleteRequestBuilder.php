@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-class PutRequestBuilder extends AbstractRequestBuilder
+class DeleteRequestBuilder extends AbstractRequestBuilder
 {
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
@@ -16,8 +16,11 @@ class PutRequestBuilder extends AbstractRequestBuilder
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
-        $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
+        $resource = $queries ?
+            sprintf('%s?%s', $uri, $this->formatQueryString($queries)) :
+            $uri
+        ;
 
-        return $this->client->put($resource, $headers, $body, $options);
+        return $this->client->delete($resource, $headers, $body, $options);
     }
 }

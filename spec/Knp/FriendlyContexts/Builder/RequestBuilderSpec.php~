@@ -1,6 +1,5 @@
 <?php
 
-
 namespace spec\Knp\FriendlyContexts\Builder;
 
 use PhpSpec\ObjectBehavior;
