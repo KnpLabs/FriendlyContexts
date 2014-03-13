@@ -44,13 +44,8 @@ class Asserter
                 continue;
             }
 
-            if (is_string($value)) {
-                $value = trim($value);
-            }
-
-            if (is_string($real[$key])) {
-                $real[$key] = trim($real[$key]);
-            }
+            $value      = is_string($value) ? trim($value) : $value;
+            $real[$key] = is_string($real[$key]) ? trim($real[$key]) : $real[$key];
 
             $this->assert($value === $real[$key], $message);
         }
