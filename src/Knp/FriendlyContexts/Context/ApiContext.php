@@ -144,4 +144,57 @@ class ApiContext extends RawPageContext
             ));
         }
     }
+
+    /**
+     * @Then /^the response should contains the following headers:?$/
+     */
+    public function theResponseShouldContainsHeaders(TableNode $headerTable)
+    {
+        if (null === $this->response) {
+            throw new \RuntimeException('You must send a request before testing a response.');
+        }
+
+        $expectedHeaders = $headerTable->getRowsHash();
+        $this->getAsserter()->assertArrayContains(
+            $expectedHeaders,
+            $this->response->getHeaders()
+        );
+    }
+
+    /**
+     * @Then /^the response should contains the following json:?$/
+     */
+    public function theResponsShouldContainsJson($jsonData)
+    {
+        if (!is_object($jsonData)) {
+            throw new \InvalidArgumentException('Invalid json data');
+        }
+
+        $json = false;
+
+        if ($jsonData instanceof PyStringNode) {
+            $json = json_decode($jsonData->getRaw(), true);
+        }
+
+        if ($jsonData instanceof TableNode) {
+            $json = $jsonData->getRowsHash();
+        }
+
+        if (false === $jsonData) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid json data class ("%s")',
+                get_class($jsonData)
+            ));
+        }
+
+        $this->getAsserter()->assertArrayEquals($json, $this->response->json());
+    }
+
+    /**
+     * @Then /^the response should contains:?$/
+     */
+    public function theResponseShouldContains(PyStringNode $bodyNode)
+    {
+        $this->getAsserter()->assertEquals($bodyNode->getRaw(), $this->response->getBody(true));
+    }
 }
