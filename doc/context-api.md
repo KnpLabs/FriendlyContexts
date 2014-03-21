@@ -18,17 +18,17 @@ Given I prepare a PUT request on the /users resource # Like the first one but a 
 You can pass a full set of parameters into your created request with the follwing steps
 
 ```gherkin
-# Precised some headers
-Given I precised the following request headers:
+# Specified some headers
+Given I specified the following request headers:
     | Accept | text/html |
-# Precised queries
+# Specified queries
 Given I presiced the following request queries:
     | q | my search field |
-# Precised request data (like POST or PUT data)
-Given I precised the following request data:
+# Specified request data (like POST or PUT data)
+Given I specified the following request data:
     | my_form[name] | George ABITBOL |
-# Precised request options
-Given I precised the following request options:
+# Specified request options
+Given I specified the following request options:
     | my_option | some data here |
 ```
 

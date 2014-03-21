@@ -32,25 +32,25 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Given /^I precised the following request headers:?$/
+     * @Given /^I specified the following request headers:?$/
      */
-    public function iPrecisedHeaders(TableNode $table)
+    public function iSpecifiedHeaders(TableNode $table)
     {
         $this->getRequestBuilder()->setHeaders($table->getRowsHash());
     }
 
     /**
-     * @Given /^I precised the following request queries:?$/
+     * @Given /^I specified the following request queries:?$/
      */
-    public function iPrecisedQueries(TableNode $table)
+    public function iSpecifiedQueries(TableNode $table)
     {
         $this->getRequestBuilder()->setQueries($table->getRowsHash());
     }
 
     /**
-     * @Given /^I precised the following request body:?$/
+     * @Given /^I specified the following request body:?$/
      */
-    public function iPrecisedTheBody($data)
+    public function iSpecifiedTheBody($data)
     {
         if (is_object($data) and $data instanceof TableNode) {
             $data = $data->getRowsHash();
@@ -64,9 +64,9 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Given /^I precised the following request data:?$/
+     * @Given /^I specified the following request data:?$/
      */
-    public function iPrecisedData(TableNode $dataTable)
+    public function iSpecifiedData(TableNode $dataTable)
     {
         $requestBuilder = $this->getRequestBuilder();
 
@@ -78,9 +78,9 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Given /^I precised the following request options:?$/
+     * @Given /^I specified the following request options:?$/
      */
-    public function iPrecisedOptions(TableNode $optionsTable)
+    public function iSpecifiedOptions(TableNode $optionsTable)
     {
         $this->getRequestBuilder->setOptions($optionsTable->getRowsHash());
     }
