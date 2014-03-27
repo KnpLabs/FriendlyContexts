@@ -1,2 +1,6 @@
+knp.welldone.exclusion:
+    - "Knp/FriendlyConytexts/Call/CallCenter"
+    - "Knp/FriendlyConytexts/Definition/DefinitionFinder"
+
 extensions:
     - Knp\PhpSpec\WellDone\Extension

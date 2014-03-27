@@ -7,18 +7,18 @@ use Behat\Gherkin\Node\FeatureNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Behat\Definition\Call;
 use Behat\Behat\Definition\Call\DefinitionCall;
-use Behat\Behat\Definition\DefinitionFinder;
 use Behat\Behat\Definition\SearchResult;
 use Behat\Behat\Tester\Result\StepTestResult;
-use Behat\Testwork\Call\CallCenter;
 use Behat\Testwork\Environment\Reader\EnvironmentReader;
 use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\Specification\Locator\SpecificationLocator;
-use Behat\Testwork\Suite\SuiteRegistry;
+use Behat\Testwork\Suite\SuiteRepository;
+use Knp\FriendlyContexts\Call\CallCenter;
+use Knp\FriendlyContexts\Definition\DefinitionFinder;
 
 class SmartReader implements EnvironmentReader
 {
-    public function __construct(Gherkin $gherkin, SuiteRegistry $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter, $smartTag)
+    public function __construct(Gherkin $gherkin, SuiteRepository $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter, $smartTag)
     {
         $this->gherkin          = $gherkin;
         $this->registry         = $registry;
