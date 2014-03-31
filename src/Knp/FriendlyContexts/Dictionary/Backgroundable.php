@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Behat\Behat\Tester\Event\StepTested;
+use Behat\Behat\Hook\Scope\BeforeStepScope;
 
 trait Backgroundable
 {
@@ -15,7 +15,7 @@ trait Backgroundable
     /**
      * @BeforeStep
      **/
-    public function BackgroundDispatcher(StepTested $event)
+    public function BackgroundDispatcher(BeforeStepScope $event)
     {
         $feature = $event->getFeature();
         $background = $feature->getBackground() ?: null;
