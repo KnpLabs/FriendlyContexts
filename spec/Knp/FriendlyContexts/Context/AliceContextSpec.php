@@ -11,7 +11,7 @@ class AliceContextSpec extends ObjectBehavior
      * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param Doctrine\Common\Persistence\ObjectManager $manager
-     * @param Behat\Behat\EventDispatcher\Event\ScenarioTested $event
+     * @param Behat\Behat\Hook\Scope\ScenarioScope $event
      * @param Behat\Gherkin\Node\FeatureNode $feature
      * @param Behat\Gherkin\Node\ScenarioNode $scenario
      * @param Knp\FriendlyContexts\Alice\Loader\Yaml $loader
