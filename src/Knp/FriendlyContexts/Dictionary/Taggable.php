@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyContexts\Dictionary;
 
-use Behat\Behat\EventDispatcher\Event\ScenarioLikeTested;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 trait Taggable
 {
@@ -15,7 +15,7 @@ trait Taggable
     public function storeTags($event)
     {
         if (false === $this->tagLoaded) {
-            if ($event instanceof ScenarioLikeTested) {
+            if ($event instanceof BeforeScenarioScope) {
                 if (null !== $feature = $event->getFeature()) {
                     $this->tags = array_merge($this->tags, $feature->getTags());
                 }
