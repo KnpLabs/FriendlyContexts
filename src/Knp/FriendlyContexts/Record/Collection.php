@@ -103,7 +103,9 @@ class Collection
                 if (is_scalar($value)) {
                     $result[$header] = $value;
                 }
-            } catch (\Exception $e) {}
+            } catch (\Exception $ex) {
+                unset($ex);
+            }
         }
 
         return $result;
