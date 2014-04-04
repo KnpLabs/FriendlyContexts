@@ -5,14 +5,14 @@ namespace spec\Knp\FriendlyContexts\Reader;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Behat\Gherkin\Gherkin;
-use Behat\Testwork\Suite\SuiteRegistry;
+use Behat\Testwork\Suite\SuiteRepository;
 use Behat\Testwork\Specification\Locator\SpecificationLocator;
-use Behat\Behat\Definition\DefinitionFinder;
-use Behat\Testwork\Call\CallCenter;
+use Knp\FriendlyContexts\Call\CallCenter;
+use Knp\FriendlyContexts\Definition\DefinitionFinder;
 
 class SmartReaderSpec extends ObjectBehavior
 {
-    function let(Gherkin $gherkin, SuiteRegistry $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter)
+    function let(Gherkin $gherkin, SuiteRepository $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter)
     {
         $this->beConstructedWith($gherkin, $registry, $locator, $definitionFinder, $callCenter, 'smartStep');
     }
