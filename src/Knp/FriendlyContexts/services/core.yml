@@ -67,14 +67,24 @@ services:
         arguments:
             - %friendly.page.namespace%
 
+    friendly.call.call_center:
+        class: Knp\FriendlyContexts\Call\CallCenter
+        arguments:
+            - @call.center
+
+    friendly.definition.definition_finder:
+        class: Knp\FriendlyContexts\Definition\DefinitionFinder
+        arguments:
+            - @definition.finder
+
     friendly.reader.smart_reader:
         class: Knp\FriendlyContexts\Reader\SmartReader
         arguments:
             - @gherkin
             - @suite.registry
             - @specifications.locator.filesystem_feature
-            - @definition.finder
-            - @call.center
+            - @friendly.definition.definition_finder
+            - @friendly.call.call_center
             - %friendly.smartTag%
         tags:
             - { name: environment.reader }

@@ -7,18 +7,20 @@ use Behat\Gherkin\Node\FeatureNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Behat\Definition\Call;
 use Behat\Behat\Definition\Call\DefinitionCall;
-use Behat\Behat\Definition\DefinitionFinder;
 use Behat\Behat\Definition\SearchResult;
-use Behat\Behat\Tester\Result\StepTestResult;
-use Behat\Testwork\Call\CallCenter;
+use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Behat\Tester\Result\UndefinedStepResult;
+use Behat\Behat\Tester\Result\SkippedStepResult;
 use Behat\Testwork\Environment\Reader\EnvironmentReader;
 use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\Specification\Locator\SpecificationLocator;
-use Behat\Testwork\Suite\SuiteRegistry;
+use Behat\Testwork\Suite\SuiteRepository;
+use Knp\FriendlyContexts\Call\CallCenter;
+use Knp\FriendlyContexts\Definition\DefinitionFinder;
 
 class SmartReader implements EnvironmentReader
 {
-    public function __construct(Gherkin $gherkin, SuiteRegistry $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter, $smartTag)
+    public function __construct(Gherkin $gherkin, SuiteRepository $registry, SpecificationLocator $locator, DefinitionFinder $definitionFinder, CallCenter $callCenter, $smartTag)
     {
         $this->gherkin          = $gherkin;
         $this->registry         = $registry;
@@ -83,7 +85,7 @@ class SmartReader implements EnvironmentReader
             $search = $this->searchDefinition($environment, $feature, $step);
             $result = $this->testDefinition($environment, $feature, $step, $search, $skip);
         } catch (SearchException $exception) {
-            $result = new StepTestResult(null, $exception, null);
+            $result = new UndefinedStepResult();
         }
 
         return $result;
@@ -97,13 +99,13 @@ class SmartReader implements EnvironmentReader
     private function testDefinition(Environment $environment, FeatureNode $feature, StepNode $step, SearchResult $search, $skip = false)
     {
         if ($skip || !$search->hasMatch()) {
-            return new StepTestResult($search, null, null);
+            return new SkippedStepResult($search, null, null);
         }
 
         $call = $this->createDefinitionCall($environment, $feature, $search, $step);
         $result = $this->callCenter->makeCall($call);
 
-        return new StepTestResult($search, null, $result);
+        return new ExecutedStepResult($search, $result);
     }
 
     private function createDefinitionCall(Environment $environment, FeatureNode $feature, SearchResult $search, StepNode $step)
