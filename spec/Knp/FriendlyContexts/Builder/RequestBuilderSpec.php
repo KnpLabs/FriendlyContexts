@@ -48,7 +48,7 @@ class RequestBuilderSpec extends ObjectBehavior
         $this->setOptions(['some options']);
 
         $builder->build(
-            '/some/resource',
+            'some/resource',
             ['a' => 'b'],
             ['foo' => 'bar'],
             ['baz' => 'bar'],
