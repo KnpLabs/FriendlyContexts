@@ -22,7 +22,7 @@ You can pass a full set of parameters into your created request with the follwin
 Given I specified the following request headers:
     | Accept | text/html |
 # Specified queries
-Given I presiced the following request queries:
+Given I specified the following request queries:
     | q | my search field |
 # Specified request data (like POST or PUT data)
 Given I specified the following request data:
