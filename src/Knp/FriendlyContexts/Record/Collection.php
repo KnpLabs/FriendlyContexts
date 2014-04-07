@@ -96,15 +96,14 @@ class Collection
     protected function buildValues($entity)
     {
         $result = [];
+        $accessor = PropertyAccess::getPropertyAccessor();
 
         foreach ($this->headers as $header) {
-            try {
-                $value = PropertyAccess::getPropertyAccessor()->setValue($entity, $header);
+            if ($accessor->isWritable($entity, $header)) {
+                $value = $accessor->setValue($entity, $header);
                 if (is_scalar($value)) {
                     $result[$header] = $value;
                 }
-            } catch (\Exception $ex) {
-                unset($ex);
             }
         }
 
