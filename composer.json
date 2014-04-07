@@ -11,7 +11,8 @@
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2@dev",
         "fzaninotto/faker": "~1.0",
-        "nelmio/alice": "*"
+        "nelmio/alice": "*",
+        "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",

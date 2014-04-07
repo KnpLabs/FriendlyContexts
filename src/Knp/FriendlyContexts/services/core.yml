@@ -88,3 +88,6 @@ services:
             - %friendly.smartTag%
         tags:
             - { name: environment.reader }
+
+    friendly.http.http_content_type_guesser:
+        class: Knp\FriendlyContexts\Http\HttpContentTypeGuesser

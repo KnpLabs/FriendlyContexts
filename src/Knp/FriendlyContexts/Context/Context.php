@@ -82,6 +82,16 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.page.resolver');
     }
 
+    protected function getRequestBuilder()
+    {
+        return $this->get('friendly.builder.request_builder');
+    }
+
+    protected function getHttpContentTypeGuesser()
+    {
+        return $this->get('friendly.http.http_content_type_guesser');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {

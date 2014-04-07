@@ -13,11 +13,7 @@ class RawPageContext extends RawMinkContext
 
     public function visitPage(Page $page, $arguments = null)
     {
-        list($parameters, $entities) = $this->extractTable($arguments);
-
-        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
-
-        $this->getSession()->visit($path);
+        $this->getSession()->visit($this->getPagePath($page, $arguments));
     }
 
     public function assertPage(Page $page, $arguments = null)
@@ -42,6 +38,15 @@ class RawPageContext extends RawMinkContext
         );
 
         return $this->pages[$page];
+    }
+
+    public function getPagePath($page, $arguments = null)
+    {
+        list($parameters, $entities) = $this->extractTable($arguments);
+
+        $page = $this->getPage($page);
+
+        return $this->resolvePagePath($page, $parameters, $entities);
     }
 
     protected function getEntityFromRecordBag($entity, $field)
