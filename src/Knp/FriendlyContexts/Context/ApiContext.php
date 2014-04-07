@@ -32,6 +32,30 @@ class ApiContext extends RawPageContext
     }
 
     /**
+     * @Given /^I specified the following request http basic credentials:?$/
+     */
+    public function iSpecifiedTheFollowingBasicAuthentication(TableNode $credentialsTable)
+    {
+        $this
+            ->getRequestBuilder()
+            ->setCredentials($credentialsTable->getRowsHash())
+            ->addSecurityExtension(new HttpBasicExtension)
+        ;
+    }
+
+    /**
+     * @Given /^I specified the following request oauth credentials:?$/
+     */
+    public function iSpecifiedTheFollowingOauthCredentials(TableNode $credentialsTable)
+    {
+        $this
+            ->getRequestBuilder()
+            ->setCredentials($credentialsTable->getRowsHash())
+            ->addSecurityExtension(new OauthExtension)
+        ;
+    }
+
+    /**
      * @Given /^I specified the following request headers:?$/
      */
     public function iSpecifiedHeaders(TableNode $table)
@@ -75,6 +99,14 @@ class ApiContext extends RawPageContext
         } else {
             $requestBuilder->setBody($dataTable->getRowsHash());
         }
+    }
+
+    /**
+     * @Given /^I specified the following request cookies:?$/
+     */
+    public function iSpecifiedCookies(TableNode $cookiesTable)
+    {
+        $this->getRequestBuilder()->setCookies($cookiesTable->getRowsHash());
     }
 
     /**

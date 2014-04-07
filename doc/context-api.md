@@ -15,7 +15,7 @@ Given I prepare a PUT request on the /users resource # Like the first one but a 
 
 ## Pass request parameters
 
-You can pass a full set of parameters into your created request with the follwing steps
+You can pass a full set of parameters into your created request with the following steps
 
 ```gherkin
 # Specified some headers
@@ -27,6 +27,9 @@ Given I specified the following request queries:
 # Specified request data (like POST or PUT data)
 Given I specified the following request data:
     | my_form[name] | George ABITBOL |
+# Specified cookies
+Given I specified the following request cookies:
+    | my_option | some data here |
 # Specified request options
 Given I specified the following request options:
     | my_option | some data here |
@@ -71,6 +74,28 @@ Then the response should contains:
         </plop>
     </some-data>
     """
+```
+
+## Handle security
+
+Actually the friendly context can handle two kind of http security:
+
+- Http basic
+- OAuth 1
+
+To create a secured request, just use the following steps:
+
+```gherkin
+# Http basic
+Given I specified the following request http basic credentials:
+    | username | john@doe.com |
+    | password | johnpass     |
+# Oauth 1
+Given I specified the following request oauth credentials:
+    | consumer_key    | my_key          |
+    | consumer_secret | my_secret       |
+    | token           | my_token        |
+    | token_secret    | my_secret_token |
 ```
 
 Note that you can write a short content-type syntax according to the [matching table](../src/Knp/FriendlyContexts/Http/HttpContentTypeGuesser.php).

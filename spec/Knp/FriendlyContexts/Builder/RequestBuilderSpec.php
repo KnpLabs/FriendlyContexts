@@ -6,6 +6,9 @@ namespace spec\Knp\FriendlyContexts\Builder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Knp\FriendlyContexts\Builder\RequestBuilderInterface;
+use Guzzle\Http\Message\Request;
+use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
+use Guzzle\Http\Client;
 
 class RequestBuilderSpec extends ObjectBehavior
 {
@@ -37,7 +40,12 @@ class RequestBuilderSpec extends ObjectBehavior
         $this->shouldThrow('InvalidArgumentException')->duringSetMethod('Invalid');
     }
 
-    function it_build_sub_request_builders_and_clean_the_builder(RequestBuilderInterface $builder)
+    function it_build_sub_request_builders_and_clean_the_builder(
+        Client $client,
+        RequestBuilderInterface $builder,
+        Request $request,
+        SecurityExtensionInterface $extension
+    )
     {
         $this->setMethod('GET');
         $this->setUri('/some/resource');
@@ -45,16 +53,29 @@ class RequestBuilderSpec extends ObjectBehavior
         $this->setHeaders(['foo' => 'bar']);
         $this->setPostBody(['baz' => 'bar']);
         $this->setBody('body');
+        $this->setCookies(['plop' => 'foo']);
         $this->setOptions(['some options']);
+        $this->setCredentials([
+            'username' => 'john',
+            'password' => 'johnpass'
+        ]);
+        $this->addSecurityExtension($extension);
+
+        $builder->getClient()->shouldBeCalled()->willReturn($client);
+
+        $extension->secureClient($client, $this)->shouldBeCalled();
+        $extension->secureRequest($request, $this)->shouldBeCalled();
 
         $builder->build(
             'some/resource',
             ['a' => 'b'],
             ['foo' => 'bar'],
             ['baz' => 'bar'],
-            'body',
+           'body',
             ['some options']
-        )->shouldBeCalled(1);
+        )->shouldBeCalled(1)->willReturn($request);
+
+        $request->addCookie('plop', 'foo')->shouldBeCalled(1);
 
         $this->addRequestBuilder($builder, 'GET');
 
@@ -66,6 +87,9 @@ class RequestBuilderSpec extends ObjectBehavior
         $this->getHeaders()->shouldReturn(null);
         $this->getPostBody()->shouldReturn(null);
         $this->getBody()->shouldReturn(null);
+        $this->getCookies()->shouldReturn(null);
         $this->getOptions()->shouldReturn(null);
+        $this->getSecurityExtensions()->shouldReturn([]);
+        $this->getCredentials()->shouldReturn([]);
     }
 }

@@ -20,6 +20,11 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $this->client = $client;
     }
 
+    public function getClient()
+    {
+        return $this->client;
+    }
+
     protected function formatQueryString(array $queries = null)
     {
         if (null === $queries) {

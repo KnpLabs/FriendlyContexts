@@ -4,6 +4,7 @@ namespace Knp\FriendlyContexts\Builder;
 
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
+use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 
 class RequestBuilder implements RequestBuilderInterface
 {
@@ -18,6 +19,12 @@ class RequestBuilder implements RequestBuilderInterface
     private $options;
 
     private $postBody;
+
+    private $cookies;
+
+    private $securityExtensions;
+
+    private $credentials;
 
     private $uri;
 
@@ -38,8 +45,10 @@ class RequestBuilder implements RequestBuilderInterface
 
     public function __construct()
     {
-        $this->requestBuilders = [];
-        $this->options         = [];
+        $this->requestBuilders    = [];
+        $this->options            = [];
+        $this->securityExtensions = [];
+        $this->credentials        = [];
     }
 
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
@@ -62,6 +71,12 @@ class RequestBuilder implements RequestBuilderInterface
             ));
         }
 
+        $client = $this->requestBuilders[$this->method]->getClient();
+
+        foreach ($this->securityExtensions as $extension) {
+            $extension->secureClient($client, $this);
+        }
+
         $request = $this->requestBuilders[$this->method]->build(
             $this->getUri(),
             $this->getQueries(),
@@ -70,6 +85,16 @@ class RequestBuilder implements RequestBuilderInterface
             $this->getBody(),
             $this->getOptions()
         );
+
+        if (null !== $this->cookies) {
+            foreach ($this->cookies as $name => $cookie) {
+                $request->addCookie($name, $cookie);
+            }
+        }
+
+        foreach ($this->securityExtensions as $extension) {
+            $extension->secureRequest($request, $this);
+        }
 
         $this->clean();
 
@@ -178,6 +203,42 @@ class RequestBuilder implements RequestBuilderInterface
         return $this->postBody;
     }
 
+    public function getCookies()
+    {
+        return $this->cookies;
+    }
+
+    public function setCookies(array $cookies = null)
+    {
+        $this->cookies = $cookies;
+
+        return $this;
+    }
+
+    public function addSecurityExtension(SecurityExtensionInterface $extension)
+    {
+        $this->securityExtensions[] = $extension;
+
+        return $this;
+    }
+
+    public function getSecurityExtensions()
+    {
+        return $this->securityExtensions;
+    }
+
+    public function getCredentials()
+    {
+        return $this->credentials;
+    }
+
+    public function setCredentials(array $credentials)
+    {
+        $this->credentials = $credentials;
+
+        return $this;
+    }
+
     public function setUri($uri = null)
     {
         $this->uri = substr($uri, 0, 1) === '/' ? substr($uri, 1) : $uri;
@@ -194,14 +255,21 @@ class RequestBuilder implements RequestBuilderInterface
     {
     }
 
+    public function getClient()
+    {
+    }
+
     protected function clean()
     {
-        $this->uri      = null;
-        $this->method   = null;
-        $this->queries  = null;
-        $this->body     = null;
-        $this->postBody = null;
-        $this->options  = null;
-        $this->headers  = null;
+        $this->uri                = null;
+        $this->method             = null;
+        $this->queries            = null;
+        $this->body               = null;
+        $this->postBody           = null;
+        $this->cookies            = null;
+        $this->options            = null;
+        $this->headers            = null;
+        $this->securityExtensions = [];
+        $this->credentials        = [];
     }
 }
