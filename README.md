@@ -19,6 +19,6 @@ KnpLabs - FriendlyContexts
 
 ####[The Page Context](doc/context-page.md)
 
-####[Smart Step Feature](doc/feature-smartStep.md)
-
 ####[The Api Context](doc/context-api.md)
+
+####[Smart Step Feature](doc/feature-smartStep.md)
