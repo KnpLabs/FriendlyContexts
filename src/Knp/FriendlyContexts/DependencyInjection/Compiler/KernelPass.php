@@ -4,6 +4,7 @@ namespace Knp\FriendlyContexts\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class KernelPass implements CompilerPassInterface
 {
@@ -20,21 +21,34 @@ class KernelPass implements CompilerPassInterface
 
         $basePath = $container->getParameter('paths.base');
 
-        $bootstrapPath = $container->getParameter('friendly.symfony_kernel.bootstrap');
-        if (file_exists($bootstrap = $basePath.DIRECTORY_SEPARATOR.$bootstrapPath)) {
-            require_once($bootstrap);
-        } elseif (file_exists($bootstrapPath)) {
-            require_once($bootstrapPath);
-        }
+        $this->loadFileFromParameter($container, 'friendly.symfony_kernel.bootstrap');
+        $this->loadFileFromParameter($container, 'friendly.symfony_kernel.path');
 
-        $kernelPath = $container->getParameter('friendly.symfony_kernel.path');
-        if (file_exists($kernel = $basePath.DIRECTORY_SEPARATOR.$kernelPath)) {
-            require_once($kernel);
-        } elseif (file_exists($kernelPath)) {
-            require_once($kernelPath);
+        if (null !== $class = $this->getKernelClass($container)) {
+            $definition = new Definition($class);
+            $definition
+                ->addArgument($container->getParameter('friendly.symfony_kernel.env'))
+                ->addArgument($container->getParameter('friendly.symfony_kernel.debug'))
+            ;
+            $container->setDefinition('friendly.symfony.kernel', $definition);
         }
+    }
 
-        $kernel = $container->get('friendly.symfony.kernel');
-        $kernel->boot();
+    protected function loadFileFromParameter(ContainerBuilder $container, $parameter)
+    {
+        $base  = $container->getParameter('paths.base');
+        $param = $container->getParameter($parameter);
+        if (file_exists($file = $base.DIRECTORY_SEPARATOR.$param)) {
+            require_once($file);
+        } elseif (file_exists($param)) {
+            require_once($param);
+        }
+    }
+
+    protected function getKernelClass(ContainerBuilder $container)
+    {
+        $class = $container->getParameter('friendly.symfony_kernel.class');
+
+        return class_exists($class) ? $class : null;
     }
 }

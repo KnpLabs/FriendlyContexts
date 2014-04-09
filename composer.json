@@ -5,8 +5,8 @@
         "psr-0": { "Knp\\FriendlyContexts": "src/"}
     },
     "require": {
-        "behat/behat": "~3@dev",
-        "symfony/property-access": "2.*@dev",
+        "behat/behat": "~3.0",
+        "symfony/property-access": "~2.5.0@dev",
         "doctrine/inflector": "~1.0",
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2@dev",
