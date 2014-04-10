@@ -4,7 +4,7 @@ namespace Knp\FriendlyContexts\Http;
 
 class HttpContentTypeGuesser
 {
-    static private $contentTypeTable = [
+    private static $contentTypeTable = [
         // application and text types
         'json'       => 'application/json',
         'javascript' => ['application/javascript', 'text/javascript'],
