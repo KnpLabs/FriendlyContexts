@@ -118,12 +118,12 @@ class EntityContext extends Context
 
         $diff = [];
         if ($state === 'created') {
-            $diff = array_diff($entities, $records);
+            $diff = $this->compareArray($entities, $records);
             foreach ($diff as $e) {
                 $collection->attach($e);
             }
         } else {
-            $diff = array_diff($records, $entities);
+            $diff = $this->compareArray($records, $entities);
         }
         $real = count($diff);
 
@@ -159,20 +159,25 @@ class EntityContext extends Context
     }
 
     /**
-     * @BeforeScenario
+     * @AfterScenario
      */
-    public function beforeBackground($event)
+    public function afterScenario($event)
     {
         $this->getRecordBag()->clear();
         $this->getUniqueCache()->clear();
+        $this->getEntityManager()->clear();
     }
 
-    /**
-     * @AfterBackground
-     */
-    public function afterBackground($event)
+    protected function compareArray(array $a1, array $a2)
     {
-        $this->getEntityManager()->clear();
+        $diff = [];
+        foreach ($a1 as $e) {
+            if (!in_array($e, $a2)) {
+                $diff[] = $e;
+            }
+        }
+
+        return $diff;
     }
 
     protected function getMetadata(EntityManager $entityManager)
