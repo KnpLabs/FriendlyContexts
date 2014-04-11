@@ -34,7 +34,7 @@ class Extension implements ExtensionInterface
                 ));
             }
 
-            $config['api']['base_url'];
+            $config['api']['base_url'] = $container->getParameter('mink.base_url');
         }
 
         $container->setParameter('api.base_url', $config['api']['base_url']);
