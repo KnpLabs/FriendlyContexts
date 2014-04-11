@@ -2,7 +2,7 @@ services:
     friendly.http_client:
         class: Guzzle\Http\Client
         arguments:
-            - %mink.base_url%
+            - %api.base_url%
 
     friendly.builder.get_request_builder:
         class: Knp\FriendlyContexts\Builder\GetRequestBuilder
