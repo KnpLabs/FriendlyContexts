@@ -31,8 +31,13 @@ class ExtensionSpec extends ObjectBehavior
                 'p3' => 'toto',
                 'p4' => 'tata',
             ],
+            'api' => [
+                'base_url' => 'http://test.com'
+            ]
         ];
 
+        $container->hasParameter('mink.base_url')->willReturn(false);
+        $container->setParameter('api.base_url', 'http://test.com')->shouldBeCalled();
         $container->setParameter('friendly.p1', 'test')->shouldBeCalled();
         $container->setParameter('friendly.p2', [ 'p3' => 'toto', 'p4' => 'tata'])->shouldBeCalled();
         $container->setParameter('friendly.p2.p3', 'toto')->shouldBeCalled();
