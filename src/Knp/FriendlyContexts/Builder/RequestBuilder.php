@@ -30,7 +30,7 @@ class RequestBuilder implements RequestBuilderInterface
 
     private $requestBuilders;
 
-    static private function getAcceptedMethods()
+    private static function getAcceptedMethods()
     {
         return [
             RequestInterface::GET,
