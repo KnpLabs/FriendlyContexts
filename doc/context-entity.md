@@ -65,9 +65,9 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="user")
      */
-    private $articles;
+    private $products;
 }
 ```
 
@@ -82,7 +82,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class Article
+class Product
 {
 
     /**
@@ -103,7 +103,7 @@ class Article
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="products")
      */
     private $user;
 }
