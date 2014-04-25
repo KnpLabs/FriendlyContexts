@@ -12,7 +12,7 @@ In your `behat.yml`
 default:
     autoload:
         "Page": "%paths.base%/features" # configure your page autoload
-    suit:
+    suite:
         default:
             # ...
         contexts:
