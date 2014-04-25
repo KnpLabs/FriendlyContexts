@@ -27,24 +27,13 @@ class Extension implements ExtensionInterface
             $container->setParameter($key, $value);
         }
 
-        if (empty($config['api']['base_url'])) {
-            if (!$container->hasParameter('mink.base_url')) {
-                throw new \RuntimeException(sprintf(
-                    'You must precised a api.base_url !'
-                ));
-            }
-
-            $config['api']['base_url'] = $container->getParameter('mink.base_url');
-        }
-
-        $container->setParameter('api.base_url', $config['api']['base_url']);
-
         $loader->load('core.yml');
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
 
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
+        $container->addCompilerPass(new Compiler\ApiUrlPass);
         $container->addCompilerPass(new Compiler\KernelPass($config));
     }
 
