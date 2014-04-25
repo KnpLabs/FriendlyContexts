@@ -25,17 +25,8 @@ class Extension implements ExtensionInterface
         $loader->load('builder.yml');
 
         $container->setParameter('friendly.parameters', $config);
-        $parameters = [];
-        $this->buildParameters('friendly', $parameters, $config);
 
-        foreach ($parameters as $key => $value) {
-            $container->setParameter($key, $value);
-        }
-
-        $loader->load('core.yml');
-        $loader->load('fakers.yml');
-        $loader->load('guessers.yml');
-
+        $container->addCompilerPass(new Compiler\ConfigPass);
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
         $container->addCompilerPass(new Compiler\ApiUrlPass);
@@ -90,14 +81,6 @@ class Extension implements ExtensionInterface
                 ->end()
                 ->scalarNode('smartTag')
                     ->defaultValue('smartStep')
-                ->end()
-                ->arrayNode('api')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('base_url')
-                            ->defaultValue('')
-                        ->end()
-                    ->end()
                 ->end()
             ->end()
         ;
