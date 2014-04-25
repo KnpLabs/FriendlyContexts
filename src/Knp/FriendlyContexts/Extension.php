@@ -19,6 +19,11 @@ class Extension implements ExtensionInterface
     public function load(ContainerBuilder $container, array $config)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/services'));
+        $loader->load('core.yml');
+        $loader->load('fakers.yml');
+        $loader->load('guessers.yml');
+        $loader->load('builder.yml');
+
         $container->setParameter('friendly.parameters', $config);
         $parameters = [];
         $this->buildParameters('friendly', $parameters, $config);
@@ -34,7 +39,7 @@ class Extension implements ExtensionInterface
         $container->addCompilerPass(new Compiler\FormatGuesserPass);
         $container->addCompilerPass(new Compiler\FakerProviderPass);
         $container->addCompilerPass(new Compiler\ApiUrlPass);
-        $container->addCompilerPass(new Compiler\KernelPass($config));
+        $container->addCompilerPass(new Compiler\KernelPass);
     }
 
     public function configure(ArrayNodeDefinition $builder)

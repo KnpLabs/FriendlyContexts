@@ -8,17 +8,8 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class KernelPass implements CompilerPassInterface
 {
-    protected $config;
-
-    public function __construct(array $config = array())
-    {
-        $this->config = $config;
-    }
-
     public function process(ContainerBuilder $container)
     {
-        $config = $this->config;
-
         $basePath = $container->getParameter('paths.base');
 
         $this->loadFileFromParameter($container, 'friendly.symfony_kernel.bootstrap');
