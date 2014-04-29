@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Knp\FriendlyContexts\Context;
@@ -19,8 +18,7 @@ class RawPageContext extends RawMinkContext
 
     public function assertPage($page, $arguments = null)
     {
-        $path = $this->getPagePath($page, $arguments);
-        $this->assertSession()->addressEquals($path);
+        $this->assertSession()->addressEquals($this->getPagePath($page, $arguments));
     }
 
     public function getPage($page)
