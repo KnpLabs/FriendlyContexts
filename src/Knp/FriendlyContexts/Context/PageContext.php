@@ -15,7 +15,7 @@ class PageContext extends RawPageContext
      */
     public function iAmOnThePageWith($page, TableNode $table = null)
     {
-        $this->visitPage($this->getPage($page), $table);
+        $this->visitPage($page, $table);
     }
 
     /**
@@ -24,6 +24,6 @@ class PageContext extends RawPageContext
      */
     public function iShouldBeOnThePageWith($page, TableNode $table = null)
     {
-        $this->assertPage($this->getPage($page), $table);
+        $this->assertPage($page, $table);
     }
 }
