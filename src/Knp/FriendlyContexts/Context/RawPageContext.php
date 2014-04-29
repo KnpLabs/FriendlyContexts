@@ -13,7 +13,7 @@ class RawPageContext extends RawMinkContext
 
     public function visitPage($page, $arguments = null)
     {
-        $this->getSession()->visit($this->getPagePath($page, $arguments));
+        $this->getSession()->visit($this->locatePath($this->getPagePath($page, $arguments)));
     }
 
     public function assertPage($page, $arguments = null)
