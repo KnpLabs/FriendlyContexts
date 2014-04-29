@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Knp\FriendlyContexts\Context;
@@ -11,16 +12,14 @@ class RawPageContext extends RawMinkContext
 {
     private $pages = [];
 
-    public function visitPage(Page $page, $arguments = null)
+    public function visitPage($page, $arguments = null)
     {
         $this->getSession()->visit($this->getPagePath($page, $arguments));
     }
 
-    public function assertPage(Page $page, $arguments = null)
+    public function assertPage($page, $arguments = null)
     {
-        list($parameters, $entities) = $this->extractTable($arguments);
-
-        $path = $this->locatePath($this->resolvePagePath($page, $parameters, $entities));
+        $path = $this->getPagePath($page, $arguments);
         $this->assertSession()->addressEquals($path);
     }
 
