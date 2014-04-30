@@ -36,7 +36,7 @@ class MinkContext extends BaseMinkContext
                     $name,
                     'field',
                     $nbr,
-                    function ($e) use ($page, $state) { $page->fillField($e->getAttribute('name'), $e->getAttribute('value'));},
+                    function ($e) use ($page, $state) { $page->fillField($e->getAttribute('name'), $e->getAttribute('value')); },
                     function ($e) use ($element) { return $element === $e->getAttribute('type'); }
                 );
                 break;
