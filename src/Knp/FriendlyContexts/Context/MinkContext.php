@@ -25,13 +25,31 @@ class MinkContext extends BaseMinkContext
      **/
     public function checkElement($state, $name, $element, $nbr = 1)
     {
-        $this->elementAction(
-            $name,
-            'field',
-            $nbr,
-            function ($e) use ($state) { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
-            function ($e) use ($element) { return $element === $e->getAttribute('type'); }
-        );
+        switch ($element) {
+            case 'radio':
+                if ('uncheck' === $state) {
+                    throw new \Exception('You can\'t uncheck a radio button, You have to select a new one');
+                }
+
+                $page = $this->getSession()->getPage();
+                $this->elementAction(
+                    $name,
+                    'field',
+                    $nbr,
+                    function ($e) use ($page, $state) { $page->fillField($e->getAttribute('name'), $e->getAttribute('value'));},
+                    function ($e) use ($element) { return $element === $e->getAttribute('type'); }
+                );
+                break;
+            default:
+                $this->elementAction(
+                    $name,
+                    'field',
+                    $nbr,
+                    function ($e) use ($state) { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
+                    function ($e) use ($element) { return $element === $e->getAttribute('type'); }
+                );
+                break;
+        }
     }
 
     /**
@@ -101,12 +119,12 @@ class MinkContext extends BaseMinkContext
         $this->clickElement($link, 'link', 1, function ($e) use ($link) { return $link === $e->getText(); });
     }
 
-    protected function searchElement($locator, $element, $filterCallback = null)
+    protected function searchElement($locator, $element, $filterCallback = null, TraversableElement $parent = null)
     {
-        $page  = $this->getSession()->getPage();
+        $parent  = $parent ?: $this->getSession()->getPage();
         $locator = $this->fixStepArgument($locator);
 
-        $elements = $page->findAll('named', array(
+        $elements = $parent->findAll('named', array(
             $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
 
