@@ -9,7 +9,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 class EntityContext extends Context
 {
     /**
-     * @Given /^the following (.*)$/
+     * @Given /^the following (\w*):?$/
      */
     public function theFollowing($name, TableNode $table)
     {
@@ -39,7 +39,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) ((?!.* like).*)$/
+     * @Given /^there is (\d+) ((?!\w* like)\w*)$/
      */
     public function thereIs($nbr, $name)
     {
@@ -64,7 +64,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*) like$/
+     * @Given /^there is (\d+) (.*) like:?$/
      */
     public function thereIsLikeFollowing($nbr, $name, TableNode $table)
     {
