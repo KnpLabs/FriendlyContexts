@@ -19,38 +19,37 @@ class MinkContext extends BaseMinkContext
     }
 
     /**
-     * @When /^(?:|I )(?P<state>check|uncheck) the "(?P<name>[^"]*)" (?P<element>radio|checkbox)$/
-     * @When /^(?:|I )(?P<state>check|uncheck) the first "(?P<name>[^"]*)" (?P<element>radio|checkbox)$/
-     * @When /^(?:|I )(?P<state>check|uncheck) the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" (?P<element>radio|checkbox)$/
+     * @When /^(?:|I )(?P<state>check|uncheck) the "(?P<name>[^"]*)" checkbox$/
+     * @When /^(?:|I )(?P<state>check|uncheck) the first "(?P<name>[^"]*)" checkbox$/
+     * @When /^(?:|I )(?P<state>check|uncheck) the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" checkbox$/
      **/
-    public function checkElement($state, $name, $element, $nbr = 1)
+    public function checkCheckbox($state, $name, $nbr = 1)
     {
-        switch ($element) {
-            case 'radio':
-                if ('uncheck' === $state) {
-                    throw new \Exception('You can\'t uncheck a radio button, You have to select a new one');
-                }
-
-                $page = $this->getSession()->getPage();
-                $this->elementAction(
-                    $name,
-                    'field',
-                    $nbr,
-                    function ($e) use ($page, $state) { $page->fillField($e->getAttribute('name'), $e->getAttribute('value')); },
-                    function ($e) use ($element) { return $element === $e->getAttribute('type'); }
-                );
-                break;
-            default:
-                $this->elementAction(
-                    $name,
-                    'field',
-                    $nbr,
-                    function ($e) use ($state) { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
-                    function ($e) use ($element) { return $element === $e->getAttribute('type'); }
-                );
-                break;
-        }
+        $this->elementAction(
+            $name,
+            'field',
+            $nbr,
+            function ($e) use ($state) { if ('check' === $state) { $e->check(); } else { $e->uncheck(); } },
+            function ($e) { return 'checkbox' === $e->getAttribute('type'); }
+        );
     }
+
+    /**
+     * @When /^(?:|I )check the "(?P<name>[^"]*)" radio$/
+     * @When /^(?:|I )check the first "(?P<name>[^"]*)" radio$/
+     * @When /^(?:|I )check the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" radio$/
+     **/
+    public function checkRadio($name, $nbr = 1)
+    {
+        $this->elementAction(
+            $name,
+            'field',
+            $nbr,
+            function ($e) { $this->getSession()->getDriver()->click($e->getXPath()); },
+            function ($e) { return 'radio' === $e->getAttribute('type'); }
+        );
+    }
+
 
     /**
      * @Then /^(?:|I )should(?P<should>| not) see (?P<nbr>\d*) "(?P<name>[^"]*)" (?P<element>link|button|radio|checkbox)$/

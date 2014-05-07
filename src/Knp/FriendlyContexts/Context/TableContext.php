@@ -19,7 +19,7 @@ class TableContext extends RawMinkContext
     }
 
     /**
-     * @Given /^I should see the following table$/
+     * @Given /^I should see the following table:?$/
      */
     public function iShouldSeeTheFollowingTable($expected)
     {

@@ -112,7 +112,7 @@ class Product
 **Simply create 2 users instances**
 
 ```gherkin
-  Given the following users
+  Given the following users:
     | login | firstname | lastname |
     | admin | John      | Doe      |
     | user  | George    | Abitbol  |
@@ -123,7 +123,7 @@ Here the context will automaticly resolve **user** to **App\Entity\User**, will 
 **Simply create 3 products attached to users**
 
 ```gherkin
-  And the following products
+  And the following products:
     | name    | user  |
     | Ball    | John  |
     | T-Shirt | user  |
@@ -149,7 +149,7 @@ And now you've got 100 totaly faked users. You can't call there users like in th
 Here we go !!!
 
 ```gherkin
-  And there is 200 products like
+  And there is 200 products like:
     | user |
     | John |
 ```
