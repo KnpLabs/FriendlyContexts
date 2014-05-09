@@ -48,10 +48,12 @@ Scenario:
     Then the command result should be:
         """
         Result as text
+        without format
         """
     Then the command result should be:
         """
-        Result as text with <comment>format</command>
+        Result as text 
+        with <comment>format</command>
         """
     Then the command result should contains "text with <comment>format</command>"
     Then the command result should contains "text without format"
