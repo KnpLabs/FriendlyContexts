@@ -98,8 +98,8 @@ abstract class Context implements ContextInterface
             return $this->container->get($service);
         }
 
-        if ($this->container->get('friendly.symfony.kernel')->getContainer()->has($service)) {
-            return $this->container->get('friendly.symfony.kernel')->getContainer()->get($service);
+        if (null !== $this->getKernel() && $this->getKernel()->getContainer()->has($service)) {
+            return $this->getKernel()->getContainer()->get($service);
         }
 
         throw new \Exception(sprintf('Service named "%s" unknow.', $service));
@@ -111,11 +111,21 @@ abstract class Context implements ContextInterface
             return $this->container->getParameter($name);
         }
 
-        if ($this->container->get('friendly.symfony.kernel')->getContainer()->hasParameter($name)) {
-            return $this->container->get('friendly.symfony.kernel')->getContainer()->getParameter($name);
+        if (null !== $this->getKernel() && $this->getKernel()->getContainer()->hasParameter($name)) {
+            return $this->getKernel()->getContainer()->getParameter($name);
         }
 
         throw new \Exception(sprintf('Parameter named "%s" unknow.', $service));
+    }
+
+    protected function getKernel()
+    {
+        if ($this->container->has('friendly.symfony.kernel')) {
+            $kernel = $this->container->get('friendly.symfony.kernel');
+            $kernel->boot();
+
+            return $kernel;
+        }
     }
 
     protected function resolveEntity($name)

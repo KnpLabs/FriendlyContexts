@@ -12,7 +12,7 @@ class ApiUrlPass implements CompilerPassInterface
         $url = $container->getParameter('friendly.api.base_url');
 
         if (empty($url)) {
-            if (!$container->hasParameter('mink.base_url')) {
+            if ($container->hasParameter('mink.base_url')) {
                 $url = $container->getParameter('mink.base_url');
             }
         }
