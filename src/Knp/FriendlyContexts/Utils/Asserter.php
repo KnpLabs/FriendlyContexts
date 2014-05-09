@@ -51,14 +51,34 @@ class Asserter
         }
     }
 
-    public function assertEquals($expected, $real, $message = "Failing to assert equals.")
+    public function assertEquals($expected, $real, $message = "Failed to assert equals.")
     {
         return $this->assert($expected === $real, $message);
     }
 
-    public function assertNotEquals($expected, $real, $message = "Failing to assert not equals.")
+    public function assertNotEquals($expected, $real, $message = "Failed to assert not equals.")
     {
         return $this->assert($expected !== $real, $message);
+    }
+
+    public function assertTrue($value, $message = "Failed to assert true")
+    {
+        return $this->assertEquals(true, $value, $message);
+    }
+
+    public function assertFalse($value, $message = "Failed to assert false")
+    {
+        return $this->assertNotEquals(true, $value, $message);
+    }
+
+    public function assertNull($value, $message = "Failed to assert null")
+    {
+        return $this->assertEquals(null, $value, $message);
+    }
+
+    public function assertNotNull($value, $message = "Failed to assert not null")
+    {
+        return $this->assertNotEquals(null, $value, $message);
     }
 
     public function assert($result, $message = "Assert failure")

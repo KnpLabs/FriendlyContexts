@@ -27,6 +27,7 @@ class Application extends BaseApplication
     public function add(Command $command, $name = null)
     {
         $this->loadedCommands[$name ?: $command->getName()] = $command;
+        $command->setApplication($this);
     }
 
     public function getCommands()
@@ -42,5 +43,10 @@ class Application extends BaseApplication
     public function getCommand($name)
     {
         return $this->loadedCommands[$name];
+    }
+
+    public function find($name)
+    {
+        return $this->getCommand($name);
     }
 }
