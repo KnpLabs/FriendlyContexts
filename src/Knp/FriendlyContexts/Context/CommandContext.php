@@ -3,7 +3,7 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Knp\FriendlyContexts\Command\Application;
-use Symfony\Component\Console\Tester\CommandTester;
+use Knp\FriendlyContexts\Command\CommandTester;
 
 class CommandContext extends Context
 {
