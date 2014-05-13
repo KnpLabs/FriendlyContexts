@@ -99,11 +99,13 @@ class Collection
         $accessor = PropertyAccess::getPropertyAccessor();
 
         foreach ($this->headers as $header) {
-            if ($accessor->isWritable($entity, $header)) {
+            try {
                 $value = $accessor->setValue($entity, $header);
                 if (is_scalar($value)) {
                     $result[$header] = $value;
                 }
+            } catch (\Exception $ex) {
+                unset($ex);
             }
         }
 
