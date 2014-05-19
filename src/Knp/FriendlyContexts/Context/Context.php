@@ -92,6 +92,11 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.http.http_content_type_guesser');
     }
 
+    protected function getScreeshotRegistry()
+    {
+        return $this->get('friendly.screenshot.registry');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {

@@ -1,0 +1,13 @@
+services:
+    friendly.screenshot.registry:
+        class: Knp\FriendlyContexts\Mink\Screenshot\Registry
+
+    friendly.screenshot.picture:
+        class: Knp\FriendlyContexts\Mink\Screenshot\Picture
+        tags:
+            - { name: 'friendly.screenshot.builder' }
+
+    friendly.screenshot.page:
+        class: Knp\FriendlyContexts\Mink\Screenshot\Page
+        tags:
+            - { name: 'friendly.screenshot.builder' }

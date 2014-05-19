@@ -23,6 +23,7 @@ class Extension implements ExtensionInterface
         $loader->load('fakers.yml');
         $loader->load('guessers.yml');
         $loader->load('builder.yml');
+        $loader->load('screenshot.yml');
 
         $container->setParameter('friendly.parameters', $config);
 
