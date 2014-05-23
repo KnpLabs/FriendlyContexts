@@ -118,6 +118,24 @@ class MinkContext extends BaseMinkContext
         $this->clickElement($link, 'link', 1, function ($e) use ($link) { return $link === $e->getText(); });
     }
 
+    /**
+     * @When /^(?:|I )fill in the first "(?P<field>(?:[^"]|\\")*)" field with "(?P<value>(?:[^"]|\\")*)"$/
+     * @When /^(?:|I )fill in the (?P<nbr>\d*)(st|nd|rd|th) "(?P<field>(?:[^"]|\\")*)" field with "(?P<value>(?:[^"]|\\")*)"$/
+     **/
+    public function fillTheNthField($field, $value, $nbr = 1)
+    {
+        $field = $this->fixStepArgument($field);
+        $value = $this->fixStepArgument($field);
+
+        $this->elementAction(
+            $field,
+            'field',
+            $nbr,
+            function($e) use ($value) { $e->setValue($value); },
+            function($e) { return 'text' === $e->getAttribute('type'); }
+        );
+    }
+
     protected function searchElement($locator, $element, $filterCallback = null, TraversableElement $parent = null)
     {
         $parent  = $parent ?: $this->getSession()->getPage();
