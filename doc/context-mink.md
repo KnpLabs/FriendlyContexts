@@ -30,6 +30,11 @@ Examples
   And I press the 3rd "Download" button
   And I press the 4th "Download" link 
   # ...
+  And I fill in the first "Input label" field with "Value"
+  And I fill in the 1st "Input label" field with "Value"
+  And I fill in the 2nd "Input label" field with "Value"
+  And I fill in the 3rd "Input label" field with "Value"
+  # ...
   And I check the "Agree" checkbox
   And I check the 1st "Agree" checkbox
   And I check the 2nd "Agree" radio
