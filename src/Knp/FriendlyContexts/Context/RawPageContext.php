@@ -18,7 +18,14 @@ class RawPageContext extends RawMinkContext
 
     public function assertPage($page, $arguments = null)
     {
-        $this->assertSession()->addressEquals($this->getPagePath($page, $arguments));
+        try {
+            $this->assertSession()->addressEquals($this->getPagePath($page, $arguments));
+        } catch (\Exception $e) {
+            $this->assertSession()->addressEquals(sprintf(
+                '%s/',
+                $this->getPagePath($page, $arguments)
+            ));
+        }
     }
 
     public function getPage($page)
