@@ -8,7 +8,7 @@ use Guzzle\Http\Exception\BadResponseException;
 
 class ApiContext extends RawPageContext
 {
-    private $response;
+    protected $response;
 
     /**
      * @Given /^I prepare a (?<method>[A-Za-z]+) request on "(?<page>[^"].*)"?$/
