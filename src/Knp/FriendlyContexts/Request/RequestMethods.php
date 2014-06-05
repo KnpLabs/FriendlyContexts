@@ -14,7 +14,7 @@ abstract class RequestMethods
 
     const DELETE  = 'DELETE';
 
-    const OPTIONS = 'OPTIONS'
+    const OPTIONS = 'OPTIONS';
 
     const HEAD    = 'HEAD';
 }
