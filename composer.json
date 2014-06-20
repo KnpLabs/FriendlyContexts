@@ -2,7 +2,9 @@
     "name": "knplabs/friendly-contexts",
     "description": "Some BEHAT contexts",
     "autoload": {
-        "psr-0": { "Knp\\FriendlyContexts": "src/"}
+        "psr-0": 
+            "Knp\\FriendlyContexts": "src/",
+            "Knp\\FriendlyExtension": "src/"
     },
     "require": {
         "behat/behat": "~3.0",
