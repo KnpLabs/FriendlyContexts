@@ -1,0 +1,46 @@
+services:
+
+    friendly.faker.factory:
+        class: Faker\Factory
+
+    friendly.faker.generator:
+        class: Faker\Generator
+        factory_service: friendly.faker.factory
+        factory_method: create
+        arguments:
+            - %friendly.faker.locale%
+
+    friendly.faker.provider.address:
+        class: Knp\FriendlyExtension\Faker\Provider\Address
+        arguments:
+            - @friendly.faker.generator
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.provider.datetime:
+        class: Knp\FriendlyExtension\Faker\Provider\DateTime
+        arguments:
+            - @friendly.faker.generator
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.provider.internet:
+        class: Knp\FriendlyExtension\Faker\Provider\Internet
+        arguments:
+            - @friendly.faker.generator
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.provider.person:
+        class: Knp\FriendlyExtension\Faker\Provider\Person
+        arguments:
+            - @friendly.faker.generator
+        tags:
+            - { name: friendly.faker.provider }
+
+    friendly.faker.provider.phonenumber:
+        class: Knp\FriendlyExtension\Faker\Provider\PhoneNumber
+        arguments:
+            - @friendly.faker.generator
+        tags:
+            - { name: friendly.faker.provider }

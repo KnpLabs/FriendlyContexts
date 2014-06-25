@@ -1,0 +1,18 @@
+services:
+
+    friendly.symfony.service_shifter:
+        class: Knp\FriendlyExtension\Symfony\ServiceShifter
+        arguments:
+            - @service_container
+
+    doctrine:
+        class: Doctrine\ORM\Registry
+        factoryService: friendly.symfony.service_shifter
+        factoryMethod: get
+        arguments: [ doctrine ]
+
+    doctrine.orm.entity_manager:
+        class: Doctrine\ORM\RegistryInterface
+        factoryService: friendly.symfony.service_shifter
+        factoryMethod: get
+        arguments: [ doctrine.orm.entity_manager ]

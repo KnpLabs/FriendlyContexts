@@ -1,0 +1,6 @@
+services:
+
+    friendly.doctrine.resolver:
+        class: Knp\FriendlyExtension\Doctrine\Resolver
+        arguments:
+            - @doctrine.orm.entity_manager

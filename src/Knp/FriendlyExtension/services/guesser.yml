@@ -1,0 +1,44 @@
+services:
+
+    friendly.type.guesser_registry:
+        class: Knp\FriendlyExtension\Type\GuesserRegistry
+
+    friendly.type.guesser.bigint_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\BigintGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.boolean_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\BooleanGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.datetime_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\DatetimeGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.decimal_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\DecimalGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.entity_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\EntityGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.int_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\IntGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.smallint_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\SmallintGuesser
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.string_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\StringGuesser
+        tags:
+            - { name: friendly.type.guesser }
