@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Doctrine\Common\Inflector\Inflector;
 use Behat\Gherkin\Node\TableNode;
 
 class PageContext extends RawPageContext

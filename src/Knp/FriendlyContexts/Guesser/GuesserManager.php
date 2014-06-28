@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Guesser;
 
-use Knp\FriendlyContexts\Guesser\GuesserInterface;
-
 class GuesserManager
 {
     protected $classes = [];

@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Behat\Context\Context as ContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
