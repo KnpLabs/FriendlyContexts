@@ -61,7 +61,7 @@ class TextFormater
         }
 
         if (!is_string($list)) {
-            throw new \Exception($this->var_dump($list));
+            throw new \Exception(sprintf('The list must be a string, not a "%s" element', gettype($list)));
         }
 
         $parts = explode($parser, $list);

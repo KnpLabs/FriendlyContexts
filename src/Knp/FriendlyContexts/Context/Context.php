@@ -102,7 +102,7 @@ abstract class Context implements ContextInterface
             return $this->getKernel()->getContainer()->get($service);
         }
 
-        throw new \Exception(sprintf('Service named "%s" unknow.', $service));
+        throw new \Exception(sprintf('Service named "%s" unknown.', $service));
     }
 
     protected function getParameter($name)
@@ -115,7 +115,7 @@ abstract class Context implements ContextInterface
             return $this->getKernel()->getContainer()->getParameter($name);
         }
 
-        throw new \Exception(sprintf('Parameter named "%s" unknow.', $service));
+        throw new \Exception(sprintf('Parameter named "%s" unknown.', $name));
     }
 
     protected function getKernel()

@@ -17,6 +17,7 @@ use Behat\Testwork\Specification\Locator\SpecificationLocator;
 use Behat\Testwork\Suite\SuiteRepository;
 use Knp\FriendlyContexts\Call\CallCenter;
 use Knp\FriendlyContexts\Definition\DefinitionFinder;
+use Behat\Behat\Definition\Exception\SearchException;
 
 class SmartReader implements EnvironmentReader
 {

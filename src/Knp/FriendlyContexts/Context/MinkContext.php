@@ -102,7 +102,7 @@ class MinkContext extends BaseMinkContext
      **/
     public function clicklastElement($name, $element)
     {
-        $this->clickElement($link, $element, -1);
+        $this->clickElement($name, $element, -1);
     }
 
     /**
