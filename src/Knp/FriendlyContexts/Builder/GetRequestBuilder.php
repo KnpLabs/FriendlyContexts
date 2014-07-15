@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\ClientInterface;
 
 class GetRequestBuilder extends AbstractRequestBuilder
 {
