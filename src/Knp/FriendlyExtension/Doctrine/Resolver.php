@@ -24,22 +24,21 @@ class Resolver
 
     public function resolveEntity($name, $onlyOne = false)
     {
-        $entities = array_filter(
-            $this->getAllEntities(),
-            function ($e) use ($name) {
-                return $this->proposer->match($name, $e->getShortName());
-            }
-        );
+        $results = [];
 
-        if (true === $onlyOne && 1 > count($entities)) {
-            throw new \Exception(sprintf('Expected only one entity named "%s", "%s" found', $name,
-                implode('", "',
-                    array_map(
-                        function ($e) { return $e->getShortName(); },
-                        $entities
-                    ),
-                )
-            ));
+        foreach ($this->getMetadata() as $metadata) {
+            if ($this->proposer->match($name, $this->reflector->getClassShortName($metadata->name))) {
+                $results[] = $this->reflector->getClassLongName($metadata->name);
+            }
+        }
+
+        if (true === $onlyOne && 1 > count($results)) {
+            $message = sprintf(
+                'Expected only one entity named "%s", "%s" found',
+                $name,
+                implode('", "', $results)
+            );
+            throw new \Exception($message);
         }
 
         return $onlyOne
@@ -48,21 +47,7 @@ class Resolver
         ;
     }
 
-    public function resolveProperty($name, $property)
-    {
-        $entity = $this->resolveEntity($name, true);
-
-
-    }
-
-    private function getAllEntities()
-    {
-        $metadata = $this->em->getMetadataFactory()->getAllMetadata();
-
-        return $this->reflector->getReflectionsFromMetadata($allMetadata);
-    }
-
-    private function getMetadataFor($class, $property = null)
+    public function getMetadataFor($class, $property = null)
     {
         $metadata = $this->em->getMetadataFactory()->getMetadataFor($class);
 
@@ -79,6 +64,21 @@ class Resolver
         if (null !== $name = $this->resolveName($property, array_keys($metadata->associationMappings))) {
 
             return $metadata->associationMappings[$name];
+        }
+    }
+
+    public function getMetadata()
+    {
+        return $this->em->getMetadataFactory()->getAllMetadata();
+    }
+
+    private function resolveName($name, $names)
+    {
+        foreach ($names as $property) {
+            if ($this->proposer->match($name, $property)) {
+
+                return $property;
+            }
         }
     }
 }

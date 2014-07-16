@@ -17,4 +17,21 @@ class EntityHelper implements HelperInterface
         $this->hydrator = $hydrator;
         $this->bag      = $bag;
     }
+
+    public function getName()
+    {
+        return 'doctrine';
+    }
+
+    public function createNew($name)
+    {
+        $class = $this->doctrineHelper->getClass($name);
+
+        $entity = (new \ReflectionClass($class))->newInstanceWithoutConstructor();
+    }
+
+    public function hydrate($entity, array $values)
+    {
+
+    }
 }
