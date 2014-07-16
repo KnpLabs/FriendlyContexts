@@ -10,8 +10,6 @@ class KernelPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $basePath = $container->getParameter('paths.base');
-
         $this->loadFileFromParameter($container, 'friendly.symfony_kernel.bootstrap');
         $this->loadFileFromParameter($container, 'friendly.symfony_kernel.path');
 

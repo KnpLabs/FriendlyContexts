@@ -116,7 +116,6 @@ class EntityContext extends Context
             ->getResult()
         ;
 
-        $diff = [];
         if ($state === 'created') {
             $diff = $this->compareArray($entities, $records);
             foreach ($diff as $e) {

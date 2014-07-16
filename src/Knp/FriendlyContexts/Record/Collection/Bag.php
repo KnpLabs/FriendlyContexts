@@ -31,7 +31,7 @@ class Bag
         $new = new Collection($this->reflector);
         $new->support($entity);
 
-        return $this->collections[] = $new;;
+        return $this->collections[] = $new;
     }
 
     public function count()
