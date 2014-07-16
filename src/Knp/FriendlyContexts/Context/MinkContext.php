@@ -131,8 +131,8 @@ class MinkContext extends BaseMinkContext
             $field,
             'field',
             $nbr,
-            function($e) use ($value) { $e->setValue($value); },
-            function($e) { return 'text' === $e->getAttribute('type'); }
+            function ($e) use ($value) { $e->setValue($value); },
+            function ($e) { return 'text' === $e->getAttribute('type'); }
         );
     }
 

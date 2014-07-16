@@ -3,9 +3,11 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Behat\Context\Context as ContextInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 abstract class Context implements ContextInterface
 {
@@ -101,7 +103,7 @@ abstract class Context implements ContextInterface
             return $this->getKernel()->getContainer()->get($service);
         }
 
-        throw new \Exception(sprintf('Service named "%s" unknown.', $service));
+        throw new ServiceNotFoundException($service);
     }
 
     protected function getParameter($name)
@@ -114,7 +116,7 @@ abstract class Context implements ContextInterface
             return $this->getKernel()->getContainer()->getParameter($name);
         }
 
-        throw new \Exception(sprintf('Parameter named "%s" unknown.', $name));
+        throw new ParameterNotFoundException($name);
     }
 
     protected function getKernel()

@@ -3,12 +3,12 @@
 namespace Knp\FriendlyContexts;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Config\FileLocator;
-use Knp\FriendlyContexts\DependencyInjection\Compiler;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
+use Knp\FriendlyContexts\DependencyInjection\Compiler;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class Extension implements ExtensionInterface
 {
@@ -60,6 +60,9 @@ class Extension implements ExtensionInterface
                 ->arrayNode('alice')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('locale')
+                            ->defaultValue('en_US')
+                        ->end()
                         ->arrayNode('fixtures')
                             ->prototype('scalar')->end()
                         ->end()
@@ -68,6 +71,9 @@ class Extension implements ExtensionInterface
                             ->prototype('array')
                                 ->prototype('scalar')->end()
                             ->end()
+                        ->end()
+                        ->arrayNode('providers')
+                            ->prototype('scalar')->end()
                         ->end()
                     ->end()
                 ->end()
