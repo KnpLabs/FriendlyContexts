@@ -32,12 +32,6 @@ class AliceContext extends Context
         $this->registerCache($loader);
     }
 
-    public function getProviders()
-    {
-        $providers = $this->getParameter('friendly.alice.providers');
-        die(var_dump($providers));
-    }
-
     protected function loadFixtures($loader, $fixtures, $files)
     {
         foreach ($fixtures as $id => $fixture) {
