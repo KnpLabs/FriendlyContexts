@@ -3,7 +3,6 @@
     "description": "Some BEHAT contexts",
     "autoload": {
         "psr-0": {
-            "Knp\\FriendlyContexts": "src/",
             "Knp\\FriendlyExtension": "src/"
         }
     },
@@ -18,9 +17,8 @@
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpspec/phpspec": "2.0.*@dev",
-        "doctrine/orm": "dev-master",
-        "knplabs/phpspec-welldone-extension": "dev-master"
+        "phpspec/phpspec": "~2.0.0",
+        "doctrine/orm": "dev-master"
     },
     "license": "MIT",
     "authors": [

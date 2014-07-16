@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Knp\FriendlyExtension\Utils;

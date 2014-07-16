@@ -3,7 +3,7 @@
 namespace Knp\FriendlyExtension\Utils;
 
 use Doctrine\Common\Inflector\Inflector;
-use Knp\FriendlyContexts\Utils\TextFormater;
+use Knp\FriendlyExtension\Utils\TextFormater;
 
 class NameProposer
 {
@@ -14,9 +14,9 @@ class NameProposer
         $this->formater = $formater;
     }
 
-    public function match($name, $other)
+    public function match($subject, $expected, $pluralize = false)
     {
-        $proposals = $this->buildProposals($name);
+        $proposals = $this->buildProposals($name, $pluralize);
 
         return in_array($other, $proposals);
     }
