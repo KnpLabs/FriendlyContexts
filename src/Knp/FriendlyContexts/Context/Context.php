@@ -93,6 +93,11 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.http.http_content_type_guesser');
     }
 
+    protected function getCommandLoader()
+    {
+        return $this->get('friendly.command.loader');
+    }
+
     protected function get($service)
     {
         if ($this->container->has($service)) {

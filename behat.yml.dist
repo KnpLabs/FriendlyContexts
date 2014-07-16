@@ -5,10 +5,6 @@ default:
         default:
             path: %paths.base%/features
             contexts:
-                - Knp\FriendlyContexts\Context\MinkContext
-                - Knp\FriendlyContexts\Context\TableContext
-                - Knp\FriendlyContexts\Context\EntityContext
-                - Knp\FriendlyContexts\Context\AliceContext
-                - Knp\FriendlyContexts\Context\PageContext
+                - Knp\FriendlyContexts\Context\CommandContext
     extensions:
         Knp\FriendlyContexts\Extension: ~

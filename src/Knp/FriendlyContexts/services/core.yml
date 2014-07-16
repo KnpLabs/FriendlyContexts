@@ -94,3 +94,8 @@ services:
 
     friendly.http.http_content_type_guesser:
         class: Knp\FriendlyContexts\Http\HttpContentTypeGuesser
+
+    friendly.command.loader:
+        class: Knp\FriendlyContexts\Command\CommandLoader
+        calls:
+            - [addDefaultCommand, ['behat', @cli.command]]
