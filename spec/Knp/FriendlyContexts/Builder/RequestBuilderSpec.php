@@ -3,12 +3,12 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use Guzzle\Http\Client;
+use Guzzle\Http\Message\Request;
+use Knp\FriendlyContexts\Builder\RequestBuilderInterface;
+use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Knp\FriendlyContexts\Builder\RequestBuilderInterface;
-use Guzzle\Http\Message\Request;
-use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
-use Guzzle\Http\Client;
 
 class RequestBuilderSpec extends ObjectBehavior
 {
@@ -88,7 +88,7 @@ class RequestBuilderSpec extends ObjectBehavior
         $this->getPostBody()->shouldReturn(null);
         $this->getBody()->shouldReturn(null);
         $this->getCookies()->shouldReturn(null);
-        $this->getOptions()->shouldReturn(null);
+        $this->getOptions()->shouldReturn([]);
         $this->getSecurityExtensions()->shouldReturn([]);
         $this->getCredentials()->shouldReturn([]);
     }
