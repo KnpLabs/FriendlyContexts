@@ -6,10 +6,12 @@ use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
 use Faker\Factory;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\ApiUrlTransitionPass;
+use Knp\FriendlyExtension\DependencyInjection\Compiler\ContextHelperRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\FakerGuesserRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\FakerProviderRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\KernelRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\ParameterBuildingPass;
+use Knp\FriendlyExtension\DependencyInjection\Compiler\SymfonyServicePass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -99,6 +101,7 @@ class FriendlyExtension implements ExtensionInterface
     public function load(ContainerBuilder $container, array $config)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/FriendlyExtension/services'));
+        $loader->load('context.yml');
         $loader->load('core.yml');
         $loader->load('faker.yml');
         $loader->load('guesser.yml');
@@ -111,13 +114,11 @@ class FriendlyExtension implements ExtensionInterface
         $container->addCompilerPass(new FakerProviderRegistrationPass);
         $container->addCompilerPass(new FakerGuesserRegistrationPass);
         $container->addCompilerPass(new ApiUrlTransitionPass);
+        $container->addCompilerPass(new ContextHelperRegistrationPass);
+        $container->addCompilerPass(new SymfonyServicePass);
     }
 
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->getServiceIds() as $id) {
-            echo $id;
-            echo "\n";
-        }
     }
 }

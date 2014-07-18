@@ -1,0 +1,36 @@
+services:
+
+    friendly.context.initializer.friendly_initializer:
+        class: Knp\FriendlyExtension\Context\Initializer\FriendlyInitializer
+        arguments:
+            - @friendly.context.helper.registry
+        tags:
+            - { name: context.initializer }
+
+    friendly.context.helper.registry:
+        class: Knp\FriendlyExtension\Context\Helper\Registry
+
+    friendly.context.helper.doctrine_helper:
+        class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @friendly.doctrine.resolver
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.entity_helper:
+        class: Knp\FriendlyExtension\Context\Helper\EntityHelper
+        arguments:
+            - @friendly.doctrine.resolver
+            - @friendly.record.collection.bag
+            - @friendly.faker.unique_cache
+            - @friendly.type.guesser_registry
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.asserter_helper:
+        class: Knp\FriendlyExtension\Context\Helper\AsserterHelper
+        arguments:
+            - @friendly.utils.text_formater
+        tags:
+            - { name: friendly.context.helper }

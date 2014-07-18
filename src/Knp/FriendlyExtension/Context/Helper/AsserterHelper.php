@@ -2,10 +2,10 @@
 
 namespace Knp\FriendlyExtension\Context\Helper;
 
-use Knp\FriendlyExtension\Context\Helper\HelperInterface;
+use Knp\FriendlyExtension\Context\Helper\AbstractHelper;
 use Knp\FriendlyExtension\Utils\TextFormater;
 
-class AsserterHelper implements HelperInterface
+class AsserterHelper extends AbstractHelper
 {
     protected $formater;
 
@@ -17,6 +17,10 @@ class AsserterHelper implements HelperInterface
     public function getName()
     {
         return 'asserter';
+    }
+
+    public function clear()
+    {
     }
 
     public function assertArrayEquals(array $expected, array $real, $fullText = false)

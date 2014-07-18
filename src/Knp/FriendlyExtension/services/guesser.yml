@@ -5,6 +5,8 @@ services:
 
     friendly.type.guesser.bigint_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\BigintGuesser
+        arguments:
+            - @friendly.type.guesser.int_guesser
         tags:
             - { name: friendly.type.guesser }
 
@@ -25,6 +27,8 @@ services:
 
     friendly.type.guesser.entity_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\EntityGuesser
+        arguments:
+            - @friendly.record.collection.bag
         tags:
             - { name: friendly.type.guesser }
 
@@ -35,6 +39,8 @@ services:
 
     friendly.type.guesser.smallint_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\SmallintGuesser
+        arguments:
+            - @friendly.type.guesser.int_guesser
         tags:
             - { name: friendly.type.guesser }
 

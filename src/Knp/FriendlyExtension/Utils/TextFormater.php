@@ -13,7 +13,9 @@ class TextFormater
 
     public function toUnderscoreCase($str)
     {
-        return Inflector::tableize($str);
+        return Inflector::tableize(
+            Inflector::classify($str)
+        );
     }
 
     public function toSpaceCase($str)

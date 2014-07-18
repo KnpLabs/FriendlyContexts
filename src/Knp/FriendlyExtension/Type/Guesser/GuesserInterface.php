@@ -12,9 +12,5 @@ interface GuesserInterface
 
     public function fake(array $mapping);
 
-    public function getManager();
-
-    public function setManager(GuesserRegistry $manager);
-
     public function getName();
 }

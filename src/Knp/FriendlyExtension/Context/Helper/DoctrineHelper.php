@@ -4,10 +4,10 @@ namespace Knp\FriendlyExtension\Context\Helper;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
-use Knp\FriendlyExtension\Context\Helper\HelperInterface;
+use Knp\FriendlyExtension\Context\Helper\AbstractHelper;
 use Knp\FriendlyExtension\Doctrine\Resolver;
 
-class DoctrineHelper implements HelperInterface
+class DoctrineHelper extends AbstractHelper
 {
     private $em;
     private $resolver;
@@ -25,7 +25,25 @@ class DoctrineHelper implements HelperInterface
 
     public function getClass($name)
     {
+        return class_exists($name)
+            ? $name
+            : $this->resolver->resolveEntity($name, true)
+        ;
+    }
 
+    public function getRepository($name)
+    {
+        return $this->em->getRepository($this->getClass($name));
+    }
+
+    public function all($name)
+    {
+        return $this
+            ->getRepository($name)
+            ->createQueryBuilder('o')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     public function refresh($entity)
@@ -48,11 +66,6 @@ class DoctrineHelper implements HelperInterface
         $this->em->flush($entity);
     }
 
-    /**
-     * Reset the schema, clear the entity manager
-     *
-     * @return void
-     */
     public function reset()
     {
         $metadata = $this
@@ -66,7 +79,10 @@ class DoctrineHelper implements HelperInterface
             $tool->dropSchema($metadata);
             $tool->createSchema($metadata);
         }
+    }
 
+    public function clear()
+    {
         $this->em->clear();
     }
 }

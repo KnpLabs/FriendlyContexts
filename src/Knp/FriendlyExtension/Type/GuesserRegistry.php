@@ -10,12 +10,10 @@ class GuesserRegistry
 
     public function addGuesser(GuesserInterface $guesser)
     {
-        $guesser->setManager($this);
-
         array_unshift($this->guessers, $guesser);
     }
 
-    public function find($mapping)
+    public function find(array $mapping)
     {
         foreach ($this->guessers as $g) {
             if ($g->supports($mapping)) {

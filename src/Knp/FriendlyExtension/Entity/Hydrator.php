@@ -53,11 +53,6 @@ class Hydrator
         return $this;
     }
 
-    public function completeRequired(ObjectManager $em, $entity)
-    {
-        $this->completeFields($em, $entity);
-    }
-
     public function completeFields(ObjectManager $em, $entity)
     {
         $accessor = PropertyAccess::getPropertyAccessor();

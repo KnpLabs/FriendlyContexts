@@ -27,7 +27,7 @@ class Resolver
         $results = [];
 
         foreach ($this->getMetadata() as $metadata) {
-            if ($this->proposer->match($name, $this->reflector->getClassShortName($metadata->name))) {
+            if ($this->proposer->match($name, $this->reflector->getClassName($metadata->name), true)) {
                 $results[] = $this->reflector->getClassLongName($metadata->name);
             }
         }
@@ -42,13 +42,22 @@ class Resolver
         }
 
         return $onlyOne
-            ? empty($entities) ? null : current($entities)
-            : $entities
+            ? empty($results) ? null : current($results)
+            : $results
         ;
     }
 
     public function getMetadataFor($class, $property = null)
     {
+        if (is_object($class)) {
+            $class = get_class($class);
+        } elseif (is_string($class)) {
+            $class = (string)$class;
+        } else {
+
+            throw new \Exception('Need string or object');
+        }
+
         $metadata = $this->em->getMetadataFactory()->getMetadataFor($class);
 
         if (null === $property) {

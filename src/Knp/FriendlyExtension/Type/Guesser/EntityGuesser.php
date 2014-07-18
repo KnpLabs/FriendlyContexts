@@ -5,7 +5,7 @@ namespace Knp\FriendlyExtension\Type\Guesser;
 use Knp\FriendlyExtension\Record\Collection\Bag;
 use Knp\FriendlyExtension\Type\Guesser\AbstractGuesser;
 
-class EntityGuesser extends AbstractGuesser
+final class EntityGuesser extends AbstractGuesser
 {
     public function __construct(Bag $bag)
     {

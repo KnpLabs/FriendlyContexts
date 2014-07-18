@@ -4,3 +4,25 @@ services:
         class: Knp\FriendlyExtension\Doctrine\Resolver
         arguments:
             - @doctrine.orm.entity_manager
+            - @friendly.utils.object_reflector
+            - @friendly.utils.text_formater
+            - @friendly.utils.name_proposer
+
+    friendly.record.collection.bag:
+        class: Knp\FriendlyExtension\Record\Collection\Bag
+        arguments:
+            - @friendly.utils.object_reflector
+
+    friendly.faker.unique_cache:
+        class: Knp\FriendlyExtension\Faker\UniqueCache
+
+    friendly.utils.object_reflector:
+        class: Knp\FriendlyExtension\Utils\ObjectReflector
+
+    friendly.utils.text_formater:
+        class: Knp\FriendlyExtension\Utils\TextFormater
+
+    friendly.utils.name_proposer:
+        class: Knp\FriendlyExtension\Utils\NameProposer
+        arguments:
+            - @friendly.utils.text_formater

@@ -49,6 +49,7 @@ class FakerProviderRegistrationPass implements CompilerPassInterface
     {
         return (new Definition())
             ->setClass('Knp\FriendlyExtension\Faker\Provider\Base')
+            ->addArgument(new Reference('friendly.faker.generator'))
         ;
     }
 }

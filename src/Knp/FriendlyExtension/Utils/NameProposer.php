@@ -16,14 +16,15 @@ class NameProposer
 
     public function match($subject, $expected, $pluralize = false)
     {
-        $proposals = $this->buildProposals($name, $pluralize);
+        $proposals = $this->buildProposals($expected, $pluralize);
 
-        return in_array($other, $proposals);
+        return in_array($subject, $proposals);
     }
 
     public function buildProposals($name, $pluralize = false)
     {
         $proposals = [
+            $name,
             $this->formater->toCamelCase($name),
             $this->formater->toUnderscoreCase($name),
             $this->formater->toSpaceCase($name),
@@ -37,10 +38,14 @@ class NameProposer
         }
 
         $proposals = array_merge(
+            $proposals,
             array_map('strtoupper', $proposals),
             array_map('strtolower', $proposals)
         );
 
-        return array_unique($proposals);
+        $proposals = array_unique($proposals);
+        sort($proposals);
+
+        return $proposals;
     }
 }

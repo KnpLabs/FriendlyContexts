@@ -4,7 +4,7 @@ namespace Knp\FriendlyExtension\Type\Guesser;
 
 use Knp\FriendlyExtension\Type\Guesser\AbstractGuesser;
 
-class DatetimeGuesser extends AbstractGuesser
+final class DatetimeGuesser extends AbstractGuesser
 {
     public function supports(array $mapping)
     {
