@@ -73,6 +73,16 @@ class AsserterHelper extends AbstractHelper
         return $this->assert($expected !== $real, $message);
     }
 
+    public function assertNull($real, $message = "Failing to assert null.")
+    {
+        return $this->assertEquals(null, $real, $message);
+    }
+
+    public function assertNotNull($real, $message = "Failing to assert not null.")
+    {
+        return $this->assertNotEquals(null, $real, $message);
+    }
+
     public function assert($result, $message = "Assert failure")
     {
         if (false === $result) {

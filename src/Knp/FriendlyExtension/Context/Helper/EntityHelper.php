@@ -45,6 +45,8 @@ class EntityHelper extends AbstractHelper
         foreach ($values as $property => $value) {
             $mapping = $this->resolver->getMetadataFor($entity, $property);
 
+            $this->get('asserter')->assertNotNull($mapping, sprintf('No property named "%s" have been found', $property));
+
             PropertyAccess::getPropertyAccessor()
                 ->setValue(
                     $entity,
@@ -57,14 +59,17 @@ class EntityHelper extends AbstractHelper
 
     public function complete($entity)
     {
-        $metadata = array_merge(
+        $mappings = array_merge(
             $this->resolver->getMetadataFor($entity)->fieldMappings,
             $this->resolver->getMetadataFor($entity)->associationMappings
         );
         $accessor = PropertyAccess::getPropertyAccessor();
+        $metadata = $this->resolver->getMetadataFor($entity);
 
-        foreach ($metadata as $property => $mapping) {
-            if (false === $metadata->isNullable($property) && null === $accessor->getValue($entity, $property)) {
+        foreach ($mappings as $property => $mapping) {
+            if (false === $metadata->isNullable($property)
+             && false === $metadata->isIdentifier($property)
+             && null === $accessor->getValue($entity, $property)) {
                 $accessor ->setValue(
                     $entity,
                     $mapping['fieldName'],
@@ -108,5 +113,7 @@ class EntityHelper extends AbstractHelper
                 return $guesser->fake($mapping);
             });
         }
+
+        return $guesser->fake($mapping);
     }
 }
