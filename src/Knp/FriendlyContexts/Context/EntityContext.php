@@ -21,6 +21,16 @@ class EntityContext extends Context
         foreach ($rows as $row) {
             $values = array_combine($headers, $row);
             $entity = new $entityName;
+
+            do {
+                $this
+                    ->getRecordBag()
+                    ->getCollection($reflection->getName())
+                    ->attach($entity, $values)
+                ;
+                $reflection = $reflection->getParentClass();
+            } while (false !== $reflection);
+
             $this
                 ->getRecordBag()
                 ->getCollection($entityName)
