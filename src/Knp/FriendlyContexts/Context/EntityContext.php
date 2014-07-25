@@ -19,8 +19,9 @@ class EntityContext extends Context
         $headers = array_shift($rows);
 
         foreach ($rows as $row) {
-            $values = array_combine($headers, $row);
-            $entity = new $entityName;
+            $values     = array_combine($headers, $row);
+            $entity     = new $entityName;
+            $reflection = new \ReflectionClass($entity);
 
             do {
                 $this
