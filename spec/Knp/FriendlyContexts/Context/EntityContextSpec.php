@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Context;
 
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class EntityContextSpec extends ObjectBehavior
 {
@@ -47,6 +47,8 @@ class EntityContextSpec extends ObjectBehavior
         $container->get('friendly.entity.resolver')->willReturn($resolver);
         $container->get('friendly.record.bag')->willReturn($bag);
         $container->get('friendly.asserter')->willReturn(new Asserter(new TextFormater));
+        $container->hasParameter('friendly.entities.namespaces')->willReturn(true);
+        $container->getParameter('friendly.entities.namespaces')->willReturn([]);
 
         $this->initialize([], $container);
     }

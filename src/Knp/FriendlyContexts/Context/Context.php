@@ -131,9 +131,15 @@ abstract class Context implements ContextInterface
 
     protected function resolveEntity($name)
     {
+        $namespaces = $this->getParameter('friendly.entities.namespaces');
+
         $entities = $this
             ->getEntityResolver()
-            ->resolve($this->getEntityManager(), $name)
+            ->resolve(
+                $this->getEntityManager(),
+                $name,
+                empty($namespaces) ? '' : $namespaces
+            )
         ;
 
         switch (true) {
