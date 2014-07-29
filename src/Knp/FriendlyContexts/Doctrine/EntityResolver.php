@@ -2,11 +2,11 @@
 
 namespace Knp\FriendlyContexts\Doctrine;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
 use Knp\FriendlyContexts\Utils\TextFormater;
-use Doctrine\ORM\Mapping\ClassMetadata;
 
 class EntityResolver
 {
@@ -32,11 +32,21 @@ class EntityResolver
             $results = $this->getClassesFromName($entityManager, $name, $namespace, $results);
         }
 
-        return (0 < count($results)) ? $results : null;
+        if (0 === count($results)) {
+
+            return;
+        }
+
+        return $results;
     }
 
     protected function getClassesFromName(ObjectManager $entityManager, $name, $namespace, array $results = [])
     {
+        if (!empty($results)) {
+
+            return $results;
+        }
+
         $allMetadata = $entityManager->getMetadataFactory()->getAllMetadata();
         $allClass = $this->reflector->getReflectionsFromMetadata($allMetadata);
         foreach ($this->entityNameProposal($name) as $name) {
