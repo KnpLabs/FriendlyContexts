@@ -123,6 +123,9 @@ class EntityContext extends Context
             ->getEntityManager()
             ->getRepository($entityName)
             ->createQueryBuilder('o')
+            ->resetDQLParts()
+            ->select('o')
+            ->from($entityName, ' o')
             ->getQuery()
             ->getResult()
         ;

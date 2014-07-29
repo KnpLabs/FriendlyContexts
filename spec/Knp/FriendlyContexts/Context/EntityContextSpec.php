@@ -33,6 +33,9 @@ class EntityContextSpec extends ObjectBehavior
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
+        $queryBuilder->resetDQLParts()->willReturn($queryBuilder);
+        $queryBuilder->select('o')->willReturn($queryBuilder);
+        $queryBuilder->from(Argument::cetera())->willReturn($queryBuilder);
         $query->getResult()->willReturn([$entity1, $entity2, $entity3]);
         $resolver->resolve($manager, 'entities', Argument::cetera())->willReturn([$reflectionClass]);
         $bag->getCollection(Argument::any())->willReturn($collection);
