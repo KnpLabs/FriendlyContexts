@@ -48,7 +48,7 @@ class ProviderResolver
 
     private function getFromContainer($name)
     {
-        if (0 !== strpos('@', $name)) {
+        if (0 !== strpos($name, '@')) {
 
             return;
         }
@@ -65,7 +65,7 @@ class ProviderResolver
 
     private function getFromKernel($name)
     {
-        if (0 !== strpos('@', $name)) {
+        if (0 !== strpos($name, '@')) {
 
             return;
         }
