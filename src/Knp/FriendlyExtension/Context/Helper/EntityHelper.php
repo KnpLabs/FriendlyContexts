@@ -6,18 +6,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\FriendlyExtension\Context\Helper\AbstractHelper;
 use Knp\FriendlyExtension\Doctrine\Resolver;
 use Knp\FriendlyExtension\Faker\UniqueCache;
-use Knp\FriendlyExtension\Record\Collection\Bag;
 use Knp\FriendlyExtension\Type\GuesserRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityHelper extends AbstractHelper
 {
-    private $bag;
-
-    public function __construct(Resolver $resolver, Bag $bag, UniqueCache $cache, GuesserRegistry $registry)
+    public function __construct(Resolver $resolver, UniqueCache $cache, GuesserRegistry $registry)
     {
         $this->resolver       = $resolver;
-        $this->bag            = $bag;
         $this->cache          = $cache;
         $this->registry       = $registry;
     }
@@ -30,7 +26,6 @@ class EntityHelper extends AbstractHelper
     public function clear()
     {
         $this->cache->clear();
-        $this->bag->clear();
     }
 
     public function createNew($name)
@@ -83,13 +78,25 @@ class EntityHelper extends AbstractHelper
     {
         $class      = $this->get('doctrine')->getClass($name);
         $existing   = $this->get('doctrine')->all($class);
-        $collection = $this->bag->getCollection($class);
-        $registered = array_map(function ($e) { return $e->getEntity(); }, $collection->all());
+        $registered = $this->get('record')->find($class);
 
         return [
-            'created' => array_diff($existing, $registered),
-            'deleted' => array_diff($registered, $existing),
+            'created' => $this->buildDiff($existing, $registered),
+            'deleted' => $this->buildDiff($registered, $existing),
         ];
+    }
+
+    private function buildDiff(array $base, array $other)
+    {
+        $diff = [];
+
+        foreach ($base as $item) {
+            if (false === in_array($item, $other)) {
+                $diff[] = $item;
+            }
+        }
+
+        return $diff;
     }
 
     private function format(array $mapping, $value)

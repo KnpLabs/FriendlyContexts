@@ -23,7 +23,7 @@ final class ArrayGuesser extends AbstractGuesser
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
 
-        return 'array' === $mapping['type'];
+        return in_array($mapping['type'], [ 'array', 'json_array', 'simple_array' ]);
     }
 
     public function transform($str, array $mapping = null)

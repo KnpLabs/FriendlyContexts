@@ -66,8 +66,9 @@ class DoctrineHelper extends AbstractHelper
         $this->em->flush($entity);
     }
 
-    public function reset()
+    public function resetSchema()
     {
+        var_dump(true);
         $metadata = $this
             ->em
             ->getMetadataFactory()

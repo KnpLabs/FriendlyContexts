@@ -26,3 +26,12 @@ services:
         class: Knp\FriendlyExtension\Utils\NameProposer
         arguments:
             - @friendly.utils.text_formater
+
+    friendly.event_listener.doctrine_subscriber:
+        class: Knp\FriendlyExtension\EventListener\DoctrineSubscriber
+        arguments:
+            - %friendly.doctrine.reset_schema%
+            - @friendly.context.helper.doctrine_helper
+        tags:
+            - { name: event_dispatcher.subscriber }
+

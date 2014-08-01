@@ -22,9 +22,15 @@ services:
         class: Knp\FriendlyExtension\Context\Helper\EntityHelper
         arguments:
             - @friendly.doctrine.resolver
-            - @friendly.record.collection.bag
             - @friendly.faker.unique_cache
             - @friendly.type.guesser_registry
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.record_helper:
+        class: Knp\FriendlyExtension\Context\Helper\RecordHelper
+        arguments:
+            - @friendly.record.collection.bag
         tags:
             - { name: friendly.context.helper }
 

@@ -29,7 +29,7 @@ class Base extends FakerBase
         return $this;
     }
 
-    public function supportsParent($parent)
+    public function supportsParent(FakerBase $parent)
     {
         return false;
     }

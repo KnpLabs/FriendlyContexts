@@ -24,6 +24,11 @@ class Record
         return (string) $this->entity;
     }
 
+    public function isStringable()
+    {
+        return method_exists($this->entity, '__toString');
+    }
+
     public function attach($entity, $values = [])
     {
         if (!$this->collection->support($entity)) {

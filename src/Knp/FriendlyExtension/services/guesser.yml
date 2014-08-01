@@ -3,6 +3,21 @@ services:
     friendly.type.guesser_registry:
         class: Knp\FriendlyExtension\Type\GuesserRegistry
 
+    friendly.type.guesser.array_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\ArrayGuesser
+        arguments:
+            - @friendly.type.guesser_registry
+            - @friendly.utils.text_formater
+        tags:
+            - { name: friendly.type.guesser }
+
+    friendly.type.guesser.collection_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\CollectionGuesser
+        arguments:
+            - @friendly.type.guesser.array_guesser
+        tags:
+            - { name: friendly.type.guesser }
+
     friendly.type.guesser.bigint_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\BigintGuesser
         arguments:

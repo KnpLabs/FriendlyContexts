@@ -44,9 +44,13 @@ class Collection
         return $this;
     }
 
-    public function attach($entity, array $values = null)
+    public function getHeaders()
     {
-        $values = $values ?: $this->buildValues($entity);
+        return $this->headers;
+    }
+
+    public function attach($entity, array $values)
+    {
         $this->mergeHeaders(array_keys($values));
 
         $record = new Record($this->reflector, $this);
@@ -60,7 +64,7 @@ class Collection
     public function search($value)
     {
         foreach ($this->records as $record) {
-            if ((string) $record === $value) {
+            if ($record->isStringable() && (string) $record === $value) {
                 return $record;
             }
         }
@@ -84,31 +88,12 @@ class Collection
         return count($this->records);
     }
 
-    protected function mergeHeaders($headers)
+    private function mergeHeaders($headers)
     {
         foreach ($headers as $header) {
             if (!in_array($header, $this->headers)) {
                 $this->headers[] = $header;
             }
         }
-    }
-
-    protected function buildValues($entity)
-    {
-        $result = [];
-        $accessor = PropertyAccess::getPropertyAccessor();
-
-        foreach ($this->headers as $header) {
-            try {
-                $value = $accessor->setValue($entity, $header);
-                if (is_scalar($value)) {
-                    $result[$header] = $value;
-                }
-            } catch (\Exception $ex) {
-                unset($ex);
-            }
-        }
-
-        return $result;
     }
 }
