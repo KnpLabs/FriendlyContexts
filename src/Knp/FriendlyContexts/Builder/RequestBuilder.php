@@ -267,8 +267,8 @@ class RequestBuilder implements RequestBuilderInterface
         $this->body               = null;
         $this->postBody           = null;
         $this->cookies            = null;
-        $this->options            = null;
         $this->headers            = null;
+        $this->options            = [];
         $this->securityExtensions = [];
         $this->credentials        = [];
     }

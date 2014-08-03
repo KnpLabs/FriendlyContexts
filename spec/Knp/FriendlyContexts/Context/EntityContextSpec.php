@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Context;
 
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class EntityContextSpec extends ObjectBehavior
 {
@@ -33,6 +33,9 @@ class EntityContextSpec extends ObjectBehavior
         $manager->getRepository(Argument::any())->willReturn($repository);
         $repository->createQueryBuilder(Argument::any())->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
+        $queryBuilder->resetDQLParts()->willReturn($queryBuilder);
+        $queryBuilder->select('o')->willReturn($queryBuilder);
+        $queryBuilder->from(Argument::cetera())->willReturn($queryBuilder);
         $query->getResult()->willReturn([$entity1, $entity2, $entity3]);
         $resolver->resolve($manager, 'entities', Argument::cetera())->willReturn([$reflectionClass]);
         $bag->getCollection(Argument::any())->willReturn($collection);
@@ -47,6 +50,8 @@ class EntityContextSpec extends ObjectBehavior
         $container->get('friendly.entity.resolver')->willReturn($resolver);
         $container->get('friendly.record.bag')->willReturn($bag);
         $container->get('friendly.asserter')->willReturn(new Asserter(new TextFormater));
+        $container->hasParameter('friendly.entities.namespaces')->willReturn(true);
+        $container->getParameter('friendly.entities.namespaces')->willReturn([]);
 
         $this->initialize([], $container);
     }

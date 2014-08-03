@@ -2,11 +2,17 @@
 
 namespace Knp\FriendlyContexts\Alice\Loader;
 
+use Knp\FriendlyContexts\Alice\ProviderResolver;
 use Nelmio\Alice\Loader\Yaml as BaseLoader;
 
 class Yaml extends BaseLoader
 {
-    protected $cache = [];
+    private $cache = [];
+
+    public function __construct($locale, ProviderResolver $providers)
+    {
+        parent::__construct($locale, $providers->all());
+    }
 
     public function getCache()
     {

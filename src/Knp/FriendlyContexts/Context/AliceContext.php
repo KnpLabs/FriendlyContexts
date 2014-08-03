@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Knp\FriendlyContexts\Alice\Loader\Yaml;
-
 class AliceContext extends Context
 {
     /**

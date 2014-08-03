@@ -3,7 +3,6 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Behat\Mink\Element\DocumentElement;
 use Knp\FriendlyContexts\Page\Page;
 use Behat\Gherkin\Node\TableNode;
 

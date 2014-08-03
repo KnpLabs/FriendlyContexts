@@ -109,6 +109,29 @@ Feature: My feature
     ...
 ```
 
+Add Alice provider
+------------------
+
+You can add a provider via a class name or a Symfony service
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension:
+            alice:
+                fixtures: #...
+                dependencies: # ...
+                providers:
+                    - App\Alice\MyProvider # from class
+                    - @app.alice.my_provider # from service
+```
+
 Information
 -----------
 

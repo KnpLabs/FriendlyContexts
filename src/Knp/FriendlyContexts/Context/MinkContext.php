@@ -102,7 +102,7 @@ class MinkContext extends BaseMinkContext
      **/
     public function clicklastElement($name, $element)
     {
-        $this->clickElement($link, $element, -1);
+        $this->clickElement($name, $element, -1);
     }
 
     /**
@@ -131,8 +131,8 @@ class MinkContext extends BaseMinkContext
             $field,
             'field',
             $nbr,
-            function($e) use ($value) { $e->setValue($value); },
-            function($e) { return 'text' === $e->getAttribute('type'); }
+            function ($e) use ($value) { $e->setValue($value); },
+            function ($e) { return 'text' === $e->getAttribute('type'); }
         );
     }
 

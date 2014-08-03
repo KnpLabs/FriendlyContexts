@@ -73,7 +73,7 @@ class Asserter
     protected function explode($value)
     {
         if (!is_array($value)) {
-            return (string) $value;;
+            return (string) $value;
         } else {
             return $this->formater->tableToString($value);
         }

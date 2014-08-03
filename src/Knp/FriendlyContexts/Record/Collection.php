@@ -100,7 +100,7 @@ class Collection
 
         foreach ($this->headers as $header) {
             try {
-                $value = $accessor->setValue($entity, $header);
+                $value = $accessor->getValue($entity, $header);
                 if (is_scalar($value)) {
                     $result[$header] = $value;
                 }

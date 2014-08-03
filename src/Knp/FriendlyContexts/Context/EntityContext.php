@@ -19,8 +19,19 @@ class EntityContext extends Context
         $headers = array_shift($rows);
 
         foreach ($rows as $row) {
-            $values = array_combine($headers, $row);
-            $entity = new $entityName;
+            $values     = array_combine($headers, $row);
+            $entity     = new $entityName;
+            $reflection = new \ReflectionClass($entity);
+
+            do {
+                $this
+                    ->getRecordBag()
+                    ->getCollection($reflection->getName())
+                    ->attach($entity, $values)
+                ;
+                $reflection = $reflection->getParentClass();
+            } while (false !== $reflection);
+
             $this
                 ->getRecordBag()
                 ->getCollection($entityName)
@@ -112,11 +123,13 @@ class EntityContext extends Context
             ->getEntityManager()
             ->getRepository($entityName)
             ->createQueryBuilder('o')
+            ->resetDQLParts()
+            ->select('o')
+            ->from($entityName, ' o')
             ->getQuery()
             ->getResult()
         ;
 
-        $diff = [];
         if ($state === 'created') {
             $diff = $this->compareArray($entities, $records);
             foreach ($diff as $e) {
