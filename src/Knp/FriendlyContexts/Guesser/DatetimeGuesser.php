@@ -13,13 +13,11 @@ class DatetimeGuesser extends AbstractGuesser implements GuesserInterface
 
     public function transform($str, array $mapping = null)
     {
-        $time = strtotime($str);
-
-        if (false === $time) {
+        try {
+            return new \DateTime($str);
+        } catch (\Exception $e) {
             throw new \Exception(sprintf('"%s" is not a supported date/time/datetime format. To know which formats are supported, please visit http://www.php.net/manual/en/datetime.formats.php', $str));
         }
-
-        return \DateTime::createFromFormat('U', $time);
     }
 
     public function fake(array $mapping)
