@@ -11,7 +11,6 @@ before_script:
     - composer update --prefer-source --dev
 
 script:
-    - bin/phpspec status
     - bin/phpspec run -fpretty
 
 notifications:

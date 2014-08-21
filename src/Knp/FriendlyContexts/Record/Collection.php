@@ -2,8 +2,8 @@
 
 namespace Knp\FriendlyContexts\Record;
 
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Collection
 {
@@ -60,7 +60,8 @@ class Collection
     public function search($value)
     {
         foreach ($this->records as $record) {
-            if ((string) $record === $value) {
+            $entity = $record->getEntity();
+            if (method_exists($entity, '__toString') && (string) $entity === $value) {
                 return $record;
             }
         }
