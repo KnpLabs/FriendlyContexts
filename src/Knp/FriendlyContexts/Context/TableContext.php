@@ -2,9 +2,9 @@
 
 namespace Knp\FriendlyContexts\Context;
 
-use Knp\FriendlyContexts\Utils\TextFormater;
-use Knp\FriendlyContexts\Utils\Asserter;
 use Behat\Gherkin\Node\TableNode;
+use Knp\FriendlyContexts\Utils\Asserter;
+use Knp\FriendlyContexts\Utils\TextFormater;
 
 class TableContext extends RawMinkContext
 {
@@ -172,17 +172,15 @@ class TableContext extends RawMinkContext
 
         foreach ($tables as $table) {
             $node = array();
-            if (0 !== count($table->findAll('css', 'thead')) + count($table->findAll('css', 'tbody'))) {
-                if (null !== $head = $table->find('css', 'thead')) {
-                    $this->extractDataFromPart($head, $node);
-                }
-                if (null !== $body = $table->find('css', 'tbody')) {
-                    $this->extractDataFromPart($body, $node);
-                }
+            $head = $table->find('css', 'thead');
+            $body = $table->find('css', 'tbody');
+            $foot = $table->find('css', 'tfoot');
+            if (null !== $head || null !== $body || null !== $foot) {
+                $this->extractDataFromPart($head, $node);
+                $this->extractDataFromPart($body, $node);
+                $this->extractDataFromPart($foot, $node);
             } else {
-                foreach ($table->findAll('css', 'tr') as $row) {
-                    $node[] = $this->extractDataFromRow($row);
-                }
+                $this->extractDataFromPart($table, $node);
             }
             $result[] = $node;
         }
@@ -192,6 +190,11 @@ class TableContext extends RawMinkContext
 
     protected function extractDataFromPart($part, &$array)
     {
+        if (null === $part) {
+
+            return;
+        }
+
         foreach ($part->findAll('css', 'tr') as $row) {
             $array[] = $this->extractDataFromRow($row);
         }
