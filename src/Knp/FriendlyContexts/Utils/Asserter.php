@@ -61,10 +61,10 @@ class Asserter
                         ? $content === $columnElement->getContent()
                         : false
                     ;
-                    $columnElement = $columnElement->getRight();
-                } while (!empty($columns) && $result && null !== $columnElement);
-                $lineStart = $lineStart->getBottom();
-            } while (!empty($cells) && $result && null !== $lineStart);
+                    $columnElement = $columnElement ? $columnElement->getRight() : null;
+                } while (!empty($columns) && $result);
+                $lineStart = $lineStart ? $lineStart->getBottom() : null;
+            } while (!empty($cells) && $result);
 
             if ($result) {
 

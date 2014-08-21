@@ -90,6 +90,6 @@ class AsserterSpec extends ObjectBehavior
             [ 'a', 'd' ],
         ];
 
-        $this->assertArrayContains($expected, $real)->shouldReturn(true);
+        $this->shouldThrow()->duringAssertArrayContains($expected, $real);
     }
 }
