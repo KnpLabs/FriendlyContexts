@@ -2,8 +2,8 @@
 
 namespace spec\Knp\FriendlyContexts\Utils;
 
-use PhpSpec\ObjectBehavior;
 use Knp\FriendlyContexts\Utils\TextFormater;
+use PhpSpec\ObjectBehavior;
 
 class AsserterSpec extends ObjectBehavior
 {
@@ -50,5 +50,46 @@ class AsserterSpec extends ObjectBehavior
         $expected = "The given array\r\n\r\n| 10 | test | 1 |\r\ndoes not contains the following rows\r\n\r\n| 10 | text |  |";
 
         $this->shouldThrow(new \Exception($expected, 1))->duringAssertArrayContains([ 10, 'text', false ], [ 10, 'test', true ]);
+    }
+
+    function it_detect_array_into_table()
+    {
+        $real = [
+            [ 1, 2, 3, 4 ],
+            [ 'a', 'b', 'c', 'd' ],
+            [ 'd', 'b', 'a', 'b' ],
+            [ 1, 2, 3, 4 ],
+        ];
+
+        $expected = [
+            [ 'b', 'a' ],
+            [ 2, 3 ],
+        ];
+
+        $this->assertArrayContains($expected, $real)->shouldReturn(true);
+
+        $expected = [
+            [ 2, 3 ],
+            [ 'b', 'c' ],
+        ];
+
+        $this->assertArrayContains($expected, $real)->shouldReturn(true);
+    }
+
+    function it_throw_when_array_doesnt_contains()
+    {
+        $real = [
+            [ 1, 2, 3, 4 ],
+            [ 'a', 'b', 'c', 'd' ],
+            [ 'd', 'b', 'a', 'b' ],
+            [ 1, 2, 3, 4 ],
+        ];
+
+        $expected = [
+            [ 1, 2 ],
+            [ 'a', 'd' ],
+        ];
+
+        $this->shouldThrow()->duringAssertArrayContains($expected, $real);
     }
 }

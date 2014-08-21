@@ -2,6 +2,8 @@
 
 namespace Knp\FriendlyContexts\Utils;
 
+use Knp\FriendlyContexts\Table\NodesBuilder;
+
 class Asserter
 {
     protected $formater;
@@ -33,22 +35,44 @@ class Asserter
     public function assertArrayContains(array $expected, array $real, $message = null)
     {
         $message = $message ?: sprintf("The given array\r\n\r\n%s\r\ndoes not contains the following rows\r\n\r\n%s", $this->explode($real), $this->explode($expected));
+        $indexes = [];
 
-        foreach ($expected as $key => $value) {
-            $this->assert(isset($real[$key]), $message);
-
-            if (is_array($value)) {
-                $this->assert(is_array($real[$key]), $message);
-                $this->assertArrayContains($value, $real[$key], $message);
-
-                continue;
-            }
-
-            $value      = is_string($value) ? trim($value) : $value;
-            $real[$key] = is_string($real[$key]) ? trim($real[$key]) : $real[$key];
-
-            $this->assert($value === $real[$key], $message);
+        foreach ($expected as $row) {
+            $this->assert(is_array($row), $message);
         }
+
+        foreach ($real as $row) {
+            $this->assert(is_array($row), $message);
+        }
+
+        $nodes = (new NodesBuilder)->build($real);
+        $nodes = $nodes->search(current(current($expected)));
+
+        foreach ($nodes as $initial) {
+            $result    = true;
+            $cells     = $expected;
+            $lineStart = $initial;
+            do {
+                $columns       = array_shift($cells);
+                $columnElement = $lineStart;
+                do {
+                    $content = array_shift($columns);
+                    $result = $columnElement
+                        ? $content === $columnElement->getContent()
+                        : false
+                    ;
+                    $columnElement = $columnElement ? $columnElement->getRight() : null;
+                } while (!empty($columns) && $result);
+                $lineStart = $lineStart ? $lineStart->getBottom() : null;
+            } while (!empty($cells) && $result);
+
+            if ($result) {
+
+                return true;
+            }
+        }
+
+        $this->assert(false, $message);
     }
 
     public function assertEquals($expected, $real, $message = "Failing to assert equals.")
@@ -70,7 +94,7 @@ class Asserter
         return true;
     }
 
-    protected function explode($value)
+    private function explode($value)
     {
         if (!is_array($value)) {
             return (string) $value;
