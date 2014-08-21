@@ -1,14 +1,10 @@
 services:
-
-    friendly.context.initializer.friendly_initializer:
-        class: Knp\FriendlyExtension\Context\Initializer\FriendlyInitializer
+    friendly.context.helper.asserter_helper:
+        class: Knp\FriendlyExtension\Context\Helper\AsserterHelper
         arguments:
-            - @friendly.context.helper.registry
+            - @friendly.utils.text_formater
         tags:
-            - { name: context.initializer }
-
-    friendly.context.helper.registry:
-        class: Knp\FriendlyExtension\Context\Helper\Registry
+            - { name: friendly.context.helper }
 
     friendly.context.helper.doctrine_helper:
         class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
@@ -34,9 +30,13 @@ services:
         tags:
             - { name: friendly.context.helper }
 
-    friendly.context.helper.asserter_helper:
-        class: Knp\FriendlyExtension\Context\Helper\AsserterHelper
+    friendly.context.helper.registry:
+        class: Knp\FriendlyExtension\Context\Helper\Registry
+
+    friendly.context.initializer.friendly_initializer:
+        class: Knp\FriendlyExtension\Context\Initializer\FriendlyInitializer
         arguments:
-            - @friendly.utils.text_formater
+            - @friendly.context.helper.registry
         tags:
-            - { name: friendly.context.helper }
+            - { name: context.initializer }
+

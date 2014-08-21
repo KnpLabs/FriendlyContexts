@@ -1,11 +1,11 @@
 services:
+    doctrine.orm.entity_manager:
+        synthetic: true
+        tags:
+            - { name: friendly.symfony.service, class: Doctrine\ORM\EntityManager }
 
     doctrine:
         synthetic: true
         tags:
             - { name: friendly.symfony.service, class: Doctrine\ORM\Registry }
 
-    doctrine.orm.entity_manager:
-        synthetic: true
-        tags:
-            - { name: friendly.symfony.service, class: Doctrine\ORM\EntityManager }

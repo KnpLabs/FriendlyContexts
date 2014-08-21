@@ -1,22 +1,11 @@
 services:
-
-    friendly.type.guesser_registry:
-        class: Knp\FriendlyExtension\Type\GuesserRegistry
-
     friendly.type.guesser.array_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\ArrayGuesser
         arguments:
             - @friendly.type.guesser_registry
             - @friendly.utils.text_formater
         tags:
-            - { name: friendly.type.guesser }
-
-    friendly.type.guesser.collection_guesser:
-        class: Knp\FriendlyExtension\Type\Guesser\CollectionGuesser
-        arguments:
-            - @friendly.type.guesser.array_guesser
-        tags:
-            - { name: friendly.type.guesser }
+            - { name: friendly.type.guesser, priority: 100 }
 
     friendly.type.guesser.bigint_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\BigintGuesser
@@ -29,6 +18,13 @@ services:
         class: Knp\FriendlyExtension\Type\Guesser\BooleanGuesser
         tags:
             - { name: friendly.type.guesser }
+
+    friendly.type.guesser.collection_guesser:
+        class: Knp\FriendlyExtension\Type\Guesser\CollectionGuesser
+        arguments:
+            - @friendly.type.guesser.array_guesser
+        tags:
+            - { name: friendly.type.guesser, priority: 100 }
 
     friendly.type.guesser.datetime_guesser:
         class: Knp\FriendlyExtension\Type\Guesser\DatetimeGuesser
@@ -63,3 +59,7 @@ services:
         class: Knp\FriendlyExtension\Type\Guesser\StringGuesser
         tags:
             - { name: friendly.type.guesser }
+
+    friendly.type.guesser_registry:
+        class: Knp\FriendlyExtension\Type\GuesserRegistry
+

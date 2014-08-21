@@ -1,5 +1,4 @@
 services:
-
     friendly.faker.factory:
         class: Faker\Factory
 
@@ -44,3 +43,4 @@ services:
             - @friendly.faker.generator
         tags:
             - { name: friendly.faker.provider }
+

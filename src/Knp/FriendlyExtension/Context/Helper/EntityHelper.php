@@ -54,17 +54,23 @@ class EntityHelper extends AbstractHelper
 
     public function complete($entity)
     {
-        $mappings = array_merge(
-            $this->resolver->getMetadataFor($entity)->fieldMappings,
-            $this->resolver->getMetadataFor($entity)->associationMappings
-        );
+        $mappings = [];
         $accessor = PropertyAccess::getPropertyAccessor();
         $metadata = $this->resolver->getMetadataFor($entity);
 
+        foreach ($this->resolver->getMetadataFor($entity)->fieldMappings as $property => $map) {
+            if (false === $metadata->isNullable($property) && false === $metadata->isIdentifier($property)) {
+                $mappings[$property] = $map;
+            }
+        }
+        foreach ($this->resolver->getMetadataFor($entity)->associationMappings as $property => $map) {
+            if (false === $metadata->isIdentifier($property)) {
+                $mappings[$property] = $map;
+            }
+        }
+
         foreach ($mappings as $property => $mapping) {
-            if (false === $metadata->isNullable($property)
-             && false === $metadata->isIdentifier($property)
-             && null === $accessor->getValue($entity, $property)) {
+             if (null === $accessor->getValue($entity, $property)) {
                 $accessor ->setValue(
                     $entity,
                     $mapping['fieldName'],
@@ -115,10 +121,16 @@ class EntityHelper extends AbstractHelper
             throw new \Exception(sprintf('There is no fake solution for "%s" typed fields', $mapping['type']));
         }
 
-        if (true === $mapping['unique']) {
-            return $this->cache->generate($className, $mapping['fieldName'], function () use ($guesser, $mapping) {
-                return $guesser->fake($mapping);
-            });
+        if (array_key_exists('unique', $mapping) && true === $mapping['unique']) {
+            return $this
+                ->cache
+                ->generate(
+                    $className,
+                    $mapping['fieldName'],
+                    function () use ($guesser, $mapping) {
+                        return $guesser->fake($mapping);
+                    }
+                );
         }
 
         return $guesser->fake($mapping);
