@@ -18,11 +18,6 @@ class Record
         $this->collection = $collection;
     }
 
-    public function __toString()
-    {
-        return (string) $this->entity;
-    }
-
     public function attach($entity, $values = [])
     {
         if (!$this->collection->support($entity)) {
