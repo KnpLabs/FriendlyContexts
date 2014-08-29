@@ -34,3 +34,5 @@ services:
     friendly.utils.text_formater:
         class: Knp\FriendlyExtension\Utils\TextFormater
 
+    friendly.command.command_loader:
+        class: Knp\FriendlyExtension\Command\CommandLoader

@@ -6,19 +6,22 @@
             "Knp\\FriendlyExtension": "src/"
         }
     },
-    "require": {
-        "behat/behat": "~3.0",
-        "symfony/property-access": "~2.0",
-        "doctrine/inflector": "~1.0",
-        "doctrine/data-fixtures": "~1.0",
-        "behat/mink-extension": "~2.0",
-        "fzaninotto/faker": "~1.0",
-        "nelmio/alice": "~1.0",
-        "guzzle/guzzle": "~3.7"
+    "require":                      {
+        "behat/behat":              "~3.0",
+        "behat/mink-extension":     "~2@dev",
+        "doctrine/common":          "~2.0",
+        "doctrine/data-fixtures":   "~1.0",
+        "doctrine/orm":             "~2.0",
+        "doctrine/inflector":       "~1.0",
+        "fzaninotto/faker":         "~1.0",
+        "guzzle/guzzle":            "~3.7",
+        "nelmio/alice":             "~1.0",
+        "symfony/property-access":  "~2.0",
+        "symfony/http-kernel":      "~2.0",
+        "symfony/framework-bundle": "~2.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.0.0",
-        "doctrine/orm": "dev-master"
+        "phpspec/phpspec": "~2.0.0"
     },
     "license": "MIT",
     "authors": [

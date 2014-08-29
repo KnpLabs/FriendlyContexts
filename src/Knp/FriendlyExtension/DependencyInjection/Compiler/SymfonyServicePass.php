@@ -4,6 +4,7 @@ namespace Knp\FriendlyExtension\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use \ReflectionClass;
 
 class SymfonyServicePass implements CompilerPassInterface
 {
@@ -12,8 +13,9 @@ class SymfonyServicePass implements CompilerPassInterface
         $services = $container->findTaggedServiceIds('friendly.symfony.service');
 
         foreach ($services as $id => $options) {
+            $options = current($options);
             if (null === $kernel = $this->getKernel($container)) {
-                $container->set($id, (new ReflectionClass($options['class']))->createInstanceWithoutConstructor());
+                $container->set($id, (new ReflectionClass($options['class']))->newInstanceWithoutConstructor());
             } else {
                 $kernel->boot();
                 $container->set($id, $kernel->getContainer()->get($id));

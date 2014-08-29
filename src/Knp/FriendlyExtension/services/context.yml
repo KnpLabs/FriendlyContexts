@@ -6,6 +6,14 @@ services:
         tags:
             - { name: friendly.context.helper }
 
+    friendly.context.helper.command_helper:
+        class: Knp\FriendlyExtension\Context\Helper\CommandHelper
+        arguments:
+            - @friendly.command.command_loader
+            - @friendly.symfony.kernel
+        tags:
+            - { name: friendly.context.helper }
+
     friendly.context.helper.doctrine_helper:
         class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
         arguments:

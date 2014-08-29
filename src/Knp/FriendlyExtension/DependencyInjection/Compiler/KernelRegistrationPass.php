@@ -5,6 +5,7 @@ namespace Knp\FriendlyExtension\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\HttpKernel\Kernel;
 
 class KernelRegistrationPass implements CompilerPassInterface
 {
@@ -22,6 +23,8 @@ class KernelRegistrationPass implements CompilerPassInterface
                 ->addArgument($container->getParameter('friendly.symfony_kernel.debug'))
             ;
             $container->setDefinition('friendly.symfony.kernel', $definition);
+        } else {
+            $container->set('friendly.symfony.kernel', new Kernel('', false));
         }
     }
 

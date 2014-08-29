@@ -7,5 +7,5 @@ services:
     doctrine:
         synthetic: true
         tags:
-            - { name: friendly.symfony.service, class: Doctrine\ORM\Registry }
+            - { name: friendly.symfony.service, class: Doctrine\Common\Persistence\AbstractManagerRegistry }
 
