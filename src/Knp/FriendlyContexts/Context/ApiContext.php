@@ -219,7 +219,17 @@ class ApiContext extends RawPageContext
             ));
         }
 
-        $this->getAsserter()->assertArrayEquals($json, $this->response->json());
+        $expected = json_encode($json);
+        $real     = json_encode($this->response->json());
+
+        $this->getAsserter()->assertEquals(
+            $expected,
+            $real,
+            sprintf("The given json\r\n\r\n%s\r\nis not equal to the expected\r\n\r\n%s",
+                $real,
+                $expected
+            )
+        );
     }
 
     /**
