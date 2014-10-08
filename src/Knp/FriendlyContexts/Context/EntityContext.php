@@ -9,7 +9,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 class EntityContext extends Context
 {
     /**
-     * @Given /^the following (\w*):?$/
+     * @Given /^the following ([\w ]+):?$/
      */
     public function theFollowing($name, TableNode $table)
     {
