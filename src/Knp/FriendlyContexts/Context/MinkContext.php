@@ -163,7 +163,7 @@ class MinkContext extends BaseMinkContext
             ->getAsserter()
             ->assert(
                 $nbr <= count($elements),
-                sprintf('Expected to find almost %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
+                sprintf('Expected to find at least %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
             )
         ;
 
