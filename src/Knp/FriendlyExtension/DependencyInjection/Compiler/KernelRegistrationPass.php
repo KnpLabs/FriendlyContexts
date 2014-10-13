@@ -24,7 +24,7 @@ class KernelRegistrationPass implements CompilerPassInterface
             ;
             $container->setDefinition('friendly.symfony.kernel', $definition);
         } else {
-            $container->set('friendly.symfony.kernel', new Kernel('', false));
+            $container->removeDefinition('friendly.symfony.kernel');
         }
     }
 

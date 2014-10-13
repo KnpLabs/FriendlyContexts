@@ -15,7 +15,7 @@ class SymfonyServicePass implements CompilerPassInterface
         foreach ($services as $id => $options) {
             $options = current($options);
             if (null === $kernel = $this->getKernel($container)) {
-                $container->set($id, (new ReflectionClass($options['class']))->newInstanceWithoutConstructor());
+                $container->removeDefinition($id);
             } else {
                 $kernel->boot();
                 $container->set($id, $kernel->getContainer()->get($id));

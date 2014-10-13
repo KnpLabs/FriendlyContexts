@@ -13,6 +13,7 @@ services:
             - @friendly.symfony.kernel
         tags:
             - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
 
     friendly.context.helper.doctrine_helper:
         class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
@@ -21,6 +22,7 @@ services:
             - @friendly.doctrine.resolver
         tags:
             - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: doctrine.orm.entity_manager }
 
     friendly.context.helper.entity_helper:
         class: Knp\FriendlyExtension\Context\Helper\EntityHelper
@@ -30,6 +32,7 @@ services:
             - @friendly.type.guesser_registry
         tags:
             - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.doctrine.resolver }
 
     friendly.context.helper.record_helper:
         class: Knp\FriendlyExtension\Context\Helper\RecordHelper

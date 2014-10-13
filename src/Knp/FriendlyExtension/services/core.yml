@@ -6,6 +6,8 @@ services:
             - @friendly.utils.object_reflector
             - @friendly.utils.text_formater
             - @friendly.utils.name_proposer
+        tags:
+            - { name: remove-when-missing, service: doctrine.orm.entity_manager }
 
     friendly.event_listener.doctrine_subscriber:
         class: Knp\FriendlyExtension\EventListener\DoctrineSubscriber
@@ -14,6 +16,7 @@ services:
             - @friendly.context.helper.doctrine_helper
         tags:
             - { name: event_dispatcher.subscriber }
+            - { name: remove-when-missing, service: friendly.context.helper.doctrine_helper }
 
     friendly.faker.unique_cache:
         class: Knp\FriendlyExtension\Faker\UniqueCache

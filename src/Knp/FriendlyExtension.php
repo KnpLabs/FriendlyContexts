@@ -11,6 +11,7 @@ use Knp\FriendlyExtension\DependencyInjection\Compiler\FakerGuesserRegistrationP
 use Knp\FriendlyExtension\DependencyInjection\Compiler\FakerProviderRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\KernelRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\ParameterBuildingPass;
+use Knp\FriendlyExtension\DependencyInjection\Compiler\RemoveUnavailableServicesPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\SymfonyServicePass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
@@ -122,8 +123,9 @@ class FriendlyExtension implements ExtensionInterface
         $container->addCompilerPass(new FakerProviderRegistrationPass);
         $container->addCompilerPass(new FakerGuesserRegistrationPass);
         $container->addCompilerPass(new ApiUrlTransitionPass);
-        $container->addCompilerPass(new ContextHelperRegistrationPass);
         $container->addCompilerPass(new SymfonyServicePass);
+        $container->addCompilerPass(new RemoveUnavailableServicesPass);
+        $container->addCompilerPass(new ContextHelperRegistrationPass);
     }
 
     public function process(ContainerBuilder $container)

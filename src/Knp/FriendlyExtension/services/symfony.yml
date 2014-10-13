@@ -3,9 +3,11 @@ services:
         synthetic: true
         tags:
             - { name: friendly.symfony.service, class: Doctrine\ORM\EntityManager }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
 
     doctrine:
         synthetic: true
         tags:
             - { name: friendly.symfony.service, class: Doctrine\Common\Persistence\AbstractManagerRegistry }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
 
