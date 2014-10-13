@@ -35,8 +35,7 @@ class CommandContext extends Context
      */
     public function showCommands()
     {
-        foreach ($this->get('command')->getCommands($this->getApplication()) as $name => $command)
-        {
+        foreach ($this->get('command')->getCommands($this->getApplication()) as $name => $command) {
             echo "$name\n";
         }
     }

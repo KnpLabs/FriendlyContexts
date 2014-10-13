@@ -47,8 +47,7 @@ class Explorer
 
     private function extract(TaggedNodeInterface $element, array &$results)
     {
-        foreach ($element->getTags() as $tag)
-        {
+        foreach ($element->getTags() as $tag) {
             $negative  = (0 === strpos($tag, '~'));
             $tag = $negative ? substr($tag, 1) : $tag;
             $matches = [];
