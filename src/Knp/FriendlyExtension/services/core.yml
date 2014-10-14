@@ -1,4 +1,7 @@
 services:
+    friendly.command.command_loader:
+        class: Knp\FriendlyExtension\Command\CommandLoader
+
     friendly.doctrine.resolver:
         class: Knp\FriendlyExtension\Doctrine\Resolver
         arguments:
@@ -21,6 +24,11 @@ services:
     friendly.faker.unique_cache:
         class: Knp\FriendlyExtension\Faker\UniqueCache
 
+    friendly.gherkin.tag_loader:
+        class: Knp\FriendlyExtension\Gherkin\TagLoader
+        tags:
+            - { name: event_dispatcher.listener, event: tester.scenario_tested.before, method: beforeScenario }
+
     friendly.record.collection.bag:
         class: Knp\FriendlyExtension\Record\Collection\Bag
         arguments:
@@ -37,5 +45,3 @@ services:
     friendly.utils.text_formater:
         class: Knp\FriendlyExtension\Utils\TextFormater
 
-    friendly.command.command_loader:
-        class: Knp\FriendlyExtension\Command\CommandLoader

@@ -12,9 +12,9 @@ class TagLoader
     private $scenario;
     private $tags = [];
 
-    public function __construct(TagFactory $factory)
+    public function __construct(TagFactory $factory = null)
     {
-        $this->factory = $factory;
+        $this->factory = $factory ?: new TagFactory;
     }
 
     public function beforeScenario(ScenarioLikeTested $event)
