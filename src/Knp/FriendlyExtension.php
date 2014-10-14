@@ -12,6 +12,7 @@ use Knp\FriendlyExtension\DependencyInjection\Compiler\FakerProviderRegistration
 use Knp\FriendlyExtension\DependencyInjection\Compiler\KernelRegistrationPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\ParameterBuildingPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\RemoveUnavailableServicesPass;
+use Knp\FriendlyExtension\DependencyInjection\Compiler\SetArgumentToNullPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\SymfonyServicePass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
@@ -111,6 +112,7 @@ class FriendlyExtension implements ExtensionInterface
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/FriendlyExtension/services'));
         $loader->load('context.yml');
+        $loader->load('alice.yml');
         $loader->load('core.yml');
         $loader->load('faker.yml');
         $loader->load('guesser.yml');
@@ -125,6 +127,7 @@ class FriendlyExtension implements ExtensionInterface
         $container->addCompilerPass(new ApiUrlTransitionPass);
         $container->addCompilerPass(new SymfonyServicePass);
         $container->addCompilerPass(new RemoveUnavailableServicesPass);
+        $container->addCompilerPass(new SetArgumentToNullPass);
         $container->addCompilerPass(new ContextHelperRegistrationPass);
     }
 
