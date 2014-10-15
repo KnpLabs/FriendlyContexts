@@ -1,6 +1,16 @@
 services:
+    friendly.call.call_center:
+        class: Knp\FriendlyExtension\Call\CallCenter
+        arguments:
+            - @call.center
+
     friendly.command.command_loader:
         class: Knp\FriendlyExtension\Command\CommandLoader
+
+    friendly.definition.definition_finder:
+        class: Knp\FriendlyExtension\Definition\DefinitionFinder
+        arguments:
+            - @definition.finder
 
     friendly.doctrine.resolver:
         class: Knp\FriendlyExtension\Doctrine\Resolver
@@ -29,6 +39,18 @@ services:
         tags:
             - { name: event_dispatcher.listener, event: tester.scenario_tested.before, method: beforeScenario }
 
+    friendly.reader.smart_reader:
+        class: Knp\FriendlyExtension\Reader\SmartReader
+        arguments:
+            - @gherkin
+            - @suite.registry
+            - @specifications.locator.filesystem_feature
+            - @friendly.definition.definition_finder
+            - @friendly.call.call_center
+            - %friendly.smartTag%
+        tags:
+            - { name: environment.reader }
+
     friendly.record.collection.bag:
         class: Knp\FriendlyExtension\Record\Collection\Bag
         arguments:
@@ -45,28 +67,3 @@ services:
     friendly.utils.text_formater:
         class: Knp\FriendlyExtension\Utils\TextFormater
 
-
-
-    friendly.reader.smart_reader:
-        class: Knp\FriendlyContexts\Reader\SmartReader
-        arguments:
-            - @gherkin
-            - @suite.registry
-            - @specifications.locator.filesystem_feature
-            - @friendly.definition.definition_finder
-            - @friendly.call.call_center
-            - %friendly.smartTag%
-        tags:
-            - { name: environment.reader }
-
-
-
-    friendly.call.call_center:
-        class: Knp\FriendlyExtension\Call\CallCenter
-        arguments:
-            - @call.center
-
-    friendly.definition.definition_finder:
-        class: Knp\FriendlyExtension\Definition\DefinitionFinder
-        arguments:
-            - @definition.finder
