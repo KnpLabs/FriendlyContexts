@@ -8,14 +8,14 @@
     },
     "require":                      {
         "behat/behat":              "~3.0",
-        "behat/mink-extension":     "~2@dev",
+        "behat/mink-extension":     "~2.0",
         "doctrine/common":          "~2.0",
         "doctrine/data-fixtures":   "~1.0",
         "doctrine/orm":             "~2.0",
         "doctrine/inflector":       "~1.0",
         "fzaninotto/faker":         "~1.0",
         "guzzle/guzzle":            "~3.7",
-        "nelmio/alice":             "~1.0",
+        "nelmio/alice":             "~1",
         "symfony/property-access":  "~2.0",
         "symfony/http-kernel":      "~2.0",
         "symfony/framework-bundle": "~2.0"
@@ -37,5 +37,5 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

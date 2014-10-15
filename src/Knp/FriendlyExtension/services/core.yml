@@ -45,3 +45,28 @@ services:
     friendly.utils.text_formater:
         class: Knp\FriendlyExtension\Utils\TextFormater
 
+
+
+    friendly.reader.smart_reader:
+        class: Knp\FriendlyContexts\Reader\SmartReader
+        arguments:
+            - @gherkin
+            - @suite.registry
+            - @specifications.locator.filesystem_feature
+            - @friendly.definition.definition_finder
+            - @friendly.call.call_center
+            - %friendly.smartTag%
+        tags:
+            - { name: environment.reader }
+
+
+
+    friendly.call.call_center:
+        class: Knp\FriendlyExtension\Call\CallCenter
+        arguments:
+            - @call.center
+
+    friendly.definition.definition_finder:
+        class: Knp\FriendlyExtension\Definition\DefinitionFinder
+        arguments:
+            - @definition.finder

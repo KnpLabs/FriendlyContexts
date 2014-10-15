@@ -1,9 +1,9 @@
 <?php
 
-namespace Knp\FriendlyContexts\Call;
+namespace Knp\FriendlyExtension\Call;
 
-use Behat\Testwork\Call\CallCenter as BaseCallCenter;
 use Behat\Testwork\Call\Call;
+use Behat\Testwork\Call\CallCenter as BaseCallCenter;
 
 class CallCenter
 {

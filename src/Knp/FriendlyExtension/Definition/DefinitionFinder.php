@@ -1,11 +1,11 @@
 <?php
 
-namespace Knp\FriendlyContexts\Definition;
+namespace Knp\FriendlyExtension\Definition;
 
-use Behat\Testwork\Environment\Environment;
+use Behat\Behat\Definition\DefinitionFinder as BaseDefinitionFinder;
 use Behat\Gherkin\Node\FeatureNode;
 use Behat\Gherkin\Node\StepNode;
-use Behat\Behat\Definition\DefinitionFinder as BaseDefinitionFinder;
+use Behat\Testwork\Environment\Environment;
 
 class DefinitionFinder
 {
