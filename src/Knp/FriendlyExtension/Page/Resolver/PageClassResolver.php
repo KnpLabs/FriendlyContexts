@@ -1,9 +1,9 @@
 <?php
 
-namespace Knp\FriendlyContexts\Page\Resolver;
+namespace Knp\FriendlyExtension\Page\Resolver;
 
-use Behat\Mink\Session;
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Session;
 use Doctrine\Common\Inflector\Inflector;
 
 class PageClassResolver

@@ -1,8 +1,9 @@
 <?php
 
-namespace Knp\FriendlyContexts\Builder;
+namespace Knp\FriendlyExtension\Builder;
 
 use Guzzle\Http\ClientInterface;
+use Knp\FriendlyExtension\Builder\RequestBuilderInterface;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {

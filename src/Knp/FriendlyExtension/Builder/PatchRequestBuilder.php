@@ -1,8 +1,10 @@
 <?php
 
-namespace Knp\FriendlyContexts\Builder;
+namespace Knp\FriendlyExtension\Builder;
 
-class PutRequestBuilder extends AbstractRequestBuilder
+use Knp\FriendlyExtension\Builder\AbstractRequestBuilder;
+
+class PatchRequestBuilder extends AbstractRequestBuilder
 {
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
@@ -18,6 +20,6 @@ class PutRequestBuilder extends AbstractRequestBuilder
 
         $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
 
-        return $this->client->put($resource, $headers, $body, $options);
+        return $this->client->patch($resource, $headers, $body, $options);
     }
 }

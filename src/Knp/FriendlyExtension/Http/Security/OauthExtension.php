@@ -1,11 +1,11 @@
 <?php
 
-namespace Knp\FriendlyContexts\Http\Security;
+namespace Knp\FriendlyExtension\Http\Security;
 
-use Guzzle\Http\Message\Request;
-use Knp\FriendlyContexts\Builder\RequestBuilder;
 use Guzzle\Http\Client;
-use Knp\FriendlyContexts\Http\Factory\OauthPluginFactory;
+use Guzzle\Http\Message\Request;
+use Knp\FriendlyExtension\Builder\RequestBuilder;
+use Knp\FriendlyExtension\Http\Factory\OauthPluginFactory;
 
 class OauthExtension implements SecurityExtensionInterface
 {

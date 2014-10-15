@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Node;
+namespace Knp\FriendlyExtension\Node;
 
 use Behat\Gherkin\Gherkin;
 

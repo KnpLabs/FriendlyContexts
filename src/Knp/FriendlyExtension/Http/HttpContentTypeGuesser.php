@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Http;
+namespace Knp\FriendlyExtension\Http;
 
 class HttpContentTypeGuesser
 {

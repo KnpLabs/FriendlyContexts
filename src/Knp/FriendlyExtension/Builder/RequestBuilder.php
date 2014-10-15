@@ -1,10 +1,11 @@
 <?php
 
-namespace Knp\FriendlyContexts\Builder;
+namespace Knp\FriendlyExtension\Builder;
 
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
-use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
+use Knp\FriendlyExtension\Builder\RequestBuilderInterface;
+use Knp\FriendlyExtension\Http\Security\SecurityExtensionInterface;
 
 class RequestBuilder implements RequestBuilderInterface
 {

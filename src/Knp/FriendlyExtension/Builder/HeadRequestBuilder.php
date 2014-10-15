@@ -1,8 +1,10 @@
 <?php
 
-namespace Knp\FriendlyContexts\Builder;
+namespace Knp\FriendlyExtension\Builder;
 
-class OptionsRequestBuilder extends AbstractRequestBuilder
+use Knp\FriendlyExtension\Builder\AbstractRequestBuilder;
+
+class HeadRequestBuilder extends AbstractRequestBuilder
 {
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
@@ -13,6 +15,6 @@ class OptionsRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->client->options($resource, $options);
+        return $this->client->head($resource, $headers, $options);
     }
 }

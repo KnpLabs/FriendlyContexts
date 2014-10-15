@@ -1,10 +1,10 @@
 <?php
 
-namespace Knp\FriendlyContexts\Http\Security;
+namespace Knp\FriendlyExtension\Http\Security;
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Message\Request;
-use Knp\FriendlyContexts\Builder\RequestBuilder;
+use Knp\FriendlyExtension\Builder\RequestBuilder;
 
 interface SecurityExtensionInterface
 {

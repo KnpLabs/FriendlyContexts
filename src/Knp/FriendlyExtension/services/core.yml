@@ -39,6 +39,14 @@ services:
         tags:
             - { name: event_dispatcher.listener, event: tester.scenario_tested.before, method: beforeScenario }
 
+    friendly.http.http_content_type_guesser:
+        class: Knp\FriendlyExtension\Http\HttpContentTypeGuesser
+
+    friendly.page.resolver:
+        class: Knp\FriendlyExtension\Page\Resolver\PageClassResolver
+        arguments:
+            - %friendly.page.namespace%
+
     friendly.reader.smart_reader:
         class: Knp\FriendlyExtension\Reader\SmartReader
         arguments:
@@ -47,7 +55,7 @@ services:
             - @specifications.locator.filesystem_feature
             - @friendly.definition.definition_finder
             - @friendly.call.call_center
-            - %friendly.smartTag%
+            - %friendly.smart_tag%
         tags:
             - { name: environment.reader }
 

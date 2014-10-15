@@ -1,0 +1,46 @@
+services:
+    friendly.http_client:
+        class: Guzzle\Http\Client
+        arguments:
+            - %friendly.api.base_url%
+
+    friendly.builder.get_request_builder:
+        class: Knp\FriendlyExtension\Builder\GetRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.post_request_builder:
+        class: Knp\FriendlyExtension\Builder\PostRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.put_request_builder:
+        class: Knp\FriendlyExtension\Builder\PutRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.patch_request_builder:
+        class: Knp\FriendlyExtension\Builder\PatchRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.delete_request_builder:
+        class: Knp\FriendlyExtension\Builder\DeleteRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.options_request_builder:
+        class: Knp\FriendlyExtension\Builder\OptionsRequestBuilder
+        calls:
+            - [setClient, ['@friendly.http_client']]
+
+    friendly.builder.request_builder:
+        class: Knp\FriendlyExtension\Builder\RequestBuilder
+        calls:
+            - ['addRequestBuilder', ['@friendly.builder.get_request_builder', 'GET']]
+            - ['addRequestBuilder', ['@friendly.builder.post_request_builder', 'POST']]
+            - ['addRequestBuilder', ['@friendly.builder.put_request_builder', 'PUT']]
+            - ['addRequestBuilder', ['@friendly.builder.patch_request_builder', 'PATCH']]
+            - ['addRequestBuilder', ['@friendly.builder.delete_request_builder', 'DELETE']]
+            - ['addRequestBuilder', ['@friendly.builder.options_request_builder', 'OPTIONS']]
+

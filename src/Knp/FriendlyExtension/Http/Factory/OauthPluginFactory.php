@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Http\Factory;
+namespace Knp\FriendlyExtension\Http\Factory;
 
 use Guzzle\Plugin\Oauth\OauthPlugin;
 

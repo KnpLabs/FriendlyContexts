@@ -110,7 +110,7 @@ class FriendlyExtension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
-                ->scalarNode('smartTag')
+                ->scalarNode('smart_tag')
                     ->defaultValue('smartStep')
                 ->end()
             ->end()
@@ -125,6 +125,7 @@ class FriendlyExtension implements ExtensionInterface
         $loader->load('core.yml');
         $loader->load('faker.yml');
         $loader->load('guesser.yml');
+        $loader->load('builder.yml');
         $loader->load('symfony.yml');
 
         $container->setParameter('friendly.parameters', $config);

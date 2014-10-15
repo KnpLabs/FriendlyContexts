@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Page;
+namespace Knp\FriendlyExtension\Page;
 
 use Behat\Mink\Element\DocumentElement;
 

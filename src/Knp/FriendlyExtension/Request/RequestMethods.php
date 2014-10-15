@@ -1,6 +1,6 @@
 <?php
 
-namespace Knp\FriendlyContexts\Request;
+namespace Knp\FriendlyExtension\Request;
 
 abstract class RequestMethods
 {

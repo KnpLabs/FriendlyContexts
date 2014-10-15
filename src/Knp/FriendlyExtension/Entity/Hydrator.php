@@ -4,10 +4,10 @@ namespace Knp\FriendlyExtension\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Knp\FriendlyContexts\Utils\UniqueCache;
 use Knp\FriendlyExtension\Type\GuesserRegistry;
 use Knp\FriendlyExtension\Utils\ObjectReflector;
 use Knp\FriendlyExtension\Utils\TextFormater;
+use Knp\FriendlyExtension\Utils\UniqueCache;
 
 class Hydrator
 {

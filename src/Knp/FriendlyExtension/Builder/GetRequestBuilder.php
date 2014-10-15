@@ -1,7 +1,8 @@
 <?php
 
-namespace Knp\FriendlyContexts\Builder;
+namespace Knp\FriendlyExtension\Builder;
 
+use Knp\FriendlyExtension\Builder\AbstractRequestBuilder;
 
 class GetRequestBuilder extends AbstractRequestBuilder
 {
