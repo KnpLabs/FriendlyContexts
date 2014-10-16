@@ -44,4 +44,45 @@ class MinkHelper extends AbstractHelper
 
         return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
     }
+
+    public function fixStepArgument($argument)
+    {
+        return str_replace('\\"', '"', $argument);
+    }
+
+    public function searchElement($locator, $element, $filterCallback = null, TraversableElement $parent = null)
+    {
+        $parent  = $parent ?: $this->getSession()->getPage();
+        $locator = $this->fixStepArgument($locator);
+
+        $elements = $parent->findAll('named', array(
+            $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
+
+        if (null !== $filterCallback && is_callable($filterCallback)) {
+            $elements = array_values(array_filter($elements, $filterCallback));
+        }
+
+        return $elements;
+    }
+
+    public function elementAction($locator, $element, $nbr = 1, $actionCallback, $filterCallback = null)
+    {
+        $elements = $this->searchElement($locator, $element, $filterCallback);
+
+        $nbr = is_numeric($nbr) ? intval($nbr) : $nbr;
+        $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
+
+        $this
+            ->getAsserter()
+            ->assert(
+                $nbr <= count($elements),
+                sprintf('Expected to find at least %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
+            )
+        ;
+
+        $e = $elements[$nbr - 1];
+
+        $actionCallback($e);
+    }
 }

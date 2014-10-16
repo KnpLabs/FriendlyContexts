@@ -6,9 +6,9 @@ default:
         default:
             path: %paths.base%/features
             contexts: 
-                - Context\FeatureContext
                 - Context\ServerContext
                 - Knp\FriendlyExtension\Context\PageContext
+                - Knp\FriendlyExtension\Context\MinkContext
     extensions:
         Knp\FriendlyExtension: 
             smart_tag: 'smart-step'
