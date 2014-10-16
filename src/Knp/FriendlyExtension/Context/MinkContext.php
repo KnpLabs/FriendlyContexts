@@ -116,6 +116,14 @@ class MinkContext extends BaseContext implements ContextInterface
     }
 
     /**
+     * @When I fill in the last ":name" field with ":value"
+     **/
+    public function fillLastElement($name, $value)
+    {
+        $this->fillTheNthField($name, $value, -1);
+    }
+
+    /**
      * @When I follow the link containing ":link"
      */
     public function clickLinkContaining($link)

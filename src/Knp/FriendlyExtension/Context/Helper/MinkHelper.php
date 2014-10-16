@@ -33,6 +33,11 @@ class MinkHelper extends AbstractHelper
         return $this->mink->getSession($name);
     }
 
+    public function getPage()
+    {
+        return $this->getSession()->getPage();
+    }
+
     public function assertSession($name = null)
     {
         return $this->mink->assertSession($name);
@@ -74,7 +79,7 @@ class MinkHelper extends AbstractHelper
         $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
 
         $this
-            ->getAsserter()
+            ->get('asserter')
             ->assert(
                 $nbr <= count($elements),
                 sprintf('Expected to find at least %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
