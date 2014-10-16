@@ -76,7 +76,7 @@ class SmartReader implements EnvironmentReader
         $description = sprintf('%s:%s', $feature->getFile(), $scenario->getLine());
 
         return [
-            new Call\Given(sprintf('/^%s$/', $scenario->getTitle()), $callable, $description),
+            new Call\Given($scenario->getTitle(), $callable, $description),
         ];
     }
 

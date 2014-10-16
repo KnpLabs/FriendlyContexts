@@ -17,4 +17,8 @@ abstract class AbstractHelper implements HelperInterface
     {
         return $this->registry->get($name);
     }
+
+    public function clear()
+    {
+    }
 }

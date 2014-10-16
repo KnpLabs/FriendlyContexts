@@ -34,6 +34,15 @@ services:
             - { name: friendly.context.helper }
             - { name: remove-when-missing, service: friendly.doctrine.resolver }
 
+    friendly.context.helper.mink_helper:
+        class: Knp\FriendlyExtension\Context\Helper\MinkHelper
+        arguments:
+            - @mink
+            - %mink.parameters%
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: mink }
+
     friendly.context.helper.record_helper:
         class: Knp\FriendlyExtension\Context\Helper\RecordHelper
         arguments:
@@ -51,3 +60,9 @@ services:
         tags:
             - { name: context.initializer }
 
+    friendly.context.helper.page_helper:
+        class: Knp\FriendlyExtension\Context\Helper\PageHelper
+        arguments:
+            - @friendly.page.resolver.page_class_resolver
+        tags:
+            - { name: friendly.context.helper }

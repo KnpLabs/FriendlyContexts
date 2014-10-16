@@ -19,10 +19,6 @@ class AsserterHelper extends AbstractHelper
         return 'asserter';
     }
 
-    public function clear()
-    {
-    }
-
     public function assertArrayEquals(array $expected, array $real, $fullText = false)
     {
         $message = sprintf("The given array\r\n\r\n%s\r\nis not equals to expected\r\n\r\n%s", $this->explode($real), $this->explode($expected));

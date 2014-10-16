@@ -1,9 +1,20 @@
 default:
     autoload:
         "Context": %paths.base%/features
+        "Page": %paths.base%/features
     suites:
         default:
             path: %paths.base%/features
-            contexts: ~
+            contexts: 
+                - Context\FeatureContext
+                - Context\ServerContext
+                - Knp\FriendlyExtension\Context\PageContext
     extensions:
-        Knp\FriendlyExtension: ~
+        Knp\FriendlyExtension: 
+            smart_tag: 'smart-step'
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8080/'
+            goutte: ~
+            selenium2: ~
+            default_session: goutte
+            javascript_session: selenium2

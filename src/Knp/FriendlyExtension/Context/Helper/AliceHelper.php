@@ -27,6 +27,11 @@ class AliceHelper extends AbstractHelper
         $this->processors   = $processors;
     }
 
+    public function getName()
+    {
+        return 'alice';
+    }
+
     public function loadFilturesFiles()
     {
         if (null === $this->tagLoader->getTag('alice')) {

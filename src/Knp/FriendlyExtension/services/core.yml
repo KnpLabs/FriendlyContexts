@@ -42,7 +42,7 @@ services:
     friendly.http.http_content_type_guesser:
         class: Knp\FriendlyExtension\Http\HttpContentTypeGuesser
 
-    friendly.page.resolver:
+    friendly.page.resolver.page_class_resolver:
         class: Knp\FriendlyExtension\Page\Resolver\PageClassResolver
         arguments:
             - %friendly.page.namespace%

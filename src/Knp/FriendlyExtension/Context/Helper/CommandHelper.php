@@ -53,10 +53,6 @@ class CommandHelper extends AbstractHelper
         return new CommandTester($application->getCommand($name));
     }
 
-    public function clear()
-    {
-    }
-
     public function getName()
     {
         return 'command';
