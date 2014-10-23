@@ -125,7 +125,7 @@ class MinkContext extends BaseMinkContext
     public function fillTheNthField($field, $value, $nbr = 1)
     {
         $field = $this->fixStepArgument($field);
-        $value = $this->fixStepArgument($field);
+        $value = $this->fixStepArgument($value);
 
         $this->elementAction(
             $field,
