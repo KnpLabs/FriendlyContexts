@@ -19,6 +19,22 @@ default:
         Knp\FriendlyContexts\Extension: ~
 ```
 
+### Define namespaces
+
+It's possible to define the namespace of the entities you wish to use with the 
+following  optional configuration:
+
+```yaml
+default:
+    # ...
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension:
+            entities:
+                namespaces:
+                    - Acme
+```
+
 Examples
 --------
 You have the following models (with getters and setters):
