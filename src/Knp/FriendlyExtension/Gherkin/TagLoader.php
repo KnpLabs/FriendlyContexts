@@ -3,6 +3,9 @@
 namespace Knp\FriendlyExtension\Gherkin;
 
 use Behat\Behat\EventDispatcher\Event\ScenarioLikeTested;
+use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\ScenarioLikeInterface;
+use Behat\Gherkin\Node\TaggedNodeInterface;
 use Knp\FriendlyExtension\Gherkin\TagFactory;
 
 class TagLoader
@@ -17,10 +20,10 @@ class TagLoader
         $this->factory = $factory ?: new TagFactory;
     }
 
-    public function beforeScenario(ScenarioLikeTested $event)
+    public function load(FeatureNode $feature, ScenarioLikeInterface $scenario)
     {
-        $this->feature  = $event->getFeature();
-        $this->scenario = $event->getScenario();
+        $this->feature  = $feature;
+        $this->scenario = $scenario;
 
         foreach ($this->extractTags() as $tag) {
             $tagActive = '~' !== substr($tag, 0, 1);

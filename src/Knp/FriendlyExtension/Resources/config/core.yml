@@ -27,6 +27,7 @@ services:
         arguments:
             - %friendly.doctrine.reset_schema%
             - @friendly.context.helper.doctrine_helper
+            - @friendly.gherkin.tag_loader
         tags:
             - { name: event_dispatcher.subscriber }
             - { name: remove-when-missing, service: friendly.context.helper.doctrine_helper }
@@ -43,8 +44,13 @@ services:
 
     friendly.gherkin.tag_loader:
         class: Knp\FriendlyExtension\Gherkin\TagLoader
+
+    friendly.event_listener.tag_subscriber:
+        class: Knp\FriendlyExtension\EventListener\TagSubscriber
+        arguments:
+            - @friendly.gherkin.tag_loader
         tags:
-            - { name: event_dispatcher.listener, event: tester.scenario_tested.before, method: beforeScenario }
+            - { name: event_dispatcher.subscriber }
 
     friendly.http.http_content_type_guesser:
         class: Knp\FriendlyExtension\Http\HttpContentTypeGuesser

@@ -53,14 +53,14 @@ class Tag
 
     public function enable()
     {
-        $this->enable = true;
+        $this->enabled = true;
 
         return $this;
     }
 
     public function disable()
     {
-        $this->enable = false;
+        $this->enabled = false;
 
         return $this;
     }

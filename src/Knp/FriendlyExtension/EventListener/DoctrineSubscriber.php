@@ -2,9 +2,8 @@
 
 namespace Knp\FriendlyExtension\EventListener;
 
-use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Knp\FriendlyExtension\Context\Helper\DoctrineHelper;
-use Knp\FriendlyExtension\Gherkin\Node\Explorer;
+use Knp\FriendlyExtension\Gherkin\TagLoader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DoctrineSubscriber implements EventSubscriberInterface
@@ -13,11 +12,13 @@ class DoctrineSubscriber implements EventSubscriberInterface
 
     private $helper;
     private $resetSchema;
+    private $loader;
 
-    public function __construct($resetSchema, DoctrineHelper $helper)
+    public function __construct($resetSchema, DoctrineHelper $helper, TagLoader $loader)
     {
         $this->resetSchema = $resetSchema;
         $this->helper      = $helper;
+        $this->loader      = $loader;
     }
 
     public static function getSubscribedEvents()
@@ -27,13 +28,15 @@ class DoctrineSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function beforeScenario(BeforeScenarioTested $event)
+    public function beforeScenario()
     {
-        $explorer = new Explorer($event->getFeature(), $event->getScenario());
+        $tag = $this->loader->getTag(self::RESET_TAG);
 
-        if ($this->resetSchema || $explorer->hasTag(self::RESET_TAG)) {
+        if (false === $this->resetSchema || (null !== $tag && $tag->enabled())) {
 
-            $this->helper->resetSchema();
+            return;
         }
+
+        $this->helper->resetSchema();
     }
 }
