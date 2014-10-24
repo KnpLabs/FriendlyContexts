@@ -153,7 +153,7 @@ class FriendlyExtension implements ExtensionInterface
 
     public function load(ContainerBuilder $container, array $config)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/FriendlyExtension/services'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/FriendlyExtension/Resources/config'));
         $loader->load('context.yml');
         $loader->load('alice.yml');
         $loader->load('core.yml');
