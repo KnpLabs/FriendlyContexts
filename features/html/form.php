@@ -52,7 +52,7 @@
         </form>
         <script>
             var change = function() {
-                var str = 'Field ' + $(this).prev('label').text() + ' (' + $(this).attr('name') + ') value is ' + $(this).val();
+                var str = 'Field ' + $(this).prev('label').text() + ' (' + $(this).attr('name') + ') value updated';
                 $('div').text(str);
             };
             $('input').change(change);

@@ -44,8 +44,8 @@ class MinkContext extends BaseContext implements ContextInterface
     }
 
     /**
-     * @When /^I check the ":name" radio
-     * @When /^I check the first ":name" radio
+     * @When I check the ":name" radio
+     * @When I check the first ":name" radio
      * @When /^I check the (?P<nbr>\d*)(st|nd|rd|th) "(?P<name>[^"]*)" radio$/
      **/
     public function checkRadio($name, $nbr = 1)
@@ -57,6 +57,14 @@ class MinkContext extends BaseContext implements ContextInterface
             function ($e) { $this->getSession()->getDriver()->click($e->getXPath()); },
             function ($e) { return 'radio' === $e->getAttribute('type'); }
         );
+    }
+
+    /**
+     * @When I check the last ":name" radio
+     **/
+    public function checkLastRadio($name)
+    {
+        $this->checkRadio($name, -1);
     }
 
 
@@ -143,7 +151,7 @@ class MinkContext extends BaseContext implements ContextInterface
     public function fillTheNthField($field, $value, $nbr = 1)
     {
         $field = $this->get('mink')->fixStepArgument($field);
-        $value = $this->get('mink')->fixStepArgument($field);
+        $value = $this->get('mink')->fixStepArgument($value);
 
         $this->get('mink')->elementAction(
             $field,

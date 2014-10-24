@@ -31,6 +31,13 @@ services:
             - { name: event_dispatcher.subscriber }
             - { name: remove-when-missing, service: friendly.context.helper.doctrine_helper }
 
+    friendly.event_listener.screenshot_subscriber:
+        class: Knp\FriendlyExtension\EventListener\ScreenshotSubscriber
+        arguments:
+            - @friendly.mink.screenshot_handler
+        tags:
+            - { name: event_dispatcher.subscriber }
+
     friendly.faker.unique_cache:
         class: Knp\FriendlyExtension\Faker\UniqueCache
 
@@ -41,6 +48,61 @@ services:
 
     friendly.http.http_content_type_guesser:
         class: Knp\FriendlyExtension\Http\HttpContentTypeGuesser
+
+    friendly.mailer.transport:
+        class: Swift_SmtpTransport
+        arguments:
+            - %friendly.screenshot.mailer.smtp%
+            - %friendly.screenshot.mailer.port%
+            - %friendly.screenshot.mailer.security%
+        calls:
+            - [ 'setUsername', [ %friendly.screenshot.mailer.username% ]]
+            - [ 'setPassword', [ %friendly.screenshot.mailer.password% ]]
+
+    friendly.mailer:
+        class: Swift_Mailer
+        arguments:
+            - @friendly.mailer.transport
+
+    friendly.mailer_transport:
+        class: Swift_SmtpTransport
+        arguments:
+            - %friendly.screenshot.mailer.smtp%
+            - %friendly.screenshot.mailer.port%
+            - %friendly.screenshot.mailer.security%
+        calls:
+            - [ 'setUsername', [ %friendly.screenshot.mailer.username% ]]
+            - [ 'setPassword', [ %friendly.screenshot.mailer.password% ]]
+
+    friendly.mink.screenshot.html_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\HtmlLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot.png_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\PngLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot_handler:
+        class: Knp\FriendlyExtension\Mink\ScreenshotHandler
+        arguments:
+            - @friendly.mink.screenshot_mailer
+            - %friendly.screenshot.recipents%
+        calls:
+            - [ 'addLoader', [ @friendly.mink.screenshot.html_loader ]]
+            - [ 'addLoader', [ @friendly.mink.screenshot.png_loader ]]
+
+    friendly.mink.screenshot_mailer:
+        class: Knp\FriendlyExtension\Mink\ScreenshotMailer
+        arguments:
+            - @friendly.mailer
+            - %friendly.screenshot.from%
+            - %friendly.screenshot.subject%
 
     friendly.page.resolver.page_class_resolver:
         class: Knp\FriendlyExtension\Page\Resolver\PageClassResolver

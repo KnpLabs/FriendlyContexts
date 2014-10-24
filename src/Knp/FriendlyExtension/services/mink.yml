@@ -1,0 +1,23 @@
+services:
+    friendly.mink.screenshot.html_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\HtmlLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot.png_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\PngLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot_handler:
+        class: Knp\FriendlyExtension\Mink\ScreenshotHandler
+        calls:
+            - [ 'addLoader', [ @friendly.mink.screenshot.html_loader ]]
+            - [ 'addLoader', [ @friendly.mink.screenshot.png_loader ]]
+        tags:
+            - { name: remove-when-missing, service: mink }
+

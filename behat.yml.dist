@@ -13,6 +13,12 @@ default:
     extensions:
         Knp\FriendlyExtension: 
             smart_tag: 'smart-step'
+            screenshot:
+                recipents:
+                    - pierre.plazanet@knplabs.com
+                mailer:
+                    username: smtp.knplabs@gmail.com
+                    password: loremipsum
         Behat\MinkExtension:
             base_url: 'http://localhost:8080/'
             goutte: ~
