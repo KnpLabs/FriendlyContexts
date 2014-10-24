@@ -12,12 +12,9 @@ use Prophecy\Argument;
 
 class TagLoaderSpec extends ObjectBehavior
 {
-    function let(TagFactory $factory, Tag $tag1, Tag $tag2, Tag $tag3, FeatureNode $feature, ScenarioNode $scenario, ScenarioLikeTested $event)
+    function let(TagFactory $factory, Tag $tag1, Tag $tag2, Tag $tag3, FeatureNode $feature, ScenarioNode $scenario)
     {
         $this->beConstructedWith($factory);
-
-        $event->getFeature()->willReturn($feature);
-        $event->getScenario()->willReturn($scenario);
 
         $feature->getTags()->willReturn([ 'tag1', 'tag2', 'tag3(Foo)', 'tag3(Bar)' ]);
         $scenario->getTags()->willReturn([ '~tag2', 'tag3(~Foo)', 'tag3(Baz)' ]);
@@ -35,7 +32,7 @@ class TagLoaderSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyExtension\Gherkin\TagLoader');
     }
 
-    function it_load_tags(ScenarioLikeTested $event, Tag $tag1, Tag $tag2, Tag $tag3)
+    function it_load_tags(FeatureNode $feature, ScenarioNode $scenario, Tag $tag1, Tag $tag2, Tag $tag3)
     {
         $tag1->addArgument(Argument::cetera())->shouldNotBeCalled();
         $tag1->enable()->shouldBeCalled();
@@ -52,19 +49,19 @@ class TagLoaderSpec extends ObjectBehavior
         $tag3->enable()->shouldBeCalled();
         $tag3->disable()->shouldNotBeCalled();
 
-        $this->beforeScenario($event);
+        $this->load($feature, $scenario);
     }
 
-    function it_return_a_tag_by_name(ScenarioLikeTested $event, Tag $tag1)
+    function it_return_a_tag_by_name(FeatureNode $feature, ScenarioNode $scenario, Tag $tag1)
     {
-        $this->beforeScenario($event);
+        $this->load($feature, $scenario);
 
         $this->getTag('tag1')->shouldReturn($tag1);
     }
 
-    function it_return_null_if_tag_doesnt_exists(ScenarioLikeTested $event)
+    function it_return_null_if_tag_doesnt_exists(FeatureNode $feature, ScenarioNode $scenario)
     {
-        $this->beforeScenario($event);
+        $this->load($feature, $scenario);
 
         $this->getTag('tag9')->shouldBeNull();
     }
