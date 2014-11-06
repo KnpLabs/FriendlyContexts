@@ -12,6 +12,15 @@ class ClassLoader
         $this->kernel = $kernel;
     }
 
+    public function instanciateAll(array $names)
+    {
+        return array_map(
+            function ($e) {
+                return $this->instanciate($name);
+            }, $names
+        );
+    }
+
     public function instanciate($name)
     {
         if (null !== $instance = $this->getFromClassname($name)) {

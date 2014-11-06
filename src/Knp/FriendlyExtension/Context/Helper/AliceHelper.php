@@ -16,15 +16,15 @@ class AliceHelper extends AbstractHelper
     private $providers;
     private $processors;
 
-    public function __construct(ClassLoader $classLoader, TagLoader $tagLoader, $locale, $fixtures, $dependencies, $providers, $processors)
+    public function __construct(ClassLoader $classLoader, TagLoader $tagLoader, $locale, array $fixtures, array $dependencies, array $providers, array $processors)
     {
         $this->classLoader  = $classLoader;
         $this->tagLoader    = $tagLoader;
         $this->locale       = $locale;
         $this->fixtures     = $fixtures;
         $this->dependencies = $dependencies;
-        $this->providers    = $providers;
-        $this->processors   = $processors;
+        $this->providers    = $this->classLoader->instanciateAll($providers);
+        $this->processors   = $this->classLoader->instanciateAll($processors);
     }
 
     public function getName()
@@ -32,17 +32,89 @@ class AliceHelper extends AbstractHelper
         return 'alice';
     }
 
-    public function loadFilturesFiles()
+    public function loadFiles()
     {
-        if (null === $this->tagLoader->getTag('alice')) {
+        if (null === $tag = $this->tagLoader->getTag('alice')) {
 
             return;
         }
+
+        if (in_array('*', $tag->getArguments())) {
+            $files = array_keys($this->fixtures);
+        } else {
+            $files = $this->resolveDepsFromArray($tag->getArguments());
+        }
+
+        foreach ($this->fixtures as $name => $fixture) {
+            $this->exists($name, true);
+        }
+
+        foreach ($this->fixtures as $name => $fixture) {
+            if (in_array($name, $files)) {
+                $this->load($name);
+            }
+        }
     }
 
-    public function loadFixtureFile($file)
+    public function load($name)
     {
+        $file = $this->getFileFromName($name);
 
+        $objects = $this->loader->load($file);
+
+        foreach ($this->processors as $proc) {
+            foreach ($objects as $obj) {
+                $proc->preProcess($obj);
+            }
+        }
+
+        foreach ($objects as $obj) {
+            $this->get('doctrine')->persist($obj);
+        }
+
+        $this->get('doctrine')->flush();
+
+        foreach ($this->processors as $proc) {
+            foreach ($objects as $obj) {
+                $proc->postProcess($obj);
+            }
+        }
+    }
+
+    public function exists($name, $throw = false)
+    {
+        if (array_key_exists($name, $this->fixtures)) {
+
+            return true;
+        }
+
+        if (is_file($name)) {
+
+            return true;
+        }
+
+        if (false === $throw) {
+
+            return false;
+        }
+
+        throw new \Exception(sprintf(
+            'File or fixture "%s" unknown. "%s" expected',
+            $name,
+            implode('", "', array_keys($this->fixtures)))
+        );
+    }
+
+    public function getFileFromName($name)
+    {
+        $this->exists($name, true);
+
+        if (is_file($name)) {
+
+            return $name;
+        }
+
+        return $this->fixtures[$name];
     }
 
     protected function resolveDependencies($fixture, array &$result = [])
