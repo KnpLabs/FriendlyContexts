@@ -1,0 +1,3 @@
+mailer_no_emails:
+    pattern: /mailer/no-emails
+    defaults: { _controller: 'App:Mailer:noEmails' }
