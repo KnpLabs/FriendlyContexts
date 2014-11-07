@@ -28,4 +28,9 @@ class SwiftMailerHelper extends AbstractHelper
     {
         return $this->get('swiftmailer')->getCollector('swiftmailer');
     }
+
+    public function getName()
+    {
+        return 'swiftmailer';
+    }
 }

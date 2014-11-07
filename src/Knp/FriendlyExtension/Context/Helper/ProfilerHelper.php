@@ -36,4 +36,9 @@ class ProfilerHelper extends AbstractHelper
     {
         return $this->getProfile($token)->getCollector($name);
     }
+
+    public function getName()
+    {
+        return 'profiler';
+    }
 }

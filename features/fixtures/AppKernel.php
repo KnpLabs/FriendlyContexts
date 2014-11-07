@@ -18,6 +18,7 @@ class AppKernel extends Kernel
         $loader->load(function($container) {
             $container->loadFromExtension('framework', array(
                 'router' => array('resource' => __DIR__.'/App/Resources/config/routing.yml'),
+                'profiler' => array('enabled' => true),
             ));
         });
     }

@@ -5,13 +5,14 @@ default:
     suites:
         default:
             path: %paths.base%/features
-            contexts: 
+            contexts:
                 - Context\FeatureContext
                 - Knp\FriendlyExtension\Context\PageContext
                 - Knp\FriendlyExtension\Context\MinkContext
                 - Knp\FriendlyExtension\Context\ApiContext
+                - Knp\FriendlyExtension\Context\SymfonyMailerContext
     extensions:
-        Knp\FriendlyExtension: 
+        Knp\FriendlyExtension:
             smart_tag: 'smart-step'
             screenshot:
                 recipents:
