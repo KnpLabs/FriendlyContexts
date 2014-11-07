@@ -66,3 +66,11 @@ services:
             - @friendly.page.resolver.page_class_resolver
         tags:
             - { name: friendly.context.helper }
+
+    friendly.context.helper.api_helper:
+        class: Knp\FriendlyExtension\Context\Helper\ApiHelper
+        arguments:
+            - @friendly.builder.request_builder
+            - @friendly.http.http_content_type_guesser
+        tags:
+            - { name: friendly.context.helper }
