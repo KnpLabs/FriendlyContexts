@@ -17,7 +17,7 @@ class ServerContext implements Context
     {
         self::$proc = sprintf('/tmp/%s', md5(time() . uniqid()));
         $command = sprintf(
-            'php -S %s -t %s/../',
+            'php -S %s -t %s/../server',
             self::SERVER_ADDRESS,
             __DIR__
         );

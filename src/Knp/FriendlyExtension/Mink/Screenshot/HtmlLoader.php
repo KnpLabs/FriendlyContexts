@@ -2,7 +2,7 @@
 
 namespace Knp\FriendlyExtension\Mink\Screenshot;
 
-use Behat\Mink\Driver\Selenium2Driver;
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Mink;
 use Knp\FriendlyExtension\Mink\Screenshot\Loader;
 
@@ -15,16 +15,26 @@ class HtmlLoader implements Loader
 
     public function supports()
     {
-        return false === $this
-            ->mink
-            ->getSession()
-            ->getDriver() instanceof Selenium2Driver
-        ;
+        $driver = $this->mink->getSession()->getDriver();
+
+        if (is_a($driver, 'Behat\Mink\Driver\Selenium2Driver')) {
+
+            return false;
+        }
+
+        try {
+            $content = $driver->getContent();
+
+            return true;
+        } catch (DriverException $e) {
+
+            return false;
+        }
     }
 
     public function take()
     {
-        return $this->mink->getSession()->getContent();
+        return $this->mink->getSession()->getDriver()->getContent();
     }
 
     public function getExtension()

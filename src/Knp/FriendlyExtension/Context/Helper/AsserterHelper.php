@@ -45,7 +45,7 @@ class AsserterHelper extends AbstractHelper
         $message = $message ?: sprintf("The given array\r\n\r\n%s\r\ndoes not contains the following rows\r\n\r\n%s", $this->explode($real), $this->explode($expected));
 
         foreach ($expected as $key => $value) {
-            $this->assert(isset($real[$key]), $message);
+            $this->assert(array_key_exists($key, $real), $message);
 
             if (is_array($value)) {
                 $this->assert(is_array($real[$key]), $message);
@@ -59,6 +59,15 @@ class AsserterHelper extends AbstractHelper
 
             $this->assert($value === $real[$key], $message);
         }
+    }
+
+    public function assertContains($expected, $real, $message = null)
+    {
+        if (null === $message) {
+            $message = sprintf("Can't find \n\n%s\n\ninto\n\n%s", $expected, $real);
+        }
+
+        return $this->assert(false !== strpos($real, $expected), $message);
     }
 
     public function assertTrue($real, $message = "Failing to assert true.")

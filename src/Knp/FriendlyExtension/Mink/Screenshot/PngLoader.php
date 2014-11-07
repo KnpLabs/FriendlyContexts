@@ -2,7 +2,6 @@
 
 namespace Knp\FriendlyExtension\Mink\Screenshot;
 
-use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Mink;
 use Knp\FriendlyExtension\Mink\Screenshot\Loader;
 
@@ -15,11 +14,9 @@ class PngLoader implements Loader
 
     public function supports()
     {
-        return true === $this
-            ->mink
-            ->getSession()
-            ->getDriver() instanceof Selenium2Driver
-        ;
+        $driver = $this->mink->getSession()->getDriver();
+
+        return is_a($driver, 'Behat\Mink\Driver\Selenium2Driver');
     }
 
     public function take()

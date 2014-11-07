@@ -87,6 +87,14 @@ services:
         tags:
             - { name: remove-when-missing, service: mink }
 
+    friendly.mink.screenshot.api_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\ApiLoader
+        arguments:
+            - @friendly.context.helper.api_helper
+            - @friendly.http.http_content_type_guesser
+        tags:
+            - { name: remove-when-missing, service: mink }
+
     friendly.mink.screenshot.png_loader:
         class: Knp\FriendlyExtension\Mink\Screenshot\PngLoader
         arguments:
@@ -102,6 +110,7 @@ services:
         calls:
             - [ 'addLoader', [ @friendly.mink.screenshot.html_loader ]]
             - [ 'addLoader', [ @friendly.mink.screenshot.png_loader ]]
+            - [ 'addLoader', [ @friendly.mink.screenshot.api_loader ]]
 
     friendly.mink.screenshot_mailer:
         class: Knp\FriendlyExtension\Mink\ScreenshotMailer

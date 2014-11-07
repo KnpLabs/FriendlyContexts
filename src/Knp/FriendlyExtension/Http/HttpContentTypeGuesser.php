@@ -14,8 +14,8 @@ class HttpContentTypeGuesser
         'soap'       => 'application/soap+xml',
         'atom'       => 'application/atom+xml',
         'stream'     => 'application/octet-stream',
+        'html'       => ['text/html', 'application/xhtml+xml'],
         'xhtml'      => ['application/xhtml+xml', 'text/html'],
-        'html'       => ['application/xhtml+xml', 'text/html'],
         'zip'        => 'application/zip',
         'gzip'       => 'application/gzip',
         'font'       => 'application/font-woff',
@@ -76,5 +76,21 @@ class HttpContentTypeGuesser
         $shortType = strtolower($shortType);
 
         return isset(self::$contentTypeTable[$shortType]);
+    }
+
+    public function getKey($contentType)
+    {
+        foreach (self::$contentTypeTable as $key => $types) {
+            $types = is_array($types) ? $types : [$types];
+
+            foreach ($types as $type) {
+                if (strtolower($type) === strtolower($contentType)) {
+
+                    return $key;
+                }
+            }
+        }
+
+        return false;
     }
 }

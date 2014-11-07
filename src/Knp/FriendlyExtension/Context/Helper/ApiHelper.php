@@ -92,7 +92,7 @@ class ApiHelper extends AbstractHelper
     public function send()
     {
         try {
-            $this->response = $this->getRequestBuilder()->build()->send();
+            $this->response = $this->builder->build()->send();
         } catch (BadResponseException $e) {
             $this->response = $e->getResponse();
         }

@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Knp\FriendlyExtension\Context;
@@ -162,9 +161,14 @@ class ApiContext extends Context
     public function theResponseShouldContainsHeaders(TableNode $headerTable)
     {
         $expectedHeaders = $headerTable->getRowsHash();
+        $realHeaders = array_map(
+            'current',
+            $this->get('api')->getResponse()->getHeaders()->toArray()
+        );
+
         $this->get('asserter')->assertArrayContains(
             $expectedHeaders,
-            $this->get('api')->getResponse()->getHeaders()
+            $realHeaders
         );
     }
 
@@ -208,14 +212,17 @@ class ApiContext extends Context
     }
 
     /**
+     * @Then /^the response should contains "(?<content>.+)"$/
      * @Then /^the response should contains:?$/
      */
-    public function theResponseShouldContains(PyStringNode $bodyNode)
+    public function theResponseShouldContains($content = null, PyStringNode $bodyNode = null)
     {
+        $content = null !== $bodyNode ? $bodyNode->getRaw() : $content;
+
         $this
             ->get('asserter')
-            ->assertEquals(
-                $bodyNode->getRaw(),
+            ->assertContains(
+                $content,
                 $this->get('api')->getResponse()->getBody(true)
             )
         ;
