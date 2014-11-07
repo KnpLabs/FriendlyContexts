@@ -8,8 +8,11 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         return array(
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle,
-            new \App\App
+            new Symfony\Bundle\FrameworkBundle\FrameworkBundle,
+            new Symfony\Bundle\TwigBundle\TwigBundle,
+            new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle,
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle,
+            new App\App
         );
     }
 
@@ -18,7 +21,15 @@ class AppKernel extends Kernel
         $loader->load(function($container) {
             $container->loadFromExtension('framework', array(
                 'router' => array('resource' => __DIR__.'/App/Resources/config/routing.yml'),
+                'templating' => array(
+                    'engines' => array('twig'),
+                ),
                 'profiler' => array('enabled' => true),
+            ));
+
+            $container->loadFromExtension('doctrine', array(
+                'orm' => array(),
+                'dbal' => array(),
             ));
         });
     }

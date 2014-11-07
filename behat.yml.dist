@@ -20,6 +20,8 @@ default:
                 mailer:
                     username: smtp.knplabs@gmail.com
                     password: loremipsum
+            symfony_kernel:
+                bootstrap: features/fixtures/index.php
         Behat\MinkExtension:
             base_url: 'http://localhost:8080/'
             goutte: ~

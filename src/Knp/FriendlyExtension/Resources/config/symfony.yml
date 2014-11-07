@@ -11,3 +11,8 @@ services:
             - { name: friendly.symfony.service, class: Doctrine\Common\Persistence\AbstractManagerRegistry }
             - { name: remove-when-missing, service: friendly.symfony.kernel }
 
+    profiler:
+        synthetic: true
+        tags:
+            - { name: friendly.symfony.service, class: Symfony\Component\HttpKernel\Profiler\Profiler }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
