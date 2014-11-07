@@ -47,12 +47,16 @@ class AliceContext extends Context
     protected function registerCache($loader)
     {
         foreach ($loader->getCache() as $cache) {
-            list($data, $entity) = $cache;
-            $this
-                ->getRecordBag()
-                ->getCollection(get_class($entity))
-                ->attach($entity, $data)
-            ;
+            list($values, $entity) = $cache;
+            $reflection = new \ReflectionClass($entity);
+            do {
+                $this
+                    ->getRecordBag()
+                    ->getCollection($reflection->getName())
+                    ->attach($entity, $values)
+                ;
+                $reflection = $reflection->getParentClass();
+            } while (false !== $reflection);
         }
         $loader->clearCache();
     }
