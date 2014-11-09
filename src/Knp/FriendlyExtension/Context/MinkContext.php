@@ -67,7 +67,6 @@ class MinkContext extends BaseContext implements ContextInterface
         $this->checkRadio($name, -1);
     }
 
-
     /**
      * @Then /^I should(?P<should>| not) see (?P<nbr>\d*) "(?P<name>[^"]*)" (?P<element>link|button|radio|checkbox)$/
      **/

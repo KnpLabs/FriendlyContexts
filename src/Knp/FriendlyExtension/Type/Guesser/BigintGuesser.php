@@ -26,7 +26,6 @@ final class BigintGuesser extends AbstractGuesser
         return $this->intGuesser->transform($str, $mapping);
     }
 
-
     public function fake(array $mapping)
     {
         return current($this->fakers)->fake('randomNumber');

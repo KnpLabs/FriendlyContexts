@@ -140,7 +140,6 @@ class CommandContext extends Context
         $this->testResult(0);
     }
 
-
     /**
      * @Then the command should be in error
      */
