@@ -38,7 +38,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Then :count :name should have been :state
+     * @Then /^(?<count>\w+) (?<name>.+) should have been (?<state>created|deleted)$/
      */
     public function entitiesShoudhaveBeen($count, $name, $state)
     {

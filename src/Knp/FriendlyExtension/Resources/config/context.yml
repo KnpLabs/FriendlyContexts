@@ -15,6 +15,14 @@ services:
             - { name: friendly.context.helper }
             - { name: remove-when-missing, service: friendly.symfony.kernel }
 
+    friendly.context.helper.symfony_helper:
+        class: Knp\FriendlyExtension\Context\Helper\SymfonyHelper
+        arguments:
+            - @friendly.symfony.kernel
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
+
     friendly.context.helper.doctrine_helper:
         class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
         arguments:
@@ -74,3 +82,5 @@ services:
             - @friendly.http.http_content_type_guesser
         tags:
             - { name: friendly.context.helper }
+
+

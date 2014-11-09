@@ -166,10 +166,10 @@ class FriendlyExtension implements ExtensionInterface
 
         $container->addCompilerPass(new ParameterBuildingPass);
         $container->addCompilerPass(new KernelRegistrationPass);
+        $container->addCompilerPass(new SymfonyServicePass);
         $container->addCompilerPass(new FakerProviderRegistrationPass);
         $container->addCompilerPass(new FakerGuesserRegistrationPass);
         $container->addCompilerPass(new ApiUrlTransitionPass);
-        $container->addCompilerPass(new SymfonyServicePass);
         $container->addCompilerPass(new RemoveUnavailableServicesPass);
         $container->addCompilerPass(new SetArgumentToNullPass);
         $container->addCompilerPass(new ContextHelperRegistrationPass);

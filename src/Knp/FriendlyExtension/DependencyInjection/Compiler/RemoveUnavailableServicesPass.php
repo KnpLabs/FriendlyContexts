@@ -24,11 +24,17 @@ class RemoveUnavailableServicesPass implements CompilerPassInterface
                     continue;
                 }
 
+                $ids = $container->getServiceIds();
+
                 if ($container->hasDefinition($tag['service'])) {
                     continue;
                 }
 
                 if ($container->hasAlias($tag['service'])) {
+                    continue;
+                }
+
+                if ($container->has($tag['service'])) {
                     continue;
                 }
 
