@@ -1,1 +1,2 @@
-extensions: ~
+extenstions:
+    - Knp\PhpSpec\WellDone\Extension

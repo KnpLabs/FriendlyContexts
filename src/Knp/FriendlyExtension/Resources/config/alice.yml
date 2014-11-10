@@ -1,0 +1,7 @@
+services:
+    friendly.alice.class_loader:
+        class: Knp\FriendlyExtension\Alice\ClassLoader
+        arguments:
+            - @friendly.symfony.kernel
+        tags:
+            - { name: null-when-missing, service: friendly.symfony.kernel }

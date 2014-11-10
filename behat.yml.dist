@@ -1,14 +1,27 @@
 default:
     autoload:
         "Context": %paths.base%/features
+        "Page": %paths.base%/features
     suites:
         default:
             path: %paths.base%/features
-            contexts:
-                - Knp\FriendlyContexts\Context\MinkContext
-                - Knp\FriendlyContexts\Context\TableContext
-                - Knp\FriendlyContexts\Context\EntityContext
-                - Knp\FriendlyContexts\Context\AliceContext
-                - Knp\FriendlyContexts\Context\PageContext
+            contexts: 
+                - Context\FeatureContext
+                - Knp\FriendlyExtension\Context\PageContext
+                - Knp\FriendlyExtension\Context\MinkContext
+                - Knp\FriendlyExtension\Context\ApiContext
     extensions:
-        Knp\FriendlyContexts\Extension: ~
+        Knp\FriendlyExtension: 
+            smart_tag: 'smart-step'
+            screenshot:
+                recipents:
+                    - pierre.plazanet@knplabs.com
+                mailer:
+                    username: smtp.knplabs@gmail.com
+                    password: loremipsum
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8080/'
+            goutte: ~
+            selenium2: ~
+            default_session: goutte
+            javascript_session: selenium2

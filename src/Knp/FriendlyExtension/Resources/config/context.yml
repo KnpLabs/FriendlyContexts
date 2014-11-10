@@ -1,0 +1,86 @@
+services:
+    friendly.context.helper.asserter_helper:
+        class: Knp\FriendlyExtension\Context\Helper\AsserterHelper
+        arguments:
+            - @friendly.utils.text_formater
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.command_helper:
+        class: Knp\FriendlyExtension\Context\Helper\CommandHelper
+        arguments:
+            - @friendly.command.command_loader
+            - @friendly.symfony.kernel
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
+
+    friendly.context.helper.symfony_helper:
+        class: Knp\FriendlyExtension\Context\Helper\SymfonyHelper
+        arguments:
+            - @friendly.symfony.kernel
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
+
+    friendly.context.helper.doctrine_helper:
+        class: Knp\FriendlyExtension\Context\Helper\DoctrineHelper
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @friendly.doctrine.resolver
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: doctrine.orm.entity_manager }
+
+    friendly.context.helper.entity_helper:
+        class: Knp\FriendlyExtension\Context\Helper\EntityHelper
+        arguments:
+            - @friendly.doctrine.resolver
+            - @friendly.faker.unique_cache
+            - @friendly.type.guesser_registry
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: friendly.doctrine.resolver }
+
+    friendly.context.helper.mink_helper:
+        class: Knp\FriendlyExtension\Context\Helper\MinkHelper
+        arguments:
+            - @mink
+            - %mink.parameters%
+        tags:
+            - { name: friendly.context.helper }
+            - { name: remove-when-missing, service: mink }
+
+    friendly.context.helper.record_helper:
+        class: Knp\FriendlyExtension\Context\Helper\RecordHelper
+        arguments:
+            - @friendly.record.collection.bag
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.registry:
+        class: Knp\FriendlyExtension\Context\Helper\Registry
+
+    friendly.context.initializer.friendly_initializer:
+        class: Knp\FriendlyExtension\Context\Initializer\FriendlyInitializer
+        arguments:
+            - @friendly.context.helper.registry
+        tags:
+            - { name: context.initializer }
+
+    friendly.context.helper.page_helper:
+        class: Knp\FriendlyExtension\Context\Helper\PageHelper
+        arguments:
+            - @friendly.page.resolver.page_class_resolver
+        tags:
+            - { name: friendly.context.helper }
+
+    friendly.context.helper.api_helper:
+        class: Knp\FriendlyExtension\Context\Helper\ApiHelper
+        arguments:
+            - @friendly.builder.request_builder
+            - @friendly.http.http_content_type_guesser
+        tags:
+            - { name: friendly.context.helper }
+
+

@@ -1,0 +1,154 @@
+services:
+    friendly.call.call_center:
+        class: Knp\FriendlyExtension\Call\CallCenter
+        arguments:
+            - @call.center
+
+    friendly.command.command_loader:
+        class: Knp\FriendlyExtension\Command\CommandLoader
+
+    friendly.definition.definition_finder:
+        class: Knp\FriendlyExtension\Definition\DefinitionFinder
+        arguments:
+            - @definition.finder
+
+    friendly.doctrine.resolver:
+        class: Knp\FriendlyExtension\Doctrine\Resolver
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @friendly.utils.object_reflector
+            - @friendly.utils.text_formater
+            - @friendly.utils.name_proposer
+        tags:
+            - { name: remove-when-missing, service: doctrine.orm.entity_manager }
+
+    friendly.event_listener.doctrine_subscriber:
+        class: Knp\FriendlyExtension\EventListener\DoctrineSubscriber
+        arguments:
+            - %friendly.doctrine.reset_schema%
+            - @friendly.context.helper.doctrine_helper
+            - @friendly.gherkin.tag_loader
+        tags:
+            - { name: event_dispatcher.subscriber }
+            - { name: remove-when-missing, service: friendly.context.helper.doctrine_helper }
+
+    friendly.event_listener.screenshot_subscriber:
+        class: Knp\FriendlyExtension\EventListener\ScreenshotSubscriber
+        arguments:
+            - @friendly.mink.screenshot_handler
+        tags:
+            - { name: event_dispatcher.subscriber }
+
+    friendly.faker.unique_cache:
+        class: Knp\FriendlyExtension\Faker\UniqueCache
+
+    friendly.gherkin.tag_loader:
+        class: Knp\FriendlyExtension\Gherkin\TagLoader
+
+    friendly.event_listener.tag_subscriber:
+        class: Knp\FriendlyExtension\EventListener\TagSubscriber
+        arguments:
+            - @friendly.gherkin.tag_loader
+        tags:
+            - { name: event_dispatcher.subscriber }
+
+    friendly.http.http_content_type_guesser:
+        class: Knp\FriendlyExtension\Http\HttpContentTypeGuesser
+
+    friendly.mailer.transport:
+        class: Swift_SmtpTransport
+        arguments:
+            - %friendly.screenshot.mailer.smtp%
+            - %friendly.screenshot.mailer.port%
+            - %friendly.screenshot.mailer.security%
+        calls:
+            - [ 'setUsername', [ %friendly.screenshot.mailer.username% ]]
+            - [ 'setPassword', [ %friendly.screenshot.mailer.password% ]]
+
+    friendly.mailer:
+        class: Swift_Mailer
+        arguments:
+            - @friendly.mailer.transport
+
+    friendly.mailer_transport:
+        class: Swift_SmtpTransport
+        arguments:
+            - %friendly.screenshot.mailer.smtp%
+            - %friendly.screenshot.mailer.port%
+            - %friendly.screenshot.mailer.security%
+        calls:
+            - [ 'setUsername', [ %friendly.screenshot.mailer.username% ]]
+            - [ 'setPassword', [ %friendly.screenshot.mailer.password% ]]
+
+    friendly.mink.screenshot.html_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\HtmlLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot.api_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\ApiLoader
+        arguments:
+            - @friendly.context.helper.api_helper
+            - @friendly.http.http_content_type_guesser
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot.png_loader:
+        class: Knp\FriendlyExtension\Mink\Screenshot\PngLoader
+        arguments:
+            - @mink
+        tags:
+            - { name: remove-when-missing, service: mink }
+
+    friendly.mink.screenshot_handler:
+        class: Knp\FriendlyExtension\Mink\ScreenshotHandler
+        arguments:
+            - @friendly.mink.screenshot_mailer
+            - %friendly.screenshot.recipents%
+        calls:
+            - [ 'addLoader', [ @friendly.mink.screenshot.html_loader ]]
+            - [ 'addLoader', [ @friendly.mink.screenshot.png_loader ]]
+            - [ 'addLoader', [ @friendly.mink.screenshot.api_loader ]]
+
+    friendly.mink.screenshot_mailer:
+        class: Knp\FriendlyExtension\Mink\ScreenshotMailer
+        arguments:
+            - @friendly.mailer
+            - %friendly.screenshot.from%
+            - %friendly.screenshot.subject%
+
+    friendly.page.resolver.page_class_resolver:
+        class: Knp\FriendlyExtension\Page\Resolver\PageClassResolver
+        arguments:
+            - %friendly.page.namespace%
+
+    friendly.reader.smart_reader:
+        class: Knp\FriendlyExtension\Reader\SmartReader
+        arguments:
+            - @gherkin
+            - @suite.registry
+            - @specifications.locator.filesystem_feature
+            - @friendly.definition.definition_finder
+            - @friendly.call.call_center
+            - %friendly.smart_tag%
+        tags:
+            - { name: environment.reader }
+
+    friendly.record.collection.bag:
+        class: Knp\FriendlyExtension\Record\Collection\Bag
+        arguments:
+            - @friendly.utils.object_reflector
+
+    friendly.utils.name_proposer:
+        class: Knp\FriendlyExtension\Utils\NameProposer
+        arguments:
+            - @friendly.utils.text_formater
+
+    friendly.utils.object_reflector:
+        class: Knp\FriendlyExtension\Utils\ObjectReflector
+
+    friendly.utils.text_formater:
+        class: Knp\FriendlyExtension\Utils\TextFormater
+

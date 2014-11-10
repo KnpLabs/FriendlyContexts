@@ -12,6 +12,7 @@ before_script:
 
 script:
     - bin/phpspec run -fpretty
+    - bin/behat --no-snippets --verbose
 
 notifications:
     webhooks:
