@@ -13,7 +13,6 @@ class Internet extends Base
         return $this->parent->userName();
     }
 
-
     public function supportsParent(FakerBase $parent)
     {
         return $parent instanceOf FakerInternet;

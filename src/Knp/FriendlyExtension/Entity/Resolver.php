@@ -56,7 +56,6 @@ class Resolver
         );
     }
 
-
     public function getObjectMetadata($object)
     {
         return $this

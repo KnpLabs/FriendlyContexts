@@ -49,4 +49,3 @@ foreach (explode("\n", $response->getRawHeaders()) as $header) {
 print $response->getBody();
 ob_end_flush();
 
-?>
