@@ -14,11 +14,11 @@ default:
     suites:
         default:
             # ...
-        contexts:
-            - # ...
-            - Knp\FriendlyContexts\Context\MinkContext
-            - Knp\FriendlyContexts\Context\TableContext
-            - Knp\FriendlyContexts\Context\EntityContext
+            contexts:
+                - # ...
+                - Knp\FriendlyContexts\Context\MinkContext
+                - Knp\FriendlyContexts\Context\TableContext
+                - Knp\FriendlyContexts\Context\EntityContext
     extensions:
         # ...
         Knp\FriendlyContexts\Extension: ~
