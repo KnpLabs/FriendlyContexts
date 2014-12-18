@@ -5,3 +5,7 @@ homepage:
 mailer_no_emails:
     pattern: /mailer/no-emails
     defaults: { _controller: 'App:Mailer:noEmails' }
+
+mailer_email_with_subject:
+    pattern: /mailer/email-with-subject
+    defaults: { _controller: 'App:Mailer:emailWithSubject' }

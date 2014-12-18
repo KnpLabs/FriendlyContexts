@@ -17,6 +17,7 @@
     "require-dev": {
         "symfony/http-kernel":                 "~2.0",
         "symfony/framework-bundle":            "~2.0",
+        "symfony/swiftmailer-bundle":          "~2.0",
         "symfony/web-profiler-bundle":         "~2.0",
         "symfony/twig-bundle":                 "~2.0",
         "symfony/form":                        "~2.0",

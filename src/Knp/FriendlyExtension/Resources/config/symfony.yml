@@ -11,6 +11,12 @@ services:
             - { name: friendly.symfony.service, class: Doctrine\Common\Persistence\AbstractManagerRegistry }
             - { name: remove-when-missing, service: friendly.symfony.kernel }
 
+    mailer:
+        synthetic: true
+        tags:
+            - { name: friendly.symfony.service, class: Swift_Mailer }
+            - { name: remove-when-missing, service: friendly.symfony.kernel }
+
     profiler:
         synthetic: true
         tags:
