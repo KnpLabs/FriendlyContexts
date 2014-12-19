@@ -28,7 +28,7 @@ class SymfonyMailerContext extends Context
     {
         if (!$this->get('swiftmailer')->isEmailSent($subject)) {
             throw new \Exception(sprintf(
-                'Email with subject "%s" have been sent.',
+                'No email with subject "%s" has been sent.',
                 $subject
             ));
         }
@@ -41,7 +41,21 @@ class SymfonyMailerContext extends Context
     {
         if (!$this->get('swiftmailer')->isEmailSent(null, $recipient)) {
             throw new \Exception(sprintf(
-                'Email have been sent to "%s".',
+                'No email has been sent to "%s".',
+                $recipient
+            ));
+        }
+    }
+
+    /**
+     * @Then email with subject :subject should have been sent to :recipient
+     */
+    public function emailWithSubjectShouldHaveBeenSentToRecipient($subject, $recipient)
+    {
+        if (!$this->get('swiftmailer')->isEmailSent($subject, $recipient)) {
+            throw new \Exception(sprintf(
+                'No email with subject "%s" has been sent to "%s".',
+                $subject,
                 $recipient
             ));
         }
