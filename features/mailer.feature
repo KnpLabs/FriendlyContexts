@@ -7,6 +7,7 @@ Feature: I am able to describe sending emails
     Scenario: Email with subject sent
         When I go to the email page
         Then email with subject "Hello Subject" should have been sent
+         And email with subject "Not sent" should not be sent
 
     Scenario: Email sent to recipeient
         When I go to the email page

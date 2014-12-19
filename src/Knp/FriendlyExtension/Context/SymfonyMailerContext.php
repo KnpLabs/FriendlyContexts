@@ -35,6 +35,19 @@ class SymfonyMailerContext extends Context
     }
 
     /**
+     * @Then email with subject :subject should not be sent
+     */
+    public function emailWithSubjectShouldNotBeSent($subject)
+    {
+        if ($this->get('swiftmailer')->isEmailSent($subject)) {
+            throw new \Exception(sprintf(
+                'Email with subject "%s" have been sent.',
+                $subject
+            ));
+        }
+    }
+
+    /**
      * @Then email should have been sent to :recipient
      */
     public function emailShouldHaveBeenSentToRecipient($recipient)
