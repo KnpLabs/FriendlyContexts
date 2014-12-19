@@ -33,4 +33,17 @@ class SymfonyMailerContext extends Context
             ));
         }
     }
+
+    /**
+     * @Then email should have been sent to :recipient
+     */
+    public function emailShouldHaveBeenSentToRecipient($recipient)
+    {
+        if (!$this->get('swiftmailer')->isEmailSent(null, $recipient)) {
+            throw new \Exception(sprintf(
+                'Email have been sent to "%s".',
+                $recipient
+            ));
+        }
+    }
 }

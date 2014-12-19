@@ -12,7 +12,7 @@ class MailerController extends Controller
         return new Response();
     }
 
-    public function emailWithSubjectAction()
+    public function emailAction()
     {
         $this->get('mailer')->send(\Swift_Message::newInstance()
             ->setSubject('Hello Subject')

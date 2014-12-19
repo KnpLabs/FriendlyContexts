@@ -7,5 +7,5 @@ mailer_no_emails:
     defaults: { _controller: 'App:Mailer:noEmails' }
 
 mailer_email_with_subject:
-    pattern: /mailer/email-with-subject
-    defaults: { _controller: 'App:Mailer:emailWithSubject' }
+    pattern: /mailer/email
+    defaults: { _controller: 'App:Mailer:email' }

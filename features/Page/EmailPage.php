@@ -4,10 +4,10 @@ namespace Page;
 
 use Knp\FriendlyExtension\Page\Page;
 
-class EmailWithSubjectPage extends Page
+class EmailPage extends Page
 {
     public function getPath()
     {
-        return '/mailer/email-with-subject';
+        return '/mailer/email';
     }
 }
