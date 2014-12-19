@@ -22,6 +22,20 @@ class SymfonyMailerContext extends Context
     }
 
     /**
+     * @Then :count emails should have been sent
+     */
+    public function countEmailShouldHaveBeenSent($expected)
+    {
+        $count = $this->get('swiftmailer')->countEmailsSent();
+
+        $this->get('asserter')->assertEquals(
+            (int) $expected,
+            $count,
+            sprintf('%d emails have been sent.', $count)
+        );
+    }
+
+    /**
      * @Then email with subject :subject should have been sent
      */
     public function emailWithSubjectShouldHaveBeenSent($subject)
