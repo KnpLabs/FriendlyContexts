@@ -114,4 +114,36 @@ class SymfonyMailerContext extends Context
             ));
         }
     }
+
+    /**
+     * @Then the following emails should have been sent:
+     */
+    public function followingEmailsShouldHaveBeenSent(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            if (!$this->get('swiftmailer')->isEmailSent($data['subject'], $data['recipient'])) {
+                throw new \Exception(sprintf(
+                    'No email with subject "%s" has been sent to "%s".',
+                    $data['subject'],
+                    $data['recipient']
+                ));
+            }
+        }
+    }
+
+    /**
+     * @Then the following emails should not be sent:
+     */
+    public function followingEmailsShouldNotBeSent(TableNode $table)
+    {
+        foreach ($table->getHash() as $data) {
+            if ($this->get('swiftmailer')->isEmailSent($data['subject'], $data['recipient'])) {
+                throw new \Exception(sprintf(
+                    'Email with subject "%s" have been sent to "%s".',
+                    $data['subject'],
+                    $data['recipient']
+                ));
+            }
+        }
+    }
 }

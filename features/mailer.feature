@@ -22,8 +22,20 @@ Feature: I am able to describe sending emails
         When I go to the email page
         Then email should not be sent to "umpirsky@gmail.com"
 
+    Scenario: Email with subject sent to recipeient
+        When I go to the email page
+        Then email with subject "Hello Subject" should have been sent to "recipient@example.com"
+         And the following emails should have been sent:
+            | subject       | recipient             |
+            | Hello Subject | recipient@example.com |
+
     Scenario: Email with subject not sent to recipeient
         When I go to the email page
         Then email with subject "Not sent" should not be sent to "recipient@example.com"
          And email with subject "Hello Subject" should not be sent to "umpirsky@gmail.com"
          And email with subject "Not sent" should not be sent to "umpirsky@gmail.com"
+         And the following emails should not be sent:
+            | subject       | recipient             |
+            | Not sent      | recipient@example.com |
+            | Hello Subject | umpirsky@gmail.com    |
+            | Not sent      | umpirsky@gmail.com    |
