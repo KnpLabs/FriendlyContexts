@@ -12,3 +12,4 @@ Feature: I am able to describe sending emails
     Scenario: Email sent to recipeient
         When I go to the email page
         Then email should have been sent to "recipient@example.com"
+        Then email should not be sent to "umpirsky@gmail.com"
