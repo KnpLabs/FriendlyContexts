@@ -10,7 +10,7 @@ class AppKernel extends Kernel
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle,
             new Symfony\Bundle\TwigBundle\TwigBundle,
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle,
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle,
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle,
             new App\App

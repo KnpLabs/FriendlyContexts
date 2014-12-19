@@ -14,7 +14,6 @@ use Knp\FriendlyExtension\DependencyInjection\Compiler\ParameterBuildingPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\RemoveUnavailableServicesPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\SetArgumentToNullPass;
 use Knp\FriendlyExtension\DependencyInjection\Compiler\SymfonyServicePass;
-use Knp\FriendlyExtension\DependencyInjection\Compiler\KernelPass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
