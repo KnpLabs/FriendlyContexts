@@ -28,7 +28,6 @@ class FriendlyExtension implements ExtensionInterface
 
     public function initialize(ExtensionManager $extensionManager)
     {
-
     }
 
     public function configure(ArrayNodeDefinition $builder)

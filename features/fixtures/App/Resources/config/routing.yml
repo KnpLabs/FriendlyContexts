@@ -1,0 +1,11 @@
+homepage:
+    pattern: /
+    defaults: { _controller: 'App:Default:index' }
+
+mailer_no_emails:
+    pattern: /mailer/no-emails
+    defaults: { _controller: 'App:Mailer:noEmails' }
+
+mailer_email_with_subject:
+    pattern: /mailer/email
+    defaults: { _controller: 'App:Mailer:email' }

@@ -83,4 +83,14 @@ services:
         tags:
             - { name: friendly.context.helper }
 
+    friendly.context.helper.swiftmailer_helper:
+        class: Knp\FriendlyExtension\Context\Helper\SwiftMailerHelper
+        tags:
+            - { name: friendly.context.helper }
 
+    friendly.context.helper.profiler_helper:
+        class: Knp\FriendlyExtension\Context\Helper\ProfilerHelper
+        arguments:
+            - @profiler
+        tags:
+            - { name: friendly.context.helper }
