@@ -33,11 +33,6 @@ class EntityContext extends Context
             } while (false !== $reflection);
 
             $this
-                ->getRecordBag()
-                ->getCollection($entityName)
-                ->attach($entity, $values)
-            ;
-            $this
                 ->getEntityHydrator()
                 ->hydrate($this->getEntityManager(), $entity, $values)
                 ->completeRequired($this->getEntityManager(), $entity)
