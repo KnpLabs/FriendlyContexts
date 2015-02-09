@@ -187,6 +187,19 @@ Same thing for deletion
   Then I should see "Your user is deleted"
   And 1 user should have been deleted # <= this is the step
 ```
+
+**Sometimes you may want to check that a user created or modified has the correct data stored in the database
+
+Check it doing
+```gherkin
+  When I open the form
+  And I fill in the form with "Albert" "Einstein" "Scientist" values
+  And I press "Submit"
+  Then should be 1 user like:
+    | firstname | lastname | profession |
+    | Albert    | Einstein | Scientist  |
+```
+
 Reset Schema
 ------------
 You just have to use the tag **@reset-schema**
