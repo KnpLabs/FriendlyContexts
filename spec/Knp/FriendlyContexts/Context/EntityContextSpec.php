@@ -109,8 +109,7 @@ class EntityContextSpec extends ObjectBehavior
         TableNode $tableNode,
         $manager,
         $repository,
-        ClassMetadata $metadata,
-        PropertyAccessor $accessor
+        ClassMetadata $metadata
     ) {
         $className = "EntityStub";
 
@@ -131,9 +130,6 @@ class EntityContextSpec extends ObjectBehavior
         $repository->findOneBy([])->willReturn($entityStub);
 
         $manager->refresh($entityStub)->shouldBeCalled();
-
-        $accessor->getValue($entityStub, 'correctProperty')->willReturn('correct_value');
-        $accessor->getValue($entityStub, 'incorrectProperty')->willReturn('another_incorrect_value');
 
         $this->shouldThrow(new \Exception("The expected object does not have property incorrectProperty with value incorrect_value"))->duringExistLikeFollowing(1, "EntityStub", $tableNode);
     }
