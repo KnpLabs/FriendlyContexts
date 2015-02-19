@@ -132,7 +132,12 @@ class MinkContext extends BaseMinkContext
             'field',
             $nbr,
             function ($e) use ($value) { $e->setValue($value); },
-            function ($e) { return 'text' === $e->getAttribute('type'); }
+            function ($e) {
+                return in_array($e->getAttribute('type'), array(
+                    'color', 'date', 'datetime', 'datetime-local', 'email', 'month',
+                    'number', 'range', 'search', 'tel', 'time', 'url', 'week'
+                ));
+            }
         );
     }
 
