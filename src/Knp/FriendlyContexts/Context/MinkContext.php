@@ -134,8 +134,9 @@ class MinkContext extends BaseMinkContext
             function ($e) use ($value) { $e->setValue($value); },
             function ($e) {
                 return in_array($e->getAttribute('type'), array(
-                    'color', 'date', 'datetime', 'datetime-local', 'email', 'month',
-                    'number', 'range', 'search', 'tel', 'time', 'url', 'week'
+                    'text', 'password', 'color', 'date', 'datetime',
+                    'datetime-local', 'email', 'month', 'number', 'range',
+                    'search', 'tel', 'time', 'url', 'week', 
                 ));
             }
         );
