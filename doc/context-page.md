@@ -1,7 +1,7 @@
 Page Context
 =============
 
-The page context allow you to quickly configure and manipualte application
+The page context allow you to quickly configure and manipulate application
 page.
 
 Configuration
