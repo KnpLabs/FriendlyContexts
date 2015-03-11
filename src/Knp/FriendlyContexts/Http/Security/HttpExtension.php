@@ -6,15 +6,28 @@ use Guzzle\Http\Client;
 use Guzzle\Http\Message\Request;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
 
-/**
- * @deprecated use HttpExtension. Will be removed in v1.0.0
- */
-class HttpBasicExtension implements SecurityExtensionInterface
+class HttpExtension extends HttpBasicExtension implements SecurityExtensionInterface
 {
-   public function secureClient(Client $client, RequestBuilder $builder)
-   {
-   }
+    protected $schema;
 
+    /**
+     * @param string $scheme (allowed values: basic, digest, ntlm, any)
+     */
+    public function __construct($scheme = 'basic')
+    {
+        $this->scheme = $scheme;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function secureClient(Client $client, RequestBuilder $builder)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function secureRequest(Request $request, RequestBuilder $builder)
     {
         $credentials = $builder->getCredentials();
@@ -25,6 +38,6 @@ class HttpBasicExtension implements SecurityExtensionInterface
             );
         }
 
-        $request->setAuth($credentials['username'], $credentials['password']);
+        $request->setAuth($credentials['username'], $credentials['password'], $this->scheme);
     }
 }

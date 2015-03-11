@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Guzzle\Http\Exception\BadResponseException;
+use Knp\FriendlyContexts\Http\Security\HttpExtension;
 
 class ApiContext extends RawPageContext
 {
@@ -32,14 +33,14 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Given /^I specified the following request http basic credentials:?$/
+     * @Given /^I specified the following request http :scheme basic credentials:?$/
      */
-    public function iSpecifiedTheFollowingBasicAuthentication(TableNode $credentialsTable)
+    public function iSpecifiedTheFollowingHttpAuthentication(TableNode $credentialsTable, $scheme)
     {
         $this
             ->getRequestBuilder()
             ->setCredentials($credentialsTable->getRowsHash())
-            ->addSecurityExtension(new HttpBasicExtension)
+            ->addSecurityExtension(new HttpExtension($scheme))
         ;
     }
 
