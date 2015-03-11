@@ -6,7 +6,7 @@ use Guzzle\Http\ClientInterface;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
-    protected $client;
+    private $client;
 
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
@@ -20,9 +20,18 @@ abstract class AbstractRequestBuilder implements RequestBuilderInterface
         $this->client = $client;
     }
 
+    /**
+     * Return a clone of guzzle client if available.
+     *
+     * This is useful to ensure executions isolation.
+     *
+     * @return ClientInterface|null
+     */
     public function getClient()
     {
-        return $this->client;
+        if ($this->client instanceof ClientInterface) {
+            return clone $this->client;
+        }
     }
 
     protected function formatQueryString(array $queries = null)

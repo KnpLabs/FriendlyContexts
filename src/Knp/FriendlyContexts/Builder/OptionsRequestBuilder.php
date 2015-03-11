@@ -13,6 +13,6 @@ class OptionsRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->client->options($resource, $options);
+        return $this->getClient()->options($resource, $options);
     }
 }

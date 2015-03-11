@@ -14,6 +14,6 @@ class GetRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->client->get($resource, $headers, $options);
+        return $this->getClient()->get($resource, $headers, $options);
     }
 }

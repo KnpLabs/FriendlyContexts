@@ -18,6 +18,6 @@ class PutRequestBuilder extends AbstractRequestBuilder
 
         $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
 
-        return $this->client->put($resource, $headers, $body, $options);
+        return $this->getClient()->put($resource, $headers, $body, $options);
     }
 }
