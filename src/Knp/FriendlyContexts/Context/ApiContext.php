@@ -33,7 +33,7 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Given /^I specified the following request http :scheme basic credentials:?$/
+     * @Given /^I specified the following request http :scheme credentials:?$/
      */
     public function iSpecifiedTheFollowingHttpAuthentication(TableNode $credentialsTable, $scheme)
     {
