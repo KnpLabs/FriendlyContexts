@@ -11,6 +11,11 @@ class ApiContext extends RawPageContext
 {
     protected $response;
 
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
     /**
      * @Given /^I prepare a (?<method>[A-Za-z]+) request on "(?<page>[^"].*)?"$/
      * @Given /^I prepare a (?<method>[A-Za-z]+) request on the (.*) (?<hasPage>page|resource)$/
