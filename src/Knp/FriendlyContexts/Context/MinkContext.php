@@ -3,6 +3,7 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
+use Behat\Mink\Element\TraversableElement;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
 
@@ -136,7 +137,7 @@ class MinkContext extends BaseMinkContext
                 return in_array($e->getAttribute('type'), array(
                     'text', 'password', 'color', 'date', 'datetime',
                     'datetime-local', 'email', 'month', 'number', 'range',
-                    'search', 'tel', 'time', 'url', 'week', 
+                    'search', 'tel', 'time', 'url', 'week',
                 ));
             }
         );
