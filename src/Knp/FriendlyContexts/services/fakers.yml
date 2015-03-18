@@ -65,7 +65,7 @@ services:
             - { name: friendly.guesser.smallint.faker }
             - { name: friendly.guesser.int.faker }
             - { name: friendly.guesser.bigint.faker }
-            - { name: friendly.guesser.float.faker }
+            - { name: friendly.guesser.decimal.faker }
 
     friendly.faker.payment:
         class: Knp\FriendlyContexts\Faker\Provider\Payment
