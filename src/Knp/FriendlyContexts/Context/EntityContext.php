@@ -45,7 +45,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) ((?!\w* like)\w*)$/
+     * @Given /^there (?:is|are) (\d+) ((?!\w* like)\w*)$/
      */
     public function thereIs($nbr, $name)
     {
@@ -70,7 +70,7 @@ class EntityContext extends Context
     }
 
     /**
-     * @Given /^there is (\d+) (.*) like:?$/
+     * @Given /^there (?:is|are) (\d+) (.*) like:?$/
      */
     public function thereIsLikeFollowing($nbr, $name, TableNode $table)
     {
