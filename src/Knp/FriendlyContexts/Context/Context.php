@@ -68,9 +68,18 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.alice.loader.yaml');
     }
 
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectManager
+     */
     protected function getEntityManager()
     {
-        return $this->get('doctrine')->getManager();
+        if ($this->has('doctrine')) {
+            return $this->get('doctrine')->getManager();
+        } elseif ($this->has('doctrine_mongodb')) {
+            return $this->get('doctrine_mongodb')->getManager();
+        }
+
+        throw new \RuntimeException('Neither "doctrine" nor "doctrine_mongodb" is available.');
     }
 
     protected function getUniqueCache()
@@ -104,6 +113,15 @@ abstract class Context implements ContextInterface
         }
 
         throw new ServiceNotFoundException($service);
+    }
+
+    protected function has($service)
+    {
+        return
+            $this->container->has($service)
+            ||
+            null !== $this->getKernel() && $this->getKernel()->getContainer()->has($service)
+        ;
     }
 
     protected function getParameter($name)
