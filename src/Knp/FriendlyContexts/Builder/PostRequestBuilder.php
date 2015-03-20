@@ -2,8 +2,6 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\Message\PostFile;
-
 class PostRequestBuilder extends AbstractRequestBuilder
 {
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
