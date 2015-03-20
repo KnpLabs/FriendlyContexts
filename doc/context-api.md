@@ -27,6 +27,8 @@ Given I specified the following request queries:
 # Specified request data (like POST or PUT data)
 Given I specified the following request data:
     | my_form[name] | George ABITBOL |
+# Specified request files for POST requests
+    | fileName | path/to/the/file |
 # Specified cookies
 Given I specified the following request cookies:
     | my_option | some data here |
