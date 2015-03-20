@@ -30,6 +30,8 @@ class RequestBuilder implements RequestBuilderInterface
 
     private $requestBuilders;
 
+    private $files;
+
     private static function getAcceptedMethods()
     {
         return [
@@ -49,6 +51,7 @@ class RequestBuilder implements RequestBuilderInterface
         $this->options            = [];
         $this->securityExtensions = [];
         $this->credentials        = [];
+        $this->files              = [];
     }
 
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
@@ -94,6 +97,10 @@ class RequestBuilder implements RequestBuilderInterface
 
         foreach ($this->securityExtensions as $extension) {
             $extension->secureRequest($request, $this);
+        }
+
+        foreach ($this->files as $file) {
+            $request->addPostFile($file['name'], $file['path']);
         }
 
         $this->clean();
@@ -249,6 +256,13 @@ class RequestBuilder implements RequestBuilderInterface
     public function getUri()
     {
         return $this->uri;
+    }
+
+    public function addFile($name, $path)
+    {
+        $this->files[] = ['name' => $name, 'path' => $path];
+
+        return $this;
     }
 
     public function setClient(ClientInterface $client = null)

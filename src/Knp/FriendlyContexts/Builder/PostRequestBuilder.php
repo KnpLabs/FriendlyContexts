@@ -13,21 +13,6 @@ class PostRequestBuilder extends AbstractRequestBuilder
         $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
         $postBody = $postBody ?: $body;
 
-        foreach ($postBody as $name => &$pattern) {
-            $pattern = $this->convertFile($name, $pattern);
-        }
-
         return $this->getClient()->post($resource, $headers, $postBody, $options);
-    }
-
-    private function convertFile($name, $pattern)
-    {
-        if (0 === strpos($pattern, 'file://')) {
-            $path = substr($pattern, 7);
-
-            return new PostFile($name, $path);
-        }
-
-        return $pattern;
     }
 }

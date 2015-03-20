@@ -40,39 +40,4 @@ class PostRequestBuilderSpec extends ObjectBehavior
             ['some options']
         )->shouldReturn($request);
     }
-
-    function it_build_a_post_request_with_file_supports(ClientInterface $client, RequestInterface $request)
-    {
-        $client->post(
-            '/resource?foo=bar',
-            ['some headers'],
-            Argument::that(function ($data) {
-                if (!isset($data['data'])) {
-                    return false;
-                }
-
-                $data = $data['data'];
-
-                if (!$data instanceof PostFile) {
-                    return false;
-                }
-
-                return 'data' === $data->getFieldName() &&
-                    __FILE__ === $data->getFilename()
-                ;
-            }),
-            ['some options']
-        )->shouldBeCalled(1)->willReturn($request);
-
-        $this->setClient($client);
-
-        $this->build(
-            '/resource',
-            ['foo' => 'bar'],
-            ['some headers'],
-            ['data' => 'file://'.__FILE__],
-            null,
-            ['some options']
-        )->shouldReturn($request);
-    }
 }

@@ -108,6 +108,22 @@ class ApiContext extends RawPageContext
     }
 
     /**
+     * @Given /^I specified the following request files:?$/
+     */
+    public function iSpecifiedFiles(TableNode $fileTable)
+    {
+        $requestBuilder = $this->getRequestBuilder();
+
+        if ('POST' !== $requestBuilder->getMethod()) {
+            throw new \RuntimeException('You can\'t send files with a non POST method');
+        }
+
+        foreach ($fileTable->getRowsHash() as $name => $path) {
+            $requestBuilder->addFile($name, $path);
+        }
+    }
+
+    /**
      * @Given /^I specified the following request cookies:?$/
      */
     public function iSpecifiedCookies(TableNode $cookiesTable)
