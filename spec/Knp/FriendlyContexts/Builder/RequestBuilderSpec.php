@@ -9,6 +9,7 @@ use Knp\FriendlyContexts\Builder\RequestBuilderInterface;
 use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Guzzle\Http\Message\EntityEnclosingRequest;
 
 class RequestBuilderSpec extends ObjectBehavior
 {
@@ -43,7 +44,7 @@ class RequestBuilderSpec extends ObjectBehavior
     function it_build_sub_request_builders_and_clean_the_builder(
         Client $client,
         RequestBuilderInterface $builder,
-        Request $request,
+        EntityEnclosingRequest $request,
         SecurityExtensionInterface $extension
     )
     {
@@ -60,6 +61,7 @@ class RequestBuilderSpec extends ObjectBehavior
             'password' => 'johnpass'
         ]);
         $this->addSecurityExtension($extension);
+        $this->addFile('test', __FILE__);
 
         $builder->getClient()->shouldBeCalled()->willReturn($client);
 
@@ -76,6 +78,7 @@ class RequestBuilderSpec extends ObjectBehavior
         )->shouldBeCalled(1)->willReturn($request);
 
         $request->addCookie('plop', 'foo')->shouldBeCalled(1);
+        $request->addPostFile('test', __FILE__)->shouldBeCalled();
 
         $this->addRequestBuilder($builder, 'GET');
 

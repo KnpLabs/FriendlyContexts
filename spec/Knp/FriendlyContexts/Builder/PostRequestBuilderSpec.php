@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
+use Guzzle\Http\Message\PostFile;
 
 class PostRequestBuilderSpec extends ObjectBehavior
 {
