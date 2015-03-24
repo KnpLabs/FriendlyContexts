@@ -11,6 +11,26 @@ default:
                 base_url: 'http://your-site-to-test/'
 ```
 
+## Configuration
+
+Edit behat.yml:
+
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+            - Knp\FriendlyContexts\Context\ApiContext
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension: 
+            api:
+                base_url: http://0.0.0.0:8080/
+```
+
 ## Create a request
 
 You can create a request with the following steps:
