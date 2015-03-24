@@ -3,6 +3,26 @@ Api Context
 
 This context allow you to handle web Api features for your applications.
 
+## Configuration
+
+Edit behat.yml:
+
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+            - Knp\FriendlyContexts\Context\ApiContext
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension: 
+            api:
+                base_url: http://0.0.0.0:8080/
+```
+
 ## Create a request
 
 You can create a request with the following steps:
