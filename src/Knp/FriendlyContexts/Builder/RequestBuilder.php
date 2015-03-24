@@ -285,5 +285,6 @@ class RequestBuilder implements RequestBuilderInterface
         $this->options            = [];
         $this->securityExtensions = [];
         $this->credentials        = [];
+        $this->files              = [];
     }
 }
