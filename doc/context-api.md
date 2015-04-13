@@ -1,7 +1,15 @@
 Api Context
 ===========
 
-This context allow you to handle web Api features for your applications.
+This context allow you to handle web Api features for your applications. It needs some configuration:
+
+```yaml
+default:
+    extensions:
+        Knp\FriendlyContexts\Extension:
+            api:
+                base_url: 'http://your-site-to-test/'
+```
 
 ## Create a request
 
