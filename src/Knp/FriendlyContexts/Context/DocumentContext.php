@@ -13,13 +13,11 @@ class DocumentContext extends Context
     {
         $this->storeTags($event);
 
-        if ($this->hasTags([ 'reset-database', '~not-reset-database' ])) {
+        if ($this->hasTags([ 'reset-collections', '~not-reset-collections' ])) {
             $dm = $this->getEntityManager();
             $scm = new SchemaManager($dm, $dm->getMetadataFactory());
 
-            $scm->dropDatabases();
-            $scm->createDatabases();
+            $scm->dropCollections();
         }
-
     }
 }
