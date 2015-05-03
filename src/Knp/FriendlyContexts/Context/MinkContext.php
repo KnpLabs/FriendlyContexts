@@ -149,7 +149,7 @@ class MinkContext extends BaseMinkContext
         $locator = $this->fixStepArgument($locator);
 
         $elements = $parent->findAll('named', array(
-            $element, $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            $element, $locator
         ));
 
         if (null !== $filterCallback && is_callable($filterCallback)) {
