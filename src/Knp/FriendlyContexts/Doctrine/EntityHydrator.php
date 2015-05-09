@@ -66,13 +66,15 @@ class EntityHydrator
 
         foreach ($metadata->getColumnNames() as $columnName) {
             $property = $metadata->getFieldName($columnName);
-            if (false === $metadata->isNullable($property) && null === $accessor->getValue($entity, $property)) {
+            if (false === $metadata->isNullable($property)) {
                 try {
-                    $accessor->setValue(
-                        $entity,
-                        $property,
-                        $this->complete($metadata->getFieldMapping($property), $metadata->getName())
-                    );
+                    if (null === $accessor->getValue($entity, $property)) {
+                        $accessor->setValue(
+                            $entity,
+                            $property,
+                            $this->complete($metadata->getFieldMapping($property), $metadata->getName())
+                        );
+                    }
                 } catch (\Exception $ex) {
                     unset($ex);
                 }
