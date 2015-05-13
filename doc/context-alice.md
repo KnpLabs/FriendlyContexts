@@ -135,4 +135,4 @@ default:
 Information
 -----------
 
-Files will be loaded following the order of files declaration in your behat.yml file. Tag order have no impact.
+Files will be loaded following the order of files declaration in your behat.yml file. Tags order has no impact.
