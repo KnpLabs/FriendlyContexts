@@ -2,22 +2,22 @@
 
 namespace Knp\FriendlyContexts\Reader;
 
+use Behat\Behat\Definition\Call;
+use Behat\Behat\Definition\Call\DefinitionCall;
+use Behat\Behat\Definition\Exception\SearchException;
+use Behat\Behat\Definition\SearchResult;
+use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Behat\Tester\Result\SkippedStepResult;
+use Behat\Behat\Tester\Result\UndefinedStepResult;
 use Behat\Gherkin\Gherkin;
 use Behat\Gherkin\Node\FeatureNode;
 use Behat\Gherkin\Node\StepNode;
-use Behat\Behat\Definition\Call;
-use Behat\Behat\Definition\Call\DefinitionCall;
-use Behat\Behat\Definition\SearchResult;
-use Behat\Behat\Tester\Result\ExecutedStepResult;
-use Behat\Behat\Tester\Result\UndefinedStepResult;
-use Behat\Behat\Tester\Result\SkippedStepResult;
-use Behat\Testwork\Environment\Reader\EnvironmentReader;
 use Behat\Testwork\Environment\Environment;
+use Behat\Testwork\Environment\Reader\EnvironmentReader;
 use Behat\Testwork\Specification\Locator\SpecificationLocator;
 use Behat\Testwork\Suite\SuiteRepository;
 use Knp\FriendlyContexts\Call\CallCenter;
 use Knp\FriendlyContexts\Definition\DefinitionFinder;
-use Behat\Behat\Definition\Exception\SearchException;
 
 class SmartReader implements EnvironmentReader
 {
@@ -46,7 +46,11 @@ class SmartReader implements EnvironmentReader
                 $callable = function () use ($environment, $feature, $scenario) {
                     $steps = $scenario->getSteps();
                     foreach ($steps as $step) {
-                        $this->testStep($environment, $feature, $step);
+                        $result = $this->testStep($environment, $feature, $step);
+
+                        if (true === $result->hasException()) {
+                            throw $result->getException();
+                        }
                     }
                 };
 
