@@ -235,7 +235,7 @@ class ApiContext extends RawPageContext
         }
 
         if (false === $jsonData) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid json data class ("%s")',
                 get_class($jsonData)
             ));
