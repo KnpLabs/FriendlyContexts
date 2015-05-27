@@ -228,14 +228,14 @@ class ApiContext extends RawPageContext
 
         if ($jsonData instanceof PyStringNode) {
             $json = json_decode($jsonData->getRaw(), true);
-        }
-
-        if ($jsonData instanceof TableNode) {
+        } elseif ($jsonData instanceof TableNode) {
             $json = $jsonData->getRowsHash();
+        } elseif ($jsonData instanceof \stdClass || true === is_array($jsonData)) {
+            $json = $jsonData;
         }
 
-        if (false === $jsonData) {
-            throw new InvalidArgumentException(sprintf(
+        if (false === $json) {
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid json data class ("%s")',
                 get_class($jsonData)
             ));
