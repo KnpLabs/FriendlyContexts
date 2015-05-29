@@ -13,9 +13,10 @@ class TableContext extends RawMinkContext
      */
     public function iShouldSeeATableWithInTheNamedColumn($list, $column)
     {
-        $expected = array_merge(array($column), $this->getFormater()->listToArray($list));
+        $cells = array_merge(array($column), $this->getFormater()->listToArray($list));
+        $expected = new TableNode(array_map(function($cell) { return [$cell]; }, $cells));
 
-        $this->iShouldSeeTheFollowingTable(array($expected));
+        $this->iShouldSeeTheFollowingTable($expected);
     }
 
     /**
