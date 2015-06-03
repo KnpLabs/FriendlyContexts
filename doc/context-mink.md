@@ -42,4 +42,4 @@ Examples
   And I should not see 5 "Update" link
   And I should see a "Agree" checkbox
   And I should not see a "Agree" radio
-  
+```
