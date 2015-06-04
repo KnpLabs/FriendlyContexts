@@ -48,7 +48,9 @@ class SmartReader implements EnvironmentReader
                     foreach ($steps as $step) {
                         $result = $this->testStep($environment, $feature, $step);
 
-                        if (true === $result->hasException()) {
+                        if ($result instanceof SkippedStepResult) {
+                            throw new \RuntimeException('Step has been skipped.');
+                        } elseif (true === $result->hasException()) {
                             throw $result->getException();
                         }
                     }
