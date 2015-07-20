@@ -4,6 +4,7 @@ namespace Knp\FriendlyContexts\Context;
 
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
 use Behat\Mink\Element\TraversableElement;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
 
@@ -166,13 +167,9 @@ class MinkContext extends BaseMinkContext
         $nbr = is_numeric($nbr) ? intval($nbr) : $nbr;
         $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
 
-        $this
-            ->getAsserter()
-            ->assert(
-                $nbr <= count($elements),
-                sprintf('Expected to find at least %s "%s" %s, %s found', $nbr, $locator, $element, count($elements))
-            )
-        ;
+        if ($nbr > count($elements)) {
+            throw new ElementNotFoundException($this->getSession(), $element, null, $locator);
+        }
 
         $e = $elements[$nbr - 1];
 
