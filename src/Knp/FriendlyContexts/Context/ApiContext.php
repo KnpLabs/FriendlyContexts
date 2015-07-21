@@ -200,7 +200,7 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Then /^the response should contains the following headers:?$/
+     * @Then /^the response should contains? the following headers:?$/
      */
     public function theResponseShouldContainsHeaders(TableNode $headerTable)
     {
@@ -216,7 +216,7 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Then /^the response should contains the following json:?$/
+     * @Then /^the response should contains? the following json:?$/
      */
     public function theResponsShouldContainsJson($jsonData)
     {
@@ -255,7 +255,7 @@ class ApiContext extends RawPageContext
     }
 
     /**
-     * @Then /^the response should contains:?$/
+     * @Then /^the response should contains?:?$/
      */
     public function theResponseShouldContains(PyStringNode $bodyNode)
     {
