@@ -63,9 +63,9 @@ Then I should receive a 200 response # Assert that the response code is 200
 Then I should receive a 200 json response # Assert that the response  code is 2OO and the content type is a valid json
 
 # assert headers, and data content
-Then the response should contains the following headers:
+Then the response should contain the following headers:
     | Cache-Control | max-age=21600 |
-Then the response should contains the following json:
+Then the response should contain the following json:
     """
     {
         "plop": {
@@ -74,7 +74,7 @@ Then the response should contains the following json:
         }
     }
     """
-Then the response should contains:
+Then the response should contain:
     """
     <?xml version="1.0" encoding="UTF-8"?>
     <some-data>
