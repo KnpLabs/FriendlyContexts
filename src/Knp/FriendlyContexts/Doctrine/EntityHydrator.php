@@ -90,7 +90,7 @@ class EntityHydrator
             throw new \Exception(sprintf('There is no fake solution for "%s" typed fields', $mapping['type']));
         }
 
-        if (true === $mapping['unique']) {
+        if (isset($mapping['unique']) && true === $mapping['unique']) {
             return $this->cache->generate($className, $mapping['fieldName'], function () use ($guesser, $mapping) {
                 return $guesser->fake($mapping);
             });
