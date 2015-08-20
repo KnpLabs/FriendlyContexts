@@ -17,8 +17,8 @@ services:
             - @service_container
             - %friendly.alice.providers%
 
-    friendly.alice.loader.yaml:
-        class: Knp\FriendlyContexts\Alice\Loader\Yaml
+    friendly.alice.fixtures.loader:
+        class: Knp\FriendlyContexts\Alice\Fixtures\Loader
         arguments:
             - %friendly.alice.locale%
             - @friendly.alice.provider_resolver
