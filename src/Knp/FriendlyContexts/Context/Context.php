@@ -65,7 +65,7 @@ abstract class Context implements ContextInterface
 
     protected function getAliceLoader()
     {
-        return $this->get('friendly.alice.loader.yaml');
+        return $this->get('friendly.alice.fixtures.loader');
     }
 
     protected function getEntityManager()

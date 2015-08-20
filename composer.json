@@ -12,7 +12,7 @@
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2.0",
         "fzaninotto/faker": "~1.0",
-        "nelmio/alice": "~1.7",
+        "nelmio/alice": "~2.0",
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {

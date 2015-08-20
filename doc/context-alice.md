@@ -2,6 +2,8 @@ Alice Context
 =============
 This context use the [nelmio/alice](https://github.com/nelmio/alice) fixture loading system.
 
+>**Warning** : Alice context is compatible with nelmio/alice ~2.0.
+
 
 Configuration
 -------------
