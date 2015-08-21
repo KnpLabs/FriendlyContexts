@@ -155,7 +155,7 @@ For attaching user to product, you can call a user by any information given in t
 No problem
 
 ```gherkin
-  And there is 100 users
+  And there are 100 users
 ```
 
 And now you've got 100 totaly faked users. You can't call there users like in the previous example.
