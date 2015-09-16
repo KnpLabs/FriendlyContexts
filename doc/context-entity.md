@@ -125,7 +125,7 @@ class Product
 }
 ```
 
-**Simply create 2 users instances**
+**Simply create 2 user instances**
 
 ```gherkin
   Given the following users:
@@ -134,7 +134,7 @@ class Product
     | user  | George    | Abitbol  |
 ```
 
-Here the context will automaticly resolve **user** to **App\Entity\User**, will create 2 instances of this entity following given data and will fake the required **email**.
+Here the context will automatically resolve **user** to **App\Entity\User**, will create 2 instances of this entity with the given data and will fake the required **email** field.
 
 **Simply create 3 products attached to users**
 
@@ -146,9 +146,9 @@ Here the context will automaticly resolve **user** to **App\Entity\User**, will 
     | Truck   | admin |
 ```
 
-Here the context will automaticly resolve **products** to **App\Entity\Product**, will create 3 instances of this entity following given data and will fake the required **price**.
+Here the context will automatically resolve **products** to **App\Entity\Product**, will create 3 instances of this entity following given data and will fake the required **price** field.
 
-For attaching user to product, you can call a user by any information given in the previous step (login, firstname or lastname) or by the result of the *_toString* method of the user entity.
+Attaching a user to a product can be done by referencing a user with any information given in the previous step (login, firstname or lastname) or by the result of the *__toString* method of the user entity.
 
 **I don't care about data, I just want 100 users**
 
@@ -158,7 +158,7 @@ No problem
   And there are 100 users
 ```
 
-And now you've got 100 totaly faked users. You can't call there users like in the previous example.
+And now you've got 100 totally faked users. You can't call these users like in the previous example though.
 
 **Okay, I care about data, I want to create 200 products for John Doe**
 
@@ -166,8 +166,8 @@ Here we go !!!
 
 ```gherkin
   And there is 200 products like:
-    | user |
-    | John |
+    | user     |
+    | John Doe |
 ```
 
 **I want to know if a user is created/deleted**
@@ -188,9 +188,9 @@ Same thing for deletion
   And 1 user should have been deleted # <= this is the step
 ```
 
-**Sometimes you may want to check that a user created or modified has the correct data stored in the database
+**Sometimes you may want to check that the correct data for a created or modified user was stored in the database
 
-Check it doing
+Check it by doing
 ```gherkin
   When I open the form
   And I fill in the form with "Albert" "Einstein" "Scientist" values
@@ -211,4 +211,4 @@ Feature: My feature
 
 Information
 -----------------
-The context can resolve a same entity class by many name. For example, if you have a class names **User**, you can use **user**, **User**, **users** or **Users**. And for a class named **ProjectGroup**, you can use **project group**, **project groups**, **projectgroup**, **projectgroups**, ...
+The context can resolve a same entity class by many names. For example, if you have a class names **User**, you can use **user**, **User**, **users** or **Users**. And for a class named **ProjectGroup**, you can use **project group**, **project groups**, **projectgroup**, **projectgroups**, ...
