@@ -52,6 +52,6 @@ class BooleanGuesserSpec extends ObjectBehavior
 
     function it_should_fail_to_create_a_boolean_from_a_wrong_string()
     {
-        $this->shouldThrow(new \Exception('"test" is not a supported format. Supported format : [active, activated, disabled, true, false, yes, no, 1, 0].'))->duringTransform('TEST');
+        $this->shouldThrow(new \Exception('"test" is not a supported format. Supported format : [active, activated, enabled, disabled, true, false, yes, no, 1, 0].'))->duringTransform('TEST');
     }
 }

@@ -18,6 +18,7 @@ class BooleanGuesser extends AbstractGuesser implements GuesserInterface
         $formats = [
             'active'    => true,
             'activated' => true,
+            'enabled'   => true,
             'disabled'  => false,
             'true'      => true,
             'false'     => false,
