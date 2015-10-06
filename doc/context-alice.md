@@ -2,8 +2,6 @@ Alice Context
 =============
 This context use the [nelmio/alice](https://github.com/nelmio/alice) fixture loading system.
 
->**Warning** : Alice context is compatible with Alice since **[this commit](https://github.com/nelmio/alice/commit/ae478b9f8abe587c30454b8ad93505642f93a42e)**. For the moment, you have to follow dev-master branch of nelmio/alice.
-
 
 Configuration
 -------------
