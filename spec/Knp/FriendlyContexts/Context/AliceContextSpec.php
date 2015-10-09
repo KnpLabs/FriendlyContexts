@@ -8,15 +8,19 @@ use Prophecy\Argument;
 class AliceContextSpec extends ObjectBehavior
 {
     /**
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
-     * @param Doctrine\Common\Persistence\ObjectManager $manager
-     * @param Behat\Behat\Hook\Scope\ScenarioScope $event
-     * @param Behat\Gherkin\Node\FeatureNode $feature
-     * @param Behat\Gherkin\Node\ScenarioNode $scenario
-     * @param Knp\FriendlyContexts\Alice\Loader\Yaml $loader
-     **/
-    function let($container, $doctrine, $manager, $event, $loader, $feature, $scenario)
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $doctrine
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param \Behat\Behat\Hook\Scope\ScenarioScope $event
+     * @param \Behat\Gherkin\Node\FeatureNode $feature
+     * @param \Behat\Gherkin\Node\ScenarioNode $scenario
+     * @param \Knp\FriendlyContexts\Alice\Loader\Yaml $loader
+     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $metadataFactory
+     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $userMetadata
+     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $placeMetadata
+     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $productMetadata
+     */
+    function let($container, $doctrine, $manager, $event, $loader, $feature, $scenario, $metadataFactory, $userMetadata, $placeMetadata, $productMetadata)
     {
         $doctrine->getManager()->willReturn($manager);
         $feature->getTags()->willReturn([ 'alice(Place)', 'admin' ]);
@@ -36,6 +40,11 @@ class AliceContextSpec extends ObjectBehavior
         $container->get('doctrine')->willReturn($doctrine);
         $container->getParameter('friendly.alice.fixtures')->willReturn($fixtures);
         $container->getParameter('friendly.alice.dependencies')->willReturn([]);
+        $manager->getMetadataFactory()->willReturn($metadataFactory);
+        $metadataFactory->getAllMetadata()->willReturn([$userMetadata, $placeMetadata, $productMetadata]);
+        $userMetadata->getName()->willReturn('User');
+        $placeMetadata->getName()->willReturn('Place');
+        $productMetadata->getName()->willReturn('Product');
 
         $this->initialize($config, $container);
     }
@@ -45,8 +54,10 @@ class AliceContextSpec extends ObjectBehavior
         $this->shouldHaveType('Knp\FriendlyContexts\Context\AliceContext');
     }
 
-    function it_should_load_specific_fixtures($event, $loader)
+    function it_should_load_specific_fixtures($event, $loader, $manager)
     {
+        $manager->flush()->shouldBeCalled();
+
         $loader->load('user.yml')->shouldBeCalled();
         $loader->load('place.yml')->shouldBeCalled();
         $loader->load('product.yml')->shouldNotBeCalled();
@@ -54,9 +65,10 @@ class AliceContextSpec extends ObjectBehavior
         $this->loadAlice($event);
     }
 
-    function it_should_load_all_fixtures($loader, $event, $scenario)
+    function it_should_load_all_fixtures($loader, $event, $scenario, $manager)
     {
         $scenario->getTags()->willReturn([ 'alice(*)' ]);
+        $manager->flush()->shouldBeCalled();
 
         $loader->load('user.yml')->shouldBeCalled();
         $loader->load('place.yml')->shouldBeCalled();
@@ -65,9 +77,10 @@ class AliceContextSpec extends ObjectBehavior
         $this->loadAlice($event);
     }
 
-    function it_should_resolve_deps($container, $loader, $event, $scenario)
+    function it_should_resolve_deps($container, $loader, $event, $scenario, $manager)
     {
         $scenario->getTags()->willReturn([]);
+        $manager->flush()->shouldBeCalled();
 
         $loader->load('user.yml')->shouldBeCalled();
         $loader->load('place.yml')->shouldBeCalled();
@@ -79,10 +92,11 @@ class AliceContextSpec extends ObjectBehavior
         $this->loadAlice($event);
     }
 
-    function it_should_not_loop_infinitly($container, $loader, $event, $scenario)
+    function it_should_not_loop_infinitly($container, $loader, $event, $scenario, $manager)
     {
 
         $scenario->getTags()->willReturn([]);
+        $manager->flush()->shouldBeCalled();
 
         $loader->load('user.yml')->shouldBeCalled();
         $loader->load('place.yml')->shouldBeCalled();
