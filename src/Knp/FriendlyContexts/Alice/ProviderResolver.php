@@ -78,6 +78,7 @@ class ProviderResolver
         }
 
         $kernel = $this->container->get('friendly.symfony.kernel');
+        $kernel->boot();
 
         if (false === $kernel->getContainer()->has($service)) {
 
