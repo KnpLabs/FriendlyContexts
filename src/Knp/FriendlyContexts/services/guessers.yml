@@ -38,6 +38,6 @@ services:
     friendly.guesser.entity:
         class: Knp\FriendlyContexts\Guesser\EntityGuesser
         arguments:
-            - @friendly.record.bag
+            - "@friendly.record.bag"
         tags:
             - { name: friendly.format.guesser }
