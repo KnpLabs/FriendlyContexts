@@ -3,7 +3,7 @@ services:
     friendly.faker.address:
         class: Knp\FriendlyContexts\Faker\Provider\Address
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -11,7 +11,7 @@ services:
     friendly.faker.color:
         class: Knp\FriendlyContexts\Faker\Provider\Color
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -19,7 +19,7 @@ services:
     friendly.faker.company:
         class: Knp\FriendlyContexts\Faker\Provider\Company
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -27,14 +27,14 @@ services:
     friendly.faker.datetime:
         class: Knp\FriendlyContexts\Faker\Provider\DateTime
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
 
     friendly.faker.file:
         class: Knp\FriendlyContexts\Faker\Provider\File
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -42,7 +42,7 @@ services:
     friendly.faker.internet:
         class: Knp\FriendlyContexts\Faker\Provider\Internet
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -50,7 +50,7 @@ services:
     friendly.faker.lorem:
         class: Knp\FriendlyContexts\Faker\Provider\Lorem
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -58,7 +58,7 @@ services:
     friendly.faker.miscellaneous:
         class: Knp\FriendlyContexts\Faker\Provider\Miscellaneous
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -70,7 +70,7 @@ services:
     friendly.faker.payment:
         class: Knp\FriendlyContexts\Faker\Provider\Payment
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -78,7 +78,7 @@ services:
     friendly.faker.person:
         class: Knp\FriendlyContexts\Faker\Provider\Person
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -86,7 +86,7 @@ services:
     friendly.faker.phonenumber:
         class: Knp\FriendlyContexts\Faker\Provider\PhoneNumber
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -94,7 +94,7 @@ services:
     friendly.faker.useragent:
         class: Knp\FriendlyContexts\Faker\Provider\UserAgent
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
@@ -102,7 +102,7 @@ services:
     friendly.faker.uuid:
         class: Knp\FriendlyContexts\Faker\Provider\Uuid
         arguments:
-            - @friendly.faker
+            - "@friendly.faker"
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }

@@ -29,7 +29,7 @@ class EntityHydrator
             }
 
             try {
-                PropertyAccess::getPropertyAccessor()
+                PropertyAccess::createPropertyAccessor()
                     ->setValue(
                         $entity,
                         $this->formater->toCamelCase($property),
@@ -41,7 +41,7 @@ class EntityHydrator
                     throw $e;
                 }
 
-                PropertyAccess::getPropertyAccessor()
+                PropertyAccess::createPropertyAccessor()
                     ->setValue(
                         $entity,
                         $this->formater->toCamelCase($property),
@@ -61,7 +61,7 @@ class EntityHydrator
 
     public function completeFields(ObjectManager $em, $entity)
     {
-        $accessor = PropertyAccess::getPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
 
         $metadata = $this->resolver->getMetadataFromObject($em, $entity);
 
