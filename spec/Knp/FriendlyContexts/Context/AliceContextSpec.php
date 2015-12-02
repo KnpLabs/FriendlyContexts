@@ -12,9 +12,9 @@ class AliceContextSpec extends ObjectBehavior
      * @param \Doctrine\Common\Persistence\ManagerRegistry $doctrine
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      * @param \Behat\Behat\Hook\Scope\ScenarioScope $event
+     * @param Knp\FriendlyContexts\Alice\Fixtures\Loader $loader
      * @param \Behat\Gherkin\Node\FeatureNode $feature
      * @param \Behat\Gherkin\Node\ScenarioNode $scenario
-     * @param \Knp\FriendlyContexts\Alice\Loader\Yaml $loader
      * @param \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $metadataFactory
      * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $userMetadata
      * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $placeMetadata
@@ -36,7 +36,7 @@ class AliceContextSpec extends ObjectBehavior
         $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => [] ]];
         $container->has(Argument::any())->willReturn(true);
         $container->hasParameter(Argument::any())->willReturn(true);
-        $container->get('friendly.alice.loader.yaml')->willReturn($loader);
+        $container->get('friendly.alice.fixtures.loader')->willReturn($loader);
         $container->get('doctrine')->willReturn($doctrine);
         $container->getParameter('friendly.alice.fixtures')->willReturn($fixtures);
         $container->getParameter('friendly.alice.dependencies')->willReturn([]);
