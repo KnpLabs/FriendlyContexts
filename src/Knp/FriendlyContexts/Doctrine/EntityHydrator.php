@@ -2,13 +2,14 @@
 
 namespace Knp\FriendlyContexts\Doctrine;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
-use Knp\FriendlyContexts\Utils\TextFormater;
-use Knp\FriendlyContexts\Guesser\GuesserManager;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\DBAL\Types\Type as DBALType;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Knp\FriendlyContexts\Guesser\GuesserManager;
+use Knp\FriendlyContexts\Utils\TextFormater;
 use Knp\FriendlyContexts\Utils\UniqueCache;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityHydrator
 {
@@ -113,7 +114,7 @@ class EntityHydrator
     {
         $property = $mapping['fieldName'];
         $collectionRelation = in_array($mapping['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY]);
-        $arrayRelation = $mapping['type'] === 'array';
+        $arrayRelation = in_array($mapping['type'], [DBALType::TARRAY, DBALType::SIMPLE_ARRAY, DBALType::JSON_ARRAY]);
 
         if ($collectionRelation || $arrayRelation) {
             $result = array_map(
