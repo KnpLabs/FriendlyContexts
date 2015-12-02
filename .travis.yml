@@ -25,7 +25,7 @@ before_script:
     - if [ "$deps" = "low" ]; then composer update --prefer-source --prefer-lowest --prefer-stable --no-interaction; fi;
 
 script:
-    - bin/phpspec run -fpretty
+    - bin/phpspec run -fpretty --no-interaction
 
 notifications:
     webhooks:
