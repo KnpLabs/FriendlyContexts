@@ -97,7 +97,7 @@ class Collection
     protected function buildValues($entity)
     {
         $result = [];
-        $accessor = PropertyAccess::getPropertyAccessor();
+        $accessor = PropertyAccess::createPropertyAccessor();
 
         foreach ($this->headers as $header) {
             try {
