@@ -12,6 +12,8 @@ KnpLabs - FriendlyContexts
     
 ####[The Entity Context](doc/context-entity.md)
 
+####[The Command Context](doc/context-command.md)
+
 ####[The Alice Context](doc/context-alice.md)
 
 ####[The Table Context](doc/context-table.md)

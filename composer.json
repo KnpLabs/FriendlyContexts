@@ -20,6 +20,9 @@
         "doctrine/orm": "dev-master",
         "knplabs/phpspec-welldone-extension": "dev-master"
     },
+    "suggest": {
+        "symfony/framework-bundle": "Required if you want to use CommandContext"
+    },
     "license": "MIT",
     "authors": [
         {
