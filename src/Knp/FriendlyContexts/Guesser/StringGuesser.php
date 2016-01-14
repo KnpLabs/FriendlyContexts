@@ -6,9 +6,9 @@ class StringGuesser extends AbstractGuesser implements GuesserInterface
 {
     public function supports(array $mapping)
     {
-        $mapping = array_merge([ 'type' => null ], $mapping);
+        $mapping = array_merge(['type' => null, 'length' => null], $mapping);
 
-        return in_array($mapping['type'], ['string', 'text']);
+        return in_array($mapping['type'], ['string', 'text']) && $mapping['length'] === null;
     }
 
     public function transform($str, array $mapping = null)

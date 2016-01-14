@@ -54,6 +54,7 @@ services:
         tags:
             - { name: friendly.faker.provider }
             - { name: friendly.guesser.string.faker }
+            - { name: friendly.guesser.smallstring.faker }
 
     friendly.faker.miscellaneous:
         class: Knp\FriendlyContexts\Faker\Provider\Miscellaneous

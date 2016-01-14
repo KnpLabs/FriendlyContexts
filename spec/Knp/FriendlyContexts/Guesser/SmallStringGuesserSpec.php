@@ -5,21 +5,21 @@ namespace spec\Knp\FriendlyContexts\Guesser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class StringGuesserSpec extends ObjectBehavior
+class SmallStringGuesserSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Knp\FriendlyContexts\Guesser\StringGuesser');
+        $this->shouldHaveType('Knp\FriendlyContexts\Guesser\SmallStringGuesser');
         $this->shouldHaveType('Knp\FriendlyContexts\Guesser\GuesserInterface');
     }
 
-    function it_should_supports_string_mapping_metadata()
+    function it_should_supports_limited_string_mapping_metadata()
     {
         $mapping = [
             'fieldName'  => "name",
             'type'       => "string",
             'scale'      => 0,
-            'length'     => null,
+            'length'     => 3,
             'unique'     => false,
             'nullable'   => false,
             'precision'  => 0,
@@ -29,36 +29,18 @@ class StringGuesserSpec extends ObjectBehavior
         $this->supports($mapping)->shouldReturn(true);
     }
 
-    function it_should_not_supports_limited_string_mapping_metadata()
+    function it_should_not_supports_unlimited_string_mapping_metadata()
     {
-        $mapping = [
+        $this->supports([
             'fieldName'  => "name",
             'type'       => "string",
-            'scale'      => 0,
-            'length'     => 5,
-            'unique'     => false,
-            'nullable'   => false,
-            'precision'  => 0,
-            'columnName' => "name",
-        ];
-
-        $this->supports($mapping)->shouldReturn(false);
-    }
-
-    function it_should_supports_text_mapping_metadata()
-    {
-        $mapping = [
-            'fieldName'  => "conten",
-            'type'       => "text",
             'scale'      => 0,
             'length'     => null,
             'unique'     => false,
             'nullable'   => false,
             'precision'  => 0,
-            'columnName' => "content",
-        ];
-
-        $this->supports($mapping)->shouldReturn(true);
+            'columnName' => "name",
+        ])->shouldReturn(false);
     }
 
     function it_shoult_not_transform_string_entry()
