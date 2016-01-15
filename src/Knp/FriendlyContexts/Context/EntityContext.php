@@ -3,6 +3,10 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Sharding\PoolingShardConnection;
+use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -189,17 +193,22 @@ class EntityContext extends Context
         $this->storeTags($event);
 
         if ($this->hasTags([ 'reset-schema', '~not-reset-schema' ])) {
-            foreach ($this->getEntityManagers() as $entityManager) {
-                $metadata = $this->getMetadata($entityManager);
-
-                if (!empty($metadata)) {
-                    $tool = new SchemaTool($entityManager);
-                    $tool->dropSchema($metadata);
-                    $tool->createSchema($metadata);
+            foreach ($this->getEntityManagers() as $name => $entityManager) {
+                $connection = $entityManager->getConnection();
+                if ($connection instanceof PoolingShardConnection) {
+                    $poolingShardManager = $this->getPoolingShardManager($connection);
+                    foreach ($poolingShardManager->getShards() as $shardId) {
+                        // Switch to shard database
+                        $connection->connect($shardId['id']);
+                        $this->resetSchema($entityManager);
+                    }
+                    // Back to global
+                    $connection->connect(0);
+                } else {
+                    $this->resetSchema($entityManager);
                 }
             }
         }
-
     }
 
     /**
@@ -210,6 +219,19 @@ class EntityContext extends Context
         $this->getRecordBag()->clear();
         $this->getUniqueCache()->clear();
         $this->getEntityManager()->clear();
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    protected function resetSchema(EntityManager $entityManager)
+    {
+        $metadata = $this->getMetadata($entityManager);
+        if (!empty($metadata)) {
+            $tool = new SchemaTool($entityManager);
+            $tool->dropSchema($metadata);
+            $tool->createSchema($metadata);
+        }
     }
 
     protected function compareArray(array $a1, array $a2)
@@ -224,16 +246,51 @@ class EntityContext extends Context
         return $diff;
     }
 
+    /**
+     * Find PoolingShardManager related to connection.
+     *
+     * Cannot directly find PoolingShardManager by EntityManager's name cause
+     * PoolingShardManager is created from Connection's name.
+     *
+     * @param PoolingShardConnection $poolingShardConnection
+     *
+     * @return PoolingShardManager
+     *
+     * @throws \LogicException Unable to find PoolingShardManager related to this PoolingShardConnection.
+     */
+    protected function getPoolingShardManager(PoolingShardConnection $poolingShardConnection)
+    {
+        foreach ($this->getConnections() as $name => $connection) {
+            if ($connection === $poolingShardConnection
+                && $this->getKernel()->getContainer()->has(sprintf('doctrine.dbal.%s_shard_manager', $name))
+            ) {
+                return $this->get(sprintf('doctrine.dbal.%s_shard_manager', $name));
+            }
+        }
+        throw new \LogicException('Unable to find PoolingShardManager related to this PoolingShardConnection.');
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     *
+     * @return ClassMetadata[]
+     */
     protected function getMetadata(EntityManager $entityManager)
     {
         return $entityManager->getMetadataFactory()->getAllMetadata();
     }
 
+    /**
+     * @return EntityManager[]
+     */
     protected function getEntityManagers()
     {
         return $this->get('doctrine')->getManagers();
     }
 
+    /**
+     * @return Connection[]
+     */
     protected function getConnections()
     {
         return $this->get('doctrine')->getConnections();
@@ -268,3 +325,4 @@ class EntityContext extends Context
         return $identifiersWithValues;
     }
 }
+
