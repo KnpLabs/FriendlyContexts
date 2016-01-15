@@ -195,7 +195,7 @@ class EntityContext extends Context
         if ($this->hasTags([ 'reset-schema', '~not-reset-schema' ])) {
             foreach ($this->getEntityManagers() as $name => $entityManager) {
                 $connection = $entityManager->getConnection();
-                if ($connection instanceof PoolingShardConnection) {
+                if ($connection instanceof PoolingShardConnection && $this->hasTag('reset-shard-schema')) {
                     $poolingShardManager = $this->getPoolingShardManager($connection);
                     foreach ($poolingShardManager->getShards() as $shardId) {
                         // Switch to shard database
@@ -204,9 +204,8 @@ class EntityContext extends Context
                     }
                     // Back to global
                     $connection->connect(0);
-                } else {
-                    $this->resetSchema($entityManager);
                 }
+                $this->resetSchema($entityManager);
             }
         }
     }
