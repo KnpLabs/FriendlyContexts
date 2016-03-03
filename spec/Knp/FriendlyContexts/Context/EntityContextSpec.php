@@ -57,7 +57,9 @@ class EntityContextSpec extends ObjectBehavior
         $container->hasParameter('friendly.entities.namespaces')->willReturn(true);
         $container->getParameter('friendly.entities.namespaces')->willReturn([]);
 
-        $this->initialize([], $container);
+        $config = [ 'doctrine' => [ 'service' => 'doctrine' ]];
+
+        $this->initialize($config, $container);
     }
 
     function it_is_initializable()

@@ -35,14 +35,14 @@ class EntityContext extends Context
 
             $this
                 ->getEntityHydrator()
-                ->hydrate($this->getEntityManager(), $entity, $values)
-                ->completeRequired($this->getEntityManager(), $entity)
+                ->hydrate($this->getManager(), $entity, $values)
+                ->completeRequired($this->getManager(), $entity)
             ;
 
-            $this->getEntityManager()->persist($entity);
+            $this->getManager()->persist($entity);
         }
 
-        $this->getEntityManager()->flush();
+        $this->getManager()->flush();
     }
 
     /**
@@ -61,13 +61,13 @@ class EntityContext extends Context
             ;
             $this
                 ->getEntityHydrator()
-                ->completeRequired($this->getEntityManager(), $entity)
+                ->completeRequired($this->getManager(), $entity)
             ;
 
-            $this->getEntityManager()->persist($entity);
+            $this->getManager()->persist($entity);
         }
 
-        $this->getEntityManager()->flush();
+        $this->getManager()->flush();
     }
 
     /**
@@ -91,14 +91,14 @@ class EntityContext extends Context
             ;
             $this
                 ->getEntityHydrator()
-                ->hydrate($this->getEntityManager(), $entity, $values)
-                ->completeRequired($this->getEntityManager(), $entity)
+                ->hydrate($this->getManager(), $entity, $values)
+                ->completeRequired($this->getManager(), $entity)
             ;
 
-            $this->getEntityManager()->persist($entity);
+            $this->getManager()->persist($entity);
         }
 
-        $this->getEntityManager()->flush();
+        $this->getManager()->flush();
     }
 
     /**
@@ -116,7 +116,7 @@ class EntityContext extends Context
 
         $records = array_map(function ($e) { return $e->getEntity(); }, $collection->all());
         $entities = $this
-            ->getEntityManager()
+            ->getManager()
             ->getRepository($entityName)
             ->createQueryBuilder('o')
             ->resetDQLParts()
@@ -162,7 +162,7 @@ class EntityContext extends Context
             $row = $rows[$i % count($rows)];
 
             $values = array_combine($headers, $row);
-            $object = $this->getEntityManager()
+            $object = $this->getManager()
                 ->getRepository($entityName)
                 ->findOneBy(
                     $this->getEntityIdentifiers($entityName, $headers, $row)
@@ -171,7 +171,7 @@ class EntityContext extends Context
             if (is_null($object)) {
                 throw new \Exception(sprintf("There is not any object for the following identifiers: %s", json_encode($this->getEntityIdentifiers($entityName, $headers, $row))));
             }
-            $this->getEntityManager()->refresh($object);
+            $this->getManager()->refresh($object);
 
             foreach ($values as $key => $value) {
                 if ($value != $accessor->getValue($object, $key) ) {
@@ -189,7 +189,7 @@ class EntityContext extends Context
         $this->storeTags($event);
 
         if ($this->hasTags([ 'reset-schema', '~not-reset-schema' ])) {
-            foreach ($this->getEntityManagers() as $entityManager) {
+            foreach ($this->getManagers() as $entityManager) {
                 $metadata = $this->getMetadata($entityManager);
 
                 if (!empty($metadata)) {
@@ -209,7 +209,7 @@ class EntityContext extends Context
     {
         $this->getRecordBag()->clear();
         $this->getUniqueCache()->clear();
-        $this->getEntityManager()->clear();
+        $this->getManager()->clear();
     }
 
     protected function compareArray(array $a1, array $a2)
@@ -229,7 +229,7 @@ class EntityContext extends Context
         return $entityManager->getMetadataFactory()->getAllMetadata();
     }
 
-    protected function getEntityManagers()
+    protected function getManagers()
     {
         return $this->get('doctrine')->getManagers();
     }
@@ -255,7 +255,7 @@ class EntityContext extends Context
      */
     protected function getEntityIdentifiers($entityName, $headers, $row)
     {
-        $metadata = $this->getEntityManager()->getClassMetadata($entityName);
+        $metadata = $this->getManager()->getClassMetadata($entityName);
         $identifiers = $metadata->getIdentifierFieldNames();
 
         $identifiersWithValues = [];

@@ -3,6 +3,7 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Behat\Context\Context as ContextInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,9 +69,14 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.alice.fixtures.loader');
     }
 
-    protected function getEntityManager()
+    /**
+     * Gets Doctrine manager
+     *
+     * @return ObjectManager
+     */
+    protected function getManager()
     {
-        return $this->get('doctrine')->getManager();
+        return $this->get($this->config['doctrine']['service'])->getManager();
     }
 
     protected function getUniqueCache()
@@ -136,7 +142,7 @@ abstract class Context implements ContextInterface
         $entities = $this
             ->getEntityResolver()
             ->resolve(
-                $this->getEntityManager(),
+                $this->getManager(),
                 $name,
                 empty($namespaces) ? '' : $namespaces
             )
