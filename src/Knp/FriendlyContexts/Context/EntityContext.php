@@ -3,6 +3,7 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -189,14 +190,12 @@ class EntityContext extends Context
         $this->storeTags($event);
 
         if ($this->hasTags([ 'reset-schema', '~not-reset-schema' ])) {
-            foreach ($this->getEntityManagers() as $entityManager) {
-                $metadata = $this->getMetadata($entityManager);
+            $purger = new ORMPurger();
+            $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
 
-                if (!empty($metadata)) {
-                    $tool = new SchemaTool($entityManager);
-                    $tool->dropSchema($metadata);
-                    $tool->createSchema($metadata);
-                }
+            foreach ($this->getEntityManagers() as $entityManager) {
+                $purger->setEntityManager($entityManager);
+                $purger->purge();
             }
         }
 
