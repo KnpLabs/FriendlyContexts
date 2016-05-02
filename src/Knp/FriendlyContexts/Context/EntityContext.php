@@ -5,7 +5,6 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Gherkin\Node\TableNode;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityContext extends Context
