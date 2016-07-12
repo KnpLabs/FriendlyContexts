@@ -33,14 +33,18 @@ class IntGuesser extends AbstractGuesser implements GuesserInterface
     {
         $defaultMax = 2000000000;
 
-        if (!isset($mapping['length']) || $mapping['length'] < 1) {
+        $lengthUndefined = !isset($mapping['length']);
+        if ($lengthUndefined) {
+            return $defaultMax;
+        }
+
+        $lengthInvalid = $mapping['length'] < 1
+            || $mapping['length'] >= strlen($defaultMax);
+        if ($lengthInvalid) {
             return $defaultMax;
         }
 
         $maxValue = (int)str_repeat('9', $mapping['length']);
-        if ($maxValue > $defaultMax) {
-            $maxValue = $defaultMax;
-        }
 
         return $maxValue;
     }
