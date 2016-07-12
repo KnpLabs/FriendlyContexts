@@ -19,13 +19,30 @@ class IntGuesser extends AbstractGuesser implements GuesserInterface
     public function fake(array $mapping)
     {
         $min = 0;
-        $max = 2000000000;
-
-        if (isset($mapping['length']) && $mapping['length'] > 0) {
-            $max = (int)str_repeat('9', $mapping['length']);
-        }
+        $max = $this->determineMaxValue($mapping);
 
         return current($this->fakers)->fake('numberBetween', [$min, $max]);
+    }
+
+    /**
+     * @param array $mapping
+     *
+     * @return int
+     */
+    private function determineMaxValue(array $mapping)
+    {
+        $defaultMax = 2000000000;
+
+        if (!isset($mapping['length']) || $mapping['length'] < 1) {
+            return $defaultMax;
+        }
+
+        $maxValue = (int)str_repeat('9', $mapping['length']);
+        if ($maxValue > $defaultMax) {
+            $maxValue = $defaultMax;
+        }
+
+        return $maxValue;
     }
 
     public function getName()

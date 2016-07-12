@@ -68,4 +68,15 @@ class IntGuesserSpec extends ObjectBehavior
 
         $this->fake($mapping);
     }
+
+    function it_should_use_limit_of_2000000000_as_a_max_integer_value(Base $faker)
+    {
+        $mapping = [
+            'length' => 30,
+        ];
+
+        $faker->fake('numberBetween', [0, 2000000000])->shouldBeCalled();
+
+        $this->fake($mapping);
+    }
 }
