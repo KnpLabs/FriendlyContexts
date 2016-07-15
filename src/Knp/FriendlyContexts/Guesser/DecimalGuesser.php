@@ -18,7 +18,56 @@ class DecimalGuesser extends AbstractGuesser implements GuesserInterface
 
     public function fake(array $mapping)
     {
-        return current($this->fakers)->fake('randomFloat');
+        $maxNumOfDecimals = $this->determineMaxNumOfDecimals($mapping);
+        $min = 0;
+        $max = $this->determineMaxValue($mapping);
+
+        return current($this->fakers)->fake('randomFloat', [$maxNumOfDecimals, $min, $max]);
+    }
+
+    /**
+     * @param array $mapping
+     *
+     * @return int|null
+     */
+    private function determineMaxNumOfDecimals(array $mapping)
+    {
+        if (isset($mapping['scale'])) {
+            return $mapping['scale'];
+        }
+
+        if (isset($mapping['precision'])) {
+            return 0;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $mapping
+     *
+     * @return float|null
+     */
+    private function determineMaxValue(array $mapping)
+    {
+        if (!isset($mapping['precision']) && !isset($mapping['scale'])) {
+            return null;
+        }
+
+        $scale = isset($mapping['scale']) ? (int)$mapping['scale'] : 0;
+        $precision = isset($mapping['precision']) ? (int)$mapping['precision'] : 0;
+        if ($precision < $scale) {
+            $precision = $scale;
+        }
+
+        $maxValueStr = (int)str_repeat('9', $precision);
+        $integerPartLength = $precision - $scale;
+
+        $fractionalPart = substr($maxValueStr, 0, $integerPartLength);
+        $integerPart = substr($maxValueStr, $integerPartLength);
+        $maxValue = (float)"$fractionalPart.$integerPart";
+
+        return $maxValue;
     }
 
     public function getName()
