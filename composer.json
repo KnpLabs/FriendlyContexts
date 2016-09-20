@@ -16,8 +16,8 @@
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpspec/phpspec": "2.0.*@dev",
-        "doctrine/orm": "dev-master",
+        "phpspec/phpspec": "~2.4|~3.0",
+        "doctrine/orm": "~2.5",
         "knplabs/phpspec-welldone-extension": "dev-master"
     },
     "license": "MIT",
