@@ -1,6 +1,6 @@
 Mink Context
 ============
-This context is just an extension of the original mink context from the [Behat Mink Extension](http://extensions.behat.org/mink/)
+This context is just an extension of the original mink context from the [Behat Mink Extension](https://github.com/Behat/MinkExtension)
 
 Configuration
 -------------
