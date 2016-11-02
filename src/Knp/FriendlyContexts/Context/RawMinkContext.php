@@ -5,6 +5,7 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Mink\Mink;
 use Behat\MinkExtension\Context\MinkAwareContext;
 use Knp\FriendlyContexts\Utils\Asserter;
+use Knp\FriendlyContexts\Utils\TextFormater;
 
 abstract class RawMinkContext extends Context implements MinkAwareContext
 {
