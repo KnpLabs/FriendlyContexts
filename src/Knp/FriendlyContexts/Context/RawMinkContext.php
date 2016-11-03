@@ -4,8 +4,6 @@ namespace Knp\FriendlyContexts\Context;
 
 use Behat\Mink\Mink;
 use Behat\MinkExtension\Context\MinkAwareContext;
-use Knp\FriendlyContexts\Utils\Asserter;
-use Knp\FriendlyContexts\Utils\TextFormater;
 
 abstract class RawMinkContext extends Context implements MinkAwareContext
 {
@@ -55,42 +53,5 @@ abstract class RawMinkContext extends Context implements MinkAwareContext
         $startUrl = rtrim($this->getMinkParameter('base_url'), '/') . '/';
 
         return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
-    }
-
-    protected function searchElement($locator, $element, $filterCallback = null, TraversableElement $parent = null)
-    {
-        $parent  = $parent ?: $this->getSession()->getPage();
-        $locator = $this->fixStepArgument($locator);
-
-        $elements = $parent->findAll('named', array(
-            $element, $locator
-        ));
-
-        if (null !== $filterCallback && is_callable($filterCallback)) {
-            $elements = array_values(array_filter($elements, $filterCallback));
-        }
-
-        return $elements;
-    }
-
-    protected function elementAction($locator, $element, $nbr = 1, $actionCallback, $filterCallback = null)
-    {
-        $elements = $this->searchElement($locator, $element, $filterCallback);
-
-        $nbr = is_numeric($nbr) ? intval($nbr) : $nbr;
-        $nbr = is_string($nbr) ? 1 : (-1 === $nbr ? count($elements) : $nbr);
-
-        if ($nbr > count($elements)) {
-            throw new ElementNotFoundException($this->getSession(), $element, null, $locator);
-        }
-
-        $e = $elements[$nbr - 1];
-
-        $actionCallback($e);
-    }
-
-    protected function getAsserter()
-    {
-        return new Asserter(new TextFormater);
     }
 }
