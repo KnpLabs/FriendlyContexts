@@ -150,6 +150,17 @@ class ApiContext extends RawPageContext
             $this->response = $e->getResponse();
         }
     }
+	
+    /**
+     * @Then /^I print last URL requested$/
+     */
+    public function iPrintLastUrlRequest()
+    {
+        $uri = $this->getRequestBuilder()->getUri();
+        $uri = substr($uri, 0, 1) === '/' ? substr($uri, 1) : $uri;
+
+        echo $this->getRequestBuilder()->getClient()->getBaseUrl(). DIRECTORY_SEPARATOR .$uri;
+    }
 
     /**
      * @Then /^I should receive a (?<httpCode>[0-9]+) response$/
