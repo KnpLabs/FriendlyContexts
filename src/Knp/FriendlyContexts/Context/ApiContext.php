@@ -6,6 +6,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Guzzle\Http\Exception\BadResponseException;
 use Knp\FriendlyContexts\Http\Security\HttpExtension;
+use Knp\FriendlyContexts\Http\Security\OauthExtension;
 
 class ApiContext extends RawPageContext
 {
