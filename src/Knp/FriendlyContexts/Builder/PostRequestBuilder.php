@@ -11,6 +11,9 @@ class PostRequestBuilder extends AbstractRequestBuilder
         $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
         $postBody = $postBody ?: $body;
 
-        return $this->getClient()->post($resource, $headers, $postBody, $options);
+        $options['headers'] = $headers;
+        $options['body'] = $postBody;
+
+        return $this->getClient()->request('POST', $resource, $options);
     }
 }

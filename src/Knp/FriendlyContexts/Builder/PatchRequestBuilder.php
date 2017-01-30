@@ -18,6 +18,9 @@ class PatchRequestBuilder extends AbstractRequestBuilder
 
         $resource = $queries ? sprintf('%s?%s', $uri, $this->formatQueryString($queries)) : $uri;
 
-        return $this->getClient()->patch($resource, $headers, $body, $options);
+        $options['headers'] = $headers;
+        $options['body'] = $body;
+
+        return $this->getClient()->request('PATCH', $resource, $options);
     }
 }

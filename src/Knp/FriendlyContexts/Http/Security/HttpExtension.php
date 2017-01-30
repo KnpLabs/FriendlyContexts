@@ -2,8 +2,8 @@
 
 namespace Knp\FriendlyContexts\Http\Security;
 
-use Guzzle\Http\Client;
-use Guzzle\Http\Message\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
 
 class HttpExtension extends HttpBasicExtension implements SecurityExtensionInterface

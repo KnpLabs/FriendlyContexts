@@ -2,12 +2,12 @@
 
 namespace Knp\FriendlyContexts\Http\Factory;
 
-use Guzzle\Plugin\Oauth\OauthPlugin;
+use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class OauthPluginFactory
 {
     public function create(array $data = [])
     {
-        return new OauthPlugin($data);
+        return new Oauth1($data);
     }
 }

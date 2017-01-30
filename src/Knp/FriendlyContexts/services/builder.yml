@@ -46,7 +46,7 @@ services:
             - [addRequestBuilder, ["@friendly.builder.put_request_builder", "PUT"]]
 
     friendly.http_client:
-        class: Guzzle\Http\Client
+        class: GuzzleHttp\Client
         arguments:
             - %friendly.api.base_url%
 

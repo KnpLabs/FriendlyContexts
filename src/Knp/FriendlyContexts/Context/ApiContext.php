@@ -4,7 +4,7 @@ namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
-use Guzzle\Http\Exception\BadResponseException;
+use GuzzleHttp\Exception\BadResponseException;
 use Knp\FriendlyContexts\Http\Security\HttpExtension;
 
 class ApiContext extends RawPageContext

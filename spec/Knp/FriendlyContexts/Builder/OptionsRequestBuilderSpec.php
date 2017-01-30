@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use GuzzleHttp\ClientInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 class OptionsRequestBuilderSpec extends ObjectBehavior
 {
@@ -21,9 +21,14 @@ class OptionsRequestBuilderSpec extends ObjectBehavior
 
     function it_build_an_option_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->options(
+        $client->request(
+            'OPTIONS',
             '/resource?foo=bar',
-            ['some options']
+            [
+                'some options',
+                'headers' => null,
+                'body' => null,
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);

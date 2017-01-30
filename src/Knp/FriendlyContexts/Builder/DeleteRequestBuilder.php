@@ -21,6 +21,9 @@ class DeleteRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->getClient()->delete($resource, $headers, $body, $options);
+        $options['headers'] = $headers;
+        $options['body'] = $body;
+
+        return $this->getClient()->request('DELETE', $resource, $options);
     }
 }

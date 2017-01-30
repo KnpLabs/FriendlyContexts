@@ -2,8 +2,7 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use GuzzleHttp\ClientInterface;
 use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 
 class RequestBuilder implements RequestBuilderInterface
@@ -35,13 +34,13 @@ class RequestBuilder implements RequestBuilderInterface
     private static function getAcceptedMethods()
     {
         return [
-            RequestInterface::GET,
-            RequestInterface::PUT,
-            RequestInterface::POST,
-            RequestInterface::DELETE,
-            RequestInterface::HEAD,
-            RequestInterface::OPTIONS,
-            RequestInterface::PATCH
+            'GET',
+            'PUT',
+            'POST',
+            'DELETE',
+            'HEAD',
+            'OPTIONS',
+            'PATCH'
         ];
     }
 
@@ -91,16 +90,16 @@ class RequestBuilder implements RequestBuilderInterface
 
         if (null !== $this->cookies) {
             foreach ($this->cookies as $name => $cookie) {
-                $request->addCookie($name, $cookie);
+                $request = $request->addCookie($name, $cookie);
             }
         }
 
         foreach ($this->securityExtensions as $extension) {
-            $extension->secureRequest($request, $this);
+            $request = $extension->secureRequest($request, $this);
         }
 
         foreach ($this->files as $file) {
-            $request->addPostFile($file['name'], $file['path']);
+            $request = $request->addPostFile($file['name'], $file['path']);
         }
 
         $this->clean();

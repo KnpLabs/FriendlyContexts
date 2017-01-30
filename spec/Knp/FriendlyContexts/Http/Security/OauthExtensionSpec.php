@@ -2,17 +2,18 @@
 
 namespace spec\Knp\FriendlyContexts\Http\Security;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Knp\FriendlyContexts\Http\Factory\OauthPluginFactory;
-use Guzzle\Http\Message\Request;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
-use Guzzle\Plugin\Oauth\OauthPlugin;
-use Guzzle\Http\Client;
 
 class OauthExtensionSpec extends ObjectBehavior
 {
-    function let(OauthPluginFactory $factory, OauthPlugin $plugin)
+    function let(OauthPluginFactory $factory, Oauth1 $plugin)
     {
         $this->beConstructedWith($factory);
         $factory->create(Argument::cetera())->willReturn($plugin);
@@ -33,7 +34,7 @@ class OauthExtensionSpec extends ObjectBehavior
         $this->secureRequest($request, $builder)->shouldReturn(null);
     }
 
-    function it_set_up_a_client_oauth_plugin_subscriber(Client $client, RequestBuilder $builder, $factory, $plugin)
+    function it_set_up_a_client_oauth_plugin_subscriber(Client $client, RequestBuilder $builder, $factory, $plugin, HandlerStack $handlerStack)
     {
         $builder->getCredentials()->willReturn([
             'some builder credentials'
@@ -43,7 +44,9 @@ class OauthExtensionSpec extends ObjectBehavior
             'some builder credentials'
         ])->shouldBeCalled()->willReturn($plugin);
 
-        $client->addSubscriber($plugin)->shouldBeCalled();
+        $handlerStack->push($plugin)->shouldBeCalled();
+
+        $client->getConfig()->shouldBeCalled()->willReturn(['handler' => $handlerStack]);
 
         $this->secureClient($client, $builder);
     }

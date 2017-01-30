@@ -13,6 +13,9 @@ class OptionsRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->getClient()->options($resource, $options);
+        $options['headers'] = $headers;
+        $options['body'] = $body;
+
+        return $this->getClient()->request('OPTIONS', $resource, $options);
     }
 }
