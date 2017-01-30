@@ -1,7 +1,15 @@
 Api Context
 ===========
 
-This context allow you to handle web Api features for your applications. It needs some configuration:
+This context allow you to handle web Api features for your applications.
+
+It has a dependency on `guzzle 3`. You can add it to your project using the following command:
+
+```
+composer require 'guzzle/guzzle' '~3.7'
+```
+
+Then the context needs some configuration:
 
 ```yaml
 default:

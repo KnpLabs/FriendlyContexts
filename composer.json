@@ -12,13 +12,16 @@
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "nelmio/alice": "~2.0",
-        "guzzle/guzzle": "~3.7"
+        "nelmio/alice": "~2.0"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.4|~3.0",
         "doctrine/orm": "~2.5",
-        "knplabs/phpspec-welldone-extension": "dev-master"
+        "knplabs/phpspec-welldone-extension": "dev-master",
+        "guzzle/guzzle": "~3.7"
+    },
+    "suggest": {
+        "guzzle/guzzle": "To use the Api Context (needs guzzle 3)"
     },
     "license": "MIT",
     "authors": [
