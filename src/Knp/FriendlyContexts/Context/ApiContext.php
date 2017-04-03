@@ -218,7 +218,7 @@ class ApiContext extends RawPageContext
     /**
      * @Then /^the response should contains? the following json:?$/
      */
-    public function theResponsShouldContainsJson($jsonData)
+    public function theResponseShouldContainsJson($jsonData)
     {
         if (!is_object($jsonData)) {
             throw new \InvalidArgumentException('Invalid json data');
