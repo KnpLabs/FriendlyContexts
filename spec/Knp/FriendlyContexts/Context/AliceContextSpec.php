@@ -33,7 +33,7 @@ class AliceContextSpec extends ObjectBehavior
         $loader->getCache()->willReturn([]);
         $loader->clearCache()->willReturn(null);
         $fixtures = [ 'User' => 'user.yml', 'Product' => 'product.yml', 'Place' => 'place.yml' ];
-        $config = [ 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => [] ]];
+        $config = [ 'doctrine' => [ 'service' => 'doctrine' ], 'alice' => [ 'fixtures' => $fixtures, 'dependencies' => [] ]];
         $container->has(Argument::any())->willReturn(true);
         $container->hasParameter(Argument::any())->willReturn(true);
         $container->get('friendly.alice.fixtures.loader')->willReturn($loader);

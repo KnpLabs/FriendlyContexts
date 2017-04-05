@@ -136,3 +136,4 @@ Information
 -----------
 
 Files will be loaded following the order of files declaration in your behat.yml file. Tags order has no impact.
+

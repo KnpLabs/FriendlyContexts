@@ -40,11 +40,11 @@ class AliceContext extends Context
             if (in_array($id, $files)) {
                 foreach ($loader->load($fixture) as $object) {
                     if (in_array(get_class($object), $persistable)) {
-                        $this->getEntityManager()->persist($object);
+                        $this->getManager()->persist($object);
                     }
                 }
 
-                $this->getEntityManager()->flush();
+                $this->getManager()->flush();
             }
         }
     }
@@ -52,7 +52,7 @@ class AliceContext extends Context
     private function getPersistableClasses()
     {
         $persistable = array();
-        $metadatas   = $this->getEntityManager()->getMetadataFactory()->getAllMetadata();
+        $metadatas   = $this->getManager()->getMetadataFactory()->getAllMetadata();
 
         foreach ($metadatas as $metadata) {
             if (isset($metadata->isEmbeddedClass) && $metadata->isEmbeddedClass) {

@@ -24,7 +24,7 @@ default:
         Knp\FriendlyContexts\Extension: ~
 ```
 
-###Kernel configuration
+### Kernel configuration
 
 If you have some fancy kernel configuration, you can just set it like this (`shown values are default`):
 
@@ -41,3 +41,28 @@ default:
                 env: test
                 debug: true
 ```
+
+### Doctrine configuration
+
+The Alice and Entity contexts make use of Doctrine.
+
+You can choose the name of the Doctrine service in Symfony that will be used.
+This allows you to use MongoDB for the Alice context:
+
+```yaml
+default:
+    # ...
+    suites:
+        default:
+            # ...
+        contexts:
+            - # ...
+    extensions:
+        # ...
+        Knp\FriendlyContexts\Extension:
+            # ...
+            doctrine:
+                service: 'doctrine_mongodb'
+```
+
+The default value is `doctrine`.
