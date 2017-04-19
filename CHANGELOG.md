@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-# [0.8.2] - 2017-19-04
+## [0.8.2] - 2017-19-04
 
 ### Fixed
 - Fix `existLikeFollowing` method in EntityContext
