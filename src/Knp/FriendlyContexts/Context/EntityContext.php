@@ -5,7 +5,6 @@ namespace Knp\FriendlyContexts\Context;
 use Behat\Gherkin\Node\TableNode;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EntityContext extends Context
 {
@@ -156,28 +155,18 @@ class EntityContext extends Context
         $rows = $table->getRows();
         $headers = array_shift($rows);
 
-        $accessor = PropertyAccess::createPropertyAccessor();
-
         for ($i = 0; $i < $nbr; $i++) {
             $row = $rows[$i % count($rows)];
 
-            $values = array_combine($headers, $row);
+            $values = array_map(array($this, 'clean'), array_combine($headers, $row));
             $object = $this->getEntityManager()
                 ->getRepository($entityName)
-                ->findOneBy(
-                    $this->getEntityIdentifiers($entityName, $headers, $row)
-                );
+                ->findOneBy($values);
 
             if (is_null($object)) {
-                throw new \Exception(sprintf("There is not any object for the following identifiers: %s", json_encode($this->getEntityIdentifiers($entityName, $headers, $row))));
+                throw new \Exception(sprintf("There is no object for the following criteria: %s", json_encode($values)));
             }
             $this->getEntityManager()->refresh($object);
-
-            foreach ($values as $key => $value) {
-                if ($value != $accessor->getValue($object, $key) ) {
-                    throw new \Exception("The expected object does not have property $key with value $value");
-                }
-            }
         }
     }
 
@@ -247,24 +236,12 @@ class EntityContext extends Context
     }
 
     /**
-     * @param string $entityName
-     * @param array $headers Headers of the Behat TableNode
-     * @param array $row current row if tge Behat TableNode
-     * @return array ['id_column_A' => 'value', 'id_column_B' => 'value']
-     * @throws \Exception
+     * @param mixed $value
+     *
+     * @return mixed
      */
-    protected function getEntityIdentifiers($entityName, $headers, $row)
+    protected function clean($value)
     {
-        $metadata = $this->getEntityManager()->getClassMetadata($entityName);
-        $identifiers = $metadata->getIdentifierFieldNames();
-
-        $identifiersWithValues = [];
-
-        foreach ($identifiers as $identifier) {
-            $headersPosition = array_search($identifier, $headers);
-            $identifiersWithValues[$identifier] = $row[$headersPosition];
-        }
-
-        return $identifiersWithValues;
+        return trim($value) === '' ? null : $value;
     }
 }
