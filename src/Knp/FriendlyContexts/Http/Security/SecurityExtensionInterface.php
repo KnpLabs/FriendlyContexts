@@ -2,13 +2,16 @@
 
 namespace Knp\FriendlyContexts\Http\Security;
 
-use Guzzle\Http\Client;
-use Guzzle\Http\Message\Request;
+use Http\Client\HttpClient;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
+use Psr\Http\Message\RequestInterface;
 
 interface SecurityExtensionInterface
 {
-    public function secureClient(Client $client, RequestBuilder $builder);
-
-    public function secureRequest(Request $request, RequestBuilder $builder);
+    /**
+     * @param RequestInterface $request
+     * @param RequestBuilder   $builder
+     * @return mixed
+     */
+    public function secureRequest(RequestInterface $request, RequestBuilder $builder);
 }

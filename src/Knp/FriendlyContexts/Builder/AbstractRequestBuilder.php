@@ -2,44 +2,31 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\ClientInterface;
+use Http\Message\MessageFactory;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
-    private $client;
+    /**
+     * @var MessageFactory
+     */
+    private $messageFactory;
 
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
     {
-        if (null === $this->client) {
-            throw new \RuntimeException('You must precised a valid client before build a request');
+        if (null === $this->messageFactory) {
+            throw new \RuntimeException('You must precised a valid message factory before build a request');
         }
     }
 
-    public function setClient(ClientInterface $client = null)
+    public function setMessageFactory(MessageFactory $messageFactory)
     {
-        $this->client = $client;
+        $this->messageFactory = $messageFactory;
+
+        return $this;
     }
 
-    /**
-     * Return a clone of guzzle client if available.
-     *
-     * This is useful to ensure executions isolation.
-     *
-     * @return ClientInterface|null
-     */
-    public function getClient()
+    public function getMessageFactory()
     {
-        if ($this->client instanceof ClientInterface) {
-            return clone $this->client;
-        }
-    }
-
-    protected function formatQueryString(array $queries = null)
-    {
-        if (null === $queries) {
-            return;
-        }
-
-        return http_build_query($queries);
+        return $this->messageFactory;
     }
 }

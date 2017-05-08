@@ -4,24 +4,48 @@ namespace Knp\FriendlyContexts\Builder;
 
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
+use Http\Message\MessageFactory;
 use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 
 class RequestBuilder implements RequestBuilderInterface
 {
+    /**
+     * @var MessageFactory
+     */
+    private $messageFactory;
+
+    /**
+     * @var string
+     */
     private $method;
 
+    /**
+     * @var string[]
+     */
     private $headers;
 
+    /**
+     * @var string[]
+     */
     private $queries;
 
+    /**
+     * @var string|array
+     */
     private $body;
 
+    /**
+     * @var array
+     */
     private $options;
 
     private $postBody;
 
     private $cookies;
 
+    /**
+     * @var SecurityExtensionInterface[]
+     */
     private $securityExtensions;
 
     private $credentials;
@@ -35,13 +59,13 @@ class RequestBuilder implements RequestBuilderInterface
     private static function getAcceptedMethods()
     {
         return [
-            RequestInterface::GET,
-            RequestInterface::PUT,
-            RequestInterface::POST,
-            RequestInterface::DELETE,
-            RequestInterface::HEAD,
-            RequestInterface::OPTIONS,
-            RequestInterface::PATCH
+            'GET',
+            'PUT',
+            'POST',
+            'DELETE',
+            'HEAD',
+            'OPTIONS',
+            'PATCH'
         ];
     }
 
@@ -77,13 +101,17 @@ class RequestBuilder implements RequestBuilderInterface
         $client = $this->requestBuilders[$this->method]->getClient();
 
         foreach ($this->securityExtensions as $extension) {
-            $extension->secureClient($client, $this);
+            $extension->secure($this);
         }
 
-        $request = $this->requestBuilders[$this->method]->build(
+        $request = $this->messageFactory->createRequest(
+            $this->method,
             $this->getUri(),
+            $this->getHeaders()
+        );
+            ,
             $this->getQueries(),
-            $this->getHeaders(),
+            ,
             $this->getPostBody(),
             $this->getBody(),
             $this->getOptions()
@@ -224,11 +252,20 @@ class RequestBuilder implements RequestBuilderInterface
 
     public function addSecurityExtension(SecurityExtensionInterface $extension)
     {
+        trigger_error("Deprecated. To be remove in 1.0. Use `setSecurity` instead.", E_USER_DEPRECATED);
         $this->securityExtensions[] = $extension;
 
         return $this;
     }
 
+    public function setSecurity(SecurityExtensionInterface $extension)
+    {
+        $this->securityExtensions = [$extension];
+    }
+
+    /**
+     * @return SecurityExtensionInterface[]
+     */
     public function getSecurityExtensions()
     {
         return $this->securityExtensions;
@@ -265,12 +302,16 @@ class RequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    public function setClient(ClientInterface $client = null)
+    public function setMessageFactory(MessageFactory $messageFactory)
     {
+        $this->messageFactory = $messageFactory;
+
+        return $this;
     }
 
-    public function getClient()
+    public function getMessageFactory()
     {
+        return $this->messageFactory;
     }
 
     protected function clean()
