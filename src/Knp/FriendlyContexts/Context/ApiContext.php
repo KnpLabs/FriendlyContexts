@@ -4,6 +4,7 @@ namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
+use Guzzle\Common\ToArrayInterface;
 use Guzzle\Http\Exception\BadResponseException;
 use Knp\FriendlyContexts\Http\Security\HttpExtension;
 
@@ -14,6 +15,23 @@ class ApiContext extends RawPageContext
     public function getResponse()
     {
         return $this->response;
+    }
+
+    protected function getHeaders()
+    {
+        if (null !== $this->response) {
+            throw new \InvalidArgumentException('First, you need to send a request.');
+        }
+
+        $headers = $this->response->getHeaders();
+
+        if ($headers instanceof ToArrayInterface) {
+            return $headers->toArray();
+        } elseif (is_array($headers)) {
+            return $headers;
+        }
+
+        throw new \RuntimeException('Unable to retrieve response headers.');
     }
 
     /**
@@ -211,7 +229,7 @@ class ApiContext extends RawPageContext
         $expectedHeaders = $headerTable->getRowsHash();
         $this->getAsserter()->assertArrayContains(
             $expectedHeaders,
-            $this->response->getHeaders()
+            $this->getHeaders()
         );
     }
 
