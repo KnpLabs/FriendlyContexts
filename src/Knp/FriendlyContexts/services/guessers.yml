@@ -41,3 +41,8 @@ services:
             - "@friendly.record.bag"
         tags:
             - { name: friendly.format.guesser }
+
+    friendly.guesser.array:
+        class: Knp\FriendlyContexts\Guesser\ArrayGuesser
+        tags:
+            - { name: friendly.format.guesser }
