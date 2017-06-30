@@ -44,6 +44,22 @@ class DatetimeGuesserSpec extends ObjectBehavior
         $this->supports($mapping)->shouldReturn(true);
     }
 
+    function it_should_support_datetimetz_mapping_metadata()
+    {
+        $mapping = [
+            'fieldName'  => "created_at",
+            'type'       => "datetimetz",
+            'scale'      => 0,
+            'length'     => null,
+            'unique'     => false,
+            'nullable'   => false,
+            'precision'  => 0,
+            'columnName' => "created_at",
+        ];
+
+        $this->supports($mapping)->shouldReturn(true);
+    } 
+
     function it_should_support_time_mapping_metadata()
     {
         $mapping = [
