@@ -8,7 +8,7 @@ class DatetimeGuesser extends AbstractGuesser implements GuesserInterface
     {
         $mapping = array_merge([ 'type' => null ], $mapping);
 
-        return in_array($mapping['type'], ['datetime', 'date', 'time']);
+        return in_array($mapping['type'], ['datetime', 'datetimetz', 'date', 'time']);
     }
 
     public function transform($str, array $mapping = null)
