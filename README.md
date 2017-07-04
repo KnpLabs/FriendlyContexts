@@ -8,18 +8,18 @@ KnpLabs - FriendlyContexts
 [![Gitter chat](https://badges.gitter.im/KnpLabs/FriendlyContexts.png)](https://gitter.im/KnpLabs/FriendlyContexts)
 
 
-####[Install and configure](doc/configuration.md)
+#### [Install and configure](doc/configuration.md)
     
-####[The Entity Context](doc/context-entity.md)
+#### [The Entity Context](doc/context-entity.md)
 
-####[The Alice Context](doc/context-alice.md)
+#### [The Alice Context](doc/context-alice.md)
 
-####[The Table Context](doc/context-table.md)
+#### [The Table Context](doc/context-table.md)
 
-####[The Mink Context](doc/context-mink.md)
+#### [The Mink Context](doc/context-mink.md)
 
-####[The Page Context](doc/context-page.md)
+#### [The Page Context](doc/context-page.md)
 
-####[The Api Context](doc/context-api.md)
+#### [The Api Context](doc/context-api.md)
 
-####[Smart Step Feature](doc/feature-smartStep.md)
+#### [Smart Step Feature](doc/feature-smartStep.md)
