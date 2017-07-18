@@ -32,6 +32,8 @@ class RequestBuilder implements RequestBuilderInterface
 
     private $files;
 
+    private $client;
+
     private static function getAcceptedMethods()
     {
         return [
@@ -271,6 +273,7 @@ class RequestBuilder implements RequestBuilderInterface
 
     public function getClient()
     {
+        return $this->requestBuilders[$this->method]->getClient();
     }
 
     protected function clean()
