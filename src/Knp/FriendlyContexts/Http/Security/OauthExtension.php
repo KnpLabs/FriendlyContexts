@@ -2,9 +2,10 @@
 
 namespace Knp\FriendlyContexts\Http\Security;
 
-use Guzzle\Http\Message\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
-use Guzzle\Http\Client;
 use Knp\FriendlyContexts\Http\Factory\OauthPluginFactory;
 
 class OauthExtension implements SecurityExtensionInterface
@@ -20,7 +21,9 @@ class OauthExtension implements SecurityExtensionInterface
     {
         $plugin = $this->oauthPluginFactory->create($builder->getCredentials());
 
-        $client->addSubscriber($plugin);
+        /** @var HandlerStack $handler */
+        $handler = $client->getConfig()['handler'];
+        $handler->push($plugin);
     }
 
     public function secureRequest(Request $request, RequestBuilder $builder)

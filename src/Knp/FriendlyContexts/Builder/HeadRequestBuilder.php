@@ -13,6 +13,9 @@ class HeadRequestBuilder extends AbstractRequestBuilder
             $uri
         ;
 
-        return $this->getClient()->head($resource, $headers, $options);
+        $options['headers'] = $headers;
+        $options['body'] = $body;
+
+        return $this->getClient()->request('HEAD', $resource, $options);
     }
 }

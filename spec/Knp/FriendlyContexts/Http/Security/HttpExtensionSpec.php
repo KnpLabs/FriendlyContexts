@@ -2,11 +2,11 @@
 
 namespace spec\Knp\FriendlyContexts\Http\Security;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\Client;
 use Knp\FriendlyContexts\Builder\RequestBuilder;
-use Guzzle\Http\Message\Request;
 
 class HttpExtensionSpec extends ObjectBehavior
 {

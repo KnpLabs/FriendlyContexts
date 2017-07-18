@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use GuzzleHttp\ClientInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 class PutRequestBuilderSpec extends ObjectBehavior
 {
@@ -21,11 +21,14 @@ class PutRequestBuilderSpec extends ObjectBehavior
 
     function it_build_a_put_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->put(
+        $client->request(
+            'PUT',
             '/resource?foo=bar',
-            ['some headers'],
-            'body datas',
-            ['some options']
+            [
+                'some options',
+                'headers' => ['some headers'],
+                'body' => 'body datas',
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);
@@ -42,11 +45,14 @@ class PutRequestBuilderSpec extends ObjectBehavior
 
     function it_format_the_request_to_a_valid_form_urlencode(ClientInterface $client, RequestInterface $request)
     {
-        $client->put(
+        $client->request(
+            'PUT',
             '/resource',
-            ['Content-Type' => 'application/x-www-form-urlencoded'],
-            'foo=bar&baz=plop',
-            ['some options']
+            [
+                'some options',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'body' => 'foo=bar&baz=plop',
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);

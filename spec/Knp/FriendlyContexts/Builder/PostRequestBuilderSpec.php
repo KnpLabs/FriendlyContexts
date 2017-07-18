@@ -2,11 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use GuzzleHttp\ClientInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
-use Guzzle\Http\Message\PostFile;
+use Psr\Http\Message\RequestInterface;
 
 class PostRequestBuilderSpec extends ObjectBehavior
 {
@@ -22,11 +21,14 @@ class PostRequestBuilderSpec extends ObjectBehavior
 
     function it_build_a_post_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->post(
+        $client->request(
+            'POST',
             '/resource?foo=bar',
-            ['some headers'],
-            ['data' => 'plop'],
-            ['some options']
+            [
+                'some options',
+                'headers' => ['some headers'],
+                'body' => ['data' => 'plop'],
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);

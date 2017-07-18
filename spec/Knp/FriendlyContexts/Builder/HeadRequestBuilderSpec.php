@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use GuzzleHttp\ClientInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 class HeadRequestBuilderSpec extends ObjectBehavior
 {
@@ -21,10 +21,14 @@ class HeadRequestBuilderSpec extends ObjectBehavior
 
     function it_build_a_head_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->head(
+        $client->request(
+            'HEAD',
             '/resource?foo=bar',
-            ['some headers'],
-            ['some options']
+            [
+                'some options',
+                'headers' => ['some headers'],
+                'body' => null,
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);

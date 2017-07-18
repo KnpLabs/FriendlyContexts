@@ -14,6 +14,6 @@ class OauthPluginFactorySpec extends ObjectBehavior
 
     function it_create_an_oauth_plugin()
     {
-        $this->create(['some datas'])->shouldHaveType('Guzzle\Plugin\Oauth\OauthPlugin');
+        $this->create(['some datas'])->shouldHaveType('GuzzleHttp\Subscriber\Oauth\Oauth1');
     }
 }

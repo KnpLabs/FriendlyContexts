@@ -2,10 +2,10 @@
 
 namespace spec\Knp\FriendlyContexts\Builder;
 
+use GuzzleHttp\ClientInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 class GetRequestBuilderSpec extends ObjectBehavior
 {
@@ -26,10 +26,14 @@ class GetRequestBuilderSpec extends ObjectBehavior
 
     function it_build_a_get_request(ClientInterface $client, RequestInterface $request)
     {
-        $client->get(
+        $client->request(
+            'GET',
             '/resource?foo=bar&baz=foo',
-            ['some headers'],
-            ['some options']
+            [
+                'some options',
+                'headers' => ['some headers'],
+                'body' => null,
+            ]
         )->shouldBeCalled(1)->willReturn($request);
 
         $this->setClient($client);
