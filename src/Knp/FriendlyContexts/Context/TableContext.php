@@ -74,7 +74,8 @@ class TableContext extends RawMinkContext
 
                     return;
                 }
-                $this->getAsserter()->assertArrayContains($expected, $extraction);
+                $expectedWithoutHeaders = array_slice($expected, 1);
+                $this->getAsserter()->assertArrayContains($expectedWithoutHeaders, $extraction);
 
                 return;
             } catch (\Exception $e) {
