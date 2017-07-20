@@ -198,7 +198,7 @@ class ApiContext extends RawPageContext
             ));
         }
     }
-
+    
     /**
      * @Then /^the response should contains? the following headers:?$/
      */
@@ -209,10 +209,26 @@ class ApiContext extends RawPageContext
         }
 
         $expectedHeaders = $headerTable->getRowsHash();
-        $this->getAsserter()->assertArrayContains(
-            $expectedHeaders,
-            $this->response->getHeaders()
-        );
+        $existingHeaders = $this->response->getHeaders()->toArray();
+
+        foreach ($expectedHeaders as $key => $value) {
+            if (false === array_key_exists($key, $existingHeaders)) {
+                throw new \Exception(sprintf(
+                    'No header names "%s" found. "%s" available.',
+                    $key,
+                    implode('", "', array_keys($existingHeaders))
+                ));
+            }
+            $real = $existingHeaders[$key];
+            array_map('trim', $real);
+            sort($real);
+
+            $expected = array($value);
+            array_map('trim', $expected);
+            sort($expected);
+
+            $this->getAsserter()->assertArrayEquals($expected, $real);
+        }
     }
 
     /**
