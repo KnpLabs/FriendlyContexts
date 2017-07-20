@@ -3,6 +3,7 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 
@@ -186,6 +187,22 @@ class EntityContext extends Context
                     $tool->dropSchema($metadata);
                     $tool->createSchema($metadata);
                 }
+            }
+        }
+
+        if ($this->hasTags([ 'truncate-data', '~not-truncate-data' ])) {
+            foreach ($this->getEntityManagers() as $entityManager) {
+                /* @var $connection Connection */
+                $connection = $entityManager->getConnection();
+                $platform = $connection->getDatabasePlatform();
+                $schemaManager = $connection->getSchemaManager();
+                $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 0;');
+                $tables = $schemaManager->listTables();
+                
+                foreach ($tables as $table) {
+                    $connection->executeUpdate($platform->getTruncateTableSQL($table->getName()));
+                }
+                $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1;');
             }
         }
 

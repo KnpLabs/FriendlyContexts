@@ -209,6 +209,17 @@ Feature: My feature
 ...
 ```
 
+Truncate tables
+---------------
+You just have to use the tag **@truncate-data**
+
+This method is faster than @reset-schema but involves that your schema has been properly updated before running your tests.
+```gherkin
+@truncate-data
+Feature: My feature
+...
+```
+
 Information
 -----------------
 The context can resolve a same entity class by many names. For example, if you have a class names **User**, you can use **user**, **User**, **users** or **Users**. And for a class named **ProjectGroup**, you can use **project group**, **project groups**, **projectgroup**, **projectgroups**, ...
