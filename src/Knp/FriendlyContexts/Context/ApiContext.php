@@ -209,9 +209,18 @@ class ApiContext extends RawPageContext
         }
 
         $expectedHeaders = $headerTable->getRowsHash();
+        /*
+         * Prepare the array for the format expected by assertArrayContains
+         */
+        foreach($expectedHeaders as $key=>$value){
+            if(!is_array($value)){
+                $data = array($value);
+                $expectedHeaders[$key] = $data;
+            }
+        }
         $this->getAsserter()->assertArrayContains(
             $expectedHeaders,
-            $this->response->getHeaders()
+            $this->response->getHeaders()->toArray()
         );
     }
 
