@@ -57,6 +57,7 @@ class EntityHydrator
     public function completeRequired(ObjectManager $em, $entity)
     {
         $this->completeFields($em, $entity);
+        $this->completeAssociations($em, $entity);
     }
 
     public function completeFields(ObjectManager $em, $entity)
@@ -74,6 +75,34 @@ class EntityHydrator
                             $entity,
                             $property,
                             $this->complete($metadata->getFieldMapping($property), $metadata->getName())
+                        );
+                    }
+                } catch (\Exception $ex) {
+                    unset($ex);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function completeAssociations(ObjectManager $em, $entity)
+    {
+        $accessor = PropertyAccess::getPropertyAccessor();
+
+        $metadata = $this->resolver->getMetadataFromObject($em, $entity);
+
+        foreach ($metadata->getAssociationNames() as $associationName) {
+            $property = $metadata->getFieldName($associationName);
+            $associationMapping = $metadata->getAssociationMapping($property);
+            if (isset($associationMapping['joinColumns'][0]['nullable'])
+                && $associationMapping['joinColumns'][0]['nullable'] === false) {
+                try {
+                    if (null === $accessor->getValue($entity, $property)) {
+                        $accessor->setValue(
+                            $entity,
+                            $property,
+                            $this->complete($metadata->getAssociationMapping($property), $metadata->getName())
                         );
                     }
                 } catch (\Exception $ex) {
