@@ -31,6 +31,11 @@ class EntityContext extends Context
                 ;
                 $reflection = $reflection->getParentClass();
             } while (false !== $reflection);
+            
+            if(isset($values['@']))
+            {
+                unset($values['@']); //dont hydrate entity with aliases
+            }
 
             $this
                 ->getEntityHydrator()

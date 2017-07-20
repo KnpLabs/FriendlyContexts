@@ -150,6 +150,17 @@ Here the context will automatically resolve **products** to **App\Entity\Product
 
 Attaching a user to a product can be done by referencing a user with any information given in the previous step (login, firstname or lastname) or by the result of the *__toString* method of the user entity.
 
+Otherwise you can use "@" column to define an alias:
+```gherkin
+  Given the following users:
+    | @           | login | firstname | lastname |
+    | @main_user  | user  | George    | Abitbol  |
+  And the following products:
+    | name    | user        |
+    | Ball    | @main_user  |
+```
+
+
 **I don't care about data, I just want 100 users**
 
 No problem
@@ -188,7 +199,7 @@ Same thing for deletion
   And 1 user should have been deleted # <= this is the step
 ```
 
-**Sometimes you may want to check that the correct data for a created or modified user was stored in the database
+**Sometimes you may want to check that the correct data for a created or modified user was stored in the database**
 
 Check it by doing
 ```gherkin
