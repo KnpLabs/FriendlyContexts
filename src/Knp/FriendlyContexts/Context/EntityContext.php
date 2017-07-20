@@ -188,7 +188,6 @@ class EntityContext extends Context
                 }
             }
         }
-
     }
 
     /**
