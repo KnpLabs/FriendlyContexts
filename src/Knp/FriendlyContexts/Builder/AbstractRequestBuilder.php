@@ -2,31 +2,39 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Http\Message\MessageFactory;
+use Http\Client\HttpClient;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Message\RequestFactory;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
     /**
-     * @var MessageFactory
+     * @var RequestFactory
      */
-    private $messageFactory;
+    protected $requestFactory;
 
-    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
+    /**
+     * @var HttpClient
+     */
+    protected $client;
+
+    /**
+     * @param RequestFactory $requestFactory
+     * @param HttpClient     $client
+     */
+    public function __construct(RequestFactory $requestFactory, HttpClient $client = null)
     {
-        if (null === $this->messageFactory) {
-            throw new \RuntimeException('You must precised a valid message factory before build a request');
-        }
+        $this->requestFactory = $requestFactory;
+        $this->client = $client ?: HttpClientDiscovery::find();
     }
 
-    public function setMessageFactory(MessageFactory $messageFactory)
+    public function getRequestFactory()
     {
-        $this->messageFactory = $messageFactory;
-
-        return $this;
+        return $this->requestFactory;
     }
 
-    public function getMessageFactory()
+    public function getClient()
     {
-        return $this->messageFactory;
+        return $this->client;
     }
 }

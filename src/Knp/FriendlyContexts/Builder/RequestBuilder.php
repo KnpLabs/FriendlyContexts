@@ -2,17 +2,33 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
-use Http\Message\MessageFactory;
+use Http\Client\Common\Plugin;
+use Http\Message\CookieJar;
+use Http\Message\RequestFactory;
+use Knp\FriendlyContexts\Http\ClientFactory;
 use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 
 class RequestBuilder implements RequestBuilderInterface
 {
     /**
-     * @var MessageFactory
+     * @var RequestFactory
      */
-    private $messageFactory;
+    private $requestFactory;
+
+    /**
+     * @var ClientFactory
+     */
+    private $clientFactory;
+
+    /**
+     * @var boolean
+     */
+    private $keepCookies;
+
+    /**
+     * @var CookieJar
+     */
+    protected $cookieJar;
 
     /**
      * @var string
@@ -41,18 +57,17 @@ class RequestBuilder implements RequestBuilderInterface
 
     private $postBody;
 
-    private $cookies;
-
     /**
      * @var SecurityExtensionInterface[]
      */
     private $securityExtensions;
 
-    private $credentials;
+    /**
+     * @var Plugin[]
+     */
+    private $plugins;
 
     private $uri;
-
-    private $requestBuilders;
 
     private $files;
 
@@ -69,13 +84,13 @@ class RequestBuilder implements RequestBuilderInterface
         ];
     }
 
-    public function __construct()
+    public function __construct(ClientFactory $clientFactory)
     {
-        $this->requestBuilders    = [];
+        $this->clientFactory = $clientFactory;
         $this->options            = [];
         $this->securityExtensions = [];
-        $this->credentials        = [];
         $this->files              = [];
+        $this->keepCookies = false;
     }
 
     public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
@@ -91,49 +106,61 @@ class RequestBuilder implements RequestBuilderInterface
             throw new \RuntimeException('You can\'t build a request without any methods');
         }
 
-        if (!isset($this->requestBuilders[$this->method])) {
-            throw new \RuntimeException(sprintf(
-                'No RequestBuilder exists for method "%s"',
-                $this->method
-            ));
-        }
-
-        $client = $this->requestBuilders[$this->method]->getClient();
-
+        // BC Layer: to be remove in 1.0
         foreach ($this->securityExtensions as $extension) {
             $extension->secure($this);
         }
+        // End of BC Layer
 
-        $request = $this->messageFactory->createRequest(
+        $request = $this->requestFactory->createRequest(
             $this->method,
             $this->getUri(),
             $this->getHeaders()
         );
-            ,
-            $this->getQueries(),
-            ,
-            $this->getPostBody(),
-            $this->getBody(),
-            $this->getOptions()
-        );
-
-        if (null !== $this->cookies) {
-            foreach ($this->cookies as $name => $cookie) {
-                $request->addCookie($name, $cookie);
-            }
-        }
-
-        foreach ($this->securityExtensions as $extension) {
-            $extension->secureRequest($request, $this);
-        }
-
-        foreach ($this->files as $file) {
-            $request->addPostFile($file['name'], $file['path']);
-        }
-
-        $this->clean();
+//            ,
+//            $this->getQueries(),
+//            ,
+//            $this->getPostBody(),
+//            $this->getBody(),
+//            $this->getOptions()
+//        );
+//
+//        if (null !== $this->cookies) {
+//            foreach ($this->cookies as $name => $cookie) {
+//                $request->addCookie($name, $cookie);
+//            }
+//        }
+//
+//        foreach ($this->securityExtensions as $extension) {
+//            $extension->secureRequest($request, $this);
+//        }
+//
+//        foreach ($this->files as $file) {
+//            $request->addPostFile($file['name'], $file['path']);
+//        }
+//
+        $this->clean(); // Make the builder reusable
 
         return $request;
+    }
+
+    /**
+     * @param Plugin $plugin
+     * @return RequestBuilder
+     */
+    public function addPlugin(Plugin $plugin)
+    {
+        $this->plugins[] = $plugin;
+
+        return $this;
+    }
+
+    /**
+     * @return Plugin[]
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
     }
 
     public function setMethod($method)
@@ -151,26 +178,6 @@ class RequestBuilder implements RequestBuilderInterface
         $this->method = $method;
 
         return $this;
-    }
-
-    public function addRequestBuilder(RequestBuilderInterface $builder, $method)
-    {
-        if (!in_array($method, self::getAcceptedMethods())) {
-            throw new \InvalidArgumentException(sprintf(
-                'The requets method "%s" is not a valid HTTP method (valid method are "%s")',
-                $method,
-                implode(', ', self::getAcceptedMethods())
-            ));
-        }
-
-        if (isset($this->requestBuilders[$method])) {
-            throw new \RuntimeException(sprintf(
-                'The builder for method "%s" always exists',
-                $method
-            ));
-        }
-
-        $this->requestBuilders[$method] = $builder;
     }
 
     public function getMethod()
@@ -240,27 +247,14 @@ class RequestBuilder implements RequestBuilderInterface
 
     public function getCookies()
     {
-        return $this->cookies;
+        return $this->cookieJar->getCookies();
     }
 
     public function setCookies(array $cookies = null)
     {
-        $this->cookies = $cookies;
+        $this->cookieJar->setCookies($cookies);
 
         return $this;
-    }
-
-    public function addSecurityExtension(SecurityExtensionInterface $extension)
-    {
-        trigger_error("Deprecated. To be remove in 1.0. Use `setSecurity` instead.", E_USER_DEPRECATED);
-        $this->securityExtensions[] = $extension;
-
-        return $this;
-    }
-
-    public function setSecurity(SecurityExtensionInterface $extension)
-    {
-        $this->securityExtensions = [$extension];
     }
 
     /**
@@ -269,18 +263,6 @@ class RequestBuilder implements RequestBuilderInterface
     public function getSecurityExtensions()
     {
         return $this->securityExtensions;
-    }
-
-    public function getCredentials()
-    {
-        return $this->credentials;
-    }
-
-    public function setCredentials(array $credentials)
-    {
-        $this->credentials = $credentials;
-
-        return $this;
     }
 
     public function setUri($uri = null)
@@ -302,16 +284,15 @@ class RequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    public function setMessageFactory(MessageFactory $messageFactory)
+    /**
+     * @param boolean $keepCookies
+     * @return RequestBuilder
+     */
+    public function keepCookies($keepCookies=true)
     {
-        $this->messageFactory = $messageFactory;
+        $this->keepCookies = $keepCookies;
 
         return $this;
-    }
-
-    public function getMessageFactory()
-    {
-        return $this->messageFactory;
     }
 
     protected function clean()
@@ -321,11 +302,28 @@ class RequestBuilder implements RequestBuilderInterface
         $this->queries            = null;
         $this->body               = null;
         $this->postBody           = null;
-        $this->cookies            = null;
         $this->headers            = null;
         $this->options            = [];
         $this->securityExtensions = [];
-        $this->credentials        = [];
         $this->files              = [];
+        $this->plugins = [];
+
+        if (!$this->keepCookies) {
+            $this->cookieJar = new CookieJar();
+        }
+    }
+
+    public function addSecurityExtension(SecurityExtensionInterface $extension)
+    {
+        trigger_error("Deprecated. To be remove in 1.0. Use `addPlugin` instead.", E_USER_DEPRECATED);
+        $this->securityExtensions[] = $extension;
+
+        return $this;
+    }
+
+    public function setSecurity(SecurityExtensionInterface $extension)
+    {
+        trigger_error("Deprecated. To be remove in 1.0. Use `addPlugin` instead.", E_USER_DEPRECATED);
+        $this->securityExtensions = [$extension];
     }
 }
