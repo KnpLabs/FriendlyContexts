@@ -8,7 +8,7 @@ use Http\Message\RequestFactory;
 use Knp\FriendlyContexts\Http\ClientFactory;
 use Knp\FriendlyContexts\Http\Security\SecurityExtensionInterface;
 
-class RequestBuilder implements RequestBuilderInterface
+class RequestBuilder
 {
     /**
      * @var RequestFactory

@@ -20,7 +20,8 @@
         "phpspec/phpspec": "~2.4|~3.0",
         "doctrine/orm": "~2.5",
         "knplabs/phpspec-welldone-extension": "dev-master",
-        "php-http/mock-client": "^1.0"
+        "php-http/mock-client": "^1.0",
+        "symfony/process": "^3.3"
     },
     "license": "MIT",
     "authors": [
