@@ -17,10 +17,14 @@
         "php-http/discovery": "^1.2"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.4|~3.0",
+        "phpspec/phpspec": "~4.0",
         "doctrine/orm": "~2.5",
-        "knplabs/phpspec-welldone-extension": "dev-master",
-        "php-http/mock-client": "^1.0"
+        "php-http/mock-client": "^1.0",
+        "symfony/process": "^3.3",
+        "bossa/phpspec2-expect": "^3.0",
+        "symfony/filesystem": "^3.3",
+        "behat/mink-goutte-driver": "^1.2",
+        "behat/mink-selenium2-driver": "*"
     },
     "license": "MIT",
     "authors": [

@@ -22,7 +22,7 @@ services:
         arguments:
             - %friendly.alice.locale%
             - "@friendly.alice.provider_resolver"
-        scope: prototype
+        shared: false
 
     friendly.record.bag:
         class: Knp\FriendlyContexts\Record\Collection\Bag
