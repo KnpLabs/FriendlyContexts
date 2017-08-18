@@ -136,7 +136,7 @@ class ApiContext extends RawPageContext
      */
     public function iSpecifiedOptions(TableNode $optionsTable)
     {
-        $this->getRequestBuilder->setOptions($optionsTable->getRowsHash());
+        $this->getRequestBuilder()->setOptions($optionsTable->getRowsHash());
     }
 
     /**

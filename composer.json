@@ -11,13 +11,13 @@
         "doctrine/inflector": "~1.0",
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2.0",
-        "fzaninotto/faker": "~1.3",
+        "fzaninotto/faker": "~1.4",
         "nelmio/alice": "~2.0",
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpspec/phpspec": "2.0.*@dev",
-        "doctrine/orm": "dev-master",
+        "phpspec/phpspec": "~2.4|~3.0",
+        "doctrine/orm": "~2.5",
         "knplabs/phpspec-welldone-extension": "dev-master"
     },
     "suggest": {
@@ -36,6 +36,5 @@
     ],
     "config": {
         "bin-dir": "bin"
-    },
-    "minimum-stability": "dev"
+    }
 }

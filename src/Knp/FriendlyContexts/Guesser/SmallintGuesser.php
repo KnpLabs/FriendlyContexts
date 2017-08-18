@@ -13,7 +13,7 @@ class SmallintGuesser extends IntGuesser implements GuesserInterface
 
     public function fake(array $mapping)
     {
-        return $this->faker->fake('numberBetween', [0, 32000]);
+        return current($this->fakers)->fake('numberBetween', [0, 32000]);
     }
 
     public function getName()

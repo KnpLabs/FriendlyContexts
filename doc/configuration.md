@@ -4,7 +4,7 @@ Installation
 Execute
 
 ```
-composer require knplabs/friendly-contexts dev-master
+composer require --dev knplabs/friendly-contexts dev-master
 ```
 
 Edit behat.yml
