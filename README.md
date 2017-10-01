@@ -9,7 +9,7 @@ KnpLabs - FriendlyContexts
 
 
 #### [Install and configure](doc/configuration.md)
-    
+
 #### [The Entity Context](doc/context-entity.md)
 
 #### [The Alice Context](doc/context-alice.md)
@@ -21,5 +21,3 @@ KnpLabs - FriendlyContexts
 #### [The Page Context](doc/context-page.md)
 
 #### [The Api Context](doc/context-api.md)
-
-#### [Smart Step Feature](doc/feature-smartStep.md)

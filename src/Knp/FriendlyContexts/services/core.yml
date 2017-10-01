@@ -79,17 +79,5 @@ services:
         arguments:
             - "@definition.finder"
 
-    friendly.reader.smart_reader:
-        class: Knp\FriendlyContexts\Reader\SmartReader
-        arguments:
-            - "@gherkin"
-            - "@suite.registry"
-            - "@specifications.locator.filesystem_feature"
-            - "@friendly.definition.definition_finder"
-            - "@friendly.call.call_center"
-            - %friendly.smartTag%
-        tags:
-            - { name: environment.reader }
-
     friendly.http.http_content_type_guesser:
         class: Knp\FriendlyContexts\Http\HttpContentTypeGuesser
