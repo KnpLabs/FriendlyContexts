@@ -69,7 +69,8 @@ class EntityContextSpec extends ObjectBehavior
 
     public function it_should_persist_an_entity(ObjectManager $manager, EntityHydrator $entityHydrator, EntityResolver $resolver, ClassMetadata $metadata, TableNode $tableNode)
     {
-        $manager->persist(Argument::type('spec\\Knp\\FriendlyContexts\\Context\\NameEntity'))
+        $instanceOfEntity = Argument::type('spec\\Knp\\FriendlyContexts\\Context\\NameEntity');
+        $manager->persist($instanceOfEntity)
             ->shouldBeCalledTimes(2);
         $manager->flush()
             ->shouldBeCalledTimes(1);
@@ -83,8 +84,12 @@ class EntityContextSpec extends ObjectBehavior
             ['John Doe'],
             ['Jane Doe'],
         ]);
-        $entityHydrator->hydrate($manager, Argument::cetera(), Argument::cetera());
-        $entityHydrator->completeRequired($manager, Argument::cetera());
+        $entityHydrator->hydrate($manager, $instanceOfEntity, ['name' => 'John Doe'])
+            ->shouldBeCalled();
+        $entityHydrator->hydrate($manager, $instanceOfEntity, ['name' => 'Jane Doe'])
+            ->shouldBeCalled();
+        $entityHydrator->completeRequired($manager, $instanceOfEntity)
+            ->shouldBeCalled();
 
         $this->theFollowing('NameEntity', $tableNode);
     }
