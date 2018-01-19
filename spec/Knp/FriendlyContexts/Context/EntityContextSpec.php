@@ -27,7 +27,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Utils\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter, $record1, $record2, $entity1, $entity2, $entity3)
+    public function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter, $record1, $record2, $entity1, $entity2, $entity3)
     {
         $entity1 = 'e1';
         $entity2 = 'e2';
@@ -59,18 +59,18 @@ class EntityContextSpec extends ObjectBehavior
         $this->initialize([], $container);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Context\EntityContext');
     }
 
-    function it_should_assert_a_deletion()
+    public function it_should_assert_a_deletion()
     {
         $this->entitiesShouldHaveBeen('no', 'entities', 'deleted')->shouldReturn(null);
         $this->shouldThrow(new \Exception('2 entities should have been deleted, 0 actually', 1))->duringEntitiesShouldHaveBeen('2', 'entities', 'deleted');
     }
 
-    function it_should_assert_a_creation($collection)
+    public function it_should_assert_a_creation($collection)
     {
         $collection->attach('e1')->shouldNotBeCalled();
         $collection->attach('e2')->shouldNotBeCalled();
@@ -80,7 +80,7 @@ class EntityContextSpec extends ObjectBehavior
         $this->shouldThrow(new \Exception('0 entities should have been created, 1 actually', 1))->duringEntitiesShouldHaveBeen('no', 'entities', 'created');
     }
 
-    function it_should_throw_an_exception_if_no_existence(
+    public function it_should_throw_an_exception_if_no_existence(
         EntityResolver $resolver,
         TableNode $tableNode,
         $repository,
