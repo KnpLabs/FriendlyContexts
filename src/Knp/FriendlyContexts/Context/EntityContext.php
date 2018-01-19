@@ -20,8 +20,8 @@ class EntityContext extends Context
 
         foreach ($rows as $row) {
             $values     = array_combine($headers, $row);
-            $entity     = new $entityName;
-            $reflection = new \ReflectionClass($entity);
+            $entity     = (new \ReflectionClass($entityName))->newInstanceWithoutConstructor();
+            $reflection = new \ReflectionObject($entity);
 
             do {
                 $this
@@ -32,11 +32,9 @@ class EntityContext extends Context
                 $reflection = $reflection->getParentClass();
             } while (false !== $reflection);
 
-            $this
-                ->getEntityHydrator()
-                ->hydrate($this->getEntityManager(), $entity, $values)
-                ->completeRequired($this->getEntityManager(), $entity)
-            ;
+            $entityHydrator = $this->getEntityHydrator();
+            $entityHydrator->hydrate($this->getEntityManager(), $entity, $values);
+            $entityHydrator->completeRequired($this->getEntityManager(), $entity);
 
             $this->getEntityManager()->persist($entity);
         }
