@@ -3,7 +3,9 @@
 namespace spec\Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Knp\FriendlyContexts\Doctrine\EntityHydrator;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
@@ -20,6 +22,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Doctrine\ORM\QueryBuilder $queryBuilder
      * @param Doctrine\ORM\AbstractQuery $query
      * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
+     * @param Knp\FriendlyContexts\Doctrine\EntityHydrator $entityHydrator
      * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
      * @param Knp\FriendlyContexts\Record\Collection $collection
      * @param Knp\FriendlyContexts\Record\Record $record1
@@ -27,7 +30,7 @@ class EntityContextSpec extends ObjectBehavior
      * @param Knp\FriendlyContexts\Utils\Asserter $asserter
      * @param \ReflectionClass $reflectionClass
      **/
-    function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter, $record1, $record2, $entity1, $entity2, $entity3)
+    public function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $entityHydrator, $bag, $collection, \ReflectionClass $reflectionClass, $asserter, $record1, $record2, $entity1, $entity2, $entity3)
     {
         $entity1 = 'e1';
         $entity2 = 'e2';
@@ -50,7 +53,7 @@ class EntityContextSpec extends ObjectBehavior
         $container->has(Argument::any())->willReturn(true);
         $container->get('doctrine')->willReturn($doctrine);
         $container->get('friendly.entity.resolver')->willReturn($resolver);
-        $container->get('friendly.entity.resolver')->willReturn($resolver);
+        $container->get('friendly.entity.hydrator')->willReturn($entityHydrator);
         $container->get('friendly.record.bag')->willReturn($bag);
         $container->get('friendly.asserter')->willReturn(new Asserter(new TextFormater));
         $container->hasParameter('friendly.entities.namespaces')->willReturn(true);
@@ -59,18 +62,45 @@ class EntityContextSpec extends ObjectBehavior
         $this->initialize([], $container);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Knp\FriendlyContexts\Context\EntityContext');
     }
 
-    function it_should_assert_a_deletion()
+    public function it_should_persist_an_entity(ObjectManager $manager, EntityHydrator $entityHydrator, EntityResolver $resolver, ClassMetadata $metadata, TableNode $tableNode)
+    {
+        $instanceOfEntity = Argument::type('spec\\Knp\\FriendlyContexts\\Context\\NameEntity');
+        $manager->persist($instanceOfEntity)
+            ->shouldBeCalledTimes(2);
+        $manager->flush()
+            ->shouldBeCalledTimes(1);
+        $resolver->resolve(Argument::cetera())
+            ->willReturn([$metadata]);
+        $metadata->getName()
+            ->willReturn('spec\\Knp\\FriendlyContexts\\Context\\NameEntity');
+        $tableNode->getRows()
+            ->willReturn([
+            ['name'],
+            ['John Doe'],
+            ['Jane Doe'],
+        ]);
+        $entityHydrator->hydrate($manager, $instanceOfEntity, ['name' => 'John Doe'])
+            ->shouldBeCalled();
+        $entityHydrator->hydrate($manager, $instanceOfEntity, ['name' => 'Jane Doe'])
+            ->shouldBeCalled();
+        $entityHydrator->completeRequired($manager, $instanceOfEntity)
+            ->shouldBeCalled();
+
+        $this->theFollowing('NameEntity', $tableNode);
+    }
+
+    public function it_should_assert_a_deletion()
     {
         $this->entitiesShouldHaveBeen('no', 'entities', 'deleted')->shouldReturn(null);
         $this->shouldThrow(new \Exception('2 entities should have been deleted, 0 actually', 1))->duringEntitiesShouldHaveBeen('2', 'entities', 'deleted');
     }
 
-    function it_should_assert_a_creation($collection)
+    public function it_should_assert_a_creation($collection)
     {
         $collection->attach('e1')->shouldNotBeCalled();
         $collection->attach('e2')->shouldNotBeCalled();
@@ -80,7 +110,7 @@ class EntityContextSpec extends ObjectBehavior
         $this->shouldThrow(new \Exception('0 entities should have been created, 1 actually', 1))->duringEntitiesShouldHaveBeen('no', 'entities', 'created');
     }
 
-    function it_should_throw_an_exception_if_no_existence(
+    public function it_should_throw_an_exception_if_no_existence(
         EntityResolver $resolver,
         TableNode $tableNode,
         $repository,
@@ -122,5 +152,15 @@ class EntityStub
     public function getIncorrectProperty()
     {
         return $this->incorrectProperty;
+    }
+}
+
+class NameEntity
+{
+    private $name;
+
+    public function __construct($name)
+    {
+        $this->name;
     }
 }
