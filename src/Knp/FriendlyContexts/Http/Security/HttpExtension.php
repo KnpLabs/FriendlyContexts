@@ -8,7 +8,7 @@ use Knp\FriendlyContexts\Builder\RequestBuilder;
 
 class HttpExtension extends HttpBasicExtension implements SecurityExtensionInterface
 {
-    protected $schema;
+    protected $scheme;
 
     /**
      * @param string $scheme (allowed values: basic, digest, ntlm, any)

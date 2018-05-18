@@ -3,6 +3,8 @@
 namespace Knp\FriendlyContexts\Context;
 
 use Behat\Behat\Context\Context as ContextInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Knp\FriendlyContexts\Builder\AbstractRequestBuilder;
 use Knp\FriendlyContexts\Dictionary\Backgroundable;
 use Knp\FriendlyContexts\Dictionary\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,6 +17,10 @@ abstract class Context implements ContextInterface
         Taggable;
 
     protected $config = [];
+
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
     public function initialize(array $config, ContainerInterface $container)
@@ -68,6 +74,9 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.alice.fixtures.loader');
     }
 
+    /**
+     * @return ObjectManager
+     */
     protected function getEntityManager()
     {
         return $this->get('doctrine')->getManager();
@@ -83,6 +92,9 @@ abstract class Context implements ContextInterface
         return $this->get('friendly.page.resolver');
     }
 
+    /**
+     * @return AbstractRequestBuilder
+     */
     protected function getRequestBuilder()
     {
         return $this->get('friendly.builder.request_builder');

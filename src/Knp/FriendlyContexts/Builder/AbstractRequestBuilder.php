@@ -2,44 +2,39 @@
 
 namespace Knp\FriendlyContexts\Builder;
 
-use Guzzle\Http\ClientInterface;
+use Http\Client\HttpClient;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Message\RequestFactory;
 
 abstract class AbstractRequestBuilder implements RequestBuilderInterface
 {
-    private $client;
-
-    public function build($uri = null, array $queries = null, array $headers = null, array $postBody = null, $body = null, array $options = [])
-    {
-        if (null === $this->client) {
-            throw new \RuntimeException('You must precised a valid client before build a request');
-        }
-    }
-
-    public function setClient(ClientInterface $client = null)
-    {
-        $this->client = $client;
-    }
+    /**
+     * @var RequestFactory
+     */
+    protected $requestFactory;
 
     /**
-     * Return a clone of guzzle client if available.
-     *
-     * This is useful to ensure executions isolation.
-     *
-     * @return ClientInterface|null
+     * @var HttpClient
      */
-    public function getClient()
+    protected $client;
+
+    /**
+     * @param RequestFactory $requestFactory
+     * @param HttpClient     $client
+     */
+    public function __construct(RequestFactory $requestFactory, HttpClient $client = null)
     {
-        if ($this->client instanceof ClientInterface) {
-            return clone $this->client;
-        }
+        $this->requestFactory = $requestFactory;
+        $this->client = $client ?: HttpClientDiscovery::find();
     }
 
-    protected function formatQueryString(array $queries = null)
+    public function getRequestFactory()
     {
-        if (null === $queries) {
-            return;
-        }
+        return $this->requestFactory;
+    }
 
-        return http_build_query($queries);
+    public function getClient()
+    {
+        return $this->client;
     }
 }
