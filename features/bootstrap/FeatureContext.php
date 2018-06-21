@@ -84,6 +84,7 @@ class FeatureContext implements Context
     {
         if (null !== $this->server) {
             $this->server->stop();
+            $this->server = null;
         }
     }
 
@@ -183,7 +184,9 @@ class FeatureContext implements Context
      */
     public function myApplicationIsRunning()
     {
-        $this->server = new Process('php -S ' . self::$PARAMETERS['%base_host%'] . ' -t ' . $this->workingDir);
+        // Using exec because of PHP limitation
+        // See https://bugs.php.net/bug.php?id=39992
+        $this->server = new Process('exec php -S ' . self::$PARAMETERS['%base_host%'] . ' -t ' . $this->workingDir);
         $this->server->start();
     }
 
@@ -320,9 +323,6 @@ class FeatureContext implements Context
         if ("\n" !== PHP_EOL) {
             $output = str_replace(PHP_EOL, "\n", $output);
         }
-
-        // Replace wrong warning message of HHVM
-        $output = str_replace('Notice: Undefined index: ', 'Notice: Undefined offset: ', $output);
 
         return trim(preg_replace("/ +$/m", '', $output));
     }
