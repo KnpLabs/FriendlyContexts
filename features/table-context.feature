@@ -63,12 +63,24 @@ Feature: Table Context
             | John      | Doe      | JD    |
             | George    | Abitbol  | GA    |
             | Bob       | Sponge   | BS    |
+          And I should see the following table
+            | Firstname | Lastname |
+            | John      | Doe      |
+            | George    | Abitbol  |
+            | Bob       | Sponge   |
+          Then I should see the following table portion
+            | Firstname | Lastname |
+            | John      | Doe      |
+            | George    | Abitbol  |
+          And I should see a table
+          And I should see a table with 4 rows
+          And I should see a table with "John, George and Bob" in the "Firstname" column
       """
     When I run "behat --no-colors -f progress"
     Then it should pass with:
       """
-      ..
+      .......
 
       1 scenario (1 passed)
-      2 steps (2 passed)
+      7 steps (7 passed)
       """
