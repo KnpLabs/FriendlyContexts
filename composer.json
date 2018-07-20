@@ -16,7 +16,7 @@
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.4|~3.0",
+        "phpspec/phpspec": "~3.0",
         "doctrine/orm": "~2.5",
         "knplabs/phpspec-welldone-extension": "dev-master"
     },
