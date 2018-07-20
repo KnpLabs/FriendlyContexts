@@ -33,6 +33,10 @@ abstract class RawMinkContext extends Context implements MinkAwareContext
                 'Invalid mink parameter "%s".',
                 $offset
             ));
+       }
+
+        if ('base_url' === $offset) {
+            return rtrim($this->getMinkParameter('base_url'), '/') . '/';
         }
 
         return $this->minkParameters[$offset];
@@ -50,7 +54,7 @@ abstract class RawMinkContext extends Context implements MinkAwareContext
 
     public function locatePath($path)
     {
-        $startUrl = rtrim($this->getMinkParameter('base_url'), '/') . '/';
+        $startUrl = $this->getMinkParameter('base_url');
 
         return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
     }
