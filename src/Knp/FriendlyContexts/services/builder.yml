@@ -48,5 +48,5 @@ services:
     friendly.http_client:
         class: Guzzle\Http\Client
         arguments:
-            - %friendly.api.base_url%
+            - "%friendly.api.base_url%"
 
