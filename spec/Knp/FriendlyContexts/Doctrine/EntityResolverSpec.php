@@ -2,23 +2,25 @@
 
 namespace spec\Knp\FriendlyContexts\Doctrine;
 
+use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Common\Persistence\ObjectManager;
+use Knp\FriendlyContexts\Reflection\ObjectReflector;
+use Knp\FriendlyContexts\Utils\TextFormater;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class EntityResolverSpec extends ObjectBehavior
 {
-    /**
-     * @param Doctrine\Common\Persistence\ObjectManager $em
-     * @param Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $factory
-     * @param Knp\FriendlyContexts\Reflection\ObjectReflector $reflector
-     * @param Knp\FriendlyContexts\Utils\TextFormater $formater
-     * @param ReflectionClass $class1
-     * @param ReflectionClass $class2
-     * @param ReflectionClass $class3
-     * @param ReflectionClass $class4
-     **/
-    function let($em, $factory, $reflector, $formater, \ReflectionClass $class1, \ReflectionClass $class2, \ReflectionClass $class3, \ReflectionClass $class4)
-    {
+    function let(
+        ObjectManager $em,
+        ClassMetadataFactory $factory,
+        ObjectReflector $reflector,
+        TextFormater $formater,
+        \ReflectionClass $class1,
+        \ReflectionClass $class2,
+        \ReflectionClass $class3,
+        \ReflectionClass $class4
+    ) {
         $class1->getShortName()->willReturn('User');
         $class1->getNamespaceName()->willReturn('N1/Namespace');
         $class2->getShortName()->willReturn('User');

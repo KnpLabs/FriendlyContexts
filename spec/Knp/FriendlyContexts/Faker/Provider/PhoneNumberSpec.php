@@ -2,16 +2,14 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Person;
+use Faker\Provider\PhoneNumber;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PhoneNumberSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\PhoneNumber $phonenumber
-     **/
-    function let($generator, $phonenumber)
+    function let(Generator $generator, PhoneNumber $phonenumber)
     {
         $this->beConstructedWith($generator);
         $this->setParent($phonenumber);
@@ -32,10 +30,7 @@ class PhoneNumberSpec extends ObjectBehavior
         $this->supportsParent($phonenumber)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_PhoneNumber_original_provider($person)
+    function it_should_not_supports_non_PhoneNumber_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

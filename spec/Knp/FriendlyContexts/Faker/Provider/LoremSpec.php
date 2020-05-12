@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Lorem;
+use Faker\Provider\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class LoremSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Lorem $lorem
-     **/
-    function let($generator, $lorem)
+    function let(Generator $generator, Lorem $lorem)
     {
         $this->beConstructedWith($generator);
         $this->setParent($lorem);
@@ -32,10 +31,7 @@ class LoremSpec extends ObjectBehavior
         $this->supportsParent($lorem)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_Lorem_original_provider($person)
+    function it_should_not_supports_non_Lorem_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

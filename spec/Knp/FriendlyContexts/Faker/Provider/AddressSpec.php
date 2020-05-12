@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Address;
+use Faker\Provider\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class AddressSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Address $address
-     **/
-    function let($generator, $address)
+    function let(Generator $generator, Address $address)
     {
         $this->beConstructedWith($generator);
         $this->setParent($address);
@@ -31,11 +30,8 @@ class AddressSpec extends ObjectBehavior
     {
         $this->supportsParent($address)->shouldReturn(true);
     }
-
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_Address_original_provider($person)
+    
+    function it_should_not_supports_non_Address_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

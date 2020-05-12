@@ -2,20 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Node;
 
+use Behat\Gherkin\Gherkin;
+use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\ScenarioNode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class FeatureWalkerSpec extends ObjectBehavior
 {
-    /**
-     * @param Behat\Gherkin\Gherkin $gherkin
-     * @param Behat\Gherkin\Node\FeatureNode $feature1
-     * @param Behat\Gherkin\Node\FeatureNode $feature2
-     * @param Behat\Gherkin\Node\ScenarioNode $scenario1
-     * @param Behat\Gherkin\Node\ScenarioNode $scenario2
-     * @param Behat\Gherkin\Node\ScenarioNode $scenario3
-     **/
-    function let($gherkin, $feature1, $feature2, $scenario1, $scenario2, $scenario3)
+    function let(Gherkin $gherkin, FeatureNode $feature1, FeatureNode $feature2, ScenarioNode $scenario1, ScenarioNode $scenario2, ScenarioNode $scenario3)
     {
         $this->beConstructedWith($gherkin, 'paths');
 

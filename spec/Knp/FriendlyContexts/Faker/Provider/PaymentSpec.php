@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Payment;
+use Faker\Provider\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class PaymentSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Payment $payment
-     **/
-    function let($generator, $payment)
+    function let(Generator $generator, Payment $payment)
     {
         $this->beConstructedWith($generator);
         $this->setParent($payment);
@@ -32,10 +31,7 @@ class PaymentSpec extends ObjectBehavior
         $this->supportsParent($payment)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_Payment_original_provider($person)
+    function it_should_not_supports_non_Payment_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }
