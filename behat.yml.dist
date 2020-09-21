@@ -1,0 +1,13 @@
+default:
+    autoload:
+        '': %paths.base%/features/bootstrap/
+    suites:
+        default:
+            paths: [%paths.base%/features/default]
+            contexts:
+                - FeatureContext
+
+        symfonyapp:
+            paths: [%paths.base%/features/symfonyapp]
+            contexts:
+                - SymfonyAppContext

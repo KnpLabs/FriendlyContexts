@@ -1,0 +1,3 @@
+test:
+    path:  /
+    defaults: { _controller: KnpFcTestBundle:Default:index }

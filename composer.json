@@ -5,9 +5,9 @@
         "psr-0": { "Knp\\FriendlyContexts": "src/"}
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.0",
         "behat/behat": "~3.0",
-        "symfony/property-access": "~2.3|~3.0",
+        "symfony/property-access": "~2.3",
         "doctrine/inflector": "~1.0",
         "doctrine/data-fixtures": "~1.0",
         "behat/mink-extension": "~2.0",
@@ -16,13 +16,14 @@
         "guzzle/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpspec/phpspec": "~3|~4",
+        "phpspec/phpspec": "~2.4",
+        "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "~2.5",
-        "symfony/process": "^3.3",
-        "bossa/phpspec2-expect": "~2|~3",
-        "symfony/filesystem": "^3.3",
+        "symfony/symfony": "~2.3",
         "behat/mink-goutte-driver": "^1.2",
-        "behat/mink-selenium2-driver": "^1.3"
+        "behat/mink-selenium2-driver": "^1.3",
+        "behat/symfony2-extension": "~2.1",
+        "phpunit/phpunit": "^5.7"
     },
     "license": "MIT",
     "authors": [

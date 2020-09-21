@@ -1,3 +1,13 @@
+.idea
+docker*
 /bin/
 /vendor/
 composer.lock
+testapp/app/cache
+testapp/app/logs
+testapp/app/*.db3
+testapp/behat.yml*
+testapp/src/Knp/FcTestBundle/Controller
+testapp/src/Knp/FcTestBundle/Entity
+testapp/src/Knp/FcTestBundle/Features
+testapp/src/Knp/FcTestBundle/Resources
