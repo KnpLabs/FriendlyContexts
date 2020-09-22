@@ -182,15 +182,15 @@ Feature: Mink Context
             <h1>Hello</h1>
             <form method="POST" action="foo.php">
               <p>choose what you love</p>
-              <input type="checkbox" id="q1_pizza" name="q1_pizza" />
+              <input type="checkbox" id="q1_pizza" name="q1_pizza" value="on" />
               <label for="q1_pizza">pizza</label>
-              <input type="checkbox"  id="q1_fish" name="q1_fish" />
+              <input type="checkbox" id="q1_fish" name="q1_fish" value="on" />
               <label for="q1_fish">fish</label>
 
               <p>choose what you hate</p>
-              <input type="checkbox" id="q2_pizza" name="q2_pizza" />
+              <input type="checkbox" id="q2_pizza" name="q2_pizza" value="on" />
               <label for="q2_pizza">pizza</label>
-              <input type="checkbox"  id="q2_fish" name="q2_fish" />
+              <input type="checkbox" id="q2_fish" name="q2_fish" value="on" />
               <label for="q2_fish">fish</label>
 
               <button type="submit">send</button>
