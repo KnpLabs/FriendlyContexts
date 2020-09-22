@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Person;
+use Faker\Provider\Uuid;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UuidSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Uuid $uuid
-     **/
-    function let($generator, $uuid)
+    function let(Generator $generator, Uuid $uuid)
     {
         $this->beConstructedWith($generator);
         $this->setParent($uuid);
@@ -32,10 +31,7 @@ class UuidSpec extends ObjectBehavior
         $this->supportsParent($uuid)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_Uuid_original_provider($person)
+    function it_should_not_supports_non_Uuid_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

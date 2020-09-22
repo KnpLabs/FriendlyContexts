@@ -1,0 +1,38 @@
+parameters:
+    locale: en
+
+framework:
+    secret: ThisTokenIsNotSoSecretChangeIts
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: "%kernel.debug%"
+    form: true
+    validation: { enable_annotations: true }
+    default_locale: "%locale%"
+    session: ~
+    templating:
+        engines: [ twig ]
+
+# Twig Configuration
+twig:
+    debug: "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        host: ~
+        port: ~
+        dbname: symfony
+        user: root
+        password: ~
+        path: "%kernel.root_dir%/data.db3"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+#            mappings:
+#                Knp\FriendlyContexts\Extension:
+#                    type: annotations

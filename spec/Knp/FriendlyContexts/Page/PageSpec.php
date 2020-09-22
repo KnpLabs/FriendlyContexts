@@ -2,15 +2,13 @@
 
 namespace spec\Knp\FriendlyContexts\Page;
 
+use Behat\Mink\Session;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class PageSpec extends ObjectBehavior
 {
-    /**
-     * @param Behat\Mink\Session $session
-     */
-    function let($session)
+    function let(Session $session)
     {
         $this->beConstructedWith($session);
     }

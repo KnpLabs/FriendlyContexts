@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Person;
+use Faker\Provider\UserAgent;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class UserAgentSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\UserAgent $useragent
-     **/
-    function let($generator, $useragent)
+    function let(Generator $generator, UserAgent $useragent)
     {
         $this->beConstructedWith($generator);
         $this->setParent($useragent);
@@ -32,10 +31,7 @@ class UserAgentSpec extends ObjectBehavior
         $this->supportsParent($useragent)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_UserAgent_original_provider($person)
+    function it_should_not_supports_non_UserAgent_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

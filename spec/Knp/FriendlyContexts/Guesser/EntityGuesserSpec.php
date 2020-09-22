@@ -2,17 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Guesser;
 
+use Knp\FriendlyContexts\Record\Collection;
+use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Record\Record;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class EntityGuesserSpec extends ObjectBehavior
 {
-    /**
-     * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
-     * @param Knp\FriendlyContexts\Record\Collection $collection
-     * @param Knp\FriendlyContexts\Record\Record $record
-     **/
-    function let($bag, $collection, $record, $entity)
+    function let(Bag $bag, Collection $collection, Record $record, $entity)
     {
         $this->beConstructedWith($bag);
 

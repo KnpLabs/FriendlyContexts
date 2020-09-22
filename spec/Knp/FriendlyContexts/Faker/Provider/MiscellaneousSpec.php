@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Miscellaneous;
+use Faker\Provider\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class MiscellaneousSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Miscellaneous $miscellaneous
-     **/
-    function let($generator, $miscellaneous)
+    function let(Generator $generator, Miscellaneous $miscellaneous)
     {
         $this->beConstructedWith($generator);
         $this->setParent($miscellaneous);
@@ -32,10 +31,7 @@ class MiscellaneousSpec extends ObjectBehavior
         $this->supportsParent($miscellaneous)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_Miscellaneous_original_provider($person)
+    function it_should_not_supports_non_Miscellaneous_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }

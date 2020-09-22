@@ -4,13 +4,11 @@ namespace spec\Knp\FriendlyContexts\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ConfigPassSpec extends ObjectBehavior
 {
-    /**
-     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
-     **/
-    function let($container)
+    function let(ContainerBuilder $container)
     {
         $container->setParameter(Argument::cetera())->willReturn(null);
     }

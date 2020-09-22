@@ -2,6 +2,7 @@
 
 namespace spec\Knp\FriendlyContexts\Page\Resolver;
 
+use Behat\Mink\Session;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -23,26 +24,17 @@ class PageClassResolverSpec extends ObjectBehavior
         $this->exists('Invalid\Class')->shouldReturn(false);
     }
 
-    /**
-     * @param Behat\Mink\Session $session
-     */
-    function it_throw_an_exception_when_create_a_non_existent_page($session)
+    function it_throw_an_exception_when_create_a_non_existent_page(Session $session)
     {
         $this->shouldThrow('InvalidArgumentException')->duringCreate($session, 'Invalid\Class');
     }
 
-    /**
-     * @param Behat\Mink\Session $session
-     */
-    function it_throw_an_exception_when_create_an_invalid_page($session)
+    function it_throw_an_exception_when_create_an_invalid_page(Session $session)
     {
         $this->shouldThrow('InvalidArgumentException')->duringCreate($session, 'Knp\FriendlyContexts\Page\Resolver\PageClassResolver');
     }
 
-    /**
-     * @param Behat\Mink\Session $session
-     */
-    function it_create_a_page_object($session)
+    function it_create_a_page_object(Session $session)
     {
         $this
             ->create($session, 'Knp\FriendlyContexts\Page\Page')

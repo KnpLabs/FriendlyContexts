@@ -3,32 +3,42 @@
 namespace spec\Knp\FriendlyContexts\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 use Knp\FriendlyContexts\Doctrine\EntityResolver;
+use Knp\FriendlyContexts\Record\Collection;
+use Knp\FriendlyContexts\Record\Collection\Bag;
+use Knp\FriendlyContexts\Record\Record;
 use Knp\FriendlyContexts\Utils\Asserter;
 use Knp\FriendlyContexts\Utils\TextFormater;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EntityContextSpec extends ObjectBehavior
 {
-    /**
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param Doctrine\Common\Persistence\ManagerRegistry $doctrine
-     * @param Doctrine\Common\Persistence\ObjectManager $manager
-     * @param Doctrine\ORM\EntityRepository $repository
-     * @param Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param Doctrine\ORM\AbstractQuery $query
-     * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
-     * @param Knp\FriendlyContexts\Record\Collection\Bag $bag
-     * @param Knp\FriendlyContexts\Record\Collection $collection
-     * @param Knp\FriendlyContexts\Record\Record $record1
-     * @param Knp\FriendlyContexts\Record\Record $record2
-     * @param Knp\FriendlyContexts\Utils\Asserter $asserter
-     * @param \ReflectionClass $reflectionClass
-     **/
-    function let($container, $doctrine, $manager, $repository, $queryBuilder, $query, $resolver, $bag, $collection, \ReflectionClass $reflectionClass, $asserter, $record1, $record2, $entity1, $entity2, $entity3)
-    {
+    function let(
+        ContainerInterface $container,
+        ManagerRegistry $doctrine,
+        ObjectManager $manager,
+        EntityRepository $repository,
+        QueryBuilder $queryBuilder,
+        AbstractQuery $query,
+        EntityResolver $resolver,
+        Bag $bag,
+        Collection $collection,
+        \ReflectionClass $reflectionClass,
+        Asserter $asserter,
+        Record $record1,
+        Record $record2,
+        $entity1,
+        $entity2,
+        $entity3
+    ) {
         $entity1 = 'e1';
         $entity2 = 'e2';
         $entity3 = 'e3';

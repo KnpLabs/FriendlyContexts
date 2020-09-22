@@ -2,26 +2,33 @@
 
 namespace spec\Knp\FriendlyContexts\Context;
 
+use Behat\Behat\Hook\Scope\ScenarioScope;
+use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\ScenarioNode;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Common\Persistence\ObjectManager;
+use Knp\FriendlyContexts\Alice\Fixtures\Loader;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AliceContextSpec extends ObjectBehavior
 {
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $doctrine
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
-     * @param \Behat\Behat\Hook\Scope\ScenarioScope $event
-     * @param Knp\FriendlyContexts\Alice\Fixtures\Loader $loader
-     * @param \Behat\Gherkin\Node\FeatureNode $feature
-     * @param \Behat\Gherkin\Node\ScenarioNode $scenario
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory $metadataFactory
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $userMetadata
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $placeMetadata
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $productMetadata
-     */
-    function let($container, $doctrine, $manager, $event, $loader, $feature, $scenario, $metadataFactory, $userMetadata, $placeMetadata, $productMetadata)
-    {
+    function let(
+        ContainerInterface $container,
+        ManagerRegistry $doctrine,
+        ObjectManager $manager,
+        ScenarioScope $event,
+        Loader $loader,
+        FeatureNode $feature,
+        ScenarioNode $scenario,
+        ClassMetadataFactory $metadataFactory,
+        ClassMetadata $userMetadata,
+        ClassMetadata $placeMetadata,
+        ClassMetadata $productMetadata
+    ) {
         $doctrine->getManager()->willReturn($manager);
         $feature->getTags()->willReturn([ 'alice(Place)', 'admin' ]);
         $scenario->getTags()->willReturn([ 'alice(User)' ]);

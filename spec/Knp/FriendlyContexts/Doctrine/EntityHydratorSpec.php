@@ -2,18 +2,16 @@
 
 namespace spec\Knp\FriendlyContexts\Doctrine;
 
+use Knp\FriendlyContexts\Doctrine\EntityResolver;
+use Knp\FriendlyContexts\Guesser\GuesserManager;
+use Knp\FriendlyContexts\Utils\TextFormater;
+use Knp\FriendlyContexts\Utils\UniqueCache;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class EntityHydratorSpec extends ObjectBehavior
 {
-    /**
-     * @param Knp\FriendlyContexts\Utils\TextFormater      $formater
-     * @param Knp\FriendlyContexts\Guesser\GuesserManager  $manager
-     * @param Knp\FriendlyContexts\Doctrine\EntityResolver $resolver
-     * @param Knp\FriendlyContexts\Utils\UniqueCache       $uniqueCache
-     **/
-    function let($formater, $manager, $resolver, $uniqueCache)
+    function let(TextFormater $formater, GuesserManager $manager, EntityResolver $resolver, UniqueCache $uniqueCache)
     {
         $this->beConstructedWith($formater, $manager, $resolver, $uniqueCache);
     }

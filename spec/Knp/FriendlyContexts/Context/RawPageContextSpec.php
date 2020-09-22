@@ -2,18 +2,16 @@
 
 namespace spec\Knp\FriendlyContexts\Context;
 
+use Behat\Mink\Mink;
+use Behat\Mink\Session;
+use Knp\FriendlyContexts\Page\Resolver\PageClassResolver;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RawPageContextSpec extends ObjectBehavior
 {
-    /**
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param Knp\FriendlyContexts\Page\Resolver\PageClassResolver     $pageResolver
-     * @param Behat\Mink\Mink                                          $mink
-     * @param Behat\Mink\Session                                       $session
-     */
-    function let($container, $pageResolver, $mink, $session)
+    function let(ContainerInterface $container, PageClassResolver $pageResolver, Mink $mink, Session $session)
     {
         $container->get('friendly.page.resolver')->willReturn($pageResolver);
         $container->has('friendly.page.resolver')->willReturn(true);

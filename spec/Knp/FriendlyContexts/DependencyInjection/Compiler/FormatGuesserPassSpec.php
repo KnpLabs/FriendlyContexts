@@ -4,17 +4,12 @@ namespace spec\Knp\FriendlyContexts\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class FormatGuesserPassSpec extends ObjectBehavior
 {
-    /**
-     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param Symfony\Component\DependencyInjection\Definition $manager
-     * @param Symfony\Component\DependencyInjection\Definition $string
-     * @param Symfony\Component\DependencyInjection\Definition $int
-     * @param Symfony\Component\DependencyInjection\Definition $boolean
-     **/
-    function let($container, $manager, $string, $int, $boolean)
+    function let(ContainerBuilder $container, Definition $manager, Definition $string, Definition $int, Definition $boolean)
     {
         $services = [
             'friendly.guesser.string'  => null,

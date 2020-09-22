@@ -2,16 +2,13 @@
 
 namespace spec\Knp\FriendlyContexts\Guesser;
 
+use Knp\FriendlyContexts\Guesser\GuesserInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class GuesserManagerSpec extends ObjectBehavior
 {
-
-    /**
-     * @param Knp\FriendlyContexts\Guesser\GuesserInterface $guesser
-     **/
-    function let($guesser)
+    function let(GuesserInterface $guesser)
     {
         $guesser->supports(Argument::any())->willReturn(false);
         $guesser->setManager($this)->willReturn(null);

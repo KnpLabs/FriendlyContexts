@@ -2,16 +2,14 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\Color;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ColorSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\Color $color
-     **/
-    function let($generator, $color)
+    function let(Generator $generator, Color $color)
     {
         $this->beConstructedWith($generator);
         $this->setParent($color);

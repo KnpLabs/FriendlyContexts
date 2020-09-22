@@ -1,14 +1,13 @@
 default:
     autoload:
-        "Context": %paths.base%/features
+        '': %paths.base%/features/bootstrap/
     suites:
         default:
-            path: %paths.base%/features
+            paths: [%paths.base%/features/default]
             contexts:
-                - Knp\FriendlyContexts\Context\MinkContext
-                - Knp\FriendlyContexts\Context\TableContext
-                - Knp\FriendlyContexts\Context\EntityContext
-                - Knp\FriendlyContexts\Context\AliceContext
-                - Knp\FriendlyContexts\Context\PageContext
-    extensions:
-        Knp\FriendlyContexts\Extension: ~
+                - FeatureContext
+
+        symfonyapp:
+            paths: [%paths.base%/features/symfonyapp]
+            contexts:
+                - SymfonyAppContext

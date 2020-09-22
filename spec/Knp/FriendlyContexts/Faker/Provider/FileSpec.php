@@ -2,16 +2,15 @@
 
 namespace spec\Knp\FriendlyContexts\Faker\Provider;
 
+use Faker\Generator;
+use Faker\Provider\File;
+use Faker\Provider\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class FileSpec extends ObjectBehavior
 {
-    /**
-     * @param Faker\Generator $generator
-     * @param Faker\Provider\File $file
-     **/
-    function let($generator, $file)
+    function let(Generator $generator, File $file)
     {
         $this->beConstructedWith($generator);
         $this->setParent($file);
@@ -32,10 +31,7 @@ class FileSpec extends ObjectBehavior
         $this->supportsParent($file)->shouldReturn(true);
     }
 
-    /**
-     * @param Faker\Provider\Person $person
-     **/
-    function it_should_not_supports_non_File_original_provider($person)
+    function it_should_not_supports_non_File_original_provider(Person $person)
     {
         $this->supportsParent($person)->shouldReturn(false);
     }
