@@ -31,16 +31,16 @@ class SymfonyAppContext extends AbstractContext
 
     /**
      * @BeforeScenario
-     * @ AfterScenario
      */
     public function cleanTestApp()
     {
-        $path = self::$PARAMETERS['%working_dir%'] . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Knp" . DIRECTORY_SEPARATOR . "FcTestBundle";
+        $bundlePath = self::$PARAMETERS['%working_dir%'] . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Knp" . DIRECTORY_SEPARATOR . "FcTestBundle";
         self::$filesystem->remove(array(
-            $path . DIRECTORY_SEPARATOR . "Controller",
-            $path . DIRECTORY_SEPARATOR . "Entity",
-            $path . DIRECTORY_SEPARATOR . "Resources",
-            $path . DIRECTORY_SEPARATOR . "Features",
+            self::$PARAMETERS['%working_dir%'] . DIRECTORY_SEPARATOR . "features" . DIRECTORY_SEPARATOR . "fixtures",
+            $bundlePath . DIRECTORY_SEPARATOR . "Controller",
+            $bundlePath . DIRECTORY_SEPARATOR . "Entity",
+            $bundlePath . DIRECTORY_SEPARATOR . "Resources",
+            $bundlePath . DIRECTORY_SEPARATOR . "Features",
         ));
     }
 }

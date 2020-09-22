@@ -1,5 +1,5 @@
-Feature: Entity Context
-  In order to use the entity context
+Feature: Alice Context
+  In order to use the alice context
   As a developer
   I need to be able to add it to my configuration
 

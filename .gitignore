@@ -7,6 +7,7 @@ testapp/app/cache
 testapp/app/logs
 testapp/app/*.db3
 testapp/behat.yml*
+testapp/features/fixtures
 testapp/src/Knp/FcTestBundle/Controller
 testapp/src/Knp/FcTestBundle/Entity
 testapp/src/Knp/FcTestBundle/Features
