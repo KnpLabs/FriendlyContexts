@@ -16,6 +16,10 @@ class FeatureContext extends AbstractContext
      */
     public static function cleanTestFolders()
     {
+        if (null === self::$filesystem) {
+            self::$filesystem = new Filesystem();
+        }
+
         if (is_dir($dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'behat')) {
             self::$filesystem->remove($dir);
         }

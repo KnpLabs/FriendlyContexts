@@ -45,10 +45,6 @@ class AbstractContext implements Context
 
     public function __construct()
     {
-        if (null === self::$filesystem) {
-            self::$filesystem = new Filesystem();
-        }
-
         $phpFinder = new PhpExecutableFinder();
         if (false === $php = $phpFinder->find()) {
             throw new RuntimeException('Unable to find the PHP executable. The testsuite cannot run.');
